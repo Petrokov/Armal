@@ -1,0 +1,182 @@
+{
+  "navbar": {
+    "home": "Domov",
+    "products": "Izdelki",
+    "catalog": "Katalog",
+    "catalogues": "Katalogi",
+    "about": "O nas",
+    "b2b": "B2B Trgovina",
+    "editHome": "Uredi dom",
+    "blog": "Blog",
+    "viewAllProducts": "Oglej si vse izdelke",
+    "openMenu": "Odpri meni",
+    "closeMenu": "Zapri meni"
+  },
+  "products": {
+    "faucets": "Pipe",
+    "faucetsDescription": "Širok asortiman pip za kopalnico in kuhinjo",
+    "bathing": "Kopanje + tuširanje",
+    "bathingDescription": "Kadi, tuš kabine, vrata in vse za kopanje",
+    "sanitary": "Sanitarije",
+    "sanitaryDescription": "WC školjke, umivalniki in sanitarna keramika",
+    "bathroomFurniture": "Pohištvo za kopalnico",
+    "bathroomFaucets": "Pipe za kopalnico",
+    "kitchenFaucets": "Pipe za kuhinjo",
+    "showerCabins": "Tuš kabine, vrata, stene in paravani",
+    "bathtubs": "Kad, tuš kad in kanali",
+    "sanitaryCeramics": "Sanitarna keramika",
+    "showerComponents": "Komponente tuša",
+    "sanitaryEquipment": "Sanitarna oprema",
+    "accessories": "Galanterija",
+    "wallMounted": "Stenske",
+    "floorStanding": "Nadstropne",
+    "basinFaucets": "Pipe za umivalnik",
+    "bathtubFaucets": "Pipe za kad",
+    "showerTrayFaucets": "Pipe za tuš kad",
+    "bidetFaucets": "Pipe za bide",
+    "builtInFaucets": "Vgrajene pipe",
+    "sinkFaucets": "Pipe za umivalnik",
+    "showerCabinsItems": "Tuš kabine",
+    "showerDoors": "Tuš vrata",
+    "showerWalls": "Tuš stene",
+    "bathtubScreens": "Paravani za kad",
+    "bathtubsItems": "Kadi",
+    "massageSystems": "Masazni sistemi",
+    "showerTrays": "Tuš kad",
+    "showerChannels": "Tuš kanali",
+    "toiletsBidets": "WC školjke in bideji",
+    "monoblock": "Monoblok",
+    "toiletCisterns": "WC vodokotliči",
+    "washbasins": "Umivalniki",
+    "showerHolders": "Držala tuša",
+    "showerHeads": "Tuš glave",
+    "showerHoses": "Tuš cevi",
+    "showerBars": "Tuš palice",
+    "showerSets": "Tuš kompleti",
+    "sensorsButtons": "Senzorji in tipke za splakovanje",
+    "mirrorsWithCabinet": "Ogledala z omarico",
+    "mirrorsWithoutCabinet": "Ogledala brez omarice"
+  },
+  "hero": {
+    "collections": "armal kolekcije",
+    "title1": "Praktične rešitve.",
+    "title2": "Estetski vtis.",
+    "title3": "Dostopna cena.",
+    "subtitle": "Uredite prostor po svojem okusu — brez kompromisov med videzom in proračunom.",
+    "exploreCollection": "Raziščite Kolekcijo",
+    "viewCatalog": "Oglejte si Katalog"
+  },
+  "features": {
+    "quality": {
+      "title": "Preverjena Kakovost",
+      "description": "Izbrani izdelki, ki trajajo leta – brez kompromisov."
+    },
+    "warranty": {
+      "title": "10 Let Garancije",
+      "description": "Dolgotrajna zanesljivost z podaljšano garancijo na ključne izdelke."
+    },
+    "solutions": {
+      "title": "Praktične Rešitve",
+      "description": "Pametna izbira za vsak prostor in proračun."
+    },
+    "delivery": {
+      "title": "Hitra Dostava",
+      "description": "Učinkovita dostava – prišli smo do vas."
+    }
+  },
+  "collections": {
+    "title": "Izbrane Kolekcije",
+    "subtitle": "Odkrijte naše vrhunske kolekcije, ustvarjene za prefinjene življenjske prostore.",
+    "exploreCollection": "Raziščite Kolekcijo",
+    "viewAll": "Oglejte si Vse Kolekcije"
+  },
+  "moodboard": {
+    "title": "Moodboard",
+    "subtitle": "Paleta tekstur, barv in oblik, ki tvorijo jedro našega estetskega pristopa"
+  },
+  "about": {
+    "title": "O nas",
+    "description": "Blagovna znamka Armal je znana na območju Jadranske regije že več kot 55 let. Po tem, ko jo je leta 2018 prevzelo podjetje Armal d.o.o., nadaljuje svoj nadaljnji razvoj. Od leta 2023, z namenom zagotovitve popolnega fokusa na poslovanje in rast blagovne znamke, je bilo izločeno ločeno podjetje Armal d.o.o., ki v svojem portfelju ima asortiman za opremljanje kopalnic.",
+    "learnMore": "Izvedite več o nas"
+  },
+  "cta": {
+    "title": "Ustvarimo Vaš Prostor Sanj",
+    "description": "Brez razlike, ali iščete ekskluzivne kose za vaš dom ali opremljate poslovni prostor, tu smo, da pomagamo.",
+    "b2b": "B2B Trgovina",
+    "editHome": "Uredi dom"
+  },
+  "team": {
+    "title": "Naš tim",
+    "subtitle": "Spoznajte strokovnjake, ki stojijo za našim uspehom",
+    "learnMore": "Izvedite več o timu"
+  },
+  "catalogues": {
+    "title": "Katalogi izdelkov",
+    "subtitle": "Prenesite podrobne PDF kataloge naših izdelkov za pregled in načrtovanje",
+    "featured": "Izbrani katalog",
+    "moreCatalogues": "Več katalogov",
+    "downloadPDF": "Prenesi PDF",
+    "preview": "Predogled",
+    "fileSize": "Velikost datoteke",
+    "year": "Leto",
+    "new": "Novo"
+  },
+  "languages": {
+    "hr": "Hrvaščina",
+    "slo": "Slovenščina",
+    "rs": "Srbščina"
+  },
+  "footer": {
+    "slogan": "Uredite prostor po svojem okusu – brez kompromisov med videzom in proračunom.",
+    "oib": "OIB",
+    "oibValue": "02300129401",
+    "mbs": "MBS",
+    "mbsValue": "08140233",
+    "uid": "UID",
+    "uidValue": "HR02300129401",
+    "linksTitle": "Povezave",
+    "legalTitle": "Pravno",
+    "privacy": "Pravilnik o zasebnosti",
+    "terms": "Pogoji storitve",
+    "cookies": "Pravilnik o piškotkih",
+    "copyright": "© 2025 Armal. Vse pravice pridržane."
+  },
+  "aboutPage": {
+    "heroTitle": "Naša zgodba",
+    "heroSubtitle": "Več kot 55 let ustvarjamo funkcionalne in estetske rešitve za vsak dom.",
+    "storyTitle": "Naša zgodba",
+    "storyParagraph1": "Blagovna znamka Armal je znana na območju Jadranske regije že več kot 55 let. Po tem, ko jo je leta 2018 prevzelo podjetje Armal d.o.o., nadaljuje svoj nadaljnji razvoj.",
+    "storyParagraph2": "Od leta 2023, z namenom zagotovitve popolnega fokusa na poslovanje in rast blagovne znamke, je bilo izločeno ločeno podjetje Armal d.o.o., ki v svojem portfelju ima asortiman za opremljanje kopalnic.",
+    "valuesTitle": "Naše vrednote",
+    "valuesSubtitle": "Te temeljne vrednote vodijo vse, kar počnemo, od izbire izdelkov do uporabniške storitve.",
+    "values": {
+      "tradition": "Tradicija",
+      "traditionDesc": "Več kot pol stoletja izkušenj pri ustvarjanju kakovostnih rešitev za kopalnice.",
+      "quality": "Kakovost",
+      "qualityDesc": "Nenehno izboljševanje izdelkov in storitev, da bi zadovoljili najvišje standarde.",
+      "responsibility": "Odgovorno poslovanje",
+      "responsibilityDesc": "Posvečeni smo trajnostnemu razvoju in etičnemu poslovanju na vseh področjih naše dejavnosti.",
+      "partnership": "Partnerstvo z zaupanjem",
+      "partnershipDesc": "Gradimo dolgoročne odnose z našimi partnerji in strankami na podlagi zaupanja in uspeha."
+    },
+    "stats": {
+      "stat1Number": "300+",
+      "stat1Caption": "Prodajnih mest na Hrvaškem, v BiH in Srbiji",
+      "stat2Number": "30+",
+      "stat2Caption": "Let izkušenj v distribuciji",
+    "stat3Number": "1",
+    "stat3Caption": "blagovna znamka, ki združuje izdelke za opremljanje kopalnic"
+    }
+  },
+  "productsPage": {
+    "title": "Naši Izdelki",
+    "subtitle": "Raziščite našo široko ponudbo izdelkov za opremljanje kopalnic",
+    "viewCategory": "Oglej si kategorijo",
+    "learnMore": "Izvedite več",
+    "comingSoon": "Vsebina kmalu...",
+    "faucetsExplore": "Raziščite pipe po vaši meri",
+    "bathingExplore": "Odkrijte rešitve za kopanje in tuširanje",
+    "sanitaryExplore": "Poiščite popolne sanitarije za vaš prostor"
+  }
+}
+
