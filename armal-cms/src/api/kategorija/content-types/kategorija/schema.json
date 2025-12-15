@@ -1,0 +1,25 @@
+{
+  "kind": "collectionType",
+  "collectionName": "kategorijas",
+  "info": {
+    "singularName": "kategorija",
+    "pluralName": "kategorijas",
+    "displayName": "Kategorija"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "Naziv": {
+      "type": "string"
+    },
+    "Slug": {
+      "type": "uid",
+      "targetField": "Naziv"
+    },
+    "Opis": {
+      "type": "blocks"
+    }
+  }
+}

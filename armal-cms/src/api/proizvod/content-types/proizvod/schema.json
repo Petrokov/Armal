@@ -1,0 +1,42 @@
+{
+  "kind": "collectionType",
+  "collectionName": "proizvods",
+  "info": {
+    "singularName": "proizvod",
+    "pluralName": "proizvods",
+    "displayName": "Proizvod"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "Naziv": {
+      "type": "string"
+    },
+    "Opis": {
+      "type": "string"
+    },
+    "Boja": {
+      "type": "string"
+    },
+    "Cijena": {
+      "type": "decimal"
+    },
+    "Slika": {
+      "type": "media",
+      "multiple": true,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    },
+    "podkategorija": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::podkategorija.podkategorija"
+    }
+  }
+}

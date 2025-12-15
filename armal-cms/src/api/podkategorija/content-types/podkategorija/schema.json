@@ -1,0 +1,30 @@
+{
+  "kind": "collectionType",
+  "collectionName": "podkategorijas",
+  "info": {
+    "singularName": "podkategorija",
+    "pluralName": "podkategorijas",
+    "displayName": "Podkategorija"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "kategorija": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::kategorija.kategorija"
+    },
+    "Naziv": {
+      "type": "string"
+    },
+    "slug": {
+      "type": "uid",
+      "targetField": "Naziv"
+    },
+    "Opis": {
+      "type": "richtext"
+    }
+  }
+}
