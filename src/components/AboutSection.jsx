@@ -26,9 +26,12 @@ const AboutSection = () => {
             <p className="mb-8 text-base leading-relaxed text-slate-700 md:text-lg">
               {t('about.description')}
             </p>
-            <button className="w-fit rounded-lg bg-blue-600 px-6 py-3 text-base font-semibold text-white transition-colors hover:bg-blue-700 md:px-8 md:py-4 md:text-lg">
+            <a
+              href="/o-nama"
+              className="w-fit rounded-lg bg-blue-600 px-6 py-3 text-base font-semibold text-white transition-colors hover:bg-blue-700 md:px-8 md:py-4 md:text-lg"
+            >
               {t('about.learnMore')}
-            </button>
+            </a>
           </div>
         </div>
       </div>

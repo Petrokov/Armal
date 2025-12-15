@@ -88,7 +88,32 @@
     "title": "Izbrane Kolekcije",
     "subtitle": "Odkrijte naše vrhunske kolekcije, ustvarjene za prefinjene življenjske prostore.",
     "exploreCollection": "Raziščite Kolekcijo",
-    "viewAll": "Oglejte si Vse Kolekcije"
+    "viewAll": "Oglejte si Vse Kolekcije",
+    "rubi": {
+      "name": "Rubi",
+      "description": "Elegantna kolekcija pip, ki združuje sodoben dizajn z vrhunsko funkcionalnostjo. Izdelana iz visokokakovostnih materialov, Rubi kolekcija prinaša sofisticirano eleganco v vsak prostor.",
+      "benefit": "Idealen za moderne kopalnice"
+    },
+    "onix": {
+      "name": "Onix",
+      "description": "Minimalističen dizajn, ki poudarja čisto linijo in preprostost. Onix kolekcija ponuja popolno ravnovesje med estetiko in praktičnostjo, idealna za sodobne interierje.",
+      "benefit": "Popolna za minimalistične prostore"
+    },
+    "topaz": {
+      "name": "Topaz",
+      "description": "Luksuzna kolekcija, ki očara s svojim premium videzom in izjemno vzdržljivostjo. Topaz združuje elegantne oblike z napredno tehnologijo za nepozabno izkušnjo uporabe.",
+      "benefit": "Premium kakovost za luksuzne prostore"
+    },
+    "quartz": {
+      "name": "Quartz",
+      "description": "Sodobna kolekcija, ki se izpostavlja s svojim inovativnim dizajnom in ekološko ozaveščenim pristopom. Quartz ponuja vrhunsko funkcionalnost z trajnostjo in dolgotrajnostjo.",
+      "benefit": "Ekološko ozaveščena možnost"
+    },
+    "marble": {
+      "name": "Marble",
+      "description": "Večna kolekcija, navdihnjena z naravnimi materiali. Marble združuje klasično eleganco z modernimi tehnologijami, ustvarjajoč trajno vrednost za vaš dom.",
+      "benefit": "Večna eleganca za vsak dom"
+    }
   },
   "moodboard": {
     "title": "Moodboard",
@@ -177,6 +202,14 @@
     "faucetsExplore": "Raziščite pipe po vaši meri",
     "bathingExplore": "Odkrijte rešitve za kopanje in tuširanje",
     "sanitaryExplore": "Poiščite popolne sanitarije za vaš prostor"
+  },
+  "faucetsPage": {
+    "ctaTitle": "Poiščite popolne pipe za vaš prostor",
+    "ctaDescription": "Raziščite našo široko ponudbo in poiščite idealne rešitve za vaš dom ali poslovni prostor."
+  },
+  "faucetsPage": {
+    "ctaTitle": "Poiščite popolne pipe za vaš prostor",
+    "ctaDescription": "Raziščite našo široko ponudbo in poiščite idealne rešitve za vaš dom ali poslovni prostor."
   }
 }
 

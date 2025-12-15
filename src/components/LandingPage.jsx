@@ -113,7 +113,7 @@ const LandingPage = () => {
       </section>
 
       {/* Featured Collections Section */}
-      <FeaturedCollections />
+      {/* <FeaturedCollections /> */}
 
       {/* Moodboard Section */}
       <MoodboardSection />

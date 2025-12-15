@@ -88,7 +88,32 @@
     "title": "Istaknute Kolekcije",
     "subtitle": "Otkrijte naše vrhunske kolekcije stvorene za profinjene životne prostore.",
     "exploreCollection": "Istražite Kolekciju",
-    "viewAll": "Pogledajte Sve Kolekcije"
+    "viewAll": "Pogledajte Sve Kolekcije",
+    "rubi": {
+      "name": "Rubi",
+      "description": "Elegantna kolekcija slavina koja kombinira moderni dizajn s vrhunskom funkcionalnošću. Izrađena od visokokvalitetnih materijala, Rubi kolekcija donosi sofisticiranu eleganciju u svaki prostor.",
+      "benefit": "Idealna za moderne kupaonice"
+    },
+    "onix": {
+      "name": "Onix",
+      "description": "Minimalistički dizajn koji naglašava čistu liniju i jednostavnost. Onix kolekcija pruža savršenu ravnotežu između estetike i praktičnosti, idealna za suvremene interijere.",
+      "benefit": "Savršena za minimalističke prostore"
+    },
+    "topaz": {
+      "name": "Topaz",
+      "description": "Luksuzna kolekcija koja očarava svojim premium izgledom i izvanrednom izdržljivošću. Topaz kombinuje elegantne oblike s naprednom tehnologijom za nezaboravno iskustvo korištenja.",
+      "benefit": "Premium kvaliteta za luksuzne prostore"
+    },
+    "quartz": {
+      "name": "Quartz",
+      "description": "Suvremena kolekcija koja se ističe svojim inovativnim dizajnom i ekološki osviještenim pristupom. Quartz nudi vrhunsku funkcionalnost uz održivost i dugotrajnost.",
+      "benefit": "Ekološki osviještena opcija"
+    },
+    "marble": {
+      "name": "Marble",
+      "description": "Timeless kolekcija inspirirana prirodnim materijalima. Marble kombinuje klasičnu eleganciju s modernim tehnologijama, stvarajući trajnu vrijednost za vaš dom.",
+      "benefit": "Timeless elegancija za svaki dom"
+    }
   },
   "moodboard": {
     "title": "Moodboard",
@@ -177,6 +202,10 @@
     "faucetsExplore": "Istražite slavine po vašoj mjeri",
     "bathingExplore": "Otkrijte rješenja za kupanje i tuširanje",
     "sanitaryExplore": "Pronađite savršene sanitarije za vaš prostor"
+  },
+  "faucetsPage": {
+    "ctaTitle": "Pronađite savršene slavine za vaš prostor",
+    "ctaDescription": "Istražite našu široku ponudu i pronađite idealna rješenja za vaš dom ili poslovni prostor."
   }
 }
 

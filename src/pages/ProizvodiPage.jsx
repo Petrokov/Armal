@@ -2,6 +2,8 @@ import { Link } from 'react-router-dom'
 import { useLanguage } from '../contexts/LanguageContext'
 import kupaonicaImage from '../assets/kupaonica-zelena.webp'
 import oNamaImage from '../assets/o_nama_kupaonica_2.png'
+import heroImage from '../assets/kupaonica-zelena.webp'
+import rubi from '../assets/slike_proizvodi_page/rubi_top_view.jpg'
 
 const ProizvodiPage = () => {
   const { t } = useLanguage()
@@ -12,7 +14,8 @@ const ProizvodiPage = () => {
       href: '/proizvodi/slavine',
       translationKey: 'products.faucets',
       descriptionKey: 'productsPage.faucetsExplore',
-      image: kupaonicaImage,
+      image: rubi,
+      gallery: [rubi, kupaonicaImage, oNamaImage, kupaonicaImage],
     },
     {
       key: 'bathing',
@@ -20,6 +23,7 @@ const ProizvodiPage = () => {
       translationKey: 'products.bathing',
       descriptionKey: 'productsPage.bathingExplore',
       image: oNamaImage,
+      gallery: [oNamaImage, kupaonicaImage, rubi, oNamaImage],
     },
     {
       key: 'sanitary',
@@ -27,15 +31,23 @@ const ProizvodiPage = () => {
       translationKey: 'products.sanitary',
       descriptionKey: 'productsPage.sanitaryExplore',
       image: kupaonicaImage,
+      gallery: [kupaonicaImage, rubi, oNamaImage, kupaonicaImage],
     },
   ]
 
   return (
     <div className="min-h-screen bg-slate-50">
       {/* Hero Section */}
-      <section className="relative flex min-h-[40vh] w-full items-center justify-center overflow-hidden bg-gradient-to-br from-blue-600 via-blue-700 to-blue-800 text-white">
-        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iMC4wNSI+PHBhdGggZD0iTTM2IDM0djJoLTJ2LTJoMnptMC0yMHYyaC0ydi0yaDJ6bTIwIDIwdjJoLTJ2LTJoMnptMC0yMHYyaC0ydi0yaDJ6bS0yMCAyMHYyaC0ydi0yaDJ6bTAtMjB2MmgtMnYtMmgyeiIvPjwvZz48L2c+PC9zdmc+')] opacity-20"></div>
-        <div className="relative z-10 mx-auto max-w-4xl px-6 text-center">
+      <section className="relative flex min-h-[40vh] w-full items-center justify-center overflow-hidden">
+        {/* Background Image */}
+        <img
+          src={heroImage}
+          alt="Kupaonica"
+          className="absolute inset-0 h-full w-full object-cover"
+        />
+        {/* Overlay za bolju čitljivost teksta */}
+        <div className="absolute inset-0 bg-gradient-to-r from-slate-900/70 via-slate-900/60 to-slate-900/50"></div>
+        <div className="relative z-10 mx-auto max-w-4xl px-6 text-center text-white">
           <h1 className="mb-4 text-4xl font-bold md:text-5xl lg:text-6xl">
             {t('productsPage.title')}
           </h1>
@@ -58,7 +70,7 @@ const ProizvodiPage = () => {
           {/* Slika gore na mobitelu, lijevo na većim ekranima */}
           <div className="relative z-20 mb-4 md:mb-0 md:-ml-8 flex-shrink-0 overflow-visible w-full md:w-auto">
             <div className="relative mx-auto h-40 w-40 sm:h-48 sm:w-48 md:h-64 md:w-48 overflow-visible">
-              <div className="absolute inset-0 origin-center rotate-[-5deg] transform -top-[30%] left-0 h-[130%] w-full">
+              <div className="absolute inset-0 origin-center transform -top-[30%] left-0 h-[130%] w-full transition-all duration-300 group-hover:scale-110 group-hover:rotate-[-5deg]">
                 <div className="relative h-full w-full overflow-hidden rounded-lg bg-white shadow-lg">
                   <div className="absolute -top-[30%] left-0 h-[130%] w-full">
                     <img
@@ -72,32 +84,56 @@ const ProizvodiPage = () => {
             </div>
           </div>
 
-          {/* Tekst dolje na mobitelu, desno na većim ekranima */}
-          <div className="relative z-10 text-center md:text-left md:ml-8 flex flex-col flex-1">
-            <h2 className="mb-2 text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 transition-colors group-hover:text-blue-600">
-              {t(category.translationKey)}
-            </h2>
-            <p className="mb-4 text-base sm:text-lg md:text-xl text-slate-700">
-              {t(category.descriptionKey)}
-            </p>
-            {/* Button */}
-            <div className="mt-auto">
-              <span className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-6 py-3 text-sm font-semibold text-white transition-colors group-hover:bg-blue-700">
-                {t('productsPage.learnMore')}
-                <svg
-                  className="h-4 w-4"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M9 5l7 7-7 7"
-                  />
-                </svg>
-              </span>
+          {/* Tekst i Gallery Container */}
+          <div className="relative z-10 text-center md:text-left md:ml-8 flex flex-col md:flex-row flex-1 gap-6 items-center md:items-start">
+            {/* Tekst dolje na mobitelu, desno na većim ekranima */}
+            <div className="flex flex-col flex-1">
+              <h2 className="mb-2 text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 transition-colors group-hover:text-blue-600">
+                {t(category.translationKey)}
+              </h2>
+              <p className="mb-4 text-base sm:text-lg md:text-xl text-slate-700">
+                {t(category.descriptionKey)}
+              </p>
+              {/* Button */}
+              <div className="mt-auto mb-4 md:mb-0">
+                <span className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-6 py-3 text-sm font-semibold text-white transition-colors group-hover:bg-blue-700">
+                  {t('productsPage.learnMore')}
+                  <svg
+                    className="h-4 w-4"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M9 5l7 7-7 7"
+                    />
+                  </svg>
+                </span>
+              </div>
+            </div>
+
+            {/* Gallery Grid - 2x2 sa drop shadow */}
+            <div className="hidden md:grid relative grid-cols-2 gap-3 flex-shrink-0 w-64 md:w-72 overflow-visible">
+              {category.gallery.map((img, index) => {
+                const isTopRow = index < 2
+                return (
+                  <div
+                    key={index}
+                    className={`relative overflow-hidden rounded-lg shadow-lg ${
+                      isTopRow ? '-mt-[30%]' : ''
+                    }`}
+                  >
+                    <img
+                      src={img}
+                      alt={`${t(category.translationKey)} ${index + 1}`}
+                      className="h-32 w-32 md:h-40 md:w-40 object-cover transition-transform duration-300 hover:scale-110"
+                    />
+                  </div>
+                )
+              })}
             </div>
           </div>
         </Link>
