@@ -1,0 +1,45 @@
+{
+  "kind": "collectionType",
+  "collectionName": "katalogs",
+  "info": {
+    "singularName": "katalog",
+    "pluralName": "katalogs",
+    "displayName": "Katalog"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "Naslov": {
+      "type": "string"
+    },
+    "Godina": {
+      "type": "biginteger"
+    },
+    "Opis": {
+      "type": "blocks"
+    },
+    "Katalog": {
+      "type": "media",
+      "multiple": false,
+      "required": true,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    },
+    "Slika": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    }
+  }
+}
