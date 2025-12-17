@@ -646,7 +646,7 @@ export interface ApiKatalogKatalog extends Struct.CollectionTypeSchema {
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    Godina: Schema.Attribute.BigInteger;
+    Godina: Schema.Attribute.BigInteger & Schema.Attribute.Required;
     Katalog: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'> &
       Schema.Attribute.Required;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
@@ -655,10 +655,11 @@ export interface ApiKatalogKatalog extends Struct.CollectionTypeSchema {
       'api::katalog.katalog'
     > &
       Schema.Attribute.Private;
-    Naslov: Schema.Attribute.String;
-    Opis: Schema.Attribute.Blocks;
+    Naslov: Schema.Attribute.String & Schema.Attribute.Required;
+    Opis: Schema.Attribute.Blocks & Schema.Attribute.Required;
     publishedAt: Schema.Attribute.DateTime;
-    Slika: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
+    Slika: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'> &
+      Schema.Attribute.Required;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;

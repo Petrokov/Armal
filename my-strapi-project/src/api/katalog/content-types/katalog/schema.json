@@ -12,13 +12,16 @@
   "pluginOptions": {},
   "attributes": {
     "Naslov": {
-      "type": "string"
+      "type": "string",
+      "required": true
     },
     "Godina": {
-      "type": "biginteger"
+      "type": "biginteger",
+      "required": true
     },
     "Opis": {
-      "type": "blocks"
+      "type": "blocks",
+      "required": true
     },
     "Katalog": {
       "type": "media",
@@ -34,6 +37,7 @@
     "Slika": {
       "type": "media",
       "multiple": false,
+      "required": true,
       "allowedTypes": [
         "images",
         "files",
