@@ -9,8 +9,8 @@ const KataloziPage = () => {
       id: 1,
       title: 'Katalog Walkin 2025',
       subtitle: 'Nove kolekcije Walkin tuš stijena',
-      image: 'public\katalozi\placeholder_slika\walkin.png',
-      fileSize: '15.2 MB',
+      image: '/katalozi/placeholder_slika/walkin.png',
+      fileSize: '1 MB',
       year: 2025,
       pdfUrl: '/katalozi/ARMAL_OPEN_WALK.pdf',
       createdAt: new Date('2024-12-15'), // Recent - within 30 days
