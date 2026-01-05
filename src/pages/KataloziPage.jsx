@@ -13,7 +13,7 @@ const KataloziPage = () => {
       fileSize: '1 MB',
       year: 2025,
       pdfUrl: '/katalozi/ARMAL_OPEN_WALK.pdf',
-      createdAt: new Date('2024-12-15'), // Recent - within 30 days
+      createdAt: new Date('2025-12-15'), // Recent - within 30 days
     },
     {
       id: 2,
@@ -116,7 +116,7 @@ const KataloziPage = () => {
 
             <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
               {/* Image */}
-              <div className="relative h-64 w-full overflow-hidden md:h-auto">
+              <div className="relative h-32 w-32 overflow-hidden md:h-auto">
                 <img
                   src={featuredCatalogue.image}
                   alt={featuredCatalogue.title}
