@@ -7,12 +7,12 @@ const KataloziPage = () => {
   const catalogues = [
     {
       id: 1,
-      title: 'Katalog Kupaonica 2024',
-      subtitle: 'Kompletan asortiman kupaonskog namještaja i opreme',
-      image: 'https://via.placeholder.com/600x400/2563EB/FFFFFF?text=Katalog+2024',
+      title: 'Katalog Walkin 2025',
+      subtitle: 'Nove kolekcije Walkin tuš stijena',
+      image: 'public\katalozi\placeholder_slika\walkin.png',
       fileSize: '15.2 MB',
-      year: 2024,
-      pdfUrl: '#',
+      year: 2025,
+      pdfUrl: '/katalozi/ARMAL_OPEN_WALK.pdf',
       createdAt: new Date('2024-12-15'), // Recent - within 30 days
     },
     {
