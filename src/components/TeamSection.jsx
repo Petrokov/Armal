@@ -1,4 +1,8 @@
 import { useLanguage } from '../contexts/LanguageContext'
+import simonaImg from '../assets/slike_team/simona_zavratnik_2.png'
+import anaImg from '../assets/slike_team/ana_marija_boric.jpeg'
+import natasaImg from '../assets/slike_team/natasa_novak_2.png'
+
 
 const TeamSection = ({ maxMembers = 3, showLearnMore = true }) => {
   const { t } = useLanguage()
@@ -8,19 +12,19 @@ const TeamSection = ({ maxMembers = 3, showLearnMore = true }) => {
     {
       name: 'Simona Zavratnik',
       role: 'Direktorica',
-      image: 'src\assets\slike_team\simona_zavratnik_2.png',
+      image: simonaImg,
       linkedin: '#',
     },
     {
       name: 'Ana-Marija Borić',
       role: 'referent marketinga',
-      image: '/src/assets/slike_team/ana_marija_boric.jpeg',
+      image: anaImg,
       linkedin: '#',
     },
     {
       name: 'Nataša Novak',
       role: 'Dizajnerica',
-      image: '/src/assets/slike_team/natasa_novak_2.png',
+      image: natasaImg,
       linkedin: '#',
     },
     {
