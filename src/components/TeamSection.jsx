@@ -8,7 +8,7 @@ const TeamSection = ({ maxMembers = 3, showLearnMore = true }) => {
     {
       name: 'Simona Zavratnik',
       role: 'Direktorica',
-      image: '/src/assets/slike_team/simona_zavratnik_2.png',
+      image: 'src\assets\slike_team\simona_zavratnik_2.png',
       linkedin: '#',
     },
     {
