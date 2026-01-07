@@ -3,47 +3,67 @@ import { useLanguage } from '../contexts/LanguageContext'
 const KataloziPage = () => {
   const { t } = useLanguage()
 
-  // Sample catalogue data
+  // Catalogue data - all catalogues from katalozi folder
   const catalogues = [
     {
       id: 1,
       title: 'Katalog Walkin 2025',
       subtitle: 'Nove kolekcije Walkin tuš stijena',
-      image: '/katalozi/placeholder_slika/walkin.png',
+      image: '/katalozi/placeholder_slika/Armal_walk_in_2.png',
       fileSize: '1 MB',
       year: 2025,
       pdfUrl: '/katalozi/ARMAL_OPEN_WALK.pdf',
-      createdAt: new Date('2025-12-15'), // Recent - within 30 days
+      createdAt: new Date('2025-12-15'),
     },
     {
       id: 2,
-      title: 'Katalog Kupaonica 2023',
-      subtitle: 'Kolekcija proizvoda za moderne kupaonice',
-      image: 'https://via.placeholder.com/600x400/059669/FFFFFF?text=Katalog+2023',
-      fileSize: '12.8 MB',
-      year: 2023,
-      pdfUrl: '#',
-      createdAt: new Date('2023-11-20'),
+      title: 'Katalog Kabine',
+      subtitle: 'Kolekcija tuš kabina i vrata',
+      image: '/katalozi/placeholder_slika/Armal_tus_kabine_mockup_33.png',
+      fileSize: '2.5 MB',
+      year: 2025,
+      pdfUrl: '/katalozi/armal_katalog_kabine_2.pdf',
+      createdAt: new Date('2025-11-15'),
     },
     {
       id: 3,
-      title: 'Katalog Kupaonica 2022',
-      subtitle: 'Klasični i moderni dizajni za svaki ukus',
-      image: 'https://via.placeholder.com/600x400/DC2626/FFFFFF?text=Katalog+2022',
-      fileSize: '11.5 MB',
-      year: 2022,
-      pdfUrl: '#',
-      createdAt: new Date('2022-10-10'),
+      title: 'Katalog Kade i Kanalice',
+      subtitle: 'Premium kolekcija kada i tuš kanalica',
+      image: '/katalozi/placeholder_slika/Armal_kade_mockup_33.png',
+      fileSize: '3.2 MB',
+      year: 2025,
+      pdfUrl: '/katalozi/Armal_katalog_kade_kanalice.pdf',
+      createdAt: new Date('2025-11-15'),
     },
     {
       id: 4,
-      title: 'Katalog Kupaonica 2021',
-      subtitle: 'Premium kolekcija kupaonskih rješenja',
-      image: 'https://via.placeholder.com/600x400/7C3AED/FFFFFF?text=Katalog+2021',
-      fileSize: '10.3 MB',
-      year: 2021,
-      pdfUrl: '#',
-      createdAt: new Date('2021-09-15'),
+      title: 'Katalog Slavine',
+      subtitle: 'Kolekcija slavina za kupaonicu i kuhinju',
+      image: '/katalozi/placeholder_slika/Armal_slavine_mockup_50.png',
+      fileSize: '2.8 MB',
+      year: 2025,
+      pdfUrl: '/katalozi/Katalog_Armal_slavine.pdf',
+      createdAt: new Date('2025-11-15'),
+    },
+    {
+      id: 5,
+      title: 'Katalog Sanitarije',
+      subtitle: 'Kompletan asortiman sanitarije',
+      image: '/katalozi/placeholder_slika/Armal_sanitarije_mockup.png',
+      fileSize: '2.1 MB',
+      year: 2025,
+      pdfUrl: '/katalozi/KATALOG_SANITARIJE.pdf',
+      createdAt: new Date('2025-11-15'),
+    },
+    {
+      id: 6,
+      title: 'Katalog Usponski Tuševi 2024',
+      subtitle: 'Kolekcija usponskih tuševa',
+      image: '/katalozi/placeholder_slika/Armal_tus_kade_mockup_33.png',
+      fileSize: '1.9 MB',
+      year: 2024,
+      pdfUrl: '/katalozi/Katalog_usponski_tusevi_2024.pdf',
+      createdAt: new Date('2025-11-15'),
     },
   ]
 
@@ -61,15 +81,20 @@ const KataloziPage = () => {
     })
   }
 
-  // Get other catalogues (excluding the latest)
-  const getOtherCatalogues = () => {
-    const latest = getLatestCatalogue()
-    return catalogues.filter((cat) => cat.id !== latest.id)
+  // Get other catalogues (excluding the latest only if it's featured)
+  const getOtherCatalogues = (excludeId) => {
+    return catalogues.filter((cat) => cat.id !== excludeId)
   }
 
-  const featuredCatalogue = getLatestCatalogue()
-  const otherCatalogues = getOtherCatalogues()
-  const isFeaturedNew = isNew(featuredCatalogue.createdAt)
+  const latestCatalogue = getLatestCatalogue()
+  const isLatestNew = isNew(latestCatalogue.createdAt)
+  
+  // Only show as featured if it's new (within 30 days)
+  const featuredCatalogue = isLatestNew ? latestCatalogue : null
+  const otherCatalogues = featuredCatalogue 
+    ? getOtherCatalogues(featuredCatalogue.id)
+    : catalogues
+  const isFeaturedNew = featuredCatalogue ? isNew(featuredCatalogue.createdAt) : false
 
   const handleDownload = (pdfUrl) => {
     // Handle PDF download
@@ -98,32 +123,33 @@ const KataloziPage = () => {
       </section>
 
       {/* Featured Catalogue Section */}
-      <section className="w-full bg-slate-50 py-12 md:py-16">
-        <div className="mx-auto max-w-7xl px-6">
-          <h2 className="mb-8 text-2xl font-semibold text-slate-900 md:text-3xl">
-            {t('catalogues.featured')}
-          </h2>
+      {featuredCatalogue && (
+        <section className="w-full bg-slate-50 py-12 md:py-16">
+          <div className="mx-auto max-w-7xl px-6">
+            <h2 className="mb-8 text-2xl font-semibold text-slate-900 md:text-3xl">
+              {t('catalogues.featured')}
+            </h2>
 
-          <div className="relative overflow-hidden rounded-2xl bg-white shadow-lg transition-shadow hover:shadow-xl">
-            {/* New Badge */}
-            {isFeaturedNew && (
-              <div className="absolute right-4 top-4 z-10">
-                <span className="inline-flex items-center rounded-full bg-green-500 px-3 py-1 text-xs font-semibold text-white shadow-md">
-                  {t('catalogues.new')}
-                </span>
-              </div>
-            )}
+            <div className="relative overflow-hidden rounded-2xl bg-white shadow-lg transition-shadow hover:shadow-xl">
+              {/* New Badge */}
+              {isFeaturedNew && (
+                <div className="absolute right-4 top-4 z-10">
+                  <span className="inline-flex items-center rounded-full bg-green-500 px-3 py-1 text-xs font-semibold text-white shadow-md">
+                    {t('catalogues.new')}
+                  </span>
+                </div>
+              )}
 
-            <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
-              {/* Image */}
-              <div className="relative h-32 w-32 overflow-hidden md:h-auto">
-                <img
-                  src={featuredCatalogue.image}
-                  alt={featuredCatalogue.title}
-                  className="h-full w-full object-cover"
-                  loading="lazy"
-                />
-              </div>
+              <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
+                {/* Image */}
+                <div className="relative flex h-64 items-center justify-center overflow-hidden bg-slate-100 md:h-auto md:min-h-[400px]">
+                  <img
+                    src={featuredCatalogue.image}
+                    alt={featuredCatalogue.title}
+                    className="max-h-full max-w-full object-contain"
+                    loading="lazy"
+                  />
+                </div>
 
               {/* Content */}
               <div className="flex flex-col justify-center p-6 md:p-8">
@@ -170,6 +196,7 @@ const KataloziPage = () => {
           </div>
         </div>
       </section>
+      )}
 
       {/* More Catalogues Grid Section */}
       <section className="w-full bg-white py-12 md:py-16">
@@ -187,11 +214,11 @@ const KataloziPage = () => {
                   className="group overflow-hidden rounded-2xl bg-white shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
                 >
                   {/* Image */}
-                  <div className="relative h-48 w-full overflow-hidden">
+                  <div className="relative flex h-48 w-full items-center justify-center overflow-hidden bg-slate-100">
                     <img
                       src={catalogue.image}
                       alt={catalogue.title}
-                      className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-110"
+                      className="max-h-full max-w-full object-contain transition-transform duration-300 group-hover:scale-110"
                       loading="lazy"
                     />
                     {isCatalogueNew && (
