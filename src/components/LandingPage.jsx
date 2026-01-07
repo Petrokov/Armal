@@ -1,4 +1,5 @@
 import { BadgeCheck, ShieldCheck, Package, Truck } from 'lucide-react'
+import { Link } from 'react-router-dom'
 import { useLanguage } from '../contexts/LanguageContext'
 import heroImage from '../assets/kupaonica-zelena.webp'
 import FeaturedCollections from './FeaturedCollections'
@@ -69,13 +70,19 @@ const LandingPage = () => {
             </div>
 
             <div className="mt-4 flex flex-wrap items-center gap-4">
-              <button className="inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-semibold text-slate-900 shadow-[0_12px_30px_rgba(15,23,42,0.2)] transition hover:-translate-y-0.5 hover:shadow-[0_18px_35px_rgba(15,23,42,0.25)]">
+              <Link
+                to="/proizvodi"
+                className="inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-semibold text-slate-900 shadow-[0_12px_30px_rgba(15,23,42,0.2)] transition hover:-translate-y-0.5 hover:shadow-[0_18px_35px_rgba(15,23,42,0.25)]"
+              >
                 {t('hero.exploreCollection')}
                 <ArrowIcon />
-              </button>
-              <button className="rounded-full border border-white/40 bg-white/10 px-6 py-3 text-sm font-semibold text-white backdrop-blur transition hover:bg-white/15">
+              </Link>
+              <Link
+                to="/katalozi"
+                className="rounded-full border border-white/40 bg-white/10 px-6 py-3 text-sm font-semibold text-white backdrop-blur transition hover:bg-white/15"
+              >
                 {t('hero.viewCatalog')}
-              </button>
+              </Link>
             </div>
           </div>
         </div>
@@ -128,12 +135,12 @@ const LandingPage = () => {
         buttons={[
           {
             label: t('cta.b2b'),
-            href: '#b2b',
+            href: 'https://b2b.armal.hr/',
             icon: true,
           },
           {
             label: t('cta.editHome'),
-            href: '#uredi-dom',
+            href: 'https://uredidom.hr/',
             icon: true,
           },
         ]}

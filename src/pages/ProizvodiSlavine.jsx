@@ -122,7 +122,9 @@ const ProizvodiSlavine = () => {
                     {/* Action Buttons */}
                     <div className="flex flex-col gap-3 sm:flex-row sm:gap-4">
                       <a
-                        href="#b2b"
+                        href="https://b2b.armal.hr/"
+                        target="_blank"
+                        rel="noopener noreferrer"
                         className="inline-flex items-center justify-center gap-2 rounded-lg bg-blue-600 px-6 py-3 text-sm font-semibold text-white shadow-md transition-all duration-300 hover:scale-105 hover:bg-blue-700 hover:shadow-lg"
                       >
                         <svg
@@ -141,7 +143,9 @@ const ProizvodiSlavine = () => {
                         {t('navbar.b2b')}
                       </a>
                       <a
-                        href="#uredi-dom"
+                        href="https://uredidom.hr/"
+                        target="_blank"
+                        rel="noopener noreferrer"
                         className="inline-flex items-center justify-center gap-2 rounded-lg bg-slate-700 px-6 py-3 text-sm font-semibold text-white shadow-md transition-all duration-300 hover:scale-105 hover:bg-slate-800 hover:shadow-lg"
                       >
                         <svg
@@ -179,7 +183,9 @@ const ProizvodiSlavine = () => {
           </p>
           <div className="flex flex-col gap-4 sm:flex-row sm:justify-center">
             <a
-              href="#b2b"
+              href="https://b2b.armal.hr/"
+              target="_blank"
+              rel="noopener noreferrer"
               className="inline-flex items-center justify-center gap-2 rounded-lg bg-blue-600 px-8 py-4 text-base font-semibold text-white shadow-md transition-all duration-300 hover:scale-105 hover:bg-blue-700 hover:shadow-lg"
             >
               <svg
@@ -198,7 +204,9 @@ const ProizvodiSlavine = () => {
               {t('navbar.b2b')}
             </a>
             <a
-              href="#uredi-dom"
+              href="https://uredidom.hr/"
+              target="_blank"
+              rel="noopener noreferrer"
               className="inline-flex items-center justify-center gap-2 rounded-lg bg-slate-700 px-8 py-4 text-base font-semibold text-white shadow-md transition-all duration-300 hover:scale-105 hover:bg-slate-800 hover:shadow-lg"
             >
               <svg

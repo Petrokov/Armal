@@ -35,6 +35,8 @@ const CTASection = ({ title, description, buttons = [] }) => {
               <a
                 key={index}
                 href={button.href || '#'}
+                target={button.href?.startsWith('http') ? '_blank' : undefined}
+                rel={button.href?.startsWith('http') ? 'noopener noreferrer' : undefined}
                 className="inline-flex items-center gap-2 rounded-lg bg-white px-6 py-3 text-base font-semibold text-slate-900 transition-all hover:bg-slate-100 hover:shadow-lg md:px-8 md:py-4 md:text-lg"
               >
                 {button.label}
@@ -76,12 +78,12 @@ CTASection.defaultProps = {
   buttons: [
     {
       label: 'B2B Trgovina',
-      href: '#b2b',
+      href: 'https://b2b.armal.hr/',
       icon: true,
     },
     {
       label: 'Uredi dom',
-      href: '#uredi-dom',
+      href: 'https://uredidom.hr/',
       icon: true,
     },
   ],
