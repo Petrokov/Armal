@@ -62,7 +62,7 @@
     "title1": "Praktična rešenja.",
     "title2": "Estetski utisak.",
     "title3": "Pristupačna cena.",
-    "subtitle": "Uredite prostor po svom ukusu — bez kompromisa između izgleda i budžeta.",
+    "subtitle": "Uredite prostor po svom ukusu, bez kompromisa između izgleda i budžeta.",
     "exploreCollection": "Istražite Kolekciju",
     "viewCatalog": "Pogledajte Katalog"
   },
@@ -104,15 +104,50 @@
       "description": "Luksuzna kolekcija koja očarava svojim premium izgledom i izvanrednom izdržljivošću. Topaz kombinuje elegantne oblike sa naprednom tehnologijom za nezaboravno iskustvo korišćenja.",
       "benefit": "Premium kvalitet za luksuzne prostore"
     },
-    "quartz": {
-      "name": "Quartz",
-      "description": "Savremena kolekcija koja se ističe svojim inovativnim dizajnom i ekološki osvešćenim pristupom. Quartz nudi vrhunsku funkcionalnost uz održivost i dugotrajnost.",
-      "benefit": "Ekološki osvešćena opcija"
+    "opal": {
+      "name": "Opal",
+      "description": "Elegantna kolekcija koja kombinuje moderan dizajn sa vrhunskom funkcionalnošću. Opal nudi sofisticirana rešenja za svaki prostor.",
+      "benefit": "Idealna za moderna kupatila"
     },
-    "marble": {
-      "name": "Marble",
-      "description": "Timeless kolekcija inspirisana prirodnim materijalima. Marble kombinuje klasičnu eleganciju sa modernim tehnologijama, stvarajući trajnu vrednost za vaš dom.",
+    "safir": {
+      "name": "Safir",
+      "description": "Premium kolekcija koja se ističe svojim luksuznim izgledom i izvanrednom kvalitetom. Safir donosi eleganciju i funkcionalnost u svaki dom.",
+      "benefit": "Luksuzna opcija za zahtevne prostore"
+    },
+    "beril": {
+      "name": "Beril",
+      "description": "Savremena kolekcija koja naglašava čistu liniju i jednostavnost. Beril pruža savršenu ravnotežu između estetike i praktičnosti.",
+      "benefit": "Savršena za minimalističke prostore"
+    },
+    "lapis": {
+      "name": "Lapis",
+      "description": "Moderna kolekcija koja kombinuje inovativni dizajn sa vrhunskom izdržljivošću. Lapis nudi funkcionalna i estetski privlačna rešenja.",
+      "benefit": "Idealna za savremene interijere"
+    },
+    "violet": {
+      "name": "Violet",
+      "description": "Elegantna kolekcija koja očarava svojim sofisticiranim dizajnom. Violet kombinuje klasičnu eleganciju sa modernim tehnologijama.",
       "benefit": "Timeless elegancija za svaki dom"
+    },
+    "jana": {
+      "name": "Jana",
+      "description": "Praktična kolekcija koja nudi vrhunsku funkcionalnost uz pristupačnu cenu. Jana je idealan izbor za svaki prostor.",
+      "benefit": "Idealna za svaki budžet"
+    },
+    "ana": {
+      "name": "Ana",
+      "description": "Klasična kolekcija koja se ističe svojom jednostavnošću i pouzdanošću. Ana nudi kvalitetna rešenja za svaki dom.",
+      "benefit": "Pouzdana opcija za svaki prostor"
+    },
+    "start": {
+      "name": "Start",
+      "description": "Pristupačna kolekcija koja kombinuje kvalitet sa povoljnom cenom. Start je idealan izbor za početak uređenja kupatila.",
+      "benefit": "Idealna za početak"
+    },
+    "trend": {
+      "name": "Trend",
+      "description": "Moderna kolekcija koja prati najnovije trendove u dizajnu. Trend nudi savremena rešenja za vaš prostor.",
+      "benefit": "Savremena opcija za moderne prostore"
     }
   },
   "moodboard": {
@@ -127,8 +162,8 @@
   "cta": {
     "title": "Stvorimo Vaš Prostor Snova",
     "description": "Bilo da tražite ekskluzivne komade za vaš dom ili uređujete poslovni prostor, tu smo da pomognemo.",
-    "b2b": "B2B Trgovina",
-    "editHome": "Uredi dom"
+    "b2b": "Armal B2B webshop",
+    "editHome": "Uredi dom webshop"
   },
   "team": {
     "title": "Naš tim",
@@ -172,6 +207,8 @@
     "storyTitle": "Naša priča",
     "storyParagraph1": "Brand Armal poznat je na području Adria regije već više od 55 godina. Nakon što ga je 2018. godine preuzela tvrtka Armal d.o.o. nastavlja svoj daljnji razvoj.",
     "storyParagraph2": "Od 2023., s ciljem osiguranja potpunog fokusa na poslovanje i rast branda izdvojena je zasebna tvrtka Armal d.o.o. koja u svom portfelju ima asortiman za opremanje kupaonica.",
+    "storyParagraph3": "Tvrtka je izrasla iz porodične firme i nasleđuje iz tog doba ono što nas čini dobrim poslovnim partnerima jer stvaramo dugoročan i profesionalan odnos sa kupcima.",
+    "storyParagraph4": "Zadovoljstvo partnera, ali i zadovoljstvo zaposlenih, jedne su od naših ključnih vrednosti koje su duboko utkane u DNK cele firme.",
     "valuesTitle": "Naše vrednosti",
     "valuesSubtitle": "Ove temeljne vrednosti vode sve što radimo, od odabira proizvoda do korisničke usluge.",
     "values": {
@@ -206,5 +243,34 @@
   "faucetsPage": {
     "ctaTitle": "Pronađite savršene slavine za vaš prostor",
     "ctaDescription": "Istražite našu široku ponudu i pronađite idealna rešenja za vaš dom ili poslovni prostor."
+  },
+  "bathingCategories": {
+    "bathtubs": {
+      "name": "Kade",
+      "description": "Luksuzne kade za opuštanje i relaksaciju. Dostupne u različitim veličinama i stilovima, od klasičnih do modernih dizajna.",
+      "benefit": "Idealne za stvaranje oaze mira u vašoj kupaonici"
+    },
+    "showerTrays": {
+      "name": "Tuš kade",
+      "description": "Funkcionalne i moderne tuš kade koje kombiniraju praktičnost i estetiku. Dostupne u različitim dimenzijama i materijalima.",
+      "benefit": "Savršeno rešenje za kompaktne i moderne kupaonice"
+    },
+    "showerChannels": {
+      "name": "Kanalice",
+      "description": "Elegantne i funkcionalne tuš kanalice koje osiguravaju brzo i efikasno odvodnjavanje vode. Dostupne u različitim širinama i dizajnima.",
+      "benefit": "Maksimalna funkcionalnost uz minimalistički dizajn"
+    },
+    "showerCabins": {
+      "name": "Tuš kabine",
+      "description": "Kompletne tuš kabine koje kombiniraju vrata, zidove i paravane u jedinstveno rešenje. Dostupne u različitim konfiguracijama i stilovima.",
+      "benefit": "Sveobuhvatno rešenje za vašu kupaonicu"
+    }
+  },
+  "bathingPage": {
+    "ctaTitle": "Pronađite savršena rešenja za kupanje i tuširanje",
+    "ctaDescription": "Istražite našu široku ponudu i pronađite idealna rešenja za vaš dom ili poslovni prostor."
+  },
+  "blogPage": {
+    "subtitle": "Inspiracija, saveti i najnovije vesti o kupatilskim rešenjima"
   }
 }

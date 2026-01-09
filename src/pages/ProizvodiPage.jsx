@@ -88,7 +88,7 @@ const ProizvodiPage = () => {
           <div className="relative z-10 text-center md:text-left md:ml-8 flex flex-col md:flex-row flex-1 gap-6 items-center md:items-start">
             {/* Tekst dolje na mobitelu, desno na većim ekranima */}
             <div className="flex flex-col flex-1">
-              <h2 className="mb-2 text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 transition-colors group-hover:text-blue-600">
+              <h2 className="mb-2 text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 transition-colors group-hover:text-[#0070CD]">
                 {t(category.translationKey)}
               </h2>
               <p className="mb-4 text-base sm:text-lg md:text-xl text-slate-700">
@@ -96,7 +96,7 @@ const ProizvodiPage = () => {
               </p>
               {/* Button */}
               <div className="mt-auto mb-4 md:mb-0">
-                <span className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-6 py-3 text-sm font-semibold text-white transition-colors group-hover:bg-blue-700">
+                <span className="inline-flex items-center gap-2 rounded-lg bg-[#0070CD] px-6 py-3 text-sm font-semibold text-white transition-colors group-hover:bg-[#005bb0]">
                   {t('productsPage.learnMore')}
                   <svg
                     className="h-4 w-4"

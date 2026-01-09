@@ -1,7 +1,8 @@
 import { BadgeCheck, ShieldCheck, Package, Truck } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { useLanguage } from '../contexts/LanguageContext'
-import heroImage from '../assets/kupaonica-zelena.webp'
+import { useEffect, useState } from 'react'
+import heroImage from '../assets/hero_2_2.jpg'
 import FeaturedCollections from './FeaturedCollections'
 import MoodboardSection from './MoodboardSection'
 import AboutSection from './AboutSection'
@@ -10,14 +11,58 @@ import TeamSection from './TeamSection'
 
 const LandingPage = () => {
   const { t } = useLanguage()
+  const [isAnimated, setIsAnimated] = useState(false)
+
+  useEffect(() => {
+    // Pokreni animaciju nakon kratkog delay-a
+    const timer = setTimeout(() => {
+      setIsAnimated(true)
+    }, 100)
+    return () => clearTimeout(timer)
+  }, [])
+
+  // Funkcija za animaciju specifičnih riječi
+  const getAnimatedText = (text, keywords, delay) => {
+    // Provjeri koja riječ se nalazi u tekstu (case-insensitive)
+    const textLower = text.toLowerCase()
+    const foundKeyword = keywords.find((keyword) => textLower.includes(keyword.toLowerCase()))
+    
+    if (foundKeyword) {
+      const keywordLower = foundKeyword.toLowerCase()
+      const index = textLower.indexOf(keywordLower)
+      const before = text.substring(0, index)
+      // Pronađi točnu duljinu riječi (može biti različita zbog velikih/malih slova)
+      const keywordMatch = text.substring(index).match(new RegExp(`^${foundKeyword}`, 'i'))
+      const keyword = keywordMatch ? keywordMatch[0] : text.substring(index, index + foundKeyword.length)
+      const after = text.substring(index + keyword.length)
+      
+      return (
+        <>
+          {before}
+          <span
+            className={`inline-block transition-all duration-700 ease-out ${
+              isAnimated
+                ? 'translate-y-0 opacity-100'
+                : 'translate-y-8 opacity-0'
+            }`}
+            style={{ transitionDelay: `${delay}ms` }}
+          >
+            {keyword}
+          </span>
+          {after}
+        </>
+      )
+    }
+    return text
+  }
 
   // Struktura feature-a - koristi translation keys
   const features = [
     {
       icon: BadgeCheck,
       titleKey: 'quality',
-      bgColor: 'bg-blue-100',
-      iconColor: 'text-blue-600',
+      bgColor: 'bg-[#0070CD]/20',
+      iconColor: 'text-[#0070CD]',
     },
     {
       icon: ShieldCheck,
@@ -46,7 +91,8 @@ const LandingPage = () => {
         <img
           src={heroImage}
           alt="Moderni kupaonski interijer"
-          className="absolute inset-0 h-full w-full object-cover"
+          className="absolute inset-0 h-full w-full object-cover min-h-full min-w-full"
+          style={{ objectFit: 'cover', width: '100%', height: '100%' }}
           loading="lazy"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-slate-900/85 via-slate-900/70 to-slate-900/30" />
@@ -57,12 +103,16 @@ const LandingPage = () => {
               <p className="text-sm uppercase tracking-[0.5em] text-white/70">
                 {t('hero.collections')}
               </p>
-              <h1 className="mt-6 text-4xl font-semibold leading-tight sm:text-5xl md:text-6xl">
-                {t('hero.title1')}
-                <br />
-                {t('hero.title2')}
-                <br />
-                {t('hero.title3')}
+              <h1 className="mt-2 text-4xl font-semibold leading-none sm:text-5xl md:text-6xl">
+                <span className="block mb-2">
+                  {getAnimatedText(t('hero.title1'), ['rješenja', 'rešitve', 'rešenja'], 200)}
+                </span>
+                <span className="block mb-2">
+                  {getAnimatedText(t('hero.title2'), ['dojam', 'vtis', 'utisak'], 400)}
+                </span>
+                <span className="block">
+                  {getAnimatedText(t('hero.title3'), ['cijena', 'cena'], 600)}
+                </span>
               </h1>
               <p className="mt-4 text-base text-white/80 sm:text-lg md:max-w-2xl">
                 {t('hero.subtitle')}
@@ -72,14 +122,14 @@ const LandingPage = () => {
             <div className="mt-4 flex flex-wrap items-center gap-4">
               <Link
                 to="/proizvodi"
-                className="inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-semibold text-slate-900 shadow-[0_12px_30px_rgba(15,23,42,0.2)] transition hover:-translate-y-0.5 hover:shadow-[0_18px_35px_rgba(15,23,42,0.25)]"
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-semibold text-slate-900 shadow-[0_12px_30px_rgba(15,23,42,0.2)] transition hover:-translate-y-0.5 hover:shadow-[0_18px_35px_rgba(15,23,42,0.25)] whitespace-nowrap min-w-[200px] flex-1 sm:flex-initial sm:min-w-[240px]"
               >
                 {t('hero.exploreCollection')}
                 <ArrowIcon />
               </Link>
               <Link
                 to="/katalozi"
-                className="rounded-full border border-white/40 bg-white/10 px-6 py-3 text-sm font-semibold text-white backdrop-blur transition hover:bg-white/15"
+                className="inline-flex items-center justify-center rounded-full border border-white/40 bg-white/10 px-6 py-3 text-sm font-semibold text-white backdrop-blur transition hover:bg-white/15 whitespace-nowrap min-w-[200px] flex-1 sm:flex-initial sm:min-w-[240px]"
               >
                 {t('hero.viewCatalog')}
               </Link>
@@ -147,7 +197,7 @@ const LandingPage = () => {
       />
 
       {/* Team Section */}
-      <TeamSection />
+      <TeamSection maxMembers={3} />
     </>
   )
 }

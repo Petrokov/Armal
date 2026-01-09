@@ -46,7 +46,7 @@ const MoodboardSection = () => {
       <div className="mx-auto max-w-7xl px-6">
         {/* Header - Centriran */}
         <div className="mb-12 text-center">
-          <h2 className="mb-4 text-3xl font-bold text-blue-600 md:text-4xl">
+          <h2 className="mb-4 text-3xl font-bold text-[#0070CD] md:text-4xl">
             {t('moodboard.title')}
           </h2>
           <p className="mx-auto max-w-3xl text-base text-slate-600 md:text-lg">

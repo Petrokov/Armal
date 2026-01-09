@@ -7,7 +7,7 @@ const ProizvodiSlavine = () => {
   const { t } = useLanguage()
   const productRefs = useRef([])
 
-  // 5 kolekcija slavina
+  // Kolekcije slavina
   const collections = [
     {
       key: 'rubi',
@@ -22,12 +22,40 @@ const ProizvodiSlavine = () => {
       image: kupaonicaImage,
     },
     {
-      key: 'quartz',
+      key: 'opal',
       image: oNamaImage,
     },
     {
-      key: 'marble',
+      key: 'safir',
       image: kupaonicaImage,
+    },
+    {
+      key: 'beril',
+      image: oNamaImage,
+    },
+    {
+      key: 'lapis',
+      image: kupaonicaImage,
+    },
+    {
+      key: 'violet',
+      image: oNamaImage,
+    },
+    {
+      key: 'jana',
+      image: kupaonicaImage,
+    },
+    {
+      key: 'ana',
+      image: oNamaImage,
+    },
+    {
+      key: 'start',
+      image: kupaonicaImage,
+    },
+    {
+      key: 'trend',
+      image: oNamaImage,
     },
   ]
 
@@ -115,7 +143,7 @@ const ProizvodiSlavine = () => {
                       {t(`collections.${collection.key}.description`)}
                     </p>
                     {t(`collections.${collection.key}.benefit`) && (
-                      <p className="mb-6 text-sm font-semibold text-blue-600 md:text-base">
+                      <p className="mb-6 text-sm font-semibold text-[#0070CD] md:text-base">
                         {t(`collections.${collection.key}.benefit`)}
                       </p>
                     )}
@@ -125,7 +153,7 @@ const ProizvodiSlavine = () => {
                         href="https://b2b.armal.hr/"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center justify-center gap-2 rounded-lg bg-blue-600 px-6 py-3 text-sm font-semibold text-white shadow-md transition-all duration-300 hover:scale-105 hover:bg-blue-700 hover:shadow-lg"
+                        className="inline-flex items-center justify-center gap-2 rounded-lg bg-[#0070CD] px-6 py-3 text-sm font-semibold text-white shadow-md transition-all duration-300 hover:scale-105 hover:bg-[#005bb0] hover:shadow-lg"
                       >
                         <svg
                           className="h-4 w-4"
@@ -186,7 +214,7 @@ const ProizvodiSlavine = () => {
               href="https://b2b.armal.hr/"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2 rounded-lg bg-blue-600 px-8 py-4 text-base font-semibold text-white shadow-md transition-all duration-300 hover:scale-105 hover:bg-blue-700 hover:shadow-lg"
+              className="inline-flex items-center justify-center gap-2 rounded-lg bg-[#0070CD] px-8 py-4 text-base font-semibold text-white shadow-md transition-all duration-300 hover:scale-105 hover:bg-[#005bb0] hover:shadow-lg"
             >
               <svg
                 className="h-5 w-5"

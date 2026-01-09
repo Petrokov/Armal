@@ -14,7 +14,7 @@
   },
   "products": {
     "faucets": "Pipe",
-    "faucetsDescription": "Širok asortiman pip za kopalnico in kuhinjo",
+    "faucetsDescription": "Širok asortiman pipa za kopalnico in kuhinjo",
     "bathing": "Kopanje + tuširanje",
     "bathingDescription": "Kadi, tuš kabine, vrata in vse za kopanje",
     "sanitary": "Sanitarije",
@@ -62,7 +62,7 @@
     "title1": "Praktične rešitve.",
     "title2": "Estetski vtis.",
     "title3": "Dostopna cena.",
-    "subtitle": "Uredite prostor po svojem okusu — brez kompromisov med videzom in proračunom.",
+    "subtitle": "Uredite prostor po svojem okusu, brez kompromisov med videzom in proračunom.",
     "exploreCollection": "Raziščite Kolekcijo",
     "viewCatalog": "Oglejte si Katalog"
   },
@@ -104,15 +104,50 @@
       "description": "Luksuzna kolekcija, ki očara s svojim premium videzom in izjemno vzdržljivostjo. Topaz združuje elegantne oblike z napredno tehnologijo za nepozabno izkušnjo uporabe.",
       "benefit": "Premium kakovost za luksuzne prostore"
     },
-    "quartz": {
-      "name": "Quartz",
-      "description": "Sodobna kolekcija, ki se izpostavlja s svojim inovativnim dizajnom in ekološko ozaveščenim pristopom. Quartz ponuja vrhunsko funkcionalnost z trajnostjo in dolgotrajnostjo.",
-      "benefit": "Ekološko ozaveščena možnost"
+    "opal": {
+      "name": "Opal",
+      "description": "Elegantna kolekcija, ki združuje sodoben dizajn z vrhunsko funkcionalnostjo. Opal ponuja sofisticirane rešitve za vsak prostor.",
+      "benefit": "Idealen za moderne kopalnice"
     },
-    "marble": {
-      "name": "Marble",
-      "description": "Večna kolekcija, navdihnjena z naravnimi materiali. Marble združuje klasično eleganco z modernimi tehnologijami, ustvarjajoč trajno vrednost za vaš dom.",
+    "safir": {
+      "name": "Safir",
+      "description": "Premium kolekcija, ki se izpostavlja s svojim luksuznim videzom in izjemno kakovostjo. Safir prinaša eleganco in funkcionalnost v vsak dom.",
+      "benefit": "Luksuzna možnost za zahtevne prostore"
+    },
+    "beril": {
+      "name": "Beril",
+      "description": "Sodobna kolekcija, ki poudarja čisto linijo in preprostost. Beril ponuja popolno ravnovesje med estetiko in praktičnostjo.",
+      "benefit": "Popolna za minimalistične prostore"
+    },
+    "lapis": {
+      "name": "Lapis",
+      "description": "Sodobna kolekcija, ki združuje inovativni dizajn z vrhunsko vzdržljivostjo. Lapis ponuja funkcionalne in estetsko privlačne rešitve.",
+      "benefit": "Idealen za sodobne interierje"
+    },
+    "violet": {
+      "name": "Violet",
+      "description": "Elegantna kolekcija, ki očara s svojim sofisticiranim dizajnom. Violet združuje klasično eleganco z modernimi tehnologijami.",
       "benefit": "Večna eleganca za vsak dom"
+    },
+    "jana": {
+      "name": "Jana",
+      "description": "Praktična kolekcija, ki ponuja vrhunsko funkcionalnost z dostopno ceno. Jana je idealna izbira za vsak prostor.",
+      "benefit": "Idealen za vsak proračun"
+    },
+    "ana": {
+      "name": "Ana",
+      "description": "Klasična kolekcija, ki se izpostavlja s svojo preprostostjo in zanesljivostjo. Ana ponuja kakovostne rešitve za vsak dom.",
+      "benefit": "Zanesljiva možnost za vsak prostor"
+    },
+    "start": {
+      "name": "Start",
+      "description": "Dostopna kolekcija, ki združuje kakovost z ugodno ceno. Start je idealna izbira za začetek opremljanja kopalnice.",
+      "benefit": "Idealen za začetek"
+    },
+    "trend": {
+      "name": "Trend",
+      "description": "Sodobna kolekcija, ki sledi najnovejšim trendom v dizajnu. Trend ponuja sodobne rešitve za vaš prostor.",
+      "benefit": "Sodobna možnost za moderne prostore"
     }
   },
   "moodboard": {
@@ -127,8 +162,8 @@
   "cta": {
     "title": "Ustvarimo Vaš Prostor Sanj",
     "description": "Brez razlike, ali iščete ekskluzivne kose za vaš dom ali opremljate poslovni prostor, tu smo, da pomagamo.",
-    "b2b": "B2B Trgovina",
-    "editHome": "Uredi dom"
+    "b2b": "Armal B2B webshop",
+    "editHome": "Uredi dom webshop"
   },
   "team": {
     "title": "Naš tim",
@@ -172,6 +207,8 @@
     "storyTitle": "Naša zgodba",
     "storyParagraph1": "Blagovna znamka Armal je znana na območju Jadranske regije že več kot 55 let. Po tem, ko jo je leta 2018 prevzelo podjetje Armal d.o.o., nadaljuje svoj nadaljnji razvoj.",
     "storyParagraph2": "Od leta 2023, z namenom zagotovitve popolnega fokusa na poslovanje in rast blagovne znamke, je bilo izločeno ločeno podjetje Armal d.o.o., ki v svojem portfelju ima asortiman za opremljanje kopalnic.",
+    "storyParagraph3": "Podjetje je zraslo iz družinske firme in podeduje iz tistega časa tisto, kar nas naredi dobri poslovni partnerji, saj ustvarjamo dolgoročno in profesionalno razmerje s kupci.",
+    "storyParagraph4": "Zadovoljstvo partnerjev, pa tudi zadovoljstvo zaposlenih, so ene od naših ključnih vrednot, ki so globoko vtkane v DNK celotnega podjetja.",
     "valuesTitle": "Naše vrednote",
     "valuesSubtitle": "Te temeljne vrednote vodijo vse, kar počnemo, od izbire izdelkov do uporabniške storitve.",
     "values": {
@@ -207,9 +244,34 @@
     "ctaTitle": "Poiščite popolne pipe za vaš prostor",
     "ctaDescription": "Raziščite našo široko ponudbo in poiščite idealne rešitve za vaš dom ali poslovni prostor."
   },
-  "faucetsPage": {
-    "ctaTitle": "Poiščite popolne pipe za vaš prostor",
+  "bathingCategories": {
+    "bathtubs": {
+      "name": "Kad",
+      "description": "Luksuzne kadi za sproščanje in sprostitev. Na voljo v različnih velikostih in stilih, od klasičnih do modernih dizajnov.",
+      "benefit": "Idealen za ustvarjanje oaze miru v vaši kopalnici"
+    },
+    "showerTrays": {
+      "name": "Tuš kade",
+      "description": "Funkcionalne in moderne tuš kade, ki združujejo praktičnost in estetiko. Na voljo v različnih dimenzijah in materialih.",
+      "benefit": "Popolna rešitev za kompaktne in moderne kopalnice"
+    },
+    "showerChannels": {
+      "name": "Kanalice",
+      "description": "Elegantne in funkcionalne tuš kanalice, ki zagotavljajo hitro in učinkovito odvajanje vode. Na voljo v različnih širinah in dizajnih.",
+      "benefit": "Maksimalna funkcionalnost z minimalističnim dizajnom"
+    },
+    "showerCabins": {
+      "name": "Tuš kabine",
+      "description": "Kompletne tuš kabine, ki združujejo vrata, stene in paravane v enotno rešitev. Na voljo v različnih konfiguracijah in stilih.",
+      "benefit": "Celovita rešitev za vašo kopalnico"
+    }
+  },
+  "bathingPage": {
+    "ctaTitle": "Poiščite popolne rešitve za kopanje in tuširanje",
     "ctaDescription": "Raziščite našo široko ponudbo in poiščite idealne rešitve za vaš dom ali poslovni prostor."
+  },
+  "blogPage": {
+    "subtitle": "Navdih, nasveti in najnovejše novice o kopalničnih rešitvah"
   }
 }
 

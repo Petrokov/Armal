@@ -50,7 +50,7 @@ const Footer = () => {
                     <a
                       key={link.key}
                       href={link.path}
-                      className="text-sm text-slate-600 transition-colors hover:text-blue-600"
+                      className="text-sm text-slate-600 transition-colors hover:text-[#0070CD]"
                     >
                       {t(`navbar.${link.key}`)}
                     </a>
@@ -60,7 +60,7 @@ const Footer = () => {
                   <Link
                     key={link.key}
                     to={link.path}
-                    className="text-sm text-slate-600 transition-colors hover:text-blue-600"
+                    className="text-sm text-slate-600 transition-colors hover:text-[#0070CD]"
                   >
                     {t(`navbar.${link.key}`)}
                   </Link>
@@ -79,7 +79,7 @@ const Footer = () => {
                 <a
                   key={link.key}
                   href={link.path}
-                  className="text-sm text-slate-600 transition-colors hover:text-blue-600"
+                  className="text-sm text-slate-600 transition-colors hover:text-[#0070CD]"
                 >
                   {t(`footer.${link.key}`)}
                 </a>

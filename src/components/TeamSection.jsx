@@ -2,7 +2,7 @@ import { useLanguage } from '../contexts/LanguageContext'
 
 
 
-const TeamSection = ({ maxMembers = 3, showLearnMore = true }) => {
+const TeamSection = ({ maxMembers, showLearnMore = true }) => {
   const { t } = useLanguage()
 
   // Team members data
@@ -14,27 +14,82 @@ const TeamSection = ({ maxMembers = 3, showLearnMore = true }) => {
       linkedin: '#',
     },
     {
-      name: 'Ana-Marija Borić',
-      role: 'referent marketinga',
-      image: '/slike_team/ana_marija_boric.jpeg',
+      name: 'Suzana Mahović',
+      role: 'COO – operativni direktor',
+      image: '/slike_team/anonimno.jpg',
       linkedin: '#',
     },
     {
-      name: 'Nataša Novak',
-      role: 'Dizajnerica',
-      image: '/slike_team/natasa_novak_2.png',
+      name: 'Anja Križanić',
+      role: 'koordinator prodaje za RH',
+      image: '/slike_team/anonimno.jpg',
       linkedin: '#',
     },
     {
-      name: 'Ivan Ivanić',
-      role: 'Logistika',
-      image: 'https://via.placeholder.com/300x400/4A5568/FFFFFF?text=Ivan+Ivanic',
+      name: 'Aleksandar Franolić',
+      role: 'Export menager',
+      image: '/slike_team/anonimno.jpg',
+      linkedin: '#',
+    },
+    {
+      name: 'Miroslav Salopek',
+      role: 'terenski komercijalist',
+      image: '/slike_team/anonimno.jpg',
+      linkedin: '#',
+    },
+    {
+      name: 'Saša Čačić',
+      role: 'terenski komercijalist',
+      image: '/slike_team/anonimno.jpg',
+      linkedin: '#',
+    },
+    {
+      name: 'Marko Čović',
+      role: 'terenski komercijalist',
+      image: '/slike_team/anonimno.jpg',
+      linkedin: '#',
+    },
+    {
+      name: 'Sandra Miklec',
+      role: 'administrator u odjelu prodaje',
+      image: '/slike_team/anonimno.jpg',
+      linkedin: '#',
+    },
+    {
+      name: 'Marko Hrgetić',
+      role: 'Voditelj nabave',
+      image: '/slike_team/anonimno.jpg',
+      linkedin: '#',
+    },
+    {
+      name: 'Natalija Jović',
+      role: 'referent nabave',
+      image: '/slike_team/anonimno.jpg',
+      linkedin: '#',
+    },
+    {
+      name: 'Marija Pršir',
+      role: 'Administrator nabave',
+      image: '/slike_team/anonimno.jpg',
+      linkedin: '#',
+    },
+    {
+      name: 'Morena Sršen',
+      role: 'Voditelj odjela postprodaje',
+      image: '/slike_team/anonimno.jpg',
+      linkedin: '#',
+    },
+    {
+      name: 'Mladen Luketić',
+      role: 'Serviser i montažer',
+      image: '/slike_team/anonimno.jpg',
       linkedin: '#',
     },
   ]
 
   // Display members based on maxMembers prop
-  const displayedMembers = teamMembers.slice(0, maxMembers)
+  // If maxMembers is not provided or is undefined, show all members
+  const displayedMembers = maxMembers ? teamMembers.slice(0, maxMembers) : teamMembers
 
   return (
     <section className="w-full bg-white py-16">
@@ -79,7 +134,7 @@ const TeamSection = ({ maxMembers = 3, showLearnMore = true }) => {
                 href={member.linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center rounded-full bg-blue-600 p-2 text-white transition-colors hover:bg-blue-700"
+                className="inline-flex items-center justify-center rounded-full bg-[#0070CD] p-2 text-white transition-colors hover:bg-[#005bb0]"
                 aria-label={`${member.name} LinkedIn profil`}
               >
                 <LinkedInIcon />
@@ -93,7 +148,7 @@ const TeamSection = ({ maxMembers = 3, showLearnMore = true }) => {
           <div className="text-center">
             <a
               href="/o-nama"
-              className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-6 py-3 text-base font-semibold text-white transition-colors hover:bg-blue-700 md:px-8 md:py-4 md:text-lg"
+              className="inline-flex items-center gap-2 rounded-lg bg-[#0070CD] px-6 py-3 text-base font-semibold text-white transition-colors hover:bg-[#005bb0] md:px-8 md:py-4 md:text-lg"
             >
               {t('team.learnMore')}
             </a>

@@ -154,7 +154,7 @@ const KataloziPage = () => {
               {/* Content */}
               <div className="flex flex-col justify-center p-6 md:p-8">
                 <div className="mb-4 flex items-center gap-3">
-                  <span className="rounded-full bg-blue-100 px-3 py-1 text-sm font-semibold text-blue-700">
+                  <span className="rounded-full bg-[#0070CD]/20 px-3 py-1 text-sm font-semibold text-[#005bb0]">
                     {featuredCatalogue.year}
                   </span>
                 </div>
@@ -178,7 +178,7 @@ const KataloziPage = () => {
                 <div className="flex flex-wrap gap-4">
                   <button
                     onClick={() => handleDownload(featuredCatalogue.pdfUrl)}
-                    className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-6 py-3 text-base font-semibold text-white transition-colors hover:bg-blue-700"
+                    className="inline-flex items-center gap-2 rounded-lg bg-[#0070CD] px-6 py-3 text-base font-semibold text-white transition-colors hover:bg-[#005bb0]"
                   >
                     <DownloadIcon />
                     {t('catalogues.downloadPDF')}
@@ -233,7 +233,7 @@ const KataloziPage = () => {
                   {/* Content */}
                   <div className="p-6">
                     <div className="mb-3 flex items-center gap-3">
-                      <span className="rounded-full bg-blue-100 px-3 py-1 text-xs font-semibold text-blue-700">
+                      <span className="rounded-full bg-[#0070CD]/20 px-3 py-1 text-xs font-semibold text-[#005bb0]">
                         {catalogue.year}
                       </span>
                     </div>
@@ -255,7 +255,7 @@ const KataloziPage = () => {
                     <div className="flex flex-wrap gap-3">
                       <button
                         onClick={() => handleDownload(catalogue.pdfUrl)}
-                        className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-blue-700"
+                        className="inline-flex items-center gap-2 rounded-lg bg-[#0070CD] px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-[#005bb0]"
                       >
                         <DownloadIcon />
                         {t('catalogues.downloadPDF')}

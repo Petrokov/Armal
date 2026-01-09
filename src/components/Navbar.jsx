@@ -18,7 +18,7 @@ const Navbar = () => {
     { key: 'about', href: '/o-nama', isRoute: true },
     { key: 'b2b', href: '#b2b' },
     { key: 'editHome', href: '#uredi-dom' },
-    { key: 'blog', href: '#blog' },
+    { key: 'blog', href: '/blog', isRoute: true },
   ]
 
   // Glavne kategorije proizvoda
@@ -75,7 +75,7 @@ const Navbar = () => {
           <button
             type="button"
             onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-            className="inline-flex h-10 w-10 items-center justify-center rounded-full text-slate-600 transition-colors duration-200 hover:text-blue-600"
+            className="inline-flex h-10 w-10 items-center justify-center rounded-full text-slate-600 transition-colors duration-200 hover:text-[#0070CD]"
             aria-label={isSidebarOpen ? t('navbar.closeMenu') : t('navbar.openMenu')}
           >
             {isSidebarOpen ? <IconClose /> : <IconHamburger />}
@@ -104,8 +104,8 @@ const Navbar = () => {
                   {...linkProps}
                   className={`flex items-center gap-1 border-b-2 border-transparent pb-1 transition-colors duration-200 ${
                     isActive
-                      ? 'border-blue-600 text-blue-600'
-                      : 'text-[#4a4a4a] hover:border-blue-600 hover:text-blue-600'
+                      ? 'border-[#0070CD] text-[#0070CD]'
+                      : 'text-[#4a4a4a] hover:border-[#0070CD] hover:text-[#0070CD]'
                   }`}
                 >
                   {t(`navbar.${link.key}`)}
@@ -120,7 +120,7 @@ const Navbar = () => {
                           <li key={category.key}>
                             <Link
                               to={category.href}
-                              className="block rounded-lg px-4 py-3 text-sm font-medium text-slate-700 transition-colors hover:bg-blue-50 hover:text-blue-600"
+                              className="block rounded-lg px-4 py-3 text-sm font-medium text-slate-700 transition-colors hover:bg-[#0070CD]/10 hover:text-[#0070CD]"
                             >
                               {t(category.translationKey)}
                             </Link>
@@ -140,7 +140,7 @@ const Navbar = () => {
           <button
             type="button"
             onClick={() => setIsLanguageOpen(!isLanguageOpen)}
-            className="inline-flex items-center gap-2 rounded-full border border-slate-200 px-4 py-2 text-sm font-semibold text-[#4a4a4a] transition-colors duration-200 hover:border-blue-200 hover:text-blue-600"
+            className="inline-flex items-center gap-2 rounded-full border border-slate-200 px-4 py-2 text-sm font-semibold text-[#4a4a4a] transition-colors duration-200 hover:border-[#0070CD]/30 hover:text-[#0070CD]"
             aria-label="Promijeni jezik"
           >
             <IconGlobe />
@@ -167,7 +167,7 @@ const Navbar = () => {
                     }}
                     className={`w-full px-4 py-2 text-left text-sm transition-colors ${
                       language === lang.code
-                        ? 'bg-blue-50 text-blue-600 font-semibold'
+                        ? 'bg-[#0070CD]/10 text-[#0070CD] font-semibold'
                         : 'text-slate-700 hover:bg-slate-50'
                     }`}
                   >
@@ -205,7 +205,7 @@ const Navbar = () => {
             <button
               type="button"
               onClick={closeSidebar}
-              className="inline-flex h-10 w-10 items-center justify-center rounded-full text-slate-600 transition-colors duration-200 hover:bg-slate-100 hover:text-blue-600"
+              className="inline-flex h-10 w-10 items-center justify-center rounded-full text-slate-600 transition-colors duration-200 hover:bg-slate-100 hover:text-[#0070CD]"
               aria-label={t('navbar.closeMenu')}
             >
               <IconClose />
@@ -234,7 +234,7 @@ const Navbar = () => {
                         {...linkProps}
                         className={`rounded-lg px-4 py-3 text-base font-medium transition-colors ${
                           isActive
-                            ? 'bg-blue-50 text-blue-600'
+                            ? 'bg-[#0070CD]/10 text-[#0070CD]'
                             : 'text-slate-700 hover:bg-slate-50'
                         }`}
                       >
@@ -247,7 +247,7 @@ const Navbar = () => {
                             key={category.key}
                             to={category.href}
                             onClick={closeSidebar}
-                            className="block rounded-lg px-4 py-2 text-sm text-slate-600 transition-colors hover:bg-slate-50 hover:text-blue-600"
+                            className="block rounded-lg px-4 py-2 text-sm text-slate-600 transition-colors hover:bg-slate-50 hover:text-[#0070CD]"
                                       >
                             {t(category.translationKey)}
                           </Link>
@@ -263,7 +263,7 @@ const Navbar = () => {
                     {...linkProps}
                     className={`rounded-lg px-4 py-3 text-base font-medium transition-colors ${
                       isActive
-                        ? 'bg-blue-50 text-blue-600'
+                        ? 'bg-[#0070CD]/10 text-[#0070CD]'
                         : 'text-slate-700 hover:bg-slate-50'
                     }`}
                   >
@@ -280,7 +280,7 @@ const Navbar = () => {
               <button
                 type="button"
                 onClick={() => setIsLanguageOpen(!isLanguageOpen)}
-                className="flex w-full items-center justify-between rounded-lg border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-700 transition-colors hover:border-blue-200 hover:text-blue-600"
+                className="flex w-full items-center justify-between rounded-lg border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-700 transition-colors hover:border-[#0070CD]/30 hover:text-[#0070CD]"
                 aria-label="Promijeni jezik"
               >
                 <div className="flex items-center gap-2">
@@ -305,7 +305,7 @@ const Navbar = () => {
                       }}
                       className={`w-full px-4 py-2 text-left text-sm transition-colors first:rounded-t-lg last:rounded-b-lg ${
                         language === lang.code
-                          ? 'bg-blue-50 text-blue-600 font-semibold'
+                          ? 'bg-[#0070CD]/10 text-[#0070CD] font-semibold'
                           : 'text-slate-700 hover:bg-slate-50'
                       }`}
                     >

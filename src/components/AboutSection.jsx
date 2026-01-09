@@ -1,5 +1,5 @@
 import { useLanguage } from '../contexts/LanguageContext'
-import kupaonicaImage from '../assets/kupaonica-zelena.webp'
+import kupaonicaImage from '../assets/o_nama.jpeg'
 
 const AboutSection = () => {
   const { t } = useLanguage()
@@ -20,7 +20,7 @@ const AboutSection = () => {
 
           {/* Right Side - Text Content */}
           <div className="flex flex-col justify-center">
-            <h2 className="mb-6 text-3xl font-bold text-blue-600 md:text-4xl">
+            <h2 className="mb-6 text-3xl font-bold text-[#0070CD] md:text-4xl">
               {t('about.title')}
             </h2>
             <p className="mb-8 text-base leading-relaxed text-slate-700 md:text-lg">
@@ -28,7 +28,7 @@ const AboutSection = () => {
             </p>
             <a
               href="/o-nama"
-              className="w-fit rounded-lg bg-blue-600 px-6 py-3 text-base font-semibold text-white transition-colors hover:bg-blue-700 md:px-8 md:py-4 md:text-lg"
+              className="w-fit rounded-lg bg-[#0070CD] px-6 py-3 text-base font-semibold text-white transition-colors hover:bg-[#005bb0] md:px-8 md:py-4 md:text-lg"
             >
               {t('about.learnMore')}
             </a>

@@ -13,8 +13,8 @@ const ONamaPage = () => {
       icon: Award,
       titleKey: 'tradition',
       descriptionKey: 'traditionDesc',
-      bgColor: 'bg-blue-100',
-      iconColor: 'text-blue-600',
+      bgColor: 'bg-[#0070CD]/20',
+      iconColor: 'text-[#0070CD]',
     },
     {
       icon: CheckCircle,
@@ -67,14 +67,20 @@ const ONamaPage = () => {
           <div className="grid grid-cols-1 gap-12 md:grid-cols-2 md:items-center">
             {/* Left Column - Text */}
             <div className="flex flex-col justify-center">
-              <h2 className="mb-6 text-3xl font-bold text-blue-600 md:text-4xl">
+              <h2 className="mb-6 text-3xl font-bold text-[#0070CD] md:text-4xl">
                 {t('aboutPage.storyTitle')}
               </h2>
               <p className="mb-4 text-base leading-relaxed text-slate-700 md:text-lg">
                 {t('aboutPage.storyParagraph1')}
               </p>
-              <p className="text-base leading-relaxed text-slate-700 md:text-lg">
+              <p className="mb-4 text-base leading-relaxed text-slate-700 md:text-lg">
                 {t('aboutPage.storyParagraph2')}
+              </p>
+              <p className="mb-4 text-base leading-relaxed text-slate-700 md:text-lg">
+                {t('aboutPage.storyParagraph3')}
+              </p>
+              <p className="text-base leading-relaxed text-slate-700 md:text-lg">
+                {t('aboutPage.storyParagraph4')}
               </p>
             </div>
 
@@ -131,11 +137,11 @@ const ONamaPage = () => {
         </div>
       </section>
 
-      {/* 4. Team Section - Reuse existing component, show all 4 members */}
-      <TeamSection maxMembers={4} showLearnMore={false} />
+      {/* 4. Team Section - Reuse existing component, show all members */}
+      <TeamSection showLearnMore={false} />
 
       {/* 5. Stats Section */}
-      <section className="w-full bg-gradient-to-r from-blue-600 via-blue-700 to-blue-800 py-16 md:py-24">
+      <section className="w-full py-16 md:py-24 text-white" style={{ background: 'linear-gradient(to right, #0070CD, #005bb0, #004A8A)' }}>
         <div className="mx-auto max-w-7xl px-6">
           <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
             {/* Stat 1 */}

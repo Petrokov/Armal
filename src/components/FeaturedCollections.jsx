@@ -171,7 +171,7 @@ const FeaturedCollections = () => {
                   </p>
 
                   {/* CTA Button */}
-                  <button className="w-full rounded-lg bg-blue-600 px-6 py-3 text-sm font-semibold text-white transition-all hover:bg-blue-700 hover:shadow-lg">
+                  <button className="w-full rounded-lg bg-[#0070CD] px-6 py-3 text-sm font-semibold text-white transition-all hover:bg-[#005bb0] hover:shadow-lg">
                     {t('collections.exploreCollection')}
                   </button>
                 </div>
@@ -187,7 +187,7 @@ const FeaturedCollections = () => {
                 onClick={() => goToPage(index)}
                 className={`h-2 rounded-full transition-all ${
                   index === currentIndex
-                    ? 'w-8 bg-blue-600'
+                    ? 'w-8 bg-[#0070CD]'
                     : 'w-2 bg-slate-300 hover:bg-slate-400'
                 }`}
                 aria-label={`Idi na stranicu ${index + 1}`}
@@ -200,7 +200,7 @@ const FeaturedCollections = () => {
         <div className="mt-12 text-center">
           <a
             href="#all-collections"
-            className="inline-flex items-center gap-2 text-base font-semibold text-blue-600 transition-colors hover:text-blue-700"
+            className="inline-flex items-center gap-2 text-base font-semibold text-[#0070CD] transition-colors hover:text-[#005bb0]"
           >
             {t('collections.viewAll')}
             <ArrowRightIcon />
