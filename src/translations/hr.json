@@ -271,7 +271,41 @@
     "ctaDescription": "Istražite našu široku ponudu i pronađite idealna rješenja za vaš dom ili poslovni prostor."
   },
   "blogPage": {
-    "subtitle": "Inspiracija, savjeti i najnovije vijesti o kupaonskim rješenjima"
+    "subtitle": "Inspiracija, savjeti i najnovije vijesti o kupaonskim rješenjima",
+    "readMore": "Pročitaj više",
+    "backToBlog": "Povratak na blog",
+    "posts": {
+      "blog1": {
+        "title": "Kako odabrati savršenu kadu za vašu kupaonicu",
+        "excerpt": "Vodič kroz različite tipove kada, materijale i dimenzije kako biste pronašli idealno rješenje za vaš prostor.",
+        "content": "Odabir kade za kupaonicu može biti izazovan zadatak, ali s pravim vodičem možete pronaći savršeno rješenje koje odgovara vašem prostoru i stilu života.\n\nPrilikom odabira kade, važno je razmotriti nekoliko ključnih faktora. Dimenzije prostora su prva stvar koju trebate uzeti u obzir. Standardne kade obično imaju duljinu od 150 do 180 cm, dok su kompaktne verzije dostupne za manje prostore.\n\nMaterijali također igraju važnu ulogu. Akrilne kade su popularan izbor zbog svoje lakoće i topline, dok su čelične kade izdržljivije i lakše za održavanje. Kade od kamena ili čakrta nude luksuzan izgled, ali zahtijevaju više pažnje pri održavanju.\n\nNe zaboravite razmotriti i funkcionalne aspekte poput dubine kade, oblikovanja za udobnost i dodatne opcije poput masažnih sustava ili hidroterapije."
+      },
+      "blog2": {
+        "title": "Moderne tuš kabine: Trendovi i inovacije 2025",
+        "excerpt": "Istražite najnovije trendove u dizajnu tuš kabina i kako stvoriti luksuzno iskustvo kupanja u vašem domu.",
+        "content": "Tuš kabine su postale sve popularnije u modernim kupaonicama, nudeći praktičnost i stil u jednom paketu.\n\nTrenutni trendovi u 2025. godini uključuju minimalistički dizajn s čistim linijama, bez okvira kabine koje stvaraju prostraniji dojam. Staklene stijene i vrata postaju standard, omogućavajući više svjetlosti i moderniji izgled.\n\nInovacije u tehnologiji također mijenjaju način na koji doživljavamo tuširanje. Poboljšani sustavi protoka vode, LED rasvjeta i integrirani zvučnici samo su neki od primjera kako se tuš kabine razvijaju.\n\nPrilikom planiranja nove tuš kabine, važno je razmotriti veličinu prostora, tip vrata (klizna, otvorena, kutna) i materijale koji će se koristiti. Svaki izbor utječe na konačni izgled i funkcionalnost vaše kupaonice."
+      },
+      "blog3": {
+        "title": "Energetska učinkovitost u kupaonici: Praktični savjeti",
+        "excerpt": "Saznajte kako smanjiti potrošnju vode i energije u vašoj kupaonici uz održavanje visoke razine komfora.",
+        "content": "Energetska učinkovitost u kupaonici nije samo dobra za okoliš, već i za vaš novčanik. Postoji nekoliko jednostavnih načina kako možete smanjiti potrošnju bez žrtvovanja komfora.\n\nZamjena starih slavina novim, vodouštednim modelima može smanjiti potrošnju vode za do 30%. Aeratori i ograničivači protoka su jednostavni dodaci koji mogu napraviti veliku razliku.\n\nTuš glave s niskim protokom također su odličan izbor. One mogu smanjiti potrošnju vode tijekom tuširanja za gotovo polovicu, a osjećaj kupanja ostaje isti.\n\nZa grijanje vode, razmislite o solarnim sustavima ili toplinskim pumpama. Iako zahtijevaju početnu investiciju, dugoročno mogu značajno smanjiti račune za energiju."
+      },
+      "blog4": {
+        "title": "Minimalistički dizajn kupaonice: Vodič za početnike",
+        "excerpt": "Kako stvoriti čist i funkcionalan prostor koji odiše elegancijom i jednostavnošću.",
+        "content": "Minimalistički dizajn kupaonice postaje sve popularniji zbog svoje čistoće, jednostavnosti i vremenske otpornosti.\n\nKljuč minimalističkog dizajna leži u principu 'manje je više'. Umjesto preopterećenja prostora različitim elementima, fokusirajte se na kvalitetne, funkcionalne komade koji imaju jasnu svrhu.\n\nBoje su također važne. Bijela, siva i neutralne nijanse stvaraju osjećaj prostranosti i čistoće. Dodajte akcentne boje kroz male detalje poput ručnika ili dekorativnih elemenata.\n\nPohrana je kritična u minimalističkom dizajnu. Skrivene police, ugradbeni ormari i jednostavni organizacijski sustavi pomažu održati prostor čistim i organiziranim."
+      },
+      "blog5": {
+        "title": "Održavanje i čišćenje kupaonice: Najbolje prakse",
+        "excerpt": "Praktični savjeti za održavanje vaše kupaonice u besprijekornom stanju i produženje vijeka trajanja opreme.",
+        "content": "Redovito održavanje kupaonice ne samo da održava prostor čistim i zdravim, već i produžava vijek trajanja opreme.\n\nZa sanitariju, koristite blage čistače koji neće oštetiti površine. Izbjegavajte agresivne kemikalije koje mogu oštetiti završne slojeve i uzrokovati koroziju.\n\nSlavine i tuš glave trebaju redovito čišćenje kako bi se spriječilo nakupljanje kamenca. Koristite octeni otopinu ili specijalizirane proizvode za uklanjanje kamenca.\n\nZa podove i zidove, redovito čišćenje sprječava nakupljanje plijesni i bakterija. Provjerite ventilaciju kako biste osigurali dobru cirkulaciju zraka."
+      },
+      "blog6": {
+        "title": "Pristupačna renovacija kupaonice: Korak po korak",
+        "excerpt": "Kako renovirati kupaonicu uz ograničen budžet bez kompromisa u kvaliteti i funkcionalnosti.",
+        "content": "Renovacija kupaonice ne mora koštati bogatstvo. S pažljivim planiranjem i pravim pristupom, možete stvoriti prekrasan prostor unutar svog budžeta.\n\nPočnite s planiranjem. Odredite prioritete - što je najvažnije za vas? Možda je to nova kada ili modernije slavine. Fokusirajte se na elemente koji će imati najveći utjecaj na izgled i funkcionalnost.\n\nRazmislite o refacingu umjesto potpune zamjene. Ako su vaše pločice u dobrom stanju, možete ih jednostavno obnoviti. Isto vrijedi i za kadu - umjesto nove, razmislite o obnovi postojeće.\n\nDIY projekti mogu uštedjeti značajne iznose. Jednostavne stvari poput bojanja zidova, zamjene slavina ili dodavanja novih svjetiljki možete napraviti sami."
+      }
+    }
   }
 }
 

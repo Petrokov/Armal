@@ -11,6 +11,7 @@ import ProizvodiSlavine from './pages/ProizvodiSlavine'
 import ProizvodiKupanjeTusiranje from './pages/ProizvodiKupanjeTusiranje'
 import ProizvodiSanitarije from './pages/ProizvodiSanitarije'
 import BlogPage from './pages/BlogPage'
+import BlogPostPage from './pages/BlogPostPage'
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
               <Route path="/proizvodi/kupanje-tusiranje" element={<ProizvodiKupanjeTusiranje />} />
               <Route path="/proizvodi/sanitarije" element={<ProizvodiSanitarije />} />
               <Route path="/blog" element={<BlogPage />} />
+              <Route path="/blog/:id" element={<BlogPostPage />} />
             </Routes>
           </main>
           <Footer />

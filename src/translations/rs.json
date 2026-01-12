@@ -271,6 +271,34 @@
     "ctaDescription": "Istražite našu široku ponudu i pronađite idealna rešenja za vaš dom ili poslovni prostor."
   },
   "blogPage": {
-    "subtitle": "Inspiracija, saveti i najnovije vesti o kupatilskim rešenjima"
+    "subtitle": "Inspiracija, saveti i najnovije vesti o kupatilskim rešenjima",
+    "readMore": "Pročitaj više",
+    "backToBlog": "Povratak na blog",
+    "posts": {
+      "blog1": {
+        "title": "Kako odabrati savršenu kadu za vašu kupaonicu",
+        "excerpt": "Vodič kroz različite tipove kada, materijale i dimenzije kako biste pronašli idealno rešenje za vaš prostor."
+      },
+      "blog2": {
+        "title": "Moderne tuš kabine: Trendovi i inovacije 2025",
+        "excerpt": "Istražite najnovije trendove u dizajnu tuš kabina i kako stvoriti luksuzno iskustvo kupanja u vašem domu."
+      },
+      "blog3": {
+        "title": "Energetska efikasnost u kupaonici: Praktični saveti",
+        "excerpt": "Saznajte kako smanjiti potrošnju vode i energije u vašoj kupaonici uz održavanje visoke razine komfora."
+      },
+      "blog4": {
+        "title": "Minimalistički dizajn kupaonice: Vodič za početnike",
+        "excerpt": "Kako stvoriti čist i funkcionalan prostor koji odiše elegancijom i jednostavnošću."
+      },
+      "blog5": {
+        "title": "Održavanje i čišćenje kupaonice: Najbolje prakse",
+        "excerpt": "Praktični saveti za održavanje vaše kupaonice u besprekornom stanju i produženje veka trajanja opreme."
+      },
+      "blog6": {
+        "title": "Pristupačna renovacija kupaonice: Korak po korak",
+        "excerpt": "Kako renovirati kupaonicu uz ograničen budžet bez kompromisa u kvalitetu i funkcionalnosti."
+      }
+    }
   }
 }

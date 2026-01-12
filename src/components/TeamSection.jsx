@@ -21,7 +21,7 @@ const TeamSection = ({ maxMembers, showLearnMore = true }) => {
     },
     {
       name: 'Anja Križanić',
-      role: 'koordinator prodaje za RH',
+      role: 'Koordinator prodaje za RH',
       image: '/slike_team/anonimno.jpg',
       linkedin: '#',
     },
@@ -33,25 +33,25 @@ const TeamSection = ({ maxMembers, showLearnMore = true }) => {
     },
     {
       name: 'Miroslav Salopek',
-      role: 'terenski komercijalist',
+      role: 'Terenski komercijalist',
       image: '/slike_team/anonimno.jpg',
       linkedin: '#',
     },
     {
       name: 'Saša Čačić',
-      role: 'terenski komercijalist',
+      role: 'Terenski komercijalist',
       image: '/slike_team/anonimno.jpg',
       linkedin: '#',
     },
     {
       name: 'Marko Čović',
-      role: 'terenski komercijalist',
+      role: 'Terenski komercijalist',
       image: '/slike_team/anonimno.jpg',
       linkedin: '#',
     },
     {
       name: 'Sandra Miklec',
-      role: 'administrator u odjelu prodaje',
+      role: 'Administrator u odjelu prodaje',
       image: '/slike_team/anonimno.jpg',
       linkedin: '#',
     },
@@ -63,7 +63,7 @@ const TeamSection = ({ maxMembers, showLearnMore = true }) => {
     },
     {
       name: 'Natalija Jović',
-      role: 'referent nabave',
+      role: 'Referent nabave',
       image: '/slike_team/anonimno.jpg',
       linkedin: '#',
     },

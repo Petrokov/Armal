@@ -271,7 +271,35 @@
     "ctaDescription": "Raziščite našo široko ponudbo in poiščite idealne rešitve za vaš dom ali poslovni prostor."
   },
   "blogPage": {
-    "subtitle": "Navdih, nasveti in najnovejše novice o kopalničnih rešitvah"
+    "subtitle": "Navdih, nasveti in najnovejše novice o kopalničnih rešitvah",
+    "readMore": "Preberi več",
+    "backToBlog": "Nazaj na blog",
+    "posts": {
+      "blog1": {
+        "title": "Kako izbrati popolno kad za vašo kopalnico",
+        "excerpt": "Vodnik skozi različne tipe kad, materiale in dimenzije, da bi našli idealno rešitev za vaš prostor."
+      },
+      "blog2": {
+        "title": "Moderne tuš kabine: Trendi in inovacije 2025",
+        "excerpt": "Raziščite najnovejše trende v dizajnu tuš kabin in kako ustvariti luksuzno izkušnjo kopanja v vašem domu."
+      },
+      "blog3": {
+        "title": "Energetska učinkovitost v kopalnici: Praktični nasveti",
+        "excerpt": "Izvedite, kako zmanjšati porabo vode in energije v vaši kopalnici ob ohranjanju visoke ravni udobja."
+      },
+      "blog4": {
+        "title": "Minimalistični dizajn kopalnice: Vodnik za začetnike",
+        "excerpt": "Kako ustvariti čist in funkcionalen prostor, ki diši z eleganco in preprostostjo."
+      },
+      "blog5": {
+        "title": "Vzdrževanje in čiščenje kopalnice: Najboljše prakse",
+        "excerpt": "Praktični nasveti za vzdrževanje vaše kopalnice v brezhibnem stanju in podaljšanje življenjske dobe opreme."
+      },
+      "blog6": {
+        "title": "Dostopna prenova kopalnice: Korak za korakom",
+        "excerpt": "Kako prenoviti kopalnico z omejenim proračunom brez kompromisov v kakovosti in funkcionalnosti."
+      }
+    }
   }
 }
 
