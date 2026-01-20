@@ -152,7 +152,9 @@
   },
   "moodboard": {
     "title": "Moodboard",
-    "subtitle": "Paleta tekstura, boja i formi koje čine srž našeg estetskog pristupa"
+    "subtitle": "Paleta tekstura, boja i formi koje čine srž našeg estetskog pristupa",
+    "description": "Moodboard pomaže da ideja kupaonice postane jasna i opipljiva. Kroz odabrane pločice, slavine i detalje pokazuje kako se elementi međusobno uklapaju i kakav se dojam prostora želi postići, prije nego što se donesu konačne odluke.",
+    "tagline": "BE INSPIRED"
   },
   "about": {
     "title": "O nama",
@@ -268,6 +270,37 @@
   },
   "bathingPage": {
     "ctaTitle": "Pronađite savršena rješenja za kupanje i tuširanje",
+    "ctaDescription": "Istražite našu široku ponudu i pronađite idealna rješenja za vaš dom ili poslovni prostor."
+  },
+  "sanitaryCategories": {
+    "washbasins": {
+      "name": "Umivaonici",
+      "description": "Elegantni i funkcionalni umivaonici dostupni u različitim stilovima, veličinama i materijalima. Od klasičnih do modernih dizajna koji se uklapaju u svaki prostor.",
+      "benefit": "Kombinacija estetike i praktičnosti za vašu kupaonicu"
+    },
+    "toiletSeats": {
+      "name": "WC sjedalice",
+      "description": "Udobne i higijenske WC sjedalice dostupne u različitim materijalima i dizajnima. Kombiniraju funkcionalnost i moderni izgled.",
+      "benefit": "Udobnost i lako održavanje"
+    },
+    "toiletCisterns": {
+      "name": "Vodokotlići",
+      "description": "Efikasni i pouzdani vodokotlići koji osiguravaju optimalnu potrošnju vode. Dostupni u različitim konfiguracijama i stilovima.",
+      "benefit": "Ekonomska i ekološka rješenja"
+    },
+    "bidets": {
+      "name": "Bide",
+      "description": "Moderne i funkcionalne bide jedinice koje pružaju dodatnu higijenu i udobnost. Dostupne u različitim stilovima i konfiguracijama.",
+      "benefit": "Poboljšana higijena i udobnost"
+    },
+    "monoblock": {
+      "name": "Monoblok",
+      "description": "Kompletne monoblok jedinice koje kombiniraju WC školjku i vodokotlić u jedinstveno rješenje. Elegantne i praktične za svaki prostor.",
+      "benefit": "Kompaktno i elegantno rješenje"
+    }
+  },
+  "sanitaryPage": {
+    "ctaTitle": "Pronađite savršene sanitarije za vaš prostor",
     "ctaDescription": "Istražite našu široku ponudu i pronađite idealna rješenja za vaš dom ili poslovni prostor."
   },
   "blogPage": {

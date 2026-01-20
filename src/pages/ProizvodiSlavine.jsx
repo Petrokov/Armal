@@ -3,6 +3,7 @@ import { useEffect, useRef } from 'react'
 import kupaonicaImage from '../assets/kupaonica-zelena.webp'
 import oNamaImage from '../assets/o_nama_kupaonica_2.png'
 
+
 const ProizvodiSlavine = () => {
   const { t } = useLanguage()
   const productRefs = useRef([])
@@ -11,52 +12,46 @@ const ProizvodiSlavine = () => {
   const collections = [
     {
       key: 'rubi',
-      image: kupaonicaImage,
+      image: '/slavine/rubi.webp',
     },
-    {
-      key: 'onix',
-      image: oNamaImage,
-    },
+    
     {
       key: 'topaz',
-      image: kupaonicaImage,
+      image: '/slavine/topaz.webp',
     },
     {
       key: 'opal',
-      image: oNamaImage,
+      image: '/slavine/opal.webp',
     },
     {
       key: 'safir',
-      image: kupaonicaImage,
+      image: '/slavine/safir.webp',
     },
     {
       key: 'beril',
-      image: oNamaImage,
+      image: '/slavine/beril.webp',
     },
     {
       key: 'lapis',
-      image: kupaonicaImage,
+      image: '/slavine/lapis.webp',
     },
     {
       key: 'violet',
-      image: oNamaImage,
+      image: '/slavine/violet3.webp',
     },
     {
       key: 'jana',
-      image: kupaonicaImage,
+      image: '/slavine/jana3.webp',
     },
     {
       key: 'ana',
-      image: oNamaImage,
+      image: '/slavine/ana3.webp',
     },
     {
       key: 'start',
-      image: kupaonicaImage,
+      image: '/slavine/start3.webp',
     },
-    {
-      key: 'trend',
-      image: oNamaImage,
-    },
+
   ]
 
   // Fade-in animacija pri skrolanju

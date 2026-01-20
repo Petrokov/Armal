@@ -11,19 +11,19 @@ const ProizvodiKupanjeTusiranje = () => {
   const categories = [
     {
       key: 'bathtubs',
-      image: kupaonicaImage,
+      image: '/kade_tuskade_kanalice/kade.webp',
     },
     {
       key: 'showerTrays',
-      image: oNamaImage,
+      image: '/kade_tuskade_kanalice/tus_kade.webp',
     },
     {
       key: 'showerChannels',
-      image: kupaonicaImage,
+      image: '/kade_tuskade_kanalice/kanalice.webp',
     },
     {
       key: 'showerCabins',
-      image: oNamaImage,
+      image: '/kade_tuskade_kanalice/tus_kabine.webp',
     },
   ]
 

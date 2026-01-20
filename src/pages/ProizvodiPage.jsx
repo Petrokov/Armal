@@ -4,6 +4,20 @@ import kupaonicaImage from '../assets/kupaonica-zelena.webp'
 import oNamaImage from '../assets/o_nama_kupaonica_2.png'
 import heroImage from '../assets/kupaonica-zelena.webp'
 import rubi from '../assets/slike_proizvodi_page/rubi_top_view.jpg'
+import slavine1 from '../assets/slavine/slavine_int_1.webp'
+import slavine2 from '../assets/slavine/slavine_int_2.webp'
+import slavine3 from '../assets/slavine/slavine_int_3.webp'
+import slavine4 from '../assets/slavine/slavine_int_4.webp'
+import kada1 from '../assets/kade/kada_1_1.webp'
+import kada2 from '../assets/kade/kada_2.jpeg'
+import kanalice from '../assets/kade/kanalice.webp'
+import tusKabina from '../assets/kade/tus_kabina_new.webp'
+import kada4 from '../assets/kade/kada_4.webp'
+import sanitarije1 from '../assets/sanitarije/sanitarije_1.webp'
+import sanitarije2 from '../assets/sanitarije/sanitarije_2.webp'
+import sanitarije3 from '../assets/sanitarije/sanitarije_3.webp'
+import sanitarije4 from '../assets/sanitarije/sanitarije_4.webp'
+import sanitarije5 from '../assets/sanitarije/sanitarije_5.webp'
 
 const ProizvodiPage = () => {
   const { t } = useLanguage()
@@ -15,23 +29,23 @@ const ProizvodiPage = () => {
       translationKey: 'products.faucets',
       descriptionKey: 'productsPage.faucetsExplore',
       image: rubi,
-      gallery: [rubi, kupaonicaImage, oNamaImage, kupaonicaImage],
+      gallery: [slavine1, slavine2, slavine3, slavine4],
     },
     {
       key: 'bathing',
       href: '/proizvodi/kupanje-tusiranje',
       translationKey: 'products.bathing',
       descriptionKey: 'productsPage.bathingExplore',
-      image: oNamaImage,
-      gallery: [oNamaImage, kupaonicaImage, rubi, oNamaImage],
+      image: kada4,
+      gallery: [kada1, kada2, kanalice, tusKabina],
     },
     {
       key: 'sanitary',
       href: '/proizvodi/sanitarije',
       translationKey: 'products.sanitary',
       descriptionKey: 'productsPage.sanitaryExplore',
-      image: kupaonicaImage,
-      gallery: [kupaonicaImage, rubi, oNamaImage, kupaonicaImage],
+      image: sanitarije1,
+      gallery: [sanitarije2, sanitarije3, sanitarije4, sanitarije5],
     },
   ]
 

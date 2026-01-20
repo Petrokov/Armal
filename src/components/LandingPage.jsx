@@ -73,14 +73,14 @@ const LandingPage = () => {
     {
       icon: Package,
       titleKey: 'solutions',
-      bgColor: 'bg-purple-100',
-      iconColor: 'text-purple-600',
+      bgColor: 'bg-[#92693d33]',
+      iconColor: 'text-[#92693d]',
     },
     {
       icon: Truck,
       titleKey: 'delivery',
-      bgColor: 'bg-orange-100',
-      iconColor: 'text-orange-600',
+      bgColor: 'bg-[#7a838833]',
+      iconColor: 'text-[#7a8388]',
     },
   ]
 

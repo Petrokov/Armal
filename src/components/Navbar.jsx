@@ -16,8 +16,8 @@ const Navbar = () => {
     { key: 'products', href: '/proizvodi', hasDropdown: true, isRoute: true },
     { key: 'catalogues', href: '/katalozi', isRoute: true },
     { key: 'about', href: '/o-nama', isRoute: true },
-    { key: 'b2b', href: '#b2b' },
-    { key: 'editHome', href: '#uredi-dom' },
+    { key: 'b2b', href: 'https://b2b.armal.hr/' },
+    { key: 'editHome', href: 'https://uredidom.hr/' },
     { key: 'blog', href: '/blog', isRoute: true },
   ]
 
@@ -70,7 +70,7 @@ const Navbar = () => {
 
   return (
     <header className="w-full border-b border-slate-100 bg-white">
-      <nav className="mx-auto flex h-20 w-full max-w-7xl items-center justify-between gap-6 px-8 py-4 font-sans">
+      <nav className="mx-auto flex h-20 w-full max-w-7xl items-center justify-between gap-6 px-8 font-sans">
         <div className="flex items-center gap-4">
           <button
             type="button"
@@ -96,13 +96,17 @@ const Navbar = () => {
             const LinkComponent = link.isRoute ? Link : 'a'
             const linkProps = link.isRoute
               ? { to: link.href }
-              : { href: link.href }
+              : { 
+                  href: link.href,
+                  target: '_blank',
+                  rel: 'noopener noreferrer'
+                }
 
             return (
-              <li key={link.key} className="relative inline-flex flex-col items-center group">
+              <li key={link.key} className="relative inline-flex items-center group">
                 <LinkComponent
                   {...linkProps}
-                  className={`flex items-center gap-1 border-b-2 border-transparent pb-1 transition-colors duration-200 ${
+                  className={`flex items-center gap-1 border-b-2 border-transparent transition-colors duration-200 ${
                     isActive
                       ? 'border-[#0070CD] text-[#0070CD]'
                       : 'text-[#4a4a4a] hover:border-[#0070CD] hover:text-[#0070CD]'
@@ -225,7 +229,12 @@ const Navbar = () => {
                 const LinkComponent = link.isRoute ? Link : 'a'
                 const linkProps = link.isRoute
                   ? { to: link.href, onClick: closeSidebar }
-                  : { href: link.href, onClick: closeSidebar }
+                  : { 
+                      href: link.href, 
+                      onClick: closeSidebar,
+                      target: '_blank',
+                      rel: 'noopener noreferrer'
+                    }
 
                 if (link.hasDropdown) {
                   return (

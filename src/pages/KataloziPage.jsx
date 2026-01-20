@@ -1,4 +1,5 @@
 import { useLanguage } from '../contexts/LanguageContext'
+import kupaonicaImage from '../assets/kupaonica-zelena.webp'
 
 const KataloziPage = () => {
   const { t } = useLanguage()
@@ -13,7 +14,7 @@ const KataloziPage = () => {
       fileSize: '1 MB',
       year: 2025,
       pdfUrl: '/katalozi/ARMAL_OPEN_WALK.pdf',
-      createdAt: new Date('2025-12-15'),
+      createdAt: new Date('2026-01-15'),
     },
     {
       id: 2,
@@ -107,18 +108,22 @@ const KataloziPage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-slate-50">
       {/* Header Section */}
-      <section className="w-full bg-white py-12 md:py-16">
-        <div className="mx-auto max-w-7xl px-6">
-          <div className="text-center">
-            <h1 className="mb-4 text-4xl font-bold text-slate-900 md:text-5xl">
-              {t('catalogues.title')}
-            </h1>
-            <p className="mx-auto max-w-3xl text-base text-slate-600 md:text-lg">
-              {t('catalogues.subtitle')}
-            </p>
-          </div>
+      <section className="relative flex min-h-[40vh] w-full items-center justify-center overflow-hidden">
+        <img
+          src={kupaonicaImage}
+          alt="Katalozi"
+          className="absolute inset-0 h-full w-full object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-slate-900/70 via-slate-900/60 to-slate-900/50"></div>
+        <div className="relative z-10 mx-auto max-w-4xl px-6 text-center text-white">
+          <h1 className="mb-4 text-4xl font-bold md:text-5xl lg:text-6xl">
+            {t('catalogues.title')}
+          </h1>
+          <p className="text-lg text-white/90 md:text-xl lg:text-2xl">
+            {t('catalogues.subtitle')}
+          </p>
         </div>
       </section>
 
@@ -199,7 +204,7 @@ const KataloziPage = () => {
       )}
 
       {/* More Catalogues Grid Section */}
-      <section className="w-full bg-white py-12 md:py-16">
+      <section className="w-full bg-slate-50 py-12 md:py-16">
         <div className="mx-auto max-w-7xl px-6">
           <h2 className="mb-8 text-2xl font-semibold text-slate-900 md:text-3xl">
             {t('catalogues.moreCatalogues')}
