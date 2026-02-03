@@ -58,6 +58,8 @@ const ProizvodiPage = () => {
           src={heroImage}
           alt="Kupaonica"
           className="absolute inset-0 h-full w-full object-cover"
+          loading="eager"
+          fetchPriority="high"
         />
         {/* Overlay za bolju čitljivost teksta */}
         <div className="absolute inset-0 bg-gradient-to-r from-slate-900/70 via-slate-900/60 to-slate-900/50"></div>

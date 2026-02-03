@@ -16,6 +16,7 @@ const Navbar = () => {
     { key: 'products', href: '/proizvodi', hasDropdown: true, isRoute: true },
     { key: 'catalogues', href: '/katalozi', isRoute: true },
     { key: 'about', href: '/o-nama', isRoute: true },
+    { key: 'servis', href: '/servis', isRoute: true },
     { key: 'b2b', href: 'https://b2b.armal.hr/' },
     { key: 'editHome', href: 'https://uredidom.hr/' },
     { key: 'blog', href: '/blog', isRoute: true },

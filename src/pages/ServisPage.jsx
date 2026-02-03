@@ -1,0 +1,236 @@
+import { useState } from 'react'
+import { useLanguage } from '../contexts/LanguageContext'
+import { Phone, Mail, User, MessageSquare, Image as ImageIcon, FileText } from 'lucide-react'
+import kupaonicaImage from '../assets/kupaonica-zelena.webp'
+
+const ServisPage = () => {
+  const { t } = useLanguage()
+  const [formData, setFormData] = useState({
+    name: '',
+    phone: '',
+    invoiceNumber: '',
+    message: '',
+    image: null,
+  })
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    // Ovdje možete dodati logiku za slanje podataka
+    console.log('Form submitted:', formData)
+    // Reset forme
+    setFormData({ name: '', phone: '', invoiceNumber: '', message: '', image: null })
+    alert(t('servisPage.submitSuccess'))
+  }
+
+  const handleChange = (e) => {
+    if (e.target.type === 'file') {
+      setFormData({
+        ...formData,
+        image: e.target.files[0],
+      })
+    } else {
+      setFormData({
+        ...formData,
+        [e.target.name]: e.target.value,
+      })
+    }
+  }
+
+  return (
+    <div className="min-h-screen bg-slate-50">
+      {/* Hero Section */}
+      <section className="relative flex min-h-[40vh] w-full items-center justify-center overflow-hidden">
+        <img
+          src={kupaonicaImage}
+          alt="Servis"
+          className="absolute inset-0 h-full w-full object-cover"
+          loading="eager"
+          fetchPriority="high"
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-slate-900/70 via-slate-900/60 to-slate-900/50"></div>
+        <div className="relative z-10 mx-auto max-w-4xl px-6 text-center text-white">
+          <h1 className="mb-4 text-4xl font-bold md:text-5xl lg:text-6xl">
+            {t('navbar.servis')}
+          </h1>
+          <p className="text-lg text-white/90 md:text-xl">
+            {t('servisPage.heroSubtitle')}
+          </p>
+        </div>
+      </section>
+
+      {/* Content Section - Two Columns */}
+      <section className="mx-auto max-w-7xl px-6 py-16">
+        <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
+          {/* Forma */}
+          <div className="rounded-2xl bg-white p-8 shadow-lg">
+            <div className="mb-6 flex items-center gap-3">
+              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#0070CD]/10">
+                <FileText className="h-6 w-6 text-[#0070CD]" />
+              </div>
+              <h2 className="text-2xl font-bold text-slate-900">{t('servisPage.formTitle')}</h2>
+            </div>
+            <p className="mb-6 text-slate-600">
+              {t('servisPage.formDescription')}
+            </p>
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div>
+                <label htmlFor="name" className="mb-2 block text-sm font-medium text-slate-700">
+                  {t('servisPage.nameLabel')} <span className="text-red-500">*</span>
+                </label>
+                <div className="relative">
+                  <User className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-400" />
+                  <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleChange}
+                    required
+                    className="w-full rounded-lg border border-slate-300 bg-white py-3 pl-10 pr-4 text-slate-900 placeholder-slate-400 focus:border-[#0070CD] focus:outline-none focus:ring-2 focus:ring-[#0070CD]/20"
+                    placeholder={t('servisPage.namePlaceholder')}
+                  />
+                </div>
+              </div>
+              <div>
+                <label htmlFor="phone" className="mb-2 block text-sm font-medium text-slate-700">
+                  {t('servisPage.phoneLabel')} <span className="text-red-500">*</span>
+                </label>
+                <div className="relative">
+                  <Phone className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-400" />
+                  <input
+                    type="tel"
+                    id="phone"
+                    name="phone"
+                    value={formData.phone}
+                    onChange={handleChange}
+                    required
+                    className="w-full rounded-lg border border-slate-300 bg-white py-3 pl-10 pr-4 text-slate-900 placeholder-slate-400 focus:border-[#0070CD] focus:outline-none focus:ring-2 focus:ring-[#0070CD]/20"
+                    placeholder={t('servisPage.phonePlaceholder')}
+                  />
+                </div>
+              </div>
+              <div>
+                <label htmlFor="invoiceNumber" className="mb-2 block text-sm font-medium text-slate-700">
+                  {t('servisPage.invoiceNumberLabel')} <span className="text-red-500">*</span>
+                </label>
+                <div className="relative">
+                  <FileText className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-400" />
+                  <input
+                    type="text"
+                    id="invoiceNumber"
+                    name="invoiceNumber"
+                    value={formData.invoiceNumber}
+                    onChange={handleChange}
+                    required
+                    className="w-full rounded-lg border border-slate-300 bg-white py-3 pl-10 pr-4 text-slate-900 placeholder-slate-400 focus:border-[#0070CD] focus:outline-none focus:ring-2 focus:ring-[#0070CD]/20"
+                    placeholder={t('servisPage.invoiceNumberPlaceholder')}
+                  />
+                </div>
+              </div>
+              <div>
+                <label htmlFor="message" className="mb-2 block text-sm font-medium text-slate-700">
+                  {t('servisPage.messageLabel')}
+                </label>
+                <div className="relative">
+                  <MessageSquare className="absolute left-3 top-3 h-5 w-5 text-slate-400" />
+                  <textarea
+                    id="message"
+                    name="message"
+                    value={formData.message}
+                    onChange={handleChange}
+                    rows="4"
+                    className="w-full rounded-lg border border-slate-300 bg-white py-3 pl-10 pr-4 text-slate-900 placeholder-slate-400 focus:border-[#0070CD] focus:outline-none focus:ring-2 focus:ring-[#0070CD]/20"
+                    placeholder={t('servisPage.messagePlaceholder')}
+                  />
+                </div>
+              </div>
+              <div>
+                <label htmlFor="image" className="mb-2 block text-sm font-medium text-slate-700">
+                  {t('servisPage.imageLabel')} <span className="text-red-500">*</span>
+                </label>
+                <div className="relative">
+                  <ImageIcon className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-400" />
+                  <input
+                    type="file"
+                    id="image"
+                    name="image"
+                    accept="image/*"
+                    onChange={handleChange}
+                    required
+                    className="w-full rounded-lg border border-slate-300 bg-white py-3 pl-10 pr-4 text-slate-900 file:mr-4 file:rounded-lg file:border-0 file:bg-[#0070CD] file:px-4 file:py-2 file:text-sm file:font-semibold file:text-white hover:file:bg-[#005bb0] focus:border-[#0070CD] focus:outline-none focus:ring-2 focus:ring-[#0070CD]/20"
+                  />
+                </div>
+                {formData.image && (
+                  <p className="mt-2 text-sm text-slate-600">
+                    {t('servisPage.selectedFile')} {formData.image.name}
+                  </p>
+                )}
+              </div>
+              <button
+                type="submit"
+                className="w-full rounded-lg bg-[#0070CD] px-6 py-3 font-semibold text-white transition-colors hover:bg-[#005bb0] focus:outline-none focus:ring-2 focus:ring-[#0070CD] focus:ring-offset-2"
+              >
+                {t('servisPage.submitButton')}
+              </button>
+            </form>
+          </div>
+
+          {/* Kontakt za mail */}
+          <div className="rounded-2xl bg-white p-8 shadow-lg">
+            <div className="mb-6 flex items-center gap-3">
+              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#0070CD]/10">
+                <Mail className="h-6 w-6 text-[#0070CD]" />
+              </div>
+              <h2 className="text-2xl font-bold text-slate-900">{t('servisPage.contactTitle')}</h2>
+            </div>
+            <p className="mb-6 text-slate-600">
+              {t('servisPage.contactDescription')}
+            </p>
+            <div className="space-y-6">
+              <div className="rounded-lg border border-slate-200 bg-slate-50 p-6">
+                <h3 className="mb-4 text-lg font-semibold text-slate-900">{t('servisPage.emailAddress')}</h3>
+                <a
+                  href="mailto:servis@armal.hr"
+                  className="flex items-center gap-3 text-[#0070CD] transition-colors hover:text-[#005bb0]"
+                >
+                  <Mail className="h-5 w-5" />
+                  <span className="text-lg font-medium">servis@armal.hr</span>
+                </a>
+              </div>
+              <div className="rounded-lg border border-slate-200 bg-slate-50 p-6">
+                <h3 className="mb-4 text-lg font-semibold text-slate-900">{t('servisPage.phoneNumber')}</h3>
+                <a
+                  href="tel:+385913375730"
+                  className="flex items-center gap-3 text-[#0070CD] transition-colors hover:text-[#005bb0]"
+                >
+                  <Phone className="h-5 w-5" />
+                  <span className="text-lg font-medium">091 3375 730</span>
+                </a>
+              </div>
+              <div className="rounded-lg border border-slate-200 bg-slate-50 p-6">
+                <h3 className="mb-4 text-lg font-semibold text-slate-900">{t('servisPage.workingHours')}</h3>
+                <div className="space-y-2 text-slate-700">
+                  <p className="flex justify-between">
+                    <span className="font-medium">{t('servisPage.weekdays')}</span>
+                    <span>08:00 - 16:00</span>
+                  </p>
+                  <p className="flex justify-between">
+                    <span className="font-medium">{t('servisPage.saturday')}</span>
+                    <span>{t('servisPage.closed')}</span>
+                  </p>
+                  <p className="flex justify-between">
+                    <span className="font-medium">{t('servisPage.sunday')}</span>
+                    <span>{t('servisPage.closed')}</span>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  )
+}
+
+export default ServisPage
+

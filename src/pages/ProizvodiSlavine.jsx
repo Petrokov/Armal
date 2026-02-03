@@ -8,50 +8,68 @@ const ProizvodiSlavine = () => {
   const { t } = useLanguage()
   const productRefs = useRef([])
 
-  // Kolekcije slavina
+  // Kolekcije slavina – za svaki proizvod moguće je postaviti vlastiti link za B2B i Uredi dom
   const collections = [
     {
       key: 'rubi',
       image: '/slavine/rubi.webp',
+      b2bLink: 'https://b2b.armal.hr/Store/Index?grupa=0504&brend=RUBI',
+      editHomeLink: 'https://uredidom.hr/',
     },
-    
     {
       key: 'topaz',
       image: '/slavine/topaz.webp',
+      b2bLink: 'https://b2b.armal.hr/Store/Index?grupa=0504&brend=TOPAZ',
+      editHomeLink: 'https://uredidom.hr/',
     },
     {
       key: 'opal',
       image: '/slavine/opal.webp',
+      b2bLink: 'https://b2b.armal.hr/Store/Index?grupa=0504&brend=OPAL',
+      editHomeLink: 'https://uredidom.hr/',
     },
     {
       key: 'safir',
       image: '/slavine/safir.webp',
+      b2bLink: 'https://b2b.armal.hr/Store/Index?grupa=0504&brend=SAFIR',
+      editHomeLink: 'https://uredidom.hr/',
     },
     {
       key: 'beril',
       image: '/slavine/beril.webp',
+      b2bLink: 'https://b2b.armal.hr/Store/Index?grupa=0504&brend=BERIL',
+      editHomeLink: 'https://uredidom.hr/',
     },
     {
       key: 'lapis',
       image: '/slavine/lapis.webp',
+      b2bLink: 'https://b2b.armal.hr/Store/Index?grupa=0504&brend=LAPIS',
+      editHomeLink: 'https://uredidom.hr/',
     },
     {
       key: 'violet',
       image: '/slavine/violet3.webp',
+      b2bLink: 'https://b2b.armal.hr/Store/Index?grupa=0504&brend=VIOLET',
+      editHomeLink: 'https://uredidom.hr/',
     },
     {
       key: 'jana',
       image: '/slavine/jana3.webp',
+      b2bLink: 'https://b2b.armal.hr/Store/Index?grupa=0504&brend=JANA',
+      editHomeLink: 'https://uredidom.hr/',
     },
     {
       key: 'ana',
       image: '/slavine/ana3.webp',
+      b2bLink: 'https://b2b.armal.hr/Store/Index?grupa=0504&brend=ANA',
+      editHomeLink: 'https://uredidom.hr/',
     },
     {
       key: 'start',
       image: '/slavine/start3.webp',
+      b2bLink: 'https://b2b.armal.hr/Store/Index?grupa=0504&brend=START',
+      editHomeLink: 'https://uredidom.hr/',
     },
-
   ]
 
   // Fade-in animacija pri skrolanju
@@ -88,6 +106,8 @@ const ProizvodiSlavine = () => {
           src={kupaonicaImage}
           alt="Slavine"
           className="absolute inset-0 h-full w-full object-cover"
+          loading="eager"
+          fetchPriority="high"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-slate-900/70 via-slate-900/60 to-slate-900/50"></div>
         <div className="relative z-10 mx-auto max-w-4xl px-6 text-center text-white">
@@ -142,10 +162,10 @@ const ProizvodiSlavine = () => {
                         {t(`collections.${collection.key}.benefit`)}
                       </p>
                     )}
-                    {/* Action Buttons */}
+                    {/* Action Buttons – svaki proizvod koristi vlastite linkove */}
                     <div className="flex flex-col gap-3 sm:flex-row sm:gap-4">
                       <a
-                        href="https://b2b.armal.hr/"
+                        href={collection.b2bLink}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="inline-flex items-center justify-center gap-2 rounded-lg bg-[#0070CD] px-6 py-3 text-sm font-semibold text-white shadow-md transition-all duration-300 hover:scale-105 hover:bg-[#005bb0] hover:shadow-lg"
@@ -166,7 +186,7 @@ const ProizvodiSlavine = () => {
                         {t('navbar.b2b')}
                       </a>
                       <a
-                        href="https://uredidom.hr/"
+                        href={collection.editHomeLink}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="inline-flex items-center justify-center gap-2 rounded-lg bg-slate-700 px-6 py-3 text-sm font-semibold text-white shadow-md transition-all duration-300 hover:scale-105 hover:bg-slate-800 hover:shadow-lg"

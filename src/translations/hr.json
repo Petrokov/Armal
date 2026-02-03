@@ -5,6 +5,7 @@
     "catalog": "Katalog",
     "catalogues": "Katalozi",
     "about": "O nama",
+    "servis": "Servis",
     "b2b": "B2B Trgovina",
     "editHome": "Uredi dom",
     "blog": "Blog",
@@ -339,6 +340,32 @@
         "content": "Renovacija kupaonice ne mora koštati bogatstvo. S pažljivim planiranjem i pravim pristupom, možete stvoriti prekrasan prostor unutar svog budžeta.\n\nPočnite s planiranjem. Odredite prioritete - što je najvažnije za vas? Možda je to nova kada ili modernije slavine. Fokusirajte se na elemente koji će imati najveći utjecaj na izgled i funkcionalnost.\n\nRazmislite o refacingu umjesto potpune zamjene. Ako su vaše pločice u dobrom stanju, možete ih jednostavno obnoviti. Isto vrijedi i za kadu - umjesto nove, razmislite o obnovi postojeće.\n\nDIY projekti mogu uštedjeti značajne iznose. Jednostavne stvari poput bojanja zidova, zamjene slavina ili dodavanja novih svjetiljki možete napraviti sami."
       }
     }
+  },
+  "servisPage": {
+    "heroSubtitle": "Kontaktirajte nas za sve vaše servisne potrebe",
+    "formTitle": "Ispuni formu",
+    "formDescription": "Ispunite formu i mi ćemo vas kontaktirati u najkraćem mogućem roku.",
+    "nameLabel": "Ime i prezime",
+    "namePlaceholder": "Vaše ime i prezime",
+    "phoneLabel": "Broj telefona",
+    "phonePlaceholder": "+385 12 345 6789",
+    "invoiceNumberLabel": "Unesite broj računa",
+    "invoiceNumberPlaceholder": "Broj računa",
+    "messageLabel": "Poruka (opcionalno)",
+    "messagePlaceholder": "Opišite vaš problem ili pitanje...",
+    "imageLabel": "Priložite sliku",
+    "selectedFile": "Odabrana datoteka:",
+    "submitButton": "Pošaljite zahtjev",
+    "submitSuccess": "Hvala vam! Kontaktirat ćemo vas uskoro.",
+    "contactTitle": "Kontaktirajte nas",
+    "contactDescription": "Pošaljite nam email direktno ili koristite kontakt informacije u nastavku.",
+    "emailAddress": "Email adresa",
+    "phoneNumber": "Broj telefona",
+    "workingHours": "Radno vrijeme",
+    "weekdays": "Ponedjeljak - Petak:",
+    "saturday": "Subota:",
+    "sunday": "Nedjelja:",
+    "closed": "Zatvoreno"
   }
 }
 

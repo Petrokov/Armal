@@ -5,6 +5,7 @@
     "catalog": "Katalog",
     "catalogues": "Katalogi",
     "about": "O nas",
+    "servis": "Servis",
     "b2b": "B2B Trgovina",
     "editHome": "Uredi dom",
     "blog": "Blog",
@@ -333,6 +334,32 @@
         "excerpt": "Kako prenoviti kopalnico z omejenim proračunom brez kompromisov v kakovosti in funkcionalnosti."
       }
     }
+  },
+  "servisPage": {
+    "heroSubtitle": "Kontaktirajte nas za vse vaše servisne potrebe",
+    "formTitle": "Izpolnite obrazec",
+    "formDescription": "Izpolnite obrazec in vas bomo kontaktirali v najkrajšem možnem roku.",
+    "nameLabel": "Ime in priimek",
+    "namePlaceholder": "Vaše ime in priimek",
+    "phoneLabel": "Telefonska številka",
+    "phonePlaceholder": "+386 12 345 678",
+    "invoiceNumberLabel": "Vnesite številko računa",
+    "invoiceNumberPlaceholder": "Številka računa",
+    "messageLabel": "Sporočilo (opcijsko)",
+    "messagePlaceholder": "Opišite vaš problem ali vprašanje...",
+    "imageLabel": "Priložite sliko",
+    "selectedFile": "Izbrana datoteka:",
+    "submitButton": "Pošlji zahtevo",
+    "submitSuccess": "Hvala! Kmalu vas bomo kontaktirali.",
+    "contactTitle": "Kontaktirajte nas",
+    "contactDescription": "Pošljite nam e-pošto neposredno ali uporabite kontaktne informacije v nadaljevanju.",
+    "emailAddress": "E-poštni naslov",
+    "phoneNumber": "Telefonska številka",
+    "workingHours": "Delovni čas",
+    "weekdays": "Ponedeljek - Petek:",
+    "saturday": "Sobota:",
+    "sunday": "Nedelja:",
+    "closed": "Zaprto"
   }
 }
 

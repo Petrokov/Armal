@@ -1,6 +1,7 @@
 import { useLanguage } from '../contexts/LanguageContext'
 import { Award, CheckCircle, Handshake, Target } from 'lucide-react'
 import TeamSection from '../components/TeamSection'
+import PartnerMap from '../components/PartnerMap'
 import heroImage from '../assets/kupaonica-zelena.webp'
 import aboutImage from '../assets/o_nama_kupaonica_2.png'
 
@@ -47,7 +48,8 @@ const ONamaPage = () => {
           src={heroImage}
           alt="Moderni kupaonski interijer"
           className="absolute inset-0 h-full w-full object-cover"
-          loading="lazy"
+          loading="eager"
+          fetchPriority="high"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-slate-900/85 via-slate-900/70 to-slate-900/30" />
 
@@ -140,7 +142,22 @@ const ONamaPage = () => {
       {/* 4. Team Section - Reuse existing component, show all members */}
       <TeamSection showLearnMore={false} />
 
-      {/* 5. Stats Section */}
+      {/* 5. Mapa partnera */}
+      <section className="w-full bg-white py-16 md:py-24">
+        <div className="mx-auto max-w-7xl px-6">
+          <div className="mb-10 text-center">
+            <h2 className="mb-4 text-3xl font-bold text-slate-900 md:text-4xl">
+              Lokacije partnera
+            </h2>
+            <p className="mx-auto max-w-2xl text-slate-600">
+              Pronađite naše partnere na karti
+            </p>
+          </div>
+          <PartnerMap />
+        </div>
+      </section>
+
+      {/* 6. Stats Section */}
       <section className="w-full py-16 md:py-24 text-white" style={{ background: 'linear-gradient(to right, #0070CD, #005bb0, #004A8A)' }}>
         <div className="mx-auto max-w-7xl px-6">
           <div className="grid grid-cols-1 gap-8 md:grid-cols-3">

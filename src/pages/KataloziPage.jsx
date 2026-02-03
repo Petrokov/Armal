@@ -115,6 +115,8 @@ const KataloziPage = () => {
           src={kupaonicaImage}
           alt="Katalozi"
           className="absolute inset-0 h-full w-full object-cover"
+          loading="eager"
+          fetchPriority="high"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-slate-900/70 via-slate-900/60 to-slate-900/50"></div>
         <div className="relative z-10 mx-auto max-w-4xl px-6 text-center text-white">

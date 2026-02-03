@@ -12,78 +12,91 @@ const TeamSection = ({ maxMembers, showLearnMore = true }) => {
       role: 'Direktorica',
       image: '/slike_team/simona_zavratnik_2.png',
       linkedin: '#',
+      email: 'simona.zavratnik@armal.hr',
     },
     {
       name: 'Suzana Mahović',
       role: 'COO – operativni direktor',
       image: '/slike_team/anonimno.jpg',
       linkedin: '#',
+      email: 'suzana.mahovic@armal.hr',
     },
     {
       name: 'Anja Križanić',
       role: 'Koordinator prodaje za RH',
       image: '/slike_team/anonimno.jpg',
       linkedin: '#',
+      email: 'anja.krizanic@armal.hr',
     },
     {
       name: 'Aleksandar Franolić',
       role: 'Export menager',
       image: '/slike_team/anonimno.jpg',
       linkedin: '#',
+      email: 'aleksandar.franolic@armal.hr',
     },
     {
       name: 'Miroslav Salopek',
       role: 'Terenski komercijalist',
       image: '/slike_team/anonimno.jpg',
       linkedin: '#',
+      email: 'miroslav.salopek@armal.hr',
     },
     {
       name: 'Saša Čačić',
       role: 'Terenski komercijalist',
       image: '/slike_team/anonimno.jpg',
       linkedin: '#',
+      email: 'sasa.cacic@armal.hr',
     },
     {
       name: 'Marko Čović',
       role: 'Terenski komercijalist',
       image: '/slike_team/anonimno.jpg',
       linkedin: '#',
+      email: 'marko.covic@armal.hr',
     },
     {
       name: 'Sandra Miklec',
       role: 'Administrator u odjelu prodaje',
       image: '/slike_team/anonimno.jpg',
       linkedin: '#',
+      email: 'sandra.miklec@armal.hr',
     },
     {
       name: 'Marko Hrgetić',
       role: 'Voditelj nabave',
       image: '/slike_team/anonimno.jpg',
       linkedin: '#',
+      email: 'marko.hrgetic@armal.hr',
     },
     {
       name: 'Natalija Jović',
       role: 'Referent nabave',
       image: '/slike_team/anonimno.jpg',
       linkedin: '#',
+      email: 'natalija.jovic@armal.hr',
     },
     {
       name: 'Marija Pršir',
       role: 'Administrator nabave',
       image: '/slike_team/anonimno.jpg',
       linkedin: '#',
+      email: 'marija.prsir@armal.hr',
     },
     {
       name: 'Morena Sršen',
       role: 'Voditelj odjela postprodaje',
       image: '/slike_team/anonimno.jpg',
       linkedin: '#',
+      email: 'morena.srsen@armal.hr',
     },
     {
       name: 'Mladen Luketić',
       role: 'Serviser i montažer',
       image: '/slike_team/anonimno.jpg',
       linkedin: '#',
+      email: 'mladen.luketic@armal.hr',
     },
   ]
 
@@ -129,16 +142,29 @@ const TeamSection = ({ maxMembers, showLearnMore = true }) => {
               {/* Role */}
               <p className="mb-4 text-sm text-slate-600">{member.role}</p>
 
-              {/* LinkedIn Button */}
-              <a
-                href={member.linkedin}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center justify-center rounded-full bg-[#0070CD] p-2 text-white transition-colors hover:bg-[#005bb0]"
-                aria-label={`${member.name} LinkedIn profil`}
-              >
-                <LinkedInIcon />
-              </a>
+              {/* Contact Buttons */}
+              <div className="flex items-center gap-3">
+                {/* Email Button */}
+                <a
+                  href={`mailto:${member.email}`}
+                  className="inline-flex items-center justify-center rounded-full bg-slate-700 p-2 text-white transition-colors hover:bg-slate-600"
+                  aria-label={`Pošalji email ${member.name}`}
+                  title={member.email}
+                >
+                  <EmailIcon />
+                </a>
+
+                {/* LinkedIn Button */}
+                <a
+                  href={member.linkedin}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center rounded-full bg-[#0070CD] p-2 text-white transition-colors hover:bg-[#005bb0]"
+                  aria-label={`${member.name} LinkedIn profil`}
+                >
+                  <LinkedInIcon />
+                </a>
+              </div>
             </div>
           ))}
         </div>
@@ -158,6 +184,24 @@ const TeamSection = ({ maxMembers, showLearnMore = true }) => {
     </section>
   )
 }
+
+// Email Icon Component
+const EmailIcon = () => (
+  <svg
+    width="20"
+    height="20"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+    <polyline points="22,6 12,13 2,6" />
+  </svg>
+)
 
 // LinkedIn Icon Component
 const LinkedInIcon = () => (

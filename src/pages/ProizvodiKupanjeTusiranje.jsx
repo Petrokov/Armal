@@ -7,23 +7,31 @@ const ProizvodiKupanjeTusiranje = () => {
   const { t } = useLanguage()
   const productRefs = useRef([])
 
-  // Podkategorije kupanje + tuširanje
+  // Podkategorije kupanje + tuširanje – za svaku kategoriju moguće je postaviti vlastiti link za B2B i Uredi dom
   const categories = [
     {
       key: 'bathtubs',
       image: '/kade_tuskade_kanalice/kade.webp',
+      b2bLink: 'https://b2b.armal.hr/Store?grupa=0506&podgrupa1=050601',
+      editHomeLink: 'https://uredidom.hr/',
     },
     {
       key: 'showerTrays',
       image: '/kade_tuskade_kanalice/tus_kade.webp',
+      b2bLink: 'https://b2b.armal.hr/Store?grupa=0506&podgrupa1=050603',
+      editHomeLink: 'https://uredidom.hr/',
     },
     {
       key: 'showerChannels',
       image: '/kade_tuskade_kanalice/kanalice.webp',
+      b2bLink: 'https://b2b.armal.hr/Store?grupa=0506&podgrupa1=050604',
+      editHomeLink: 'https://uredidom.hr/',
     },
     {
       key: 'showerCabins',
       image: '/kade_tuskade_kanalice/tus_kabine.webp',
+      b2bLink: 'https://b2b.armal.hr/Store?grupa=0507',
+      editHomeLink: 'https://uredidom.hr/',
     },
   ]
 
@@ -61,6 +69,8 @@ const ProizvodiKupanjeTusiranje = () => {
           src={kupaonicaImage}
           alt="Kupanje + tuširanje"
           className="absolute inset-0 h-full w-full object-cover"
+          loading="eager"
+          fetchPriority="high"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-slate-900/70 via-slate-900/60 to-slate-900/50"></div>
         <div className="relative z-10 mx-auto max-w-4xl px-6 text-center text-white">
@@ -115,10 +125,10 @@ const ProizvodiKupanjeTusiranje = () => {
                         {t(`bathingCategories.${category.key}.benefit`)}
                       </p>
                     )}
-                    {/* Action Buttons */}
+                    {/* Action Buttons – svaka kategorija koristi vlastite linkove */}
                     <div className="flex flex-col gap-3 sm:flex-row sm:gap-4">
                       <a
-                        href="https://b2b.armal.hr/"
+                        href={category.b2bLink}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="inline-flex items-center justify-center gap-2 rounded-lg bg-[#0070CD] px-6 py-3 text-sm font-semibold text-white shadow-md transition-all duration-300 hover:scale-105 hover:bg-[#005bb0] hover:shadow-lg"
@@ -139,7 +149,7 @@ const ProizvodiKupanjeTusiranje = () => {
                         {t('navbar.b2b')}
                       </a>
                       <a
-                        href="https://uredidom.hr/"
+                        href={category.editHomeLink}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="inline-flex items-center justify-center gap-2 rounded-lg bg-slate-700 px-6 py-3 text-sm font-semibold text-white shadow-md transition-all duration-300 hover:scale-105 hover:bg-slate-800 hover:shadow-lg"

@@ -5,6 +5,7 @@
     "catalog": "Katalog",
     "catalogues": "Katalozi",
     "about": "O nama",
+    "servis": "Сервис",
     "b2b": "B2B Trgovina",
     "editHome": "Uredi dom",
     "blog": "Blog",
@@ -333,5 +334,31 @@
         "excerpt": "Kako renovirati kupaonicu uz ograničen budžet bez kompromisa u kvalitetu i funkcionalnosti."
       }
     }
+  },
+  "servisPage": {
+    "heroSubtitle": "Kontaktirajte nas za sve vaše servisne potrebe",
+    "formTitle": "Ispunite formu",
+    "formDescription": "Ispunite formu i mi ćemo vas kontaktirati u najkraćem mogućem roku.",
+    "nameLabel": "Ime i prezime",
+    "namePlaceholder": "Vaše ime i prezime",
+    "phoneLabel": "Broj telefona",
+    "phonePlaceholder": "+381 12 345 6789",
+    "invoiceNumberLabel": "Unesite broj računa",
+    "invoiceNumberPlaceholder": "Broj računa",
+    "messageLabel": "Poruka (opciono)",
+    "messagePlaceholder": "Opišite vaš problem ili pitanje...",
+    "imageLabel": "Priložite sliku",
+    "selectedFile": "Odabrana datoteka:",
+    "submitButton": "Pošaljite zahtev",
+    "submitSuccess": "Hvala vam! Kontaktiraćemo vas uskoro.",
+    "contactTitle": "Kontaktirajte nas",
+    "contactDescription": "Pošaljite nam email direktno ili koristite kontakt informacije u nastavku.",
+    "emailAddress": "Email adresa",
+    "phoneNumber": "Broj telefona",
+    "workingHours": "Radno vreme",
+    "weekdays": "Ponedeljak - Petak:",
+    "saturday": "Subota:",
+    "sunday": "Nedelja:",
+    "closed": "Zatvoreno"
   }
 }

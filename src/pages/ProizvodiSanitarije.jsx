@@ -12,27 +12,37 @@ const ProizvodiSanitarije = () => {
   const { t } = useLanguage()
   const productRefs = useRef([])
 
-  // Kategorije sanitarije
+  // Kategorije sanitarije – za svaku kategoriju moguće je postaviti vlastiti link za B2B i Uredi dom
   const categories = [
     {
       key: 'washbasins',
       image: sanitarije1,
+      b2bLink: 'https://b2b.armal.hr/Store?grupa=0502&podgrupa1=050209',
+      editHomeLink: 'https://uredidom.hr/',
     },
     {
       key: 'toiletSeats',
       image: sanitarije2,
+      b2bLink: 'https://b2b.armal.hr/Store?grupa=0502&podgrupa1=050204',
+      editHomeLink: 'https://uredidom.hr/',
     },
     {
       key: 'toiletCisterns',
       image: sanitarije3,
+      b2bLink: 'https://b2b.armal.hr/Store?grupa=0502&podgrupa1=050203',
+      editHomeLink: 'https://uredidom.hr/',
     },
     {
       key: 'bidets',
       image: bide,
+      b2bLink: 'https://b2b.armal.hr/Store?grupa=0502&podgrupa1=050205',
+      editHomeLink: 'https://uredidom.hr/',
     },
     {
       key: 'monoblock',
       image: monoblock,
+      b2bLink: 'https://b2b.armal.hr/Store?grupa=0502&podgrupa1=050202',
+      editHomeLink: 'https://uredidom.hr/',
     },
   ]
 
@@ -70,6 +80,8 @@ const ProizvodiSanitarije = () => {
           src={kupaonicaImage}
           alt="Sanitarije"
           className="absolute inset-0 h-full w-full object-cover"
+          loading="eager"
+          fetchPriority="high"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-slate-900/70 via-slate-900/60 to-slate-900/50"></div>
         <div className="relative z-10 mx-auto max-w-4xl px-6 text-center text-white">
@@ -124,10 +136,10 @@ const ProizvodiSanitarije = () => {
                         {t(`sanitaryCategories.${category.key}.benefit`)}
                       </p>
                     )}
-                    {/* Action Buttons */}
+                    {/* Action Buttons – svaka kategorija koristi vlastite linkove */}
                     <div className="flex flex-col gap-3 sm:flex-row sm:gap-4">
                       <a
-                        href="https://b2b.armal.hr/"
+                        href={category.b2bLink}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="inline-flex items-center justify-center gap-2 rounded-lg bg-[#0070CD] px-6 py-3 text-sm font-semibold text-white shadow-md transition-all duration-300 hover:scale-105 hover:bg-[#005bb0] hover:shadow-lg"
@@ -148,7 +160,7 @@ const ProizvodiSanitarije = () => {
                         {t('navbar.b2b')}
                       </a>
                       <a
-                        href="https://uredidom.hr/"
+                        href={category.editHomeLink}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="inline-flex items-center justify-center gap-2 rounded-lg bg-slate-700 px-6 py-3 text-sm font-semibold text-white shadow-md transition-all duration-300 hover:scale-105 hover:bg-slate-800 hover:shadow-lg"

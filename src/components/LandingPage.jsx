@@ -93,7 +93,8 @@ const LandingPage = () => {
           alt="Moderni kupaonski interijer"
           className="absolute inset-0 h-full w-full object-cover min-h-full min-w-full"
           style={{ objectFit: 'cover', width: '100%', height: '100%' }}
-          loading="lazy"
+          loading="eager"
+          fetchPriority="high"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-slate-900/85 via-slate-900/70 to-slate-900/30" />
 
@@ -156,9 +157,9 @@ const LandingPage = () => {
                       className={`h-10 w-10 ${feature.iconColor}`}
                     />
                   </div>
-                  <h3 className="mb-2 text-lg font-semibold text-slate-800">
+                  <h2 className="mb-2 text-lg font-semibold text-slate-800">
                     {t(`features.${feature.titleKey}.title`)}
-                  </h3>
+                  </h2>
                   <p className="text-sm leading-relaxed text-slate-600">
                     {t(`features.${feature.titleKey}.description`)}
                   </p>
