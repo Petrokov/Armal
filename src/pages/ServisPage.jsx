@@ -3,7 +3,8 @@ import { useLanguage } from '../contexts/LanguageContext'
 import { Phone, Mail, User, MessageSquare, Image as ImageIcon, FileText } from 'lucide-react'
 import kupaonicaImage from '../assets/kupaonica-zelena.webp'
 
-const API_URL = import.meta.env.VITE_API_URL || ''
+// Kad nije postavljen, koristi se relativni URL (/api/servis) – isti poslužitelj (npr. jedan deploy na Railway)
+const API_URL = import.meta.env.VITE_API_URL ?? ''
 
 const ServisPage = () => {
   const { t } = useLanguage()
@@ -20,10 +21,6 @@ const ServisPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault()
     setSubmitError(null)
-    if (!API_URL) {
-      setSubmitError('API nije konfiguriran. Postavi VITE_API_URL u .env')
-      return
-    }
     setSending(true)
     try {
       const data = new FormData()
@@ -33,7 +30,8 @@ const ServisPage = () => {
       data.append('message', formData.message || '')
       if (formData.image) data.append('image', formData.image)
 
-      const res = await fetch(`${API_URL.replace(/\/$/, '')}/api/servis`, {
+      const apiBase = API_URL ? API_URL.replace(/\/$/, '') : ''
+      const res = await fetch(`${apiBase}/api/servis`, {
         method: 'POST',
         body: data,
       })

@@ -1,8 +1,12 @@
 import 'dotenv/config'
+import path from 'path'
+import { fileURLToPath } from 'url'
 import express from 'express'
 import cors from 'cors'
 import multer from 'multer'
 import axios from 'axios'
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 const app = express()
 const PORT = process.env.PORT || 3001
@@ -157,6 +161,15 @@ function escapeHtml(str) {
 app.get('/api/health', (req, res) => {
   res.json({ ok: true })
 })
+
+// Production (npr. Railway): poslužuj build frontenda s istog poslužitelja – jedan deploy
+const distPath = path.join(__dirname, '..', 'dist')
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(distPath))
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(distPath, 'index.html'))
+  })
+}
 
 app.listen(PORT, () => {
   console.log(`Servis API: http://localhost:${PORT}`)
