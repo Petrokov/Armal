@@ -2,7 +2,7 @@ import { useLanguage } from '../contexts/LanguageContext'
 
 
 
-const TeamSection = ({ maxMembers, showLearnMore = true }) => {
+const TeamSection = ({ maxMembers, showLearnMore = true, columnsLg = 5 }) => {
   const { t } = useLanguage()
 
   // Team members data
@@ -117,8 +117,8 @@ const TeamSection = ({ maxMembers, showLearnMore = true }) => {
           </p>
         </div>
 
-        {/* Team Members Grid */}
-        <div className="mb-12 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+        {/* Team Members Grid: 1 col mobile, 2 cols tablet, columnsLg na laptop+ (3 za Landing, 5 za O nama) */}
+        <div className={`mb-12 grid grid-cols-1 gap-8 md:grid-cols-2 ${columnsLg === 3 ? 'lg:grid-cols-3' : 'lg:grid-cols-5'}`}>
           {displayedMembers.map((member, index) => (
             <div
               key={index}

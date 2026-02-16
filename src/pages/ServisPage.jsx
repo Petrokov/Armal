@@ -3,23 +3,57 @@ import { useLanguage } from '../contexts/LanguageContext'
 import { Phone, Mail, User, MessageSquare, Image as ImageIcon, FileText } from 'lucide-react'
 import kupaonicaImage from '../assets/kupaonica-zelena.webp'
 
+const API_URL = import.meta.env.VITE_API_URL || ''
+
 const ServisPage = () => {
   const { t } = useLanguage()
   const [formData, setFormData] = useState({
     name: '',
+    email: '',
     phone: '',
-    invoiceNumber: '',
     message: '',
     image: null,
   })
+  const [sending, setSending] = useState(false)
+  const [submitError, setSubmitError] = useState(null)
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    // Ovdje možete dodati logiku za slanje podataka
-    console.log('Form submitted:', formData)
-    // Reset forme
-    setFormData({ name: '', phone: '', invoiceNumber: '', message: '', image: null })
-    alert(t('servisPage.submitSuccess'))
+    setSubmitError(null)
+    if (!API_URL) {
+      setSubmitError('API nije konfiguriran. Postavi VITE_API_URL u .env')
+      return
+    }
+    setSending(true)
+    try {
+      const data = new FormData()
+      data.append('name', formData.name)
+      data.append('email', formData.email)
+      data.append('phone', formData.phone)
+      data.append('message', formData.message || '')
+      if (formData.image) data.append('image', formData.image)
+
+      const res = await fetch(`${API_URL.replace(/\/$/, '')}/api/servis`, {
+        method: 'POST',
+        body: data,
+      })
+      const json = await res.json().catch(() => ({}))
+
+      if (!res.ok) {
+        throw new Error(json.error || 'Slanje nije uspjelo.')
+      }
+      setFormData({ name: '', email: '', phone: '', message: '', image: null })
+      alert(t('servisPage.submitSuccess'))
+    } catch (err) {
+      const msg = err.message || ''
+      if (msg === 'Failed to fetch' || msg.includes('fetch')) {
+        setSubmitError('Nije moguće spojiti se na poslužitelj. Pokreni backend: u terminalu upiši "cd server" pa "npm run dev".')
+      } else {
+        setSubmitError(msg || 'Došlo je do greške. Pokušajte ponovno.')
+      }
+    } finally {
+      setSending(false)
+    }
   }
 
   const handleChange = (e) => {
@@ -72,6 +106,11 @@ const ServisPage = () => {
             <p className="mb-6 text-slate-600">
               {t('servisPage.formDescription')}
             </p>
+            {submitError && (
+              <div className="mb-4 rounded-lg bg-red-50 p-3 text-sm text-red-700">
+                {submitError}
+              </div>
+            )}
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
                 <label htmlFor="name" className="mb-2 block text-sm font-medium text-slate-700">
@@ -92,6 +131,24 @@ const ServisPage = () => {
                 </div>
               </div>
               <div>
+                <label htmlFor="email" className="mb-2 block text-sm font-medium text-slate-700">
+                  {t('servisPage.emailLabel')} <span className="text-red-500">*</span>
+                </label>
+                <div className="relative">
+                  <Mail className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-400" />
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    required
+                    className="w-full rounded-lg border border-slate-300 bg-white py-3 pl-10 pr-4 text-slate-900 placeholder-slate-400 focus:border-[#0070CD] focus:outline-none focus:ring-2 focus:ring-[#0070CD]/20"
+                    placeholder={t('servisPage.emailPlaceholder')}
+                  />
+                </div>
+              </div>
+              <div>
                 <label htmlFor="phone" className="mb-2 block text-sm font-medium text-slate-700">
                   {t('servisPage.phoneLabel')} <span className="text-red-500">*</span>
                 </label>
@@ -106,24 +163,6 @@ const ServisPage = () => {
                     required
                     className="w-full rounded-lg border border-slate-300 bg-white py-3 pl-10 pr-4 text-slate-900 placeholder-slate-400 focus:border-[#0070CD] focus:outline-none focus:ring-2 focus:ring-[#0070CD]/20"
                     placeholder={t('servisPage.phonePlaceholder')}
-                  />
-                </div>
-              </div>
-              <div>
-                <label htmlFor="invoiceNumber" className="mb-2 block text-sm font-medium text-slate-700">
-                  {t('servisPage.invoiceNumberLabel')} <span className="text-red-500">*</span>
-                </label>
-                <div className="relative">
-                  <FileText className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-400" />
-                  <input
-                    type="text"
-                    id="invoiceNumber"
-                    name="invoiceNumber"
-                    value={formData.invoiceNumber}
-                    onChange={handleChange}
-                    required
-                    className="w-full rounded-lg border border-slate-300 bg-white py-3 pl-10 pr-4 text-slate-900 placeholder-slate-400 focus:border-[#0070CD] focus:outline-none focus:ring-2 focus:ring-[#0070CD]/20"
-                    placeholder={t('servisPage.invoiceNumberPlaceholder')}
                   />
                 </div>
               </div>
@@ -168,9 +207,10 @@ const ServisPage = () => {
               </div>
               <button
                 type="submit"
-                className="w-full rounded-lg bg-[#0070CD] px-6 py-3 font-semibold text-white transition-colors hover:bg-[#005bb0] focus:outline-none focus:ring-2 focus:ring-[#0070CD] focus:ring-offset-2"
+                disabled={sending}
+                className="w-full rounded-lg bg-[#0070CD] px-6 py-3 font-semibold text-white transition-colors hover:bg-[#005bb0] focus:outline-none focus:ring-2 focus:ring-[#0070CD] focus:ring-offset-2 disabled:opacity-70 disabled:cursor-not-allowed"
               >
-                {t('servisPage.submitButton')}
+                {sending ? 'Šaljem...' : t('servisPage.submitButton')}
               </button>
             </form>
           </div>
@@ -190,6 +230,16 @@ const ServisPage = () => {
               <div className="rounded-lg border border-slate-200 bg-slate-50 p-6">
                 <h3 className="mb-4 text-lg font-semibold text-slate-900">{t('servisPage.emailAddress')}</h3>
                 <a
+                  href="mailto:info@armal.hr"
+                  className="flex items-center gap-3 text-[#0070CD] transition-colors hover:text-[#005bb0]"
+                >
+                  <Mail className="h-5 w-5" />
+                  <span className="text-lg font-medium">info@armal.hr</span>
+                </a>
+              </div>
+              <div className="rounded-lg border border-slate-200 bg-slate-50 p-6">
+                <h3 className="mb-4 text-lg font-semibold text-slate-900">{t('servisPage.servisEmailLabel')}</h3>
+                <a
                   href="mailto:servis@armal.hr"
                   className="flex items-center gap-3 text-[#0070CD] transition-colors hover:text-[#005bb0]"
                 >
@@ -204,7 +254,7 @@ const ServisPage = () => {
                   className="flex items-center gap-3 text-[#0070CD] transition-colors hover:text-[#005bb0]"
                 >
                   <Phone className="h-5 w-5" />
-                  <span className="text-lg font-medium">091 3375 730</span>
+                  <span className="text-lg font-medium">+385 91 3375 730</span>
                 </a>
               </div>
               <div className="rounded-lg border border-slate-200 bg-slate-50 p-6">

@@ -197,8 +197,8 @@ const LandingPage = () => {
         ]}
       />
 
-      {/* Team Section */}
-      <TeamSection maxMembers={3} />
+      {/* Team Section – 3 kartice u jednom redu */}
+      <TeamSection maxMembers={3} columnsLg={3} />
     </>
   )
 }

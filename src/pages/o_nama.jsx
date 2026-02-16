@@ -3,6 +3,7 @@ import { Award, CheckCircle, Handshake, Target } from 'lucide-react'
 import TeamSection from '../components/TeamSection'
 import heroImage from '../assets/kupaonica-zelena.webp'
 import aboutImage from '../assets/o_nama_kupaonica_2.png'
+import staraKupaonica from '../assets/o-nama-stara-slika.jpeg'
 
 const ONamaPage = () => {
   const { t } = useLanguage()
@@ -88,8 +89,8 @@ const ONamaPage = () => {
             {/* Right Column - Image */}
             <div className="relative h-96 w-full overflow-hidden rounded-2xl md:h-[500px]">
               <img
-                src={aboutImage}
-                alt="Moderni kupaonski interijer"
+                src={staraKupaonica}
+                alt="stara kupaonica Armal"
                 className="h-full w-full object-cover"
                 loading="lazy"
               />

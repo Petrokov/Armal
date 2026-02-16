@@ -14,7 +14,7 @@
     "closeMenu": "Zapri meni"
   },
   "products": {
-    "faucets": "Pipe",
+    "faucets": "Mešalniki za vodo",
     "faucetsDescription": "Širok asortiman pipa za kopalnico in kuhinjo",
     "bathing": "Kopanje + tuširanje",
     "bathingDescription": "Kadi, tuš kabine, vrata in vse za kopanje",
@@ -122,12 +122,12 @@
     },
     "lapis": {
       "name": "Lapis",
-      "description": "Sodobna kolekcija, ki združuje inovativni dizajn z vrhunsko vzdržljivostjo. Lapis ponuja funkcionalne in estetsko privlačne rešitve.",
+      "description": "Varčne pipe Safir prinašajo kombinacijo čistih, ravnih linij in diskretno zaobljenih detajlov, ki prostoru dajejo sodoben, a hkrati udoben občutek. Minimalistična oblika se zlahka prilega različnim slogom opremljanja kopalnice, preprostost pa tukaj postane najboljša dekoracija.",
       "benefit": "Idealen za sodobne interierje"
     },
     "violet": {
       "name": "Violet",
-      "description": "Elegantna kolekcija, ki očara s svojim sofisticiranim dizajnom. Violet združuje klasično eleganco z modernimi tehnologijami.",
+      "description": "Ravne linije serije Violet so namenjene vsem, ki imajo radi minimalizem in brezčasen dizajn.",
       "benefit": "Večna eleganca za vsak dom"
     },
     "jana": {
@@ -190,7 +190,7 @@
     "rs": "Srbščina"
   },
   "footer": {
-    "slogan": "Uredite prostor po svojem okusu – brez kompromisov med videzom in proračunom.",
+    "slogan": "Uredite prostor po svojem okusu, brez kompromisov med videzom in proračunom.",
     "oib": "OIB",
     "oibValue": "02300129401",
     "mbs": "MBS",
@@ -245,7 +245,15 @@
   },
   "faucetsPage": {
     "ctaTitle": "Poiščite popolne pipe za vaš prostor",
-    "ctaDescription": "Raziščite našo široko ponudbo in poiščite idealne rešitve za vaš dom ali poslovni prostor."
+    "ctaDescription": "Raziščite našo široko ponudbo in poiščite idealne rešitve za vaš dom ali poslovni prostor.",
+    "finishes": {
+      "chrome": "Chrome",
+      "black": "Black",
+      "gunMetal": "Gun Metal",
+      "brushGold": "Brush Gold",
+      "brushedNickel": "Brushed Nickel",
+      "bronze": "Bronze"
+    }
   },
   "bathingCategories": {
     "bathtubs": {
@@ -337,23 +345,26 @@
   },
   "servisPage": {
     "heroSubtitle": "Kontaktirajte nas za vse vaše servisne potrebe",
-    "formTitle": "Izpolnite obrazec",
+    "formTitle": "Izpolnite obrazec za reklamacijo",
     "formDescription": "Izpolnite obrazec in vas bomo kontaktirali v najkrajšem možnem roku.",
     "nameLabel": "Ime in priimek",
     "namePlaceholder": "Vaše ime in priimek",
+    "emailLabel": "Vaš e-poštni naslov",
+    "emailPlaceholder": "vas@email.si",
     "phoneLabel": "Telefonska številka",
     "phonePlaceholder": "+386 12 345 678",
     "invoiceNumberLabel": "Vnesite številko računa",
     "invoiceNumberPlaceholder": "Številka računa",
     "messageLabel": "Sporočilo (opcijsko)",
     "messagePlaceholder": "Opišite vaš problem ali vprašanje...",
-    "imageLabel": "Priložite sliko",
+    "imageLabel": "Priložite sliko računa",
     "selectedFile": "Izbrana datoteka:",
     "submitButton": "Pošlji zahtevo",
     "submitSuccess": "Hvala! Kmalu vas bomo kontaktirali.",
     "contactTitle": "Kontaktirajte nas",
     "contactDescription": "Pošljite nam e-pošto neposredno ali uporabite kontaktne informacije v nadaljevanju.",
     "emailAddress": "E-poštni naslov",
+    "servisEmailLabel": "Servis",
     "phoneNumber": "Telefonska številka",
     "workingHours": "Delovni čas",
     "weekdays": "Ponedeljek - Petek:",

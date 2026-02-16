@@ -14,7 +14,7 @@
     "closeMenu": "Zatvori izbornik"
   },
   "products": {
-    "faucets": "Slavine",
+    "faucets": "Mješalice za vodu",
     "faucetsDescription": "Širok asortiman slavina za kupaonicu i kuhinju",
     "bathing": "Kupanje + tuširanje",
     "bathingDescription": "Kade, tuš kabine, vrata i sve za kupanje",
@@ -112,7 +112,7 @@
     },
     "safir": {
       "name": "Safir",
-      "description": "Premium kolekcija koja se ističe svojim luksuznim izgledom i izvanrednom kvalitetom. Safir donosi eleganciju i funkcionalnost u svaki dom.",
+      "description": "Safir štedne slavine donose spoj čistih, ravnih linija i diskretno zaobljenih detalja koji prostoru daju moderan, ali ugodan dojam. Minimalistički dizajn lako se uklapa u različite stilove uređenja kupaonice, a jednostavnost ovdje postaje najbolji ukras.",
       "benefit": "Luksuzna opcija za zahtjevne prostore"
     },
     "beril": {
@@ -122,12 +122,12 @@
     },
     "lapis": {
       "name": "Lapis",
-      "description": "Moderna kolekcija koja kombinira inovativni dizajn s vrhunskom izdržljivošću. Lapis nudi funkcionalna i estetski privlačna rješenja.",
+      "description": "Meke linije prepoznatljive za dizajn nekog ranijeg vremena donijet će u prostor sofisticiranost naglašenu elegantnom brončanom završnom obradom.",
       "benefit": "Idealna za suvremene interijere"
     },
     "violet": {
       "name": "Violet",
-      "description": "Elegantna kolekcija koja očarava svojim sofisticiranim dizajnom. Violet spaja klasičnu eleganciju s modernim tehnologijama.",
+      "description": "Ravne linije serije Violet namijenjene su svima koji vole minimalizam i dizajn bez roka trajanja.",
       "benefit": "Timeless elegancija za svaki dom"
     },
     "jana": {
@@ -190,7 +190,7 @@
     "rs": "Srpski"
   },
   "footer": {
-    "slogan": "Uredi prostor po svom ukusu – bez kompromisa između izgleda i budžeta.",
+    "slogan": "Uredi prostor po svom ukusu bez, kompromisa između izgleda i budžeta.",
     "oib": "OIB",
     "oibValue": "02300129401",
     "mbs": "MBS",
@@ -245,7 +245,15 @@
   },
   "faucetsPage": {
     "ctaTitle": "Pronađite savršene slavine za vaš prostor",
-    "ctaDescription": "Istražite našu široku ponudu i pronađite idealna rješenja za vaš dom ili poslovni prostor."
+    "ctaDescription": "Istražite našu široku ponudu i pronađite idealna rješenja za vaš dom ili poslovni prostor.",
+    "finishes": {
+      "chrome": "Chrome",
+      "black": "Black",
+      "gunMetal": "Gun Metal",
+      "brushGold": "Brush Gold",
+      "brushedNickel": "Brushed Nickel",
+      "bronze": "Bronze"
+    }
   },
   "bathingCategories": {
     "bathtubs": {
@@ -343,23 +351,26 @@
   },
   "servisPage": {
     "heroSubtitle": "Kontaktirajte nas za sve vaše servisne potrebe",
-    "formTitle": "Ispuni formu",
+    "formTitle": "Ispuni formu za reklamaciju",
     "formDescription": "Ispunite formu i mi ćemo vas kontaktirati u najkraćem mogućem roku.",
     "nameLabel": "Ime i prezime",
     "namePlaceholder": "Vaše ime i prezime",
+    "emailLabel": "Vaša email adresa",
+    "emailPlaceholder": "vas@email.hr",
     "phoneLabel": "Broj telefona",
     "phonePlaceholder": "+385 12 345 6789",
     "invoiceNumberLabel": "Unesite broj računa",
     "invoiceNumberPlaceholder": "Broj računa",
     "messageLabel": "Poruka (opcionalno)",
     "messagePlaceholder": "Opišite vaš problem ili pitanje...",
-    "imageLabel": "Priložite sliku",
+    "imageLabel": "Priložite sliku računa",
     "selectedFile": "Odabrana datoteka:",
     "submitButton": "Pošaljite zahtjev",
     "submitSuccess": "Hvala vam! Kontaktirat ćemo vas uskoro.",
     "contactTitle": "Kontaktirajte nas",
     "contactDescription": "Pošaljite nam email direktno ili koristite kontakt informacije u nastavku.",
     "emailAddress": "Email adresa",
+    "servisEmailLabel": "Servis",
     "phoneNumber": "Broj telefona",
     "workingHours": "Radno vrijeme",
     "weekdays": "Ponedjeljak - Petak:",
