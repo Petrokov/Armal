@@ -63,31 +63,16 @@ const ONamaPage = () => {
         </div>
       </section>
 
-      {/* 2. Naša priča - Two Column Section */}
+      {/* 2. Naša priča – tekst koji se omata oko slike */}
       <section className="w-full bg-white py-16 md:py-24">
-        <div className="mx-auto max-w-7xl px-6">
-          <div className="grid grid-cols-1 gap-12 md:grid-cols-2 md:items-center">
-            {/* Left Column - Text */}
-            <div className="flex flex-col justify-center">
-              <h2 className="mb-6 text-3xl font-bold text-[#0070CD] md:text-4xl">
-                {t('aboutPage.storyTitle')}
-              </h2>
-              <p className="mb-4 text-base leading-relaxed text-slate-700 md:text-lg">
-                {t('aboutPage.storyParagraph1')}
-              </p>
-              <p className="mb-4 text-base leading-relaxed text-slate-700 md:text-lg">
-                {t('aboutPage.storyParagraph2')}
-              </p>
-              <p className="mb-4 text-base leading-relaxed text-slate-700 md:text-lg">
-                {t('aboutPage.storyParagraph3')}
-              </p>
-              <p className="text-base leading-relaxed text-slate-700 md:text-lg">
-                {t('aboutPage.storyParagraph4')}
-              </p>
-            </div>
+        <div className="mx-auto max-w-5xl px-6">
+          <h2 className="mb-6 text-3xl font-bold text-[#0070CD] md:text-4xl">
+            {t('aboutPage.storyTitle')}
+          </h2>
 
-            {/* Right Column - Image */}
-            <div className="relative h-96 w-full overflow-hidden rounded-2xl md:h-[500px]">
+          <div className="relative text-base leading-relaxed text-slate-700 md:text-lg">
+            {/* Slika u desnom kutu, oko koje se tekst omata na većim ekranima */}
+            <div className="mb-6 w-full overflow-hidden rounded-2xl shadow-md md:float-right md:ml-8 md:mb-4 md:w-1/3 lg:w-[320px]">
               <img
                 src={staraKupaonica}
                 alt="stara kupaonica Armal"
@@ -95,6 +80,19 @@ const ONamaPage = () => {
                 loading="lazy"
               />
             </div>
+
+            <p className="mb-4">
+              {t('aboutPage.storyParagraph1')}
+            </p>
+            <p className="mb-4">
+              {t('aboutPage.storyParagraph2')}
+            </p>
+            <p className="mb-4">
+              {t('aboutPage.storyParagraph3')}
+            </p>
+
+            {/* Clear float na dnu da se ostatak layouta ne \"penje\" uz sliku */}
+            <div className="clear-both" />
           </div>
         </div>
       </section>

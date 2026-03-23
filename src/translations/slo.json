@@ -15,7 +15,11 @@
   },
   "products": {
     "faucets": "Mešalniki za vodo",
-    "faucetsDescription": "Širok asortiman pipa za kopalnico in kuhinjo",
+    "faucetsHeroTitle": "Serije mešalnikov za vsako vizijo kopalnice",
+    "faucetsIntroHeading": "Serije mešalnikov za vsako vizijo kopalnice",
+    "faucetsIntroSubheading": "Od oblikovalskih ikon do diskretne klasike – izberite serijo, ki najbolje sledi vašemu slogu, funkcionalnim potrebam in proračunu.",
+    "faucetsIntroBody": "Z pregledom po barvah in namenu (umivalnik, kad, tuš, bide) vsaka serija jasno pokaže, kje najbolje pride do izraza. Kombinirajte različne modele znotraj iste linije in ustvarite usklajen videz celotne kopalnice – od prve skice do zadnjega detajla.",
+    "faucetsDescription": "Širok asortiman mešalnikov za kopalnico in kuhinjo",
     "bathing": "Kopanje + tuširanje",
     "bathingDescription": "Kadi, tuš kabine, vrata in vse za kopanje",
     "sanitary": "Sanitarije",

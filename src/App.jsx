@@ -13,6 +13,7 @@ const ONamaPage = lazy(() => import('./pages/o_nama'))
 const ServisPage = lazy(() => import('./pages/ServisPage'))
 const ProizvodiPage = lazy(() => import('./pages/ProizvodiPage'))
 const ProizvodiSlavine = lazy(() => import('./pages/ProizvodiSlavine'))
+const ProizvodSlavinaDetalj = lazy(() => import('./pages/ProizvodSlavinaDetalj'))
 const ProizvodiKupanjeTusiranje = lazy(() => import('./pages/ProizvodiKupanjeTusiranje'))
 const ProizvodiSanitarije = lazy(() => import('./pages/ProizvodiSanitarije'))
 const BlogPage = lazy(() => import('./pages/BlogPage'))
@@ -44,6 +45,7 @@ function App() {
                 <Route path="/servis" element={<ServisPage />} />
                 <Route path="/proizvodi" element={<ProizvodiPage />} />
                 <Route path="/proizvodi/slavine" element={<ProizvodiSlavine />} />
+                <Route path="/proizvodi/slavine/:id" element={<ProizvodSlavinaDetalj />} />
                 <Route path="/proizvodi/kupanje-tusiranje" element={<ProizvodiKupanjeTusiranje />} />
                 <Route path="/proizvodi/sanitarije" element={<ProizvodiSanitarije />} />
                 <Route path="/blog" element={<BlogPage />} />

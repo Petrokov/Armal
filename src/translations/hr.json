@@ -15,7 +15,11 @@
   },
   "products": {
     "faucets": "Mješalice za vodu",
-    "faucetsDescription": "Širok asortiman slavina za kupaonicu i kuhinju",
+    "faucetsHeroTitle": "Serije mješalica za svaku viziju kupaonice",
+    "faucetsIntroHeading": "Serije mješalica za svaku viziju kupaonice",
+    "faucetsIntroSubheading": "Od dizajnerskih ikona do tihih klasika – odaberite seriju koja najbolje prati vaš stil, funkcionalne potrebe i budžet.",
+    "faucetsIntroBody": "Uz pregled po bojama i namjeni (umivaonik, kada, tuš, bide), svaka serija jasno prikazuje gdje dolazi do izražaja. Kombinirajte različite modele unutar iste linije i postignite dosljedan izgled cijele kupaonice, od prve skice do završnog detalja.",
+    "faucetsDescription": "Širok asortiman mješalica za kupaonicu i kuhinju",
     "bathing": "Kupanje + tuširanje",
     "bathingDescription": "Kade, tuš kabine, vrata i sve za kupanje",
     "sanitary": "Sanitarije",
@@ -154,7 +158,7 @@
   "moodboard": {
     "title": "Moodboard",
     "subtitle": "Paleta tekstura, boja i formi koje čine srž našeg estetskog pristupa",
-    "description": "Moodboard pomaže da ideja kupaonice postane jasna i opipljiva. Kroz odabrane pločice, slavine i detalje pokazuje kako se elementi međusobno uklapaju i kakav se dojam prostora želi postići, prije nego što se donesu konačne odluke.",
+    "description": "Moodboard kupaonice služi kao vizualna smjernica za usklađivanje svih ključnih elemenata prostora prije konačnog odabira. Kroz pažljivo odabrane slavine, završne obrade i stilske detalje jasno prikazuje odnos materijala, boja i oblika te pomaže definirati željeni karakter kupaonice. Na jednom mjestu objedinjuje estetiku i funkcionalnost, kako bi konačno uređenje djelovalo skladno, promišljeno i dosljedno.",
     "tagline": "BE INSPIRED"
   },
   "about": {
@@ -208,10 +212,10 @@
     "heroTitle": "Naša priča",
     "heroSubtitle": "Više od 55 godina stvaramo funkcionalna i estetska rješenja za svaki dom.",
     "storyTitle": "Naša priča",
-    "storyParagraph1": "Brand Armal poznat je na području Adria regije već više od 55 godina. Nakon što ga je 2018. godine preuzela tvrtka Armal d.o.o. nastavlja svoj daljnji razvoj.",
-    "storyParagraph2": "Od 2023., s ciljem osiguranja potpunog fokusa na poslovanje i rast branda izdvojena je zasebna tvrtka Armal d.o.o. koja u svom portfelju ima asortiman za opremanje kupaonica.",
-    "storyParagraph3": "Tvrtka je izrasla iz obiteljske firme i baštini iz tog doba ono što nas čini dobrim poslovnim partnerima jer stvaramo dugoročan i profesionalan odnos s kupcima.",
-    "storyParagraph4": "Zadovoljstvo partnera, ali i zadovoljstvo zaposlenika, jedne su od naših ključnih vrijednosti koje su duboko utkane u DNK cijele firme.",
+    "storyParagraph1": "Armalova priča počinje prije više od 55 godina, kada je brend postavio temelje svoje prepoznatljivosti na tržištu Adria regije. Kroz desetljeća je izgradio reputaciju pouzdanog imena u kupaonskom programu, a svojim inovacijama, poput ranog uvođenja jednoručnih miješalica, potvrdio je status brenda koji razumije potrebe suvremenog korisnika. Izrastao iz obiteljske poslovne tradicije, Armal je od početka njegovao dugoročne i profesionalne odnose s kupcima i partnerima.",
+    "storyParagraph2": "Nova faza razvoja započinje 2018. godine preuzimanjem od strane tvrtke Armal d.o.o., dok je od 2023. poslovanje dodatno fokusirano kroz zasebnu kompaniju usmjerenu isključivo na rast brenda i razvoj asortimana za opremanje kupaonica. Danas Armal predstavlja cjelovit brend koji objedinjuje slavine, tuš programe, kupaonski namještaj, ogledala, galanteriju i drugu opremu, dostupan na više od 300 prodajnih mjesta u Hrvatskoj, Sloveniji i Bosni i Hercegovini. U središtu njegova identiteta i dalje ostaju kvaliteta, dizajn, funkcionalnost te zadovoljstvo partnera i zaposlenika.",
+    "storyParagraph3": "Gledajući unaprijed, Armal gradi budućnost na spoju tradicije i suvremenog razvoja. Smjer brenda jasno pokazuje ambiciju daljnjeg širenja portfelja, jačanja dizajnerskog identiteta i učvršćivanja pozicije jednog od ključnih regionalnih imena za cjelovito opremanje kupaonica.",
+    "storyParagraph4": "",
     "valuesTitle": "Naše vrijednosti",
     "valuesSubtitle": "Ove temeljne vrijednosti vode sve što radimo, od odabira proizvoda do korisničke usluge.",
     "values": {
@@ -246,13 +250,25 @@
   "faucetsPage": {
     "ctaTitle": "Pronađite savršene slavine za vaš prostor",
     "ctaDescription": "Istražite našu široku ponudu i pronađite idealna rješenja za vaš dom ili poslovni prostor.",
+    "colorLabel": "BOJA",
+    "colorAll": "Svi proizvodi",
     "finishes": {
-      "chrome": "Chrome",
-      "black": "Black",
-      "gunMetal": "Gun Metal",
-      "brushGold": "Brush Gold",
-      "brushedNickel": "Brushed Nickel",
+      "chrome": "Krom",
+      "black": "Crna",
+      "gunMetal": "Gun metal",
+      "brushGold": "Zlatna",
+      "brushedNickel": "Nikal",
       "bronze": "Bronze"
+    },
+    "sections": {
+      "waterMixersTitle": "Mješalice za vodu – primjena",
+      "waterMixers": {
+        "bidet": "Bidet",
+        "bathtub": "Mješalica za kadu",
+        "builtInMixer": "Ugradbena mješalica",
+        "builtInShower": "Stojeća mješalica",
+        "showerSet": "Mješalica za tuš"
+      }
     }
   },
   "bathingCategories": {

@@ -106,78 +106,64 @@ const ProizvodiSanitarije = () => {
                 <div
                   key={category.key}
                   ref={(el) => (productRefs.current[index] = el)}
-                  className={`flex flex-col items-center gap-8 opacity-0 translate-y-8 transition-all duration-700 md:flex-row md:gap-12 ${
+                  className={`group relative flex flex-col gap-8 p-6 md:flex-row md:gap-10 md:p-8 ${
                     imagePosition === 'right' ? 'md:flex-row-reverse' : ''
-                  }`}
+                  } opacity-0 translate-y-8 transition-all duration-700`}
                 >
-                  {/* Image Container */}
-                  <div className="flex-shrink-0 w-full md:w-1/2 group">
-                    <div className="relative h-64 md:h-80 lg:h-96">
-                      <div className="absolute inset-0 origin-center rotate-0 transform transition-all duration-300 group-hover:scale-110">
-                        <img
-                          src={category.image}
-                          alt={t(`sanitaryCategories.${category.key}.name`)}
-                          className="h-full w-full rounded-lg object-cover shadow-xl"
-                        />
-                      </div>
+                  {/* Dekorativni “tag” u gornjem lijevom kutu kartice */}
+                  <div className="pointer-events-none absolute inset-x-6 top-0 h-1 rounded-b-full bg-gradient-to-r from-[#c9a227] via-[#e5e7eb] to-[#111827]" />
+
+                  {/* Lijevo: galerija */}
+                  <div className="flex-shrink-0 w-full md:w-1/2 lg:max-w-xl xl:max-w-2xl rounded-2xl p-2">
+                    <div className="w-full overflow-hidden rounded-lg bg-slate-100 shadow-xl aspect-[4/3]">
+                      <img
+                        src={category.image}
+                        alt={t(`sanitaryCategories.${category.key}.name`)}
+                        className="h-full w-full object-cover object-center"
+                        loading="eager"
+                        fetchPriority="high"
+                        draggable={false}
+                      />
                     </div>
                   </div>
 
-                  {/* Content Container */}
-                  <div className="flex flex-col justify-center w-full md:w-1/2 text-center md:text-left">
-                    <h2 className="mb-4 text-3xl font-bold text-slate-900 md:text-4xl lg:text-5xl">
-                      {t(`sanitaryCategories.${category.key}.name`)}
-                    </h2>
-                    <p className="mb-4 text-base leading-relaxed text-slate-600 md:text-lg">
-                      {t(`sanitaryCategories.${category.key}.description`)}
-                    </p>
-                    {t(`sanitaryCategories.${category.key}.benefit`) && (
-                      <p className="mb-6 text-sm font-semibold text-[#0070CD] md:text-base">
-                        {t(`sanitaryCategories.${category.key}.benefit`)}
+                  {/* Desno: sadržaj */}
+                  <div className="flex w-full flex-col justify-center gap-5 md:w-1/2">
+                    {/* Naslov + kratki opis */}
+                    <div className="space-y-2">
+                      <p className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.22em] text-slate-500">
+                        <span className="h-1.5 w-6 rounded-full bg-[#c9a227]" />
+                        {t('products.sanitary')}
                       </p>
-                    )}
-                    {/* Action Buttons – svaka kategorija koristi vlastite linkove */}
-                    <div className="flex flex-col gap-3 sm:flex-row sm:gap-4">
+                      <h2 className="text-3xl font-semibold text-slate-900 md:text-4xl">
+                        {t(`sanitaryCategories.${category.key}.name`)}
+                      </h2>
+                      <p className="text-sm text-slate-600 md:text-base">
+                        {t(`sanitaryCategories.${category.key}.description`)}
+                      </p>
+                      {t(`sanitaryCategories.${category.key}.benefit`) && (
+                        <p className="text-sm font-semibold text-[#0070CD] md:text-base">
+                          {t(`sanitaryCategories.${category.key}.benefit`)}
+                        </p>
+                      )}
+                    </div>
+
+                    {/* CTA gumbi */}
+                    <div className="mt-2 flex flex-col gap-3 sm:flex-row sm:gap-4">
                       <a
                         href={category.b2bLink}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center justify-center gap-2 rounded-lg bg-[#0070CD] px-6 py-3 text-sm font-semibold text-white shadow-md transition-all duration-300 hover:scale-105 hover:bg-[#005bb0] hover:shadow-lg"
+                        className="inline-flex items-center justify-center gap-2 rounded-lg bg-[#0070CD] px-6 py-3 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-[#005bb0]"
                       >
-                        <svg
-                          className="h-4 w-4"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"
-                          />
-                        </svg>
                         {t('navbar.b2b')}
                       </a>
                       <a
                         href={category.editHomeLink}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center justify-center gap-2 rounded-lg bg-slate-700 px-6 py-3 text-sm font-semibold text-white shadow-md transition-all duration-300 hover:scale-105 hover:bg-slate-800 hover:shadow-lg"
+                        className="inline-flex items-center justify-center gap-2 rounded-lg bg-slate-800 px-6 py-3 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-slate-900"
                       >
-                        <svg
-                          className="h-4 w-4"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
-                          />
-                        </svg>
                         {t('navbar.editHome')}
                       </a>
                     </div>

@@ -10,11 +10,13 @@ const ASPECT_THUMB = 'aspect-[4/3]'
  * @param {string[]} images - niz URL-ova slika (dinamičan, neograničen broj)
  * @param {string} alt - alt tekst za slike
  * @param {(src: string, index: number) => void} [onImageClick] - callback za otvaranje lightboxa (src, indeks u galeriji)
+ * @param {number} [activeIndexExternal] - vanjska kontrola aktivne slike (npr. klik na \"Bidet\" badge)
  */
-const ProductGallery = ({ images = [], alt = '', onImageClick }) => {
+const ProductGallery = ({ images = [], alt = '', onImageClick, activeIndexExternal }) => {
   const [activeIndex, setActiveIndex] = useState(0)
   const scrollRef = useRef(null)
   const thumbStripRef = useRef(null)
+  const didSyncExternalOnce = useRef(false) // spriječi inicijalno auto-scroll ponašanje pri mountu/refreshu
 
   const count = images.length
   const hasImages = count > 0
@@ -32,6 +34,40 @@ const ProductGallery = ({ images = [], alt = '', onImageClick }) => {
     el.addEventListener('scroll', onScroll, { passive: true })
     return () => el.removeEventListener('scroll', onScroll)
   }, [count])
+
+  // Vanjska promjena aktivne slike (npr. klik na kategoriju \"Bidet\")
+  useEffect(() => {
+    if (typeof activeIndexExternal !== 'number' || count <= 0) return
+    const i = Math.max(0, Math.min(activeIndexExternal, count - 1))
+    setActiveIndex(i)
+
+    // Spriječi automatsko pomicanje pri početnom mountu / refreshu.
+    // To je najčešći razlog za “skok” stranice prema dolje.
+    if (!didSyncExternalOnce.current) {
+      didSyncExternalOnce.current = true
+      return
+    }
+
+    // Sinkroniziraj scroll na mobilu (unutar galerijskog scroller-a)
+    const el = scrollRef.current
+    if (el) el.scrollTo({ left: i * el.offsetWidth, behavior: 'smooth' })
+
+    // Sinkroniziraj thumbnail traku na desktopu, ali bez `scrollIntoView`.
+    // Time osiguravamo da se pomiče samo overflow-x kontejner, ne i cijela stranica.
+    const thumbEl = thumbStripRef.current
+    if (thumbEl && thumbEl.children && thumbEl.children[i] && count > 4) {
+      const child = thumbEl.children[i]
+      const childLeft = child.offsetLeft
+      const childWidth = child.offsetWidth
+      const centerOffset = (thumbEl.clientWidth - childWidth) / 2
+      const targetLeft = childLeft - centerOffset
+
+      // clamp unutar realnih granica scrolla
+      const maxLeft = Math.max(0, thumbEl.scrollWidth - thumbEl.clientWidth)
+      const clampedLeft = Math.max(0, Math.min(targetLeft, maxLeft))
+      thumbEl.scrollTo({ left: clampedLeft, behavior: 'smooth' })
+    }
+  }, [activeIndexExternal, count])
 
   // Scroll thumbnail stripa strelicama (desktop, kad ima više od 4)
   const scrollThumbs = (direction) => {
