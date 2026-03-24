@@ -7,7 +7,6 @@ import paralax1 from '../assets/paralax/para-1.webp'
 import paralax2 from '../assets/paralax/para-2.webp'
 import paralax3 from '../assets/paralax/para-3.webp'
 import paralax4 from '../assets/paralax/para-4.webp'
-import paralaxArmal from '../assets/paralax/armal-paralax.png'
 import FeaturedCollections from './FeaturedCollections'
 import MoodboardSection from './MoodboardSection'
 import AboutSection from './AboutSection'
@@ -42,12 +41,23 @@ const LandingPage = () => {
       typeof window.matchMedia === 'function' &&
       window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
+    const isMobileOrTablet =
+      typeof window !== 'undefined' &&
+      typeof window.matchMedia === 'function' &&
+      window.matchMedia('(max-width: 767px)').matches
+
+    const isMobile =
+      typeof window !== 'undefined' &&
+      typeof window.matchMedia === 'function' &&
+      window.matchMedia('(max-width: 639px)').matches
+
     // Intenziteti (px) po layeru: para-1 je najsporiji, para-2 najbrži/najbliži
     // redoslijed refova je: [para-1, armal-paralax, para-3, para-4, para-2]
     const intensities = [8, 14, 20, 28, 36]
 
     // Overscan da se ne vide rubovi layera pri translateu (layeri su transparentni komadi).
-    const baseScale = 1.12
+    const intensityScale = isMobileOrTablet ? 0.6 : 1
+    const baseScale = isMobileOrTablet ? 1.06 : 1.12
 
     const clamp = (v, min, max) => Math.max(min, Math.min(max, v))
 
@@ -63,10 +73,11 @@ const LandingPage = () => {
       // xNorm/yNorm: -1..1
       paralaxLayerRefs.current.forEach((el, i) => {
         if (!el) return
-        const intensity = intensities[i] ?? 0
+        const intensity = (intensities[i] ?? 0) * intensityScale
         const tx = xNorm * intensity
         const ty = yNorm * intensity
-        el.style.transform = `translate3d(${tx}px, ${ty}px, 0) scale(${baseScale})`
+        const scale = baseScale * (isMobile && i === 4 ? 1.35 : 1)
+        el.style.transform = `translate3d(${tx}px, ${ty}px, 0) scale(${scale})`
       })
     }
 
@@ -230,23 +241,6 @@ const LandingPage = () => {
           style={{ willChange: 'transform', zIndex: 1 }}
           draggable={false}
         />
-        {/* armal-paralax overlay: smanjen i pozicioniran 200px od dna hero sekcije */}
-        <div
-          className="absolute left-1/2 pointer-events-none select-none"
-          style={{ zIndex: 2, bottom: '180px', transform: 'translateX(-10%)' }}
-        >
-          <img
-            ref={(el) => {
-              paralaxLayerRefs.current[1] = el
-            }}
-            src={paralaxArmal}
-            alt=""
-            aria-hidden="true"
-            className="w-[70%] max-w-[520px] md:w-[45%] lg:w-[80%] max-h-[65%] object-contain"
-            style={{ willChange: 'transform' }}
-            draggable={false}
-          />
-        </div>
         <img
           ref={(el) => {
             paralaxLayerRefs.current[2] = el
@@ -269,17 +263,23 @@ const LandingPage = () => {
           style={{ willChange: 'transform', zIndex: 4 }}
           draggable={false}
         />
-        <img
-          ref={(el) => {
-            paralaxLayerRefs.current[4] = el
-          }}
-          src={paralax2}
-          alt=""
-          aria-hidden="true"
-          className="absolute inset-0 h-full w-full object-cover pointer-events-none select-none"
-          style={{ willChange: 'transform', zIndex: 5 }}
-          draggable={false}
-        />
+        {/* para-2: slavina + kamen (mobile: sidri za dno hero-a) */}
+        <div
+          className="absolute left-1/2 bottom-0 h-[85%] w-[140%] -translate-x-1/2 pointer-events-none select-none md:inset-0 md:left-0 md:h-full md:w-full md:translate-x-0"
+          style={{ zIndex: 5 }}
+        >
+          <img
+            ref={(el) => {
+              paralaxLayerRefs.current[4] = el
+            }}
+            src={paralax2}
+            alt=""
+            aria-hidden="true"
+            className="absolute inset-0 h-full w-full object-contain object-bottom md:object-cover md:object-center"
+            style={{ willChange: 'transform' }}
+            draggable={false}
+          />
+        </div>
 
         <div
           className="absolute inset-0 bg-gradient-to-r from-slate-900/85 via-slate-900/70 to-slate-900/30"
