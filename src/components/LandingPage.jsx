@@ -76,7 +76,7 @@ const LandingPage = () => {
         const intensity = (intensities[i] ?? 0) * intensityScale
         const tx = xNorm * intensity
         const ty = yNorm * intensity
-        const scale = baseScale * (isMobile && i === 4 ? 1.35 : 1)
+        const scale = isMobile && i === 4 ? 1.2 : baseScale
         el.style.transform = `translate3d(${tx}px, ${ty}px, 0) scale(${scale})`
       })
     }
@@ -265,8 +265,7 @@ const LandingPage = () => {
         />
         {/* para-2: slavina + kamen (mobile: sidri za dno hero-a) */}
         <div
-          className="absolute left-1/2 bottom-0 h-[85%] w-[140%] -translate-x-1/2 pointer-events-none select-none md:inset-0 md:left-0 md:h-full md:w-full md:translate-x-0"
-          style={{ zIndex: 5 }}
+          className="absolute left-1/2 bottom-6 z-20 h-[60%] w-[140%] -translate-x-1/2 pointer-events-none select-none md:inset-0 md:left-0 md:z-[5] md:h-full md:w-full md:translate-x-0"
         >
           <img
             ref={(el) => {
