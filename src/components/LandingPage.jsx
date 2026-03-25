@@ -2,7 +2,6 @@ import { BadgeCheck, ShieldCheck, Package, Truck } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { useLanguage } from '../contexts/LanguageContext'
 import { useEffect, useRef, useState } from 'react'
-import heroImage from '../assets/hero_2.jpg'
 import paralax1 from '../assets/paralax/para-1.webp'
 import paralax2 from '../assets/paralax/para-2.webp'
 import paralax3 from '../assets/paralax/para-3.webp'
@@ -220,15 +219,6 @@ const LandingPage = () => {
         ref={heroRef}
         className="relative flex min-h-[calc(100vh-5rem)] w-full flex-1 items-center overflow-hidden bg-slate-900 text-white"
       >
-        <img
-          src={heroImage}
-          alt="Moderni kupaonski interijer"
-          className="absolute inset-0 h-full w-full object-cover min-h-full min-w-full"
-          style={{ objectFit: 'cover', width: '100%', height: '100%' }}
-          loading="eager"
-          fetchPriority="high"
-        />
-
         {/* Parallax layers (dekorativno) */}
         <img
           ref={(el) => {
@@ -265,7 +255,7 @@ const LandingPage = () => {
         />
         {/* para-2: slavina + kamen (mobile: sidri za dno hero-a) */}
         <div
-          className="absolute left-1/2 bottom-6 z-20 h-[60%] w-[140%] -translate-x-1/2 pointer-events-none select-none md:inset-0 md:left-0 md:z-[5] md:h-full md:w-full md:translate-x-0"
+          className="absolute left-1/2 bottom-6 z-20 h-[60%] w-[140%] -translate-x-1/2 pointer-events-none select-none md:inset-0 md:left-0 md:z-20 md:h-full md:w-full md:translate-x-0"
         >
           <img
             ref={(el) => {
@@ -287,40 +277,48 @@ const LandingPage = () => {
 
         <div className="relative z-10 w-full">
           <div className="mx-auto flex h-full w-full max-w-6xl flex-col items-start justify-center gap-6 px-6 py-16 text-left md:px-10 lg:px-12">
-            <div className="text-white">
-              <p className="text-sm uppercase tracking-[0.5em] text-white/70">
-                {t('hero.collections')}
-              </p>
-              <h1 className="mt-2 text-4xl font-semibold leading-none sm:text-5xl md:text-6xl">
-                <span className="block mb-2">
-                  {getAnimatedText(t('hero.title1'), ['rješenja', 'rešitve', 'rešenja'], 200)}
-                </span>
-                <span className="block mb-2">
-                  {getAnimatedText(t('hero.title2'), ['dojam', 'vtis', 'utisak'], 400)}
-                </span>
-                <span className="block">
-                  {getAnimatedText(t('hero.title3'), ['cijena', 'cena'], 600)}
-                </span>
-              </h1>
-              <p className="mt-4 text-base text-white/80 sm:text-lg md:max-w-2xl">
-                {t('hero.subtitle')}
-              </p>
-            </div>
+            <div
+              className="hero-content-glass w-full max-w-3xl rounded-[28px] border border-white/25 bg-white/25 p-5 shadow-[0_8px_32px_rgba(15,23,42,0.12)] sm:p-7 md:bg-white/20 md:p-8"
+              style={{
+                backdropFilter: 'blur(14px) saturate(140%)',
+                WebkitBackdropFilter: 'blur(14px) saturate(140%)',
+              }}
+            >
+              <div className="text-white">
+                <p className="text-sm uppercase tracking-[0.5em] text-white/75">
+                  {t('hero.collections')}
+                </p>
+                <h1 className="mt-2 text-4xl font-semibold leading-none sm:text-5xl md:text-6xl">
+                  <span className="block mb-2">
+                    {getAnimatedText(t('hero.title1'), ['rješenja', 'rešitve', 'rešenja'], 200)}
+                  </span>
+                  <span className="block mb-2">
+                    {getAnimatedText(t('hero.title2'), ['dojam', 'vtis', 'utisak'], 400)}
+                  </span>
+                  <span className="block">
+                    {getAnimatedText(t('hero.title3'), ['cijena', 'cena'], 600)}
+                  </span>
+                </h1>
+                <p className="mt-4 text-base text-white/90 sm:text-lg md:max-w-2xl">
+                  {t('hero.subtitle')}
+                </p>
+              </div>
 
-            <div className="mt-4 flex flex-wrap items-center gap-4">
-              <Link
-                to="/proizvodi"
-                className="inline-flex items-center justify-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-semibold text-slate-900 shadow-[0_12px_30px_rgba(15,23,42,0.2)] transition hover:-translate-y-0.5 hover:shadow-[0_18px_35px_rgba(15,23,42,0.25)] whitespace-nowrap min-w-[200px] flex-1 sm:flex-initial sm:min-w-[240px]"
-              >
-                {t('hero.exploreCollection')}
-                <ArrowIcon />
-              </Link>
-              <Link
-                to="/katalozi"
-                className="inline-flex items-center justify-center rounded-full border border-white/40 bg-white/10 px-6 py-3 text-sm font-semibold text-white backdrop-blur transition hover:bg-white/15 whitespace-nowrap min-w-[200px] flex-1 sm:flex-initial sm:min-w-[240px]"
-              >
-                {t('hero.viewCatalog')}
-              </Link>
+              <div className="mt-5 flex flex-wrap items-center gap-4">
+                <Link
+                  to="/proizvodi"
+                  className="inline-flex items-center justify-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-semibold text-slate-900 shadow-[0_12px_30px_rgba(15,23,42,0.2)] transition hover:-translate-y-0.5 hover:shadow-[0_18px_35px_rgba(15,23,42,0.25)] whitespace-nowrap min-w-[200px] flex-1 sm:flex-initial sm:min-w-[240px]"
+                >
+                  {t('hero.exploreCollection')}
+                  <ArrowIcon />
+                </Link>
+                <Link
+                  to="/katalozi"
+                  className="inline-flex items-center justify-center rounded-full border border-white/50 bg-white/20 px-6 py-3 text-sm font-semibold text-white backdrop-blur transition hover:bg-white/25 whitespace-nowrap min-w-[200px] flex-1 sm:flex-initial sm:min-w-[240px]"
+                >
+                  {t('hero.viewCatalog')}
+                </Link>
+              </div>
             </div>
           </div>
         </div>

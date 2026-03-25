@@ -3,7 +3,6 @@ import { Award, CheckCircle, Handshake, Target } from 'lucide-react'
 import TeamSection from '../components/TeamSection'
 import heroImage from '../assets/kupaonica-zelena.webp'
 import aboutImage from '../assets/o_nama_kupaonica_2.png'
-import staraKupaonica from '../assets/o-nama-stara-slika.jpeg'
 
 const ONamaPage = () => {
   const { t } = useLanguage()
@@ -64,30 +63,43 @@ const ONamaPage = () => {
       </section>
 
       {/* 2. Naša priča – tekst koji se omata oko slike */}
-      <section className="w-full bg-white py-16 md:py-24">
+      <section className="w-full bg-slate-50 py-16 md:py-24">
         <div className="mx-auto max-w-5xl px-6">
-          <h2 className="mb-6 text-3xl font-bold text-[#0070CD] md:text-4xl">
+          <p className="mb-3 text-sm font-semibold uppercase tracking-[0.22em] text-[#0070CD]/80 md:mb-4">
+            {t('aboutPage.storyEyebrow')}
+          </p>
+
+          <h2 className="mb-6 text-2xl font-bold tracking-tight text-[#0070CD] md:text-3xl">
             {t('aboutPage.storyTitle')}
           </h2>
 
           <div className="relative text-base leading-relaxed text-slate-700 md:text-lg">
             {/* Slika u desnom kutu, oko koje se tekst omata na većim ekranima */}
-            <div className="mb-6 w-full overflow-hidden rounded-2xl shadow-md md:float-right md:ml-8 md:mb-4 md:w-1/3 lg:w-[320px]">
-              <img
-                src={staraKupaonica}
-                alt="stara kupaonica Armal"
-                className="h-full w-full object-cover"
-                loading="lazy"
-              />
-            </div>
+            <figure className="mb-6 w-full overflow-hidden rounded-3xl border border-slate-200/70 bg-white/40 shadow-sm md:float-right md:ml-8 md:mb-4 md:w-1/3 lg:w-[320px]">
+              <div className="overflow-hidden rounded-3xl">
+                <img
+                  src={aboutImage}
+                  alt="stara kupaonica Armal"
+                  className="h-full w-full object-cover object-bottom md:object-center"
+                  loading="lazy"
+                />
+              </div>
+            </figure>
 
-            <p className="mb-4">
+            <p className="mb-5">
               {t('aboutPage.storyParagraph1')}
             </p>
-            <p className="mb-4">
+            <p className="mb-5">
               {t('aboutPage.storyParagraph2')}
             </p>
-            <p className="mb-4">
+
+            <blockquote className="mb-5 rounded-2xl border border-slate-200/70 bg-white/60 px-5 py-4 shadow-sm">
+              <p className="text-base font-semibold leading-relaxed text-slate-700">
+                {t('aboutPage.storyParagraph4')}
+              </p>
+            </blockquote>
+
+            <p className="mb-0">
               {t('aboutPage.storyParagraph3')}
             </p>
 

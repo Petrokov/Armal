@@ -211,11 +211,13 @@
   "aboutPage": {
     "heroTitle": "Naša zgodba",
     "heroSubtitle": "Več kot 55 let ustvarjamo funkcionalne in estetske rešitve za vsak dom.",
-    "storyTitle": "Naša zgodba",
-    "storyParagraph1": "Blagovna znamka Armal je znana na območju Jadranske regije že več kot 55 let. Po tem, ko jo je leta 2018 prevzelo podjetje Armal d.o.o., nadaljuje svoj nadaljnji razvoj.",
-    "storyParagraph2": "Od leta 2023, z namenom zagotovitve popolnega fokusa na poslovanje in rast blagovne znamke, je bilo izločeno ločeno podjetje Armal d.o.o., ki v svojem portfelju ima asortiman za opremljanje kopalnic.",
-    "storyParagraph3": "Podjetje je zraslo iz družinske firme in podeduje iz tistega časa tisto, kar nas naredi dobri poslovni partnerji, saj ustvarjamo dolgoročno in profesionalno razmerje s kupci.",
-    "storyParagraph4": "Zadovoljstvo partnerjev, pa tudi zadovoljstvo zaposlenih, so ene od naših ključnih vrednot, ki so globoko vtkane v DNK celotnega podjetja.",
+    "storyTitle": "Naša zgodba: tradicija, ki gradi prihodnost",
+    "storyEyebrow": "ARMAL / OD 1969.",
+    "storyCaption": "Armal skozi čas",
+    "storyParagraph1": "Armalova zgodba se začne pred več kot 55 leti, ko je blagovna znamka postavila temelje svoje prepoznavnosti na trgu Adria. Skozi desetletja dosledne kakovosti in zanesljivosti smo zgradili močan odnos s kupci, partnerji in generacijami uporabnikov, ki od kopalnice pričakujejo več kot le funkcijo.",
+    "storyParagraph2": "Iz družinske poslovne tradicije smo razvili sodobno in celovito blagovno znamko, ki danes združuje mešalnike, tuš programe, kopalniško pohištvo, ogledala, galanterijo in drugo opremo. Nova razvojna faza se je začela leta 2018 s prevzemom s strani podjetja Armal d.o.o., od leta 2023 pa smo dodatno usmerjeni skozi ločeno podjetje, osredotočeno izključno na rast blagovne znamke in razvoj asortimana za opremljanje kopalnic.",
+    "storyParagraph3": "Prihodnost gradimo z jasnim ciljem: širiti portfelj, krepiti oblikovalsko identiteto in razvijati inovativne, trajnostne ter dolgoročne rešitve za sodoben življenjski prostor. Danes smo prisotni na več kot 300 prodajnih mestih na Hrvaškem, v Sloveniji in Bosni in Hercegovini, jutri pa želimo biti še močnejši regionalni partner za celovito opremljanje kopalnic.",
+    "storyParagraph4": "Prihodnost gradimo na temeljih tradicije — z neprekinjenim napredkom znanja, izkušenj in novih idej.",
     "valuesTitle": "Naše vrednote",
     "valuesSubtitle": "Te temeljne vrednote vodijo vse, kar počnemo, od izbire izdelkov do uporabniške storitve.",
     "values": {
