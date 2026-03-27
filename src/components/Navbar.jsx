@@ -141,7 +141,7 @@ const Navbar = () => {
             isUtilityHidden ? '' : 'md:top-[44px]'
           }`}
         >
-          <div className="mx-auto grid h-[60px] max-w-7xl grid-cols-[auto_1fr_auto] items-center gap-6 px-8 font-sans">
+          <div className="relative mx-auto grid h-[60px] max-w-7xl grid-cols-[auto_1fr_auto] items-center gap-6 px-8 font-sans">
         <div className="flex items-center gap-4">
           <button
             type="button"
@@ -151,11 +151,18 @@ const Navbar = () => {
           >
             {isSidebarOpen ? <IconClose /> : <IconHamburger />}
           </button>
-          <Link to="/">
+          <Link to="/" className="hidden lg:inline-flex">
             <img src={logo} alt="armal logo" className="h-8 w-auto" />
           </Link>
         </div>
-        <ul className="hidden items-center justify-center gap-8 text-[14px] font-medium text-[#1a1a1a] lg:flex">
+        <Link
+          to="/"
+          className="absolute left-1/2 -translate-x-1/2 lg:hidden"
+          aria-label="armal logo"
+        >
+          <img src={logo} alt="armal logo" className="h-8 w-auto" />
+        </Link>
+        <ul className="hidden items-center justify-center gap-8 text-[16px] font-medium text-[#1a1a1a] lg:flex">
           {primaryLinks.map((link) => {
             const isActive =
               link.key === 'products'
@@ -200,7 +207,7 @@ const Navbar = () => {
         </ul>
 
         {/* Language Dropdown (ROW 2) */}
-        <div className="relative justify-self-end">
+        <div className="relative hidden justify-self-end lg:block">
           <button
             type="button"
             onClick={() =>

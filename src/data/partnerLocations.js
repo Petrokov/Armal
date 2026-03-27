@@ -1,49 +1,7 @@
 // Napomena: ovo su demo podaci (primjer). Možeš ih zamijeniti stvarnim partnerima.
 // Polja koja map/filtri očekuju: id, name, country, address, phone, lat, lng (+ opcionalno googleMapsUrl).
 const partnerLocations = [
-  {
-    id: 'zagreb',
-    name: 'Armal Partner Zagreb',
-    country: 'HR',
-    address: 'Ulica Grada Vukovara 269A, 10000 Zagreb',
-    phone: '+385 1 2345 678',
-    lat: 45.8011,
-    lng: 15.9713,
-    googleMapsUrl: 'https://www.google.com/maps/search/?api=1&query=45.8011,15.9713',
-  },
-  {
-    id: 'split',
-    name: 'Armal Partner Split',
-    country: 'HR',
-    address: 'Poljička cesta 26, 21000 Split',
-    phone: '+385 21 123 456',
-    lat: 43.5081,
-    lng: 16.4402,
-    googleMapsUrl: 'https://www.google.com/maps/search/?api=1&query=43.5081,16.4402',
-  },
-  {
-    id: 'ljubljana',
-    name: 'Armal Partner Ljubljana',
-    country: 'SLO',
-    // SLO address hidden from map
-    disabledOnMap: true,
-address: 'Dunajska cesta 100, 1000 Ljubljana',
-    phone: '+386 1 234 5678',
-    lat: 46.0569,
-    lng: 14.5058,
-    googleMapsUrl: 'https://www.google.com/maps/search/?api=1&query=46.0569,14.5058',
-  },
-  {
-    id: 'sarajevo',
-    name: 'Armal Partner Sarajevo',
-    country: 'BIH',
-    address: 'Zmaja od Bosne 12, 71000 Sarajevo',
-    phone: '+387 33 123 456',
-    lat: 43.8563,
-    lng: 18.4131,
-    googleMapsUrl: 'https://www.google.com/maps/search/?api=1&query=43.8563,18.4131',
-  },
-  {
+ {
     id: 'vitos_d_o_o_188',
     name: 'VITOS d.o.o.',
     country: 'HR',

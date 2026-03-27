@@ -234,21 +234,23 @@ const LandingPage = () => {
                 </p>
                 <h1 className="mt-2 text-4xl font-semibold leading-none sm:text-5xl md:text-6xl">
                   <span className="block mb-2">
-                    {getAnimatedText(t('hero.title1'), ['rješenja', 'rešitve', 'rešenja'], 200)}
+                    {getAnimatedText(t('hero.title1'), ['kupaonicu', 'kupatilo', 'kopalnico'], 200)}
                   </span>
                   <span className="block mb-2">
-                    {getAnimatedText(t('hero.title2'), ['dojam', 'vtis', 'utisak'], 400)}
+                    {getAnimatedText(t('hero.title2'), ['dizajn'], 400)}
                   </span>
                   <span className="block">
                     {getAnimatedText(t('hero.title3'), ['cijena', 'cena'], 600)}
                   </span>
                 </h1>
-                <p className="mt-4 text-base text-white/95 sm:text-lg md:max-w-2xl">
-                  {t('hero.subtitle')}
-                </p>
+                {t('hero.subtitle') && (
+                  <p className="mt-4 text-base text-white/95 sm:text-lg md:max-w-2xl">
+                    {t('hero.subtitle')}
+                  </p>
+                )}
               </div>
 
-              <div className="mt-5 flex flex-wrap items-center gap-4">
+              <div className="mt-10 flex flex-wrap items-center gap-4">
                 <Link
                   to="/proizvodi"
                   className="inline-flex items-center justify-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-semibold text-slate-900 shadow-[0_12px_30px_rgba(15,23,42,0.2)] transition hover:-translate-y-0.5 hover:shadow-[0_18px_35px_rgba(15,23,42,0.25)] whitespace-nowrap min-w-[200px] flex-1 sm:flex-initial sm:min-w-[240px]"
