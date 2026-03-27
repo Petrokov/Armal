@@ -2,7 +2,7 @@ import { useLanguage } from '../contexts/LanguageContext'
 
 
 
-const TeamSection = ({ maxMembers, showLearnMore = true, columnsLg = 5 }) => {
+const TeamSection = ({ maxMembers, showLearnMore = true, columnsLg = 5, memberRows }) => {
   const { t } = useLanguage()
 
   // Team members data
@@ -104,6 +104,58 @@ const TeamSection = ({ maxMembers, showLearnMore = true, columnsLg = 5 }) => {
   // If maxMembers is not provided or is undefined, show all members
   const displayedMembers = maxMembers ? teamMembers.slice(0, maxMembers) : teamMembers
 
+  const membersByName = new Map(teamMembers.map((member) => [member.name, member]))
+  const hasCustomRows = Array.isArray(memberRows) && memberRows.length > 0
+
+  const renderMemberCard = (member, indexKey) => (
+    <div
+      key={indexKey}
+      className="group flex flex-col pb-6 items-center rounded-2xl bg-white p-0 shadow-md transition-all duration-300 hover:-translate-y-2 hover:shadow-xl"
+    >
+      {/* Image Container */}
+      <div className="mb-4 h-64 w-full overflow-hidden rounded-t-2xl">
+        <img
+          src={member.image}
+          alt={member.name}
+          className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-110"
+          loading="lazy"
+        />
+      </div>
+
+      {/* Name */}
+      <h3 className="mb-2 text-xl font-bold text-slate-900">
+        {member.name}
+      </h3>
+
+      {/* Role */}
+      <p className="mb-4 text-sm text-slate-600">{member.role}</p>
+
+      {/* Contact Buttons */}
+      <div className="flex items-center gap-3">
+        {/* Email Button */}
+        <a
+          href={`mailto:${member.email}`}
+          className="inline-flex items-center justify-center rounded-full bg-slate-700 p-2 text-white transition-colors hover:bg-slate-600"
+          aria-label={`Pošalji email ${member.name}`}
+          title={member.email}
+        >
+          <EmailIcon />
+        </a>
+
+        {/* LinkedIn Button */}
+        <a
+          href={member.linkedin}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center justify-center rounded-full bg-[#0070CD] p-2 text-white transition-colors hover:bg-[#005bb0]"
+          aria-label={`${member.name} LinkedIn profil`}
+        >
+          <LinkedInIcon />
+        </a>
+      </div>
+    </div>
+  )
+
   return (
     <section className="w-full bg-white py-16">
       <div className="mx-auto max-w-7xl px-6">
@@ -117,57 +169,31 @@ const TeamSection = ({ maxMembers, showLearnMore = true, columnsLg = 5 }) => {
           </p>
         </div>
 
-        {/* Team Members Grid: 1 col mobile, 2 cols tablet, columnsLg na laptop+ (3 za Landing, 5 za O nama) */}
-        <div className={`mb-12 grid grid-cols-1 gap-8 md:grid-cols-2 ${columnsLg === 3 ? 'lg:grid-cols-3' : 'lg:grid-cols-5'}`}>
-          {displayedMembers.map((member, index) => (
-            <div
-              key={index}
-              className="group flex flex-col pb-6 items-center rounded-2xl bg-white p-0 shadow-md transition-all duration-300 hover:-translate-y-2 hover:shadow-xl"
-            >
-              {/* Image Container */}
-              <div className="mb-4 h-64 w-full overflow-hidden rounded-t-2xl">
-                <img
-                  src={member.image}
-                  alt={member.name}
-                  className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-110"
-                  loading="lazy"
-                />
-              </div>
+        {hasCustomRows ? (
+          <div className="mb-12 space-y-8">
+            {memberRows.map((row, rowIndex) => {
+              const columns = rowIndex === 1 ? 4 : 3
+              const maxWidthClass = rowIndex === 1 ? 'max-w-[1200px]' : 'max-w-[900px]'
+              const rowMembers = row
+                .map((memberName) => membersByName.get(memberName))
+                .filter(Boolean)
 
-              {/* Name */}
-              <h3 className="mb-2 text-xl font-bold text-slate-900">
-                {member.name}
-              </h3>
-
-              {/* Role */}
-              <p className="mb-4 text-sm text-slate-600">{member.role}</p>
-
-              {/* Contact Buttons */}
-              <div className="flex items-center gap-3">
-                {/* Email Button */}
-                <a
-                  href={`mailto:${member.email}`}
-                  className="inline-flex items-center justify-center rounded-full bg-slate-700 p-2 text-white transition-colors hover:bg-slate-600"
-                  aria-label={`Pošalji email ${member.name}`}
-                  title={member.email}
+              return (
+                <div
+                  key={`team-row-${rowIndex}`}
+                  className={`mx-auto grid grid-cols-1 gap-8 md:grid-cols-2 ${columns === 4 ? 'lg:grid-cols-4' : 'lg:grid-cols-3'} ${maxWidthClass}`}
                 >
-                  <EmailIcon />
-                </a>
-
-                {/* LinkedIn Button */}
-                <a
-                  href={member.linkedin}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center rounded-full bg-[#0070CD] p-2 text-white transition-colors hover:bg-[#005bb0]"
-                  aria-label={`${member.name} LinkedIn profil`}
-                >
-                  <LinkedInIcon />
-                </a>
-              </div>
-            </div>
-          ))}
-        </div>
+                  {rowMembers.map((member) => renderMemberCard(member, member.name))}
+                </div>
+              )
+            })}
+          </div>
+        ) : (
+          /* Team Members Grid: 1 col mobile, 2 cols tablet, columnsLg na laptop+ (3 za Landing, 5 za O nama) */
+          <div className={`mb-12 grid grid-cols-1 gap-8 md:grid-cols-2 ${columnsLg === 3 ? 'lg:grid-cols-3' : 'lg:grid-cols-5'}`}>
+            {displayedMembers.map((member) => renderMemberCard(member, member.name))}
+          </div>
+        )}
 
         {/* Learn More Button */}
         {showLearnMore && (

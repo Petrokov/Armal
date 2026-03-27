@@ -2,7 +2,7 @@ import { useLanguage } from '../contexts/LanguageContext'
 import { Award, CheckCircle, Handshake, Target } from 'lucide-react'
 import TeamSection from '../components/TeamSection'
 import heroImage from '../assets/kupaonica-zelena.webp'
-import aboutImage from '../assets/o_nama_kupaonica_2.png'
+import aboutImage from '../assets/o-nama/o-nama-image.webp'
 
 const ONamaPage = () => {
   const { t } = useLanguage()
@@ -42,29 +42,19 @@ const ONamaPage = () => {
   return (
     <div className="min-h-screen bg-white">
       {/* 1. Hero Section */}
-      <section className="relative flex min-h-[40vh] w-full items-center justify-center overflow-hidden bg-slate-900 text-white">
-        <img
-          src={heroImage}
-          alt="Moderni kupaonski interijer"
-          className="absolute inset-0 h-full w-full object-cover"
-          loading="eager"
-          fetchPriority="high"
-        />
-        <div className="absolute inset-0 bg-gradient-to-r from-slate-900/85 via-slate-900/70 to-slate-900/30" />
-
-        <div className="relative z-10 mx-auto max-w-4xl px-6 text-center">
-          <h1 className="mb-4 text-4xl font-bold md:text-5xl lg:text-6xl">
-            {t('aboutPage.heroTitle')}
-          </h1>
-          <p className="text-lg text-white/90 md:text-xl lg:text-2xl">
-            {t('aboutPage.heroSubtitle')}
-          </p>
+      <section
+        className="w-full py-16 text-white"
+        style={{ background: 'linear-gradient(to bottom right, #0070CD, #005bb0, #004A8A)' }}
+      >
+        <div className="mx-auto max-w-7xl px-6">
+          <h1 className="text-4xl font-bold md:text-5xl">{t('aboutPage.heroTitle')}</h1>
+          <p className="mt-4 text-lg text-white/90">{t('aboutPage.heroSubtitle')}</p>
         </div>
       </section>
 
       {/* 2. Naša priča – tekst koji se omata oko slike */}
       <section className="w-full bg-slate-50 py-16 md:py-24">
-        <div className="mx-auto max-w-5xl px-6">
+        <div className="mx-auto max-w-7xl px-6">
           <p className="mb-3 text-sm font-semibold uppercase tracking-[0.22em] text-[#0070CD]/80 md:mb-4">
             {t('aboutPage.storyEyebrow')}
           </p>
@@ -93,8 +83,12 @@ const ONamaPage = () => {
               {t('aboutPage.storyParagraph2')}
             </p>
 
-            <blockquote className="mb-5 rounded-2xl border border-slate-200/70 bg-white/60 px-5 py-4 shadow-sm">
-              <p className="text-base font-semibold leading-relaxed text-slate-700">
+            <blockquote className="group relative mb-5 overflow-hidden rounded-[12px] border-none bg-[#1a6cc4] px-10 py-8 text-white transition-[background,transform] duration-300 ease-in-out hover:-translate-y-[2px] hover:bg-[#155ab0]">
+              <span
+                aria-hidden="true"
+                className="absolute -right-10 -top-10 h-[140px] w-[140px] rounded-full bg-white/10 opacity-60 transition-transform duration-300 ease-in-out group-hover:scale-[1.3]"
+              />
+              <p className="relative text-[17px] font-semibold leading-[1.6] text-white">
                 {t('aboutPage.storyParagraph4')}
               </p>
             </blockquote>
@@ -150,7 +144,14 @@ const ONamaPage = () => {
       </section>
 
       {/* 4. Team Section - Reuse existing component, show all members */}
-      <TeamSection showLearnMore={false} />
+      <TeamSection
+        showLearnMore={false}
+        memberRows={[
+          ['Simona Zavratnik', 'Suzana Mahović', 'Marko Hrgetić'],
+          ['Aleksandar Franolić', 'Miroslav Salopek', 'Saša Čačić', 'Marko Čović'],
+          ['Anja Križanić', 'Sandra Miklec', 'Natalija Jović', 'Marija Pršir', 'Morena Sršen', 'Mladen Luketić'],
+        ]}
+      />
 
       {/* 5. Stats Section */}
       <section className="w-full py-16 md:py-24 text-white" style={{ background: 'linear-gradient(to right, #0070CD, #005bb0, #004A8A)' }}>

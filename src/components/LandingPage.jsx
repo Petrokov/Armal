@@ -1,22 +1,21 @@
 import { BadgeCheck, ShieldCheck, Package, Truck } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { useLanguage } from '../contexts/LanguageContext'
-import { useEffect, useRef, useState } from 'react'
-import paralax1 from '../assets/paralax/para-1.webp'
-import paralax2 from '../assets/paralax/para-2.webp'
-import paralax3 from '../assets/paralax/para-3.webp'
-import paralax4 from '../assets/paralax/para-4.webp'
+import { useCallback, useEffect, useMemo, useState } from 'react'
+import headerPipa from '../assets/header/header-pipa.webp'
+import rubiProstor from '../assets/slavine/rubi-compresed/rubi-prostor.webp'
+import oNamaKupaonicaHero from '../assets/o_nama_kupaonica_hero.png'
+import wcSjedalice from '../assets/sanitarije/wc_sjedalice.webp'
+import PartnerMap from './PartnerMap'
+import partnerLocationsData from '../data/partnerLocations'
 import FeaturedCollections from './FeaturedCollections'
 import MoodboardSection from './MoodboardSection'
-import AboutSection from './AboutSection'
 import CTASection from './CTASection'
 import TeamSection from './TeamSection'
 
 const LandingPage = () => {
   const { t } = useLanguage()
   const [isAnimated, setIsAnimated] = useState(false)
-  const heroRef = useRef(null)
-  const paralaxLayerRefs = useRef([])
 
   useEffect(() => {
     // Pokreni animaciju nakon kratkog delay-a
@@ -24,129 +23,6 @@ const LandingPage = () => {
       setIsAnimated(true)
     }, 100)
     return () => clearTimeout(timer)
-  }, [])
-
-  // Mouse parallax za hero (premium depth, bez layout thrash-a).
-  // - koristi pointermove/pointerleave na hero wrapperu
-  // - requestAnimationFrame + transform: translate3d(x, y, 0)
-  // - na mouseleave vraća glatko na 0,0
-  // - prefers-reduced-motion: efekt se ugasi
-  useEffect(() => {
-    const heroEl = heroRef.current
-    if (!heroEl) return
-
-    const prefersReduced =
-      typeof window !== 'undefined' &&
-      typeof window.matchMedia === 'function' &&
-      window.matchMedia('(prefers-reduced-motion: reduce)').matches
-
-    const isMobileOrTablet =
-      typeof window !== 'undefined' &&
-      typeof window.matchMedia === 'function' &&
-      window.matchMedia('(max-width: 767px)').matches
-
-    const isMobile =
-      typeof window !== 'undefined' &&
-      typeof window.matchMedia === 'function' &&
-      window.matchMedia('(max-width: 639px)').matches
-
-    // Intenziteti (px) po layeru: para-1 je najsporiji, para-2 najbrži/najbliži
-    // redoslijed refova je: [para-1, armal-paralax, para-3, para-4, para-2]
-    const intensities = [8, 14, 20, 28, 36]
-
-    // Overscan da se ne vide rubovi layera pri translateu (layeri su transparentni komadi).
-    const intensityScale = isMobileOrTablet ? 0.6 : 1
-    const baseScale = isMobileOrTablet ? 1.06 : 1.12
-
-    const clamp = (v, min, max) => Math.max(min, Math.min(max, v))
-
-    let rafId = null
-    let running = false
-
-    let targetX = 0
-    let targetY = 0
-    let currentX = 0
-    let currentY = 0
-
-    const applyTransforms = (xNorm, yNorm) => {
-      // xNorm/yNorm: -1..1
-      paralaxLayerRefs.current.forEach((el, i) => {
-        if (!el) return
-        const intensity = (intensities[i] ?? 0) * intensityScale
-        const tx = xNorm * intensity
-        const ty = yNorm * intensity
-        const scale = isMobile && i === 4 ? 1.2 : baseScale
-        el.style.transform = `translate3d(${tx}px, ${ty}px, 0) scale(${scale})`
-      })
-    }
-
-    const animate = () => {
-      rafId = null
-      // Glatko približavanje targetu (bez inercije/lage, samo easing kroz rAF).
-      const k = 0.12
-      currentX += (targetX - currentX) * k
-      currentY += (targetY - currentY) * k
-
-      applyTransforms(currentX, currentY)
-
-      const done = Math.abs(targetX - currentX) < 0.001 && Math.abs(targetY - currentY) < 0.001
-      if (!done) {
-        rafId = window.requestAnimationFrame(animate)
-      } else {
-        // Osiguraj točan final na 0,0
-        currentX = targetX
-        currentY = targetY
-        applyTransforms(currentX, currentY)
-        running = false
-      }
-    }
-
-    const start = () => {
-      if (running) return
-      running = true
-      rafId = window.requestAnimationFrame(animate)
-    }
-
-    const onPointerMove = (e) => {
-      if (prefersReduced) return
-      const rect = heroEl.getBoundingClientRect()
-      const halfW = rect.width / 2
-      const halfH = rect.height / 2
-      if (halfW <= 0 || halfH <= 0) return
-
-      const dx = (e.clientX - (rect.left + halfW)) / halfW
-      const dy = (e.clientY - (rect.top + halfH)) / halfH
-
-      // Normalize i ograniči da translate ne bude ekstreman
-      targetX = clamp(dx, -1, 1)
-      targetY = clamp(dy, -1, 1)
-
-      start()
-    }
-
-    const onPointerLeave = () => {
-      if (prefersReduced) return
-      targetX = 0
-      targetY = 0
-      start()
-    }
-
-    if (prefersReduced) {
-      applyTransforms(0, 0)
-      return
-    }
-
-    // početno stanje
-    applyTransforms(0, 0)
-
-    heroEl.addEventListener('pointermove', onPointerMove, { passive: true })
-    heroEl.addEventListener('pointerleave', onPointerLeave)
-
-    return () => {
-      heroEl.removeEventListener('pointermove', onPointerMove)
-      heroEl.removeEventListener('pointerleave', onPointerLeave)
-      if (rafId != null) window.cancelAnimationFrame(rafId)
-    }
   }, [])
 
   // Funkcija za animaciju specifičnih riječi
@@ -212,80 +88,148 @@ const LandingPage = () => {
     },
   ]
 
+  const categoryCards = [
+    {
+      key: 'faucets',
+      titleKey: 'products.faucets',
+      descriptionKey: 'products.faucetsDescription',
+      to: '/proizvodi/slavine',
+      imageSrc: rubiProstor,
+      accent: '#4FA6FF',
+    },
+    {
+      key: 'bathing',
+      titleKey: 'products.bathing',
+      descriptionKey: 'products.bathingDescription',
+      to: '/proizvodi/kupanje-tusiranje',
+      imageSrc: oNamaKupaonicaHero,
+      accent: '#46D3C6',
+    },
+    {
+      key: 'sanitary',
+      titleKey: 'products.sanitary',
+      descriptionKey: 'products.sanitaryDescription',
+      to: '/proizvodi/sanitarije',
+      imageSrc: wcSjedalice,
+      accent: '#A0A8B3',
+    },
+  ]
+
+  // Partner map filters + geo-distance logic
+  const [partnerCountry, setPartnerCountry] = useState('ALL')
+  const [partnerQuery, setPartnerQuery] = useState('')
+  const [distanceKm, setDistanceKm] = useState('all')
+  const [geoStatus, setGeoStatus] = useState('idle') // idle | loading | success | error
+  const [geoError, setGeoError] = useState('')
+  const [myCoords, setMyCoords] = useState(null) // { lat, lng }
+  const [selectedPartnerId, setSelectedPartnerId] = useState(null)
+  const [mapDebug, setMapDebug] = useState({
+    scriptLoaded: false,
+    hasGoogle: false,
+    hasMapInstance: false,
+    loadError: '',
+    locationsCount: 0,
+  })
+  // Debug traka za Google Maps (API key, status skripte, itd.)
+  // Podrazumevano je sakrivena; uključi je preko VITE_SHOW_MAP_DEBUG=true u .env.
+  const showMapDebug = import.meta.env.VITE_SHOW_MAP_DEBUG === 'true'
+
+  const haversineKm = useCallback((lat1, lng1, lat2, lng2) => {
+    const toRad = (deg) => (deg * Math.PI) / 180
+    const R = 6371 // Earth radius (km)
+    const dLat = toRad(lat2 - lat1)
+    const dLng = toRad(lng2 - lng1)
+    const a =
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLng / 2) * Math.sin(dLng / 2)
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
+    return R * c
+  }, [])
+
+  const requestMyLocation = useCallback(() => {
+    if (typeof navigator === 'undefined' || !navigator.geolocation) {
+      setGeoStatus('error')
+      setGeoError(t('landingPartnerMap.geo.error'))
+      return
+    }
+
+    setGeoStatus('loading')
+    setGeoError('')
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        setMyCoords({ lat: pos.coords.latitude, lng: pos.coords.longitude })
+        setGeoStatus('success')
+      },
+      () => {
+        setGeoStatus('error')
+        setGeoError(t('landingPartnerMap.geo.error'))
+      },
+      { enableHighAccuracy: true, timeout: 10000, maximumAge: 60000 }
+    )
+  }, [t])
+
+  const resetPartnerFilters = useCallback(() => {
+    setPartnerCountry('ALL')
+    setPartnerQuery('')
+    setDistanceKm('all')
+    setSelectedPartnerId(null)
+  }, [])
+
+  const filteredPartners = useMemo(() => {
+    const q = partnerQuery.trim().toLowerCase()
+    const locationFilterEnabled = geoStatus === 'success' && myCoords && distanceKm !== 'all'
+    const basePartners = partnerLocationsData.filter(
+      (p) => p.country !== 'SLO' && p.disabledOnMap !== true
+    )
+
+    let list = basePartners
+    if (partnerCountry !== 'ALL') {
+      list = list.filter((p) => p.country === partnerCountry)
+    }
+    if (q) {
+      list = list.filter((p) => (p.name || '').toLowerCase().includes(q))
+    }
+
+    if (locationFilterEnabled) {
+      const limit = Number(distanceKm)
+      list = list.filter((p) => haversineKm(myCoords.lat, myCoords.lng, p.lat, p.lng) <= limit)
+    }
+
+    return list
+  }, [partnerCountry, partnerQuery, distanceKm, geoStatus, myCoords, haversineKm])
+
+  useEffect(() => {
+    if (!selectedPartnerId) return
+    const stillExists = filteredPartners.some((p) => p.id === selectedPartnerId)
+    if (!stillExists) setSelectedPartnerId(null)
+  }, [filteredPartners, selectedPartnerId])
+
+  const hasMapsApiKey = !!(import.meta.env.VITE_GOOGLE_MAPS_API_KEY || '').trim()
+
   return (
     <>
       {/* Hero Section */}
       <section
-        ref={heroRef}
-        className="relative flex min-h-[calc(100vh-5rem)] w-full flex-1 items-center overflow-hidden bg-slate-900 text-white"
+        className="relative flex h-screen w-full flex-1 items-center overflow-hidden bg-slate-900 text-white"
       >
-        {/* Parallax layers (dekorativno) */}
         <img
-          ref={(el) => {
-            paralaxLayerRefs.current[0] = el
-          }}
-          src={paralax1}
+          src={headerPipa}
           alt=""
           aria-hidden="true"
           className="absolute inset-0 h-full w-full object-cover pointer-events-none select-none"
-          style={{ willChange: 'transform', zIndex: 1 }}
           draggable={false}
         />
-        <img
-          ref={(el) => {
-            paralaxLayerRefs.current[2] = el
-          }}
-          src={paralax3}
-          alt=""
-          aria-hidden="true"
-          className="absolute inset-0 h-full w-full object-cover pointer-events-none select-none"
-          style={{ willChange: 'transform', zIndex: 3 }}
-          draggable={false}
-        />
-        <img
-          ref={(el) => {
-            paralaxLayerRefs.current[3] = el
-          }}
-          src={paralax4}
-          alt=""
-          aria-hidden="true"
-          className="absolute inset-0 h-full w-full object-cover pointer-events-none select-none"
-          style={{ willChange: 'transform', zIndex: 4 }}
-          draggable={false}
-        />
-        {/* para-2: slavina + kamen (mobile: sidri za dno hero-a) */}
-        <div
-          className="absolute left-1/2 bottom-6 z-20 h-[60%] w-[140%] -translate-x-1/2 pointer-events-none select-none md:inset-0 md:left-0 md:z-20 md:h-full md:w-full md:translate-x-0"
-        >
-          <img
-            ref={(el) => {
-              paralaxLayerRefs.current[4] = el
-            }}
-            src={paralax2}
-            alt=""
-            aria-hidden="true"
-            className="absolute inset-0 h-full w-full object-contain object-bottom md:object-cover md:object-center"
-            style={{ willChange: 'transform' }}
-            draggable={false}
-          />
-        </div>
 
         <div
-          className="absolute inset-0 bg-gradient-to-r from-slate-900/85 via-slate-900/70 to-slate-900/30"
+          className="absolute inset-0 bg-gradient-to-r from-slate-900/75 via-slate-900/60 to-slate-900/20"
           style={{ zIndex: 0 }}
         />
 
         <div className="relative z-10 w-full">
           <div className="mx-auto flex h-full w-full max-w-6xl flex-col items-start justify-center gap-6 px-6 py-16 text-left md:px-10 lg:px-12">
-            <div
-              className="hero-content-glass w-full max-w-3xl rounded-[28px] border border-white/25 bg-white/25 p-5 shadow-[0_8px_32px_rgba(15,23,42,0.12)] sm:p-7 md:bg-white/20 md:p-8"
-              style={{
-                backdropFilter: 'blur(14px) saturate(140%)',
-                WebkitBackdropFilter: 'blur(14px) saturate(140%)',
-              }}
-            >
+            <div className="w-full max-w-3xl p-5 sm:p-7 md:p-8">
               <div className="text-white">
-                <p className="text-sm uppercase tracking-[0.5em] text-white/75">
+                <p className="text-sm uppercase tracking-[0.5em] text-white/90">
                   {t('hero.collections')}
                 </p>
                 <h1 className="mt-2 text-4xl font-semibold leading-none sm:text-5xl md:text-6xl">
@@ -299,7 +243,7 @@ const LandingPage = () => {
                     {getAnimatedText(t('hero.title3'), ['cijena', 'cena'], 600)}
                   </span>
                 </h1>
-                <p className="mt-4 text-base text-white/90 sm:text-lg md:max-w-2xl">
+                <p className="mt-4 text-base text-white/95 sm:text-lg md:max-w-2xl">
                   {t('hero.subtitle')}
                 </p>
               </div>
@@ -314,7 +258,7 @@ const LandingPage = () => {
                 </Link>
                 <Link
                   to="/katalozi"
-                  className="inline-flex items-center justify-center rounded-full border border-white/50 bg-white/20 px-6 py-3 text-sm font-semibold text-white backdrop-blur transition hover:bg-white/25 whitespace-nowrap min-w-[200px] flex-1 sm:flex-initial sm:min-w-[240px]"
+                  className="inline-flex items-center justify-center rounded-full border border-white/60 bg-white/25 px-6 py-3 text-sm font-semibold text-white backdrop-blur transition hover:bg-white/30 whitespace-nowrap min-w-[200px] flex-1 sm:flex-initial sm:min-w-[240px]"
                 >
                   {t('hero.viewCatalog')}
                 </Link>
@@ -324,8 +268,302 @@ const LandingPage = () => {
         </div>
       </section>
 
+      {/* Product Categories Section */}
+      <section className="w-full bg-slate-50 py-14 md:py-20">
+        <div className="mx-auto max-w-7xl px-6">
+          <div className="mb-10 max-w-4xl md:mb-14">
+            <h2 className="text-[28px] font-semibold leading-tight tracking-tight text-slate-900 sm:text-3xl md:text-[36px] lg:text-[40px]">
+              {t('landingCategories.title')}
+            </h2>
+            <p className="mt-3 text-base leading-relaxed text-slate-600 sm:text-lg">
+              {t('landingCategories.subtitle')}
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 lg:gap-7">
+            {categoryCards.map((card) => (
+              <Link
+                key={card.key}
+                to={card.to}
+                aria-label={t(card.titleKey)}
+                className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-slate-200/70 bg-white/70 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_18px_45px_rgba(15,23,42,0.14)]"
+              >
+                <div
+                  className="absolute left-0 top-0 h-[3px] w-full opacity-60 transition-opacity duration-300 group-hover:opacity-100"
+                  style={{ backgroundColor: card.accent }}
+                />
+
+                <div className="flex flex-col p-5 md:p-6">
+                  <div className="flex items-center gap-3">
+                    <span
+                      className="h-1.5 w-10 rounded-full"
+                      style={{ backgroundColor: card.accent }}
+                    />
+                    <p className="text-xs font-semibold uppercase tracking-[0.22em] text-slate-600">
+                      {t('landingCategories.cardEyebrow')}
+                    </p>
+                  </div>
+
+                  <h3 className="mt-4 text-2xl font-semibold tracking-tight text-slate-900 md:text-[28px]">
+                    {t(card.titleKey)}
+                  </h3>
+
+                  <p className="mt-3 text-[16px] leading-[1.55] text-slate-600">
+                    {t(card.descriptionKey)}
+                  </p>
+
+                  <div className="relative mt-5 h-28 overflow-hidden rounded-2xl bg-slate-100 sm:h-32 md:h-40 lg:h-44">
+                    <img
+                      src={card.imageSrc}
+                      alt={t(card.titleKey)}
+                      className="h-full w-full object-cover object-center"
+                      loading="lazy"
+                      decoding="async"
+                      draggable={false}
+                    />
+                  </div>
+
+                  <div className="mt-5 flex min-h-[44px] items-center justify-between gap-3 rounded-xl border border-slate-200/70 bg-white/50 px-4 py-2.5">
+                    <span className="text-sm font-semibold text-slate-900">
+                      {t('landingCategories.ctaExplore')}
+                    </span>
+                    <span className="flex items-center justify-center text-slate-900 transition-transform duration-300 group-hover:translate-x-1">
+                      <ArrowIcon />
+                    </span>
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Partner Map Section */}
+      <section className="w-full bg-white py-14 md:py-20">
+        <div className="mx-auto max-w-7xl px-6">
+          <div className="mb-10 flex max-w-5xl flex-col gap-3 md:mb-14">
+            <p className="text-sm font-semibold uppercase tracking-[0.22em] text-slate-500">
+              {t('landingPartnerMap.eyebrow')}
+            </p>
+            <h2 className="mt-2 text-[28px] font-semibold leading-tight tracking-tight text-slate-900 sm:text-3xl md:text-[36px] lg:text-[40px]">
+              {t('landingPartnerMap.title')}
+            </h2>
+            <p className="mt-3 text-base leading-relaxed text-slate-600 sm:text-lg">
+              {t('landingPartnerMap.subtitle')}
+            </p>
+            {showMapDebug && (
+              <div className="inline-flex w-fit flex-wrap items-center gap-2 rounded-xl border border-dashed border-slate-300 bg-slate-50 px-3 py-2 text-xs text-slate-600">
+                <span className="font-semibold text-slate-700">DEBUG</span>
+                <span
+                  className={`rounded-full px-2 py-0.5 font-semibold ${
+                    hasMapsApiKey ? 'bg-emerald-100 text-emerald-700' : 'bg-red-100 text-red-700'
+                  }`}
+                >
+                  {hasMapsApiKey ? 'API key: OK' : 'API key: MISSING'}
+                </span>
+                <span className="rounded-full bg-slate-200 px-2 py-0.5 font-semibold text-slate-700">
+                  rezultati: {filteredPartners.length}
+                </span>
+                <span className="rounded-full bg-slate-200 px-2 py-0.5 font-semibold text-slate-700">
+                  geo: {geoStatus}
+                </span>
+                <span className="rounded-full bg-slate-200 px-2 py-0.5 font-semibold text-slate-700">
+                  selected: {selectedPartnerId || 'none'}
+                </span>
+                <span
+                  className={`rounded-full px-2 py-0.5 font-semibold ${
+                    mapDebug.loadError
+                      ? 'bg-red-100 text-red-700'
+                      : mapDebug.mapReady
+                        ? 'bg-emerald-100 text-emerald-700'
+                        : 'bg-amber-100 text-amber-700'
+                  }`}
+                >
+                  map: {mapDebug.loadError ? 'error' : mapDebug.mapReady ? 'ready' : 'loading'}
+                </span>
+                <span className="rounded-full bg-slate-200 px-2 py-0.5 font-semibold text-slate-700">
+                  google: {mapDebug.hasGoogle ? 'yes' : 'no'}
+                </span>
+                <span className="rounded-full bg-slate-200 px-2 py-0.5 font-semibold text-slate-700">
+                  script: {mapDebug.scriptLoaded ? 'loaded' : 'pending'}
+                </span>
+                <span className="rounded-full bg-slate-200 px-2 py-0.5 font-semibold text-slate-700">
+                  instance: {mapDebug.hasMapInstance ? 'yes' : 'no'}
+                </span>
+                {mapDebug.loadError && (
+                  <span className="max-w-[320px] truncate rounded-full bg-red-100 px-2 py-0.5 font-semibold text-red-700">
+                    err: {mapDebug.loadError}
+                  </span>
+                )}
+              </div>
+            )}
+          </div>
+
+          <div className="rounded-2xl border border-slate-200/70 bg-white p-6 shadow-sm md:p-8">
+            {/* Filters */}
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+              <div>
+                <label className="mb-2 block text-xs font-semibold uppercase tracking-[0.22em] text-slate-500">
+                  {t('landingPartnerMap.filters.countryLabel')}
+                </label>
+                <select
+                  className="h-[44px] w-full rounded-xl border border-slate-200/70 bg-slate-50 px-4 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#0070CD]/40"
+                  value={partnerCountry}
+                  onChange={(e) => setPartnerCountry(e.target.value)}
+                >
+                  <option value="ALL">{t('landingPartnerMap.filters.allCountries')}</option>
+                  <option value="HR">HR</option>
+                  <option value="BIH">BIH</option>
+                  <option value="RS">RS</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="mb-2 block text-xs font-semibold uppercase tracking-[0.22em] text-slate-500">
+                  {t('landingPartnerMap.filters.partnerLabel')}
+                </label>
+                <input
+                  type="text"
+                  className="h-[44px] w-full rounded-xl border border-slate-200/70 bg-slate-50 px-4 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#0070CD]/40"
+                  value={partnerQuery}
+                  placeholder={t('landingPartnerMap.filters.partnerPlaceholder')}
+                  onChange={(e) => setPartnerQuery(e.target.value)}
+                />
+              </div>
+
+              <div>
+                <label className="mb-2 block text-xs font-semibold uppercase tracking-[0.22em] text-slate-500">
+                  {t('landingPartnerMap.filters.distanceLabel')}
+                </label>
+                <select
+                  className="h-[44px] w-full rounded-xl border border-slate-200/70 bg-slate-50 px-4 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#0070CD]/40"
+                  value={distanceKm}
+                  onChange={(e) => setDistanceKm(e.target.value)}
+                >
+                  <option value="all">{t('landingPartnerMap.filters.allDistances')}</option>
+                  <option value="25">do 25 km</option>
+                  <option value="50">do 50 km</option>
+                  <option value="100">do 100 km</option>
+                  <option value="200">do 200 km</option>
+                </select>
+
+                {distanceKm !== 'all' && geoStatus === 'idle' && (
+                  <p className="mt-2 text-xs leading-relaxed text-slate-500">
+                    {t('landingPartnerMap.filters.locationHelper')}
+                  </p>
+                )}
+              </div>
+            </div>
+
+            {/* Actions + result count */}
+            <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+              <button
+                type="button"
+                className="inline-flex min-h-[44px] items-center justify-center gap-2 rounded-xl bg-[#0070CD] px-6 py-3 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-[#005bb0] disabled:opacity-70"
+                onClick={requestMyLocation}
+                disabled={geoStatus === 'loading'}
+              >
+                {geoStatus === 'loading'
+                  ? t('landingPartnerMap.geo.loading')
+                  : t('landingPartnerMap.filters.useMyLocation')}
+              </button>
+
+              <button
+                type="button"
+                className="inline-flex min-h-[44px] items-center justify-center rounded-xl border border-slate-200/70 bg-white px-6 py-3 text-sm font-semibold text-slate-800 shadow-sm transition-colors hover:bg-slate-50"
+                onClick={resetPartnerFilters}
+              >
+                {t('landingPartnerMap.filters.resetFilters')}
+              </button>
+            </div>
+
+            {geoStatus === 'error' && (
+              <p className="mt-3 text-sm text-red-600">{geoError || t('landingPartnerMap.geo.error')}</p>
+            )}
+
+            <p className="mt-4 text-sm text-slate-600" aria-live="polite">
+              {t('landingPartnerMap.resultShownPrefix')}
+              {filteredPartners.length}
+              {t('landingPartnerMap.resultShownSuffix')}
+            </p>
+
+            {/* Map + List */}
+            <div className="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-5 lg:items-start lg:gap-8">
+              {/* Map */}
+              <div className="order-2 lg:order-1 lg:col-span-3">
+                <PartnerMap
+                  partnerLocations={filteredPartners}
+                  selectedPartnerId={selectedPartnerId}
+                  onPartnerSelect={setSelectedPartnerId}
+                  onDebugChange={showMapDebug ? setMapDebug : undefined}
+                  heightClassName="h-[420px] sm:h-[460px] md:h-[520px] lg:h-[540px]"
+                  className="border border-slate-200/70 bg-white shadow-sm"
+                />
+              </div>
+
+              {/* List */}
+              <div className="order-3 lg:order-2 lg:col-span-2">
+                <div className="h-[420px] overflow-hidden rounded-2xl border border-slate-200/70 bg-white sm:h-[460px] md:h-[520px] lg:h-[540px]">
+                  <div className="h-full overflow-auto p-3 sm:p-4">
+                    {filteredPartners.length > 0 ? (
+                      <ul className="space-y-2 pr-1">
+                        {filteredPartners.map((p) => {
+                          const distance =
+                            geoStatus === 'success' && myCoords
+                              ? haversineKm(myCoords.lat, myCoords.lng, p.lat, p.lng)
+                              : null
+                          const isActive = selectedPartnerId === p.id
+
+                          return (
+                            <li key={p.id}>
+                              <button
+                                type="button"
+                                onClick={() => setSelectedPartnerId(p.id)}
+                                className={`w-full rounded-xl border px-3 py-3 text-left transition focus:outline-none focus:ring-2 focus:ring-[#0070CD]/40 ${
+                                  isActive
+                                    ? 'border-[#0070CD]/60 bg-white shadow-sm'
+                                    : 'border-transparent hover:border-slate-200/70 hover:bg-slate-50'
+                                }`}
+                                aria-current={isActive ? 'true' : 'false'}
+                              >
+                                <div className="flex items-start justify-between gap-3">
+                                  <span className="text-sm font-semibold text-slate-900">{p.name}</span>
+                                  {distance != null && (
+                                    <span className="shrink-0 text-xs font-semibold text-[#0070CD]">
+                                      {Math.round(distance)} km
+                                    </span>
+                                  )}
+                                </div>
+                                <div className="mt-1 text-xs leading-relaxed text-slate-600">{p.address}</div>
+                              </button>
+                            </li>
+                          )
+                        })}
+                      </ul>
+                    ) : (
+                      <div className="flex h-full flex-col items-center justify-center gap-3 px-4 text-center">
+                        <p className="text-sm font-semibold text-slate-600">
+                          {t('landingPartnerMap.empty')}
+                        </p>
+                        <button
+                          type="button"
+                          className="mt-2 inline-flex min-h-[44px] items-center justify-center rounded-xl border border-slate-200/70 bg-white px-6 py-3 text-sm font-semibold text-slate-800 shadow-sm transition-colors hover:bg-slate-50"
+                          onClick={resetPartnerFilters}
+                        >
+                          {t('landingPartnerMap.clearFilters')}
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Feature Section */}
-      <section className="w-full bg-[white] py-16">
+      <section className="w-full bg-slate-50 py-16">
         <div className="mx-auto max-w-7xl px-6">
           <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
             {features.map((feature, index) => {
@@ -358,12 +596,6 @@ const LandingPage = () => {
       {/* Featured Collections Section */}
       {/* <FeaturedCollections /> */}
 
-      {/* Moodboard Section */}
-      <MoodboardSection />
-
-      {/* About Section */}
-      <AboutSection />
-
       {/* CTA Section */}
       <CTASection
         title={t('cta.title')}
@@ -383,7 +615,13 @@ const LandingPage = () => {
       />
 
       {/* Team Section – 3 kartice u jednom redu */}
-      <TeamSection maxMembers={3} columnsLg={3} />
+      <TeamSection
+        columnsLg={3}
+        memberRows={[['Simona Zavratnik', 'Suzana Mahović', 'Marko Hrgetić']]}
+      />
+
+            {/* Moodboard Section */}
+            <MoodboardSection />
     </>
   )
 }

@@ -5,21 +5,27 @@ import logo from '../assets/Armal_logo_BLUE.png'
 
 const Navbar = () => {
   const { t, language, changeLanguage } = useLanguage()
-  const [isLanguageOpen, setIsLanguageOpen] = useState(false)
+  const [openLanguageDropdownId, setOpenLanguageDropdownId] = useState(null) // 'row1' | 'row2' | 'sidebar'
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
+  const [isUtilityHidden, setIsUtilityHidden] = useState(true)
   const location = useLocation()
   const sidebarRef = useRef(null)
+  const lastScrollYRef = useRef(0)
 
-  // Navigacijski linkovi - koriste translation keys
-  const navLinks = [
+  // ROW 1 — Utility bar (hide na mobilnom)
+  const utilityLinks = [
+    { key: 'servis', href: '/servis', isRoute: true },
+    { key: 'b2b', href: 'https://b2b.armal.hr/', isRoute: false },
+    { key: 'editHome', href: 'https://uredidom.hr/', isRoute: false },
+    { key: 'blog', href: '/blog', isRoute: true },
+  ]
+
+  // ROW 2 — Primary navigacija (hamburger menu na mobilnom prikazuje samo ovo)
+  const primaryLinks = [
     { key: 'home', href: '/', isRoute: true },
     { key: 'products', href: '/proizvodi', hasDropdown: true, isRoute: true },
     { key: 'catalogues', href: '/katalozi', isRoute: true },
     { key: 'about', href: '/o-nama', isRoute: true },
-    { key: 'servis', href: '/servis', isRoute: true },
-    { key: 'b2b', href: 'https://b2b.armal.hr/' },
-    { key: 'editHome', href: 'https://uredidom.hr/' },
-    { key: 'blog', href: '/blog', isRoute: true },
   ]
 
   // Glavne kategorije proizvoda
@@ -69,14 +75,78 @@ const Navbar = () => {
     }
   }, [isSidebarOpen])
 
+  const isHomePage = location.pathname === '/'
+
   return (
-    <header className="w-full border-b border-slate-100 bg-white">
-      <nav className="mx-auto flex h-20 w-full max-w-7xl items-center justify-between gap-6 px-8 font-sans">
+    <header
+      className={`w-full z-50 ${isHomePage ? 'absolute left-0 top-0' : 'relative'}`}
+      onMouseEnter={() => {
+        if (typeof window === 'undefined') return
+        if (window.innerWidth >= 768) setIsUtilityHidden(false)
+      }}
+      onMouseLeave={() => {
+        if (typeof window === 'undefined') return
+        if (window.innerWidth >= 768) setIsUtilityHidden(true)
+      }}
+    >
+      {/* ROW 1 — Utility bar */}
+      <div
+        className={`hidden md:flex absolute left-0 right-0 top-0 z-50 h-[44px] items-center border-b border-[#f0f0f0] bg-[#f9fafb]/60 backdrop-blur-md transition-opacity duration-300 ease-in-out ${
+          isUtilityHidden
+            ? 'opacity-0 invisible pointer-events-none'
+            : 'opacity-100 visible pointer-events-auto'
+        }`}
+      >
+        <div className="mx-auto flex w-full max-w-7xl items-center justify-center px-8">
+          <div className="flex h-full items-stretch justify-center">
+            {utilityLinks.map((link, idx) => {
+              const LinkComponent = link.isRoute ? Link : 'a'
+              const linkProps = link.isRoute
+                ? { to: link.href }
+                : { href: link.href, target: '_blank', rel: 'noopener noreferrer' }
+
+              const isUtilityActive = link.isRoute
+                ? link.href === '/servis'
+                  ? location.pathname === '/servis'
+                  : link.href === '/blog'
+                    ? location.pathname === '/blog' || location.pathname.startsWith('/blog/')
+                    : false
+                : false
+
+              return (
+                <LinkComponent
+                  key={link.key}
+                  {...linkProps}
+                  className={`flex items-center px-4 text-[14px] font-medium text-[#1a1a1a] transition-colors duration-200 hover:bg-white hover:text-[#1a6cc4] ${
+                    idx > 0 ? 'border-l border-[#f0f0f0]' : ''
+                  } ${isUtilityActive ? 'text-[#1a6cc4]' : ''}`}
+                >
+                  {t(`navbar.${link.key}`)}
+                </LinkComponent>
+              )
+            })}
+          </div>
+        </div>
+      </div>
+
+      {/* Wrapper height reserving for ROW 1 */}
+      <div
+        className={`transition-all duration-300 ease-in-out ${
+          isUtilityHidden ? 'pt-0' : 'pt-0 md:pt-[44px]'
+        }`}
+      >
+        {/* ROW 2 — Main navbar */}
+        <nav
+          className={`sticky top-0 z-[51] w-full border-b border-[#e8e8e8] bg-white/60 backdrop-blur-md transition-all duration-300 ease-in-out ${
+            isUtilityHidden ? '' : 'md:top-[44px]'
+          }`}
+        >
+          <div className="mx-auto grid h-[60px] max-w-7xl grid-cols-[auto_1fr_auto] items-center gap-6 px-8 font-sans">
         <div className="flex items-center gap-4">
           <button
             type="button"
             onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-            className="inline-flex h-10 w-10 items-center justify-center rounded-full text-slate-600 transition-colors duration-200 hover:text-[#0070CD]"
+            className="inline-flex h-10 w-10 items-center justify-center rounded-full text-slate-600 transition-colors duration-200 hover:text-[#1a6cc4] lg:hidden"
             aria-label={isSidebarOpen ? t('navbar.closeMenu') : t('navbar.openMenu')}
           >
             {isSidebarOpen ? <IconClose /> : <IconHamburger />}
@@ -85,37 +155,26 @@ const Navbar = () => {
             <img src={logo} alt="armal logo" className="h-8 w-auto" />
           </Link>
         </div>
-
-        <ul className="hidden flex-1 items-center justify-center gap-8 text-sm font-medium text-[#4a4a4a] lg:flex">
-          {navLinks.map((link) => {
-            // Za "Proizvodi" link, aktivan je i na /proizvodi i na svim podstranicama
-            const isActive = link.isRoute
-              ? link.key === 'products'
+        <ul className="hidden items-center justify-center gap-8 text-[14px] font-medium text-[#1a1a1a] lg:flex">
+          {primaryLinks.map((link) => {
+            const isActive =
+              link.key === 'products'
                 ? location.pathname === link.href || location.pathname.startsWith(`${link.href}/`)
                 : location.pathname === link.href
-              : link.isActive
-            const LinkComponent = link.isRoute ? Link : 'a'
-            const linkProps = link.isRoute
-              ? { to: link.href }
-              : { 
-                  href: link.href,
-                  target: '_blank',
-                  rel: 'noopener noreferrer'
-                }
 
             return (
               <li key={link.key} className="relative inline-flex items-center group">
-                <LinkComponent
-                  {...linkProps}
-                  className={`flex items-center gap-1 border-b-2 border-transparent transition-colors duration-200 ${
+                <Link
+                  to={link.href}
+                  className={`flex items-center gap-1 border-b-2 border-transparent pb-1 transition-colors duration-200 ${
                     isActive
-                      ? 'border-[#0070CD] text-[#0070CD]'
-                      : 'text-[#4a4a4a] hover:border-[#0070CD] hover:text-[#0070CD]'
+                      ? 'border-[#1a6cc4] text-[#1a6cc4]'
+                      : 'text-[#1a1a1a] hover:border-[#1a6cc4] hover:text-[#1a6cc4]'
                   }`}
                 >
                   {t(`navbar.${link.key}`)}
                   {link.hasDropdown && <IconChevronDown />}
-                </LinkComponent>
+                </Link>
 
                 {link.hasDropdown && (
                   <div className="invisible absolute left-1/2 top-full z-50 w-64 -translate-x-1/2 pt-5 opacity-0 transition-opacity duration-200 group-hover:visible group-hover:opacity-100">
@@ -125,13 +184,13 @@ const Navbar = () => {
                           <li key={category.key}>
                             <Link
                               to={category.href}
-                              className="block rounded-lg px-4 py-3 text-sm font-medium text-slate-700 transition-colors hover:bg-[#0070CD]/10 hover:text-[#0070CD]"
+                              className="block rounded-lg px-4 py-3 text-sm font-medium text-slate-700 transition-colors hover:bg-[#1a6cc4]/10 hover:text-[#1a6cc4]"
                             >
                               {t(category.translationKey)}
                             </Link>
-                                </li>
-                              ))}
-                            </ul>
+                          </li>
+                        ))}
+                      </ul>
                     </div>
                   </div>
                 )}
@@ -140,12 +199,14 @@ const Navbar = () => {
           })}
         </ul>
 
-        {/* Language Dropdown */}
-        <div className="relative">
+        {/* Language Dropdown (ROW 2) */}
+        <div className="relative justify-self-end">
           <button
             type="button"
-            onClick={() => setIsLanguageOpen(!isLanguageOpen)}
-            className="inline-flex items-center gap-2 rounded-full border border-slate-200 px-4 py-2 text-sm font-semibold text-[#4a4a4a] transition-colors duration-200 hover:border-[#0070CD]/30 hover:text-[#0070CD]"
+            onClick={() =>
+              setOpenLanguageDropdownId(openLanguageDropdownId === 'row2' ? null : 'row2')
+            }
+            className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-[12px] font-semibold text-[#4a4a4a] transition-colors duration-200 hover:border-[#1a6cc4]/30 hover:text-[#1a6cc4]"
             aria-label="Promijeni jezik"
           >
             <IconGlobe />
@@ -153,22 +214,20 @@ const Navbar = () => {
             <IconChevronDown className="h-3 w-3" />
           </button>
 
-          {isLanguageOpen && (
+          {openLanguageDropdownId === 'row2' && (
             <>
-              {/* Overlay za zatvaranje dropdowna klikom izvan njega */}
               <div
                 className="fixed inset-0 z-40"
-                onClick={() => setIsLanguageOpen(false)}
+                onClick={() => setOpenLanguageDropdownId(null)}
                 aria-hidden="true"
               />
-              {/* Dropdown meni */}
               <div className="absolute right-0 top-full z-50 mt-2 w-48 rounded-2xl border border-slate-200 bg-white py-2 shadow-lg">
                 {languages.map((lang) => (
                   <button
                     key={lang.code}
                     onClick={() => {
                       changeLanguage(lang.code)
-                      setIsLanguageOpen(false)
+                      setOpenLanguageDropdownId(null)
                     }}
                     className={`w-full px-4 py-2 text-left text-sm transition-colors ${
                       language === lang.code
@@ -183,7 +242,9 @@ const Navbar = () => {
             </>
           )}
         </div>
-      </nav>
+      </div>
+        </nav>
+      </div>
 
       {/* Sidebar Overlay */}
       {isSidebarOpen && (
@@ -220,7 +281,7 @@ const Navbar = () => {
           {/* Sidebar Content */}
           <div className="flex-1 overflow-y-auto px-6 py-6">
             <nav className="flex flex-col space-y-1">
-              {navLinks.map((link) => {
+              {primaryLinks.map((link) => {
                 // Za "Proizvodi" link, aktivan je i na /proizvodi i na svim podstranicama
                 const isActive = link.isRoute
                   ? link.key === 'products'
@@ -289,7 +350,11 @@ const Navbar = () => {
             <div className="relative">
               <button
                 type="button"
-                onClick={() => setIsLanguageOpen(!isLanguageOpen)}
+                onClick={() =>
+                  setOpenLanguageDropdownId(
+                    openLanguageDropdownId === 'sidebar' ? null : 'sidebar'
+                  )
+                }
                 className="flex w-full items-center justify-between rounded-lg border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-700 transition-colors hover:border-[#0070CD]/30 hover:text-[#0070CD]"
                 aria-label="Promijeni jezik"
               >
@@ -299,19 +364,19 @@ const Navbar = () => {
                 </div>
                 <IconChevronDown
                   className={`h-4 w-4 transition-transform duration-200 ${
-                    isLanguageOpen ? 'rotate-180' : ''
+                    openLanguageDropdownId === 'sidebar' ? 'rotate-180' : ''
                   }`}
                 />
               </button>
 
-              {isLanguageOpen && (
+              {openLanguageDropdownId === 'sidebar' && (
                 <div className="absolute bottom-full left-0 right-0 mb-2 rounded-lg border border-slate-200 bg-white shadow-lg">
                   {languages.map((lang) => (
                     <button
                       key={lang.code}
                       onClick={() => {
                         changeLanguage(lang.code)
-                        setIsLanguageOpen(false)
+                        setOpenLanguageDropdownId(null)
                       }}
                       className={`w-full px-4 py-2 text-left text-sm transition-colors first:rounded-t-lg last:rounded-b-lg ${
                         language === lang.code

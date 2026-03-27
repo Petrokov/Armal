@@ -1,24 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-
-/**
- * Primjer lokacija partnera – mogu se proslijediti i preko propa partnerLocations.
- */
-const defaultPartnerLocations = [
-  {
-    name: 'Armal Partner Zagreb',
-    address: 'Ulica Grada Vukovara 269A, 10000 Zagreb',
-    phone: '+385 1 2345 678',
-    lat: 45.8011,
-    lng: 15.9713,
-  },
-  {
-    name: 'Armal Partner Split',
-    address: 'Poljička cesta 26, 21000 Split',
-    phone: '+385 21 123 456',
-    lat: 43.5081,
-    lng: 16.4402,
-  },
-]
+import partnerLocationsData from '../data/partnerLocations'
 
 /**
  * PartnerMap – Google Mapa s markerima lokacija partnera.
@@ -26,16 +7,34 @@ const defaultPartnerLocations = [
  * API ključ: postavi VITE_GOOGLE_MAPS_API_KEY u .env ili proslijedi apiKey prop.
  */
 const PartnerMap = ({
-  partnerLocations = defaultPartnerLocations,
+  partnerLocations = partnerLocationsData,
   apiKey,
   className = '',
+  selectedPartnerId = null,
+  onPartnerSelect,
+  heightClassName = 'h-[500px]',
+  onDebugChange,
 }) => {
   const mapRef = useRef(null)
   const mapInstanceRef = useRef(null)
   const markersRef = useRef([])
   const infoWindowsRef = useRef([])
+  const markerByIdRef = useRef(new Map())
+  const infoWindowByIdRef = useRef(new Map())
   const [scriptLoaded, setScriptLoaded] = useState(false)
   const [loadError, setLoadError] = useState(null)
+  const [mapReady, setMapReady] = useState(false)
+
+  useEffect(() => {
+    onDebugChange?.({
+      scriptLoaded,
+      hasGoogle: !!window.google?.maps,
+      hasMapInstance: !!mapInstanceRef.current,
+      mapReady,
+      loadError: loadError || '',
+      locationsCount: partnerLocations?.length || 0,
+    })
+  }, [onDebugChange, scriptLoaded, loadError, partnerLocations, mapReady])
 
   // Učitavanje Google Maps skripte (callback da znamo kad je API stvarno spreman)
   useEffect(() => {
@@ -94,22 +93,41 @@ const PartnerMap = ({
   useEffect(() => {
     if (!scriptLoaded || !mapRef.current || !window.google?.maps || !partnerLocations?.length) return
 
-    const first = partnerLocations[0]
-    const map = new window.google.maps.Map(mapRef.current, {
-      center: { lat: first.lat, lng: first.lng },
-      zoom: 10,
-      mapTypeControl: true,
-      streetViewControl: true,
-      fullscreenControl: true,
-      zoomControl: true,
-    })
-    mapInstanceRef.current = map
+    setMapReady(false)
+    setLoadError(null)
+
+    let map
+    try {
+      const first = partnerLocations[0]
+      map = new window.google.maps.Map(mapRef.current, {
+        center: { lat: first.lat, lng: first.lng },
+        zoom: 10,
+        mapTypeControl: true,
+        streetViewControl: true,
+        fullscreenControl: true,
+        zoomControl: true,
+      })
+      mapInstanceRef.current = map
+      window.google.maps.event.addListenerOnce(map, 'idle', () => setMapReady(true))
+    } catch (error) {
+      setLoadError(
+        `Google mapa se nije inicijalizirala. ${
+          error instanceof Error ? error.message : 'Provjeri API restrikcije i billing u Google Cloud.'
+        }`
+      )
+      mapInstanceRef.current = null
+      setMapReady(false)
+      return
+    }
 
     const bounds = new window.google.maps.LatLngBounds()
     const markers = []
     const infoWindows = []
+    const markerById = new Map()
+    const infoWindowById = new Map()
 
     partnerLocations.forEach((partner) => {
+      const partnerId = partner.id ?? partner.name ?? ''
       const position = { lat: partner.lat, lng: partner.lng }
       bounds.extend(position)
 
@@ -119,6 +137,7 @@ const PartnerMap = ({
         title: partner.name,
       })
       markers.push(marker)
+      markerById.set(partnerId, marker)
 
       const contentString = `
         <div style="padding: 12px; min-width: 220px; font-family: system-ui, sans-serif;">
@@ -129,31 +148,73 @@ const PartnerMap = ({
       `
       const infoWindow = new window.google.maps.InfoWindow({ content: contentString })
       infoWindows.push(infoWindow)
+      infoWindowById.set(partnerId, infoWindow)
 
       marker.addListener('click', () => {
         infoWindows.forEach((iw) => iw.close())
         infoWindow.open(map, marker)
+        onPartnerSelect?.(partnerId)
       })
     })
 
     if (partnerLocations.length > 1) {
       map.fitBounds(bounds)
+    } else if (partnerLocations.length === 1) {
+      const first = partnerLocations[0]
+      map.setCenter({ lat: first.lat, lng: first.lng })
+      map.setZoom(14)
     }
+
+    // Ako je selected partner još uvijek u ovom skupu rezultata, odmah prikaži info.
+    if (selectedPartnerId) {
+      const marker = markerById.get(selectedPartnerId)
+      const infoWindow = infoWindowById.get(selectedPartnerId)
+      if (marker && infoWindow) {
+        infoWindows.forEach((iw) => iw.close())
+        infoWindow.open(map, marker)
+        const pos = marker.getPosition()
+        if (pos) map.setCenter(pos)
+        map.setZoom(14)
+      }
+    }
+
     markersRef.current = markers
     infoWindowsRef.current = infoWindows
+    markerByIdRef.current = markerById
+    infoWindowByIdRef.current = infoWindowById
 
     return () => {
       markers.forEach((m) => m.setMap(null))
       infoWindows.forEach((iw) => iw.close())
       mapInstanceRef.current = null
+      setMapReady(false)
+      markerByIdRef.current = new Map()
+      infoWindowByIdRef.current = new Map()
     }
   }, [scriptLoaded, partnerLocations])
+
+  // Kada klikneš partner u listi, highlight + infoWindow na mapi.
+  useEffect(() => {
+    if (!scriptLoaded || !mapInstanceRef.current || !selectedPartnerId) return
+
+    const map = mapInstanceRef.current
+    const marker = markerByIdRef.current.get(selectedPartnerId)
+    const infoWindow = infoWindowByIdRef.current.get(selectedPartnerId)
+    if (!marker || !infoWindow) return
+
+    infoWindowsRef.current.forEach((iw) => iw.close())
+    infoWindow.open(map, marker)
+
+    const pos = marker.getPosition()
+    if (pos) map.setCenter(pos)
+    map.setZoom(14)
+  }, [scriptLoaded, selectedPartnerId])
 
   if (loadError) {
     return (
       <div
-        className={`flex items-center justify-center rounded-2xl bg-slate-100 text-slate-600 ${className}`}
-        style={{ width: '100%', height: '500px' }}
+        className={`flex items-center justify-center rounded-2xl bg-slate-100 text-slate-600 ${className} ${heightClassName}`}
+        style={{ width: '100%' }}
       >
         <p className="px-4 text-center text-sm">{loadError}</p>
       </div>
@@ -166,8 +227,7 @@ const PartnerMap = ({
 
   return (
     <div
-      className={`w-full overflow-hidden rounded-2xl shadow-lg ${className}`}
-      style={{ height: '500px' }}
+      className={`w-full overflow-hidden rounded-2xl shadow-lg ${className} ${heightClassName}`}
     >
       <div ref={mapRef} className="h-full w-full" />
     </div>
@@ -182,4 +242,4 @@ function escapeHtml(text) {
 }
 
 export default PartnerMap
-export { defaultPartnerLocations }
+export { partnerLocationsData as defaultPartnerLocations }

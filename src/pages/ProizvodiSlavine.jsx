@@ -516,25 +516,13 @@ const ProizvodiSlavine = () => {
   return (
     <div className="min-h-screen bg-white">
       {/* Hero Section */}
-      <section className="relative flex min-h-[40vh] w-full items-center justify-center overflow-hidden">
-        <img
-          src={kupaonicaImage}
-          alt="Slavine"
-          className="absolute inset-0 h-full w-full object-cover"
-          loading="eager"
-          fetchPriority="high"
-        />
-        <div className="absolute inset-0 bg-gradient-to-r from-slate-900/70 via-slate-900/60 to-slate-900/50"></div>
-        <div className="relative z-10 mx-auto max-w-4xl px-6 text-center text-white">
-          <p className="mb-3 text-xs font-semibold uppercase tracking-[0.28em] text-white/70">
-            {t('products.faucets')}
-          </p>
-          <h1 className="mb-3 text-4xl font-semibold md:text-5xl lg:text-[2.9rem]">
-            {t('products.faucets') ?? t('products.faucets')}
-          </h1>
-          <p className="text-base text-white/85 md:text-lg lg:text-xl">
-            {t('products.faucetsDescription')}
-          </p>
+      <section
+        className="w-full py-16 text-white"
+        style={{ background: 'linear-gradient(to bottom right, #0070CD, #005bb0, #004A8A)' }}
+      >
+        <div className="mx-auto max-w-7xl px-6">
+          <h1 className="text-4xl font-bold md:text-5xl">{t('products.faucets')}</h1>
+          <p className="mt-4 text-lg text-white/90">{t('products.faucetsDescription')}</p>
         </div>
       </section>
 

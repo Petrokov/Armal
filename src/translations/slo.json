@@ -71,6 +71,36 @@
     "exploreCollection": "Raziščite Kolekcijo",
     "viewCatalog": "Oglejte si Katalog"
   },
+  "landingCategories": {
+    "title": "Proizvodne kategorije",
+    "subtitle": "Tri linije izdelkov za celovito opremljanje kopalnice.",
+    "cardEyebrow": "Kategorija",
+    "ctaExplore": "Raziščite kategorijo"
+  },
+  "landingPartnerMap": {
+    "eyebrow": "PARTNERSKA MREŽA",
+    "title": "Najdite najbližje prodajno mesto",
+    "subtitle": "Filtrirajte po državi, imenu partnerja in razdalji od vaše lokacije.",
+    "filters": {
+      "countryLabel": "Država",
+      "allCountries": "Vse države",
+      "partnerLabel": "Partner",
+      "partnerPlaceholder": "Vnesite ime partnerja...",
+      "distanceLabel": "Razdalja od mene",
+      "allDistances": "Vse razdalje",
+      "useMyLocation": "Uporabite mojo lokacijo",
+      "resetFilters": "Ponastavi filtre",
+      "locationHelper": "Za filtriranje po razdalji omogočite dostop do lokacije."
+    },
+    "geo": {
+      "loading": "Pridobivamo vašo lokacijo...",
+      "error": "Lokacije ni bilo mogoče pridobiti. Preverite dovoljenja brskalnika."
+    },
+    "resultShownPrefix": "Prikazano: ",
+    "resultShownSuffix": " prodajnih mest",
+    "empty": "Ni partnerjev za izbrane filtre.",
+    "clearFilters": "Počisti filtre"
+  },
   "features": {
     "quality": {
       "title": "Preverjena Kakovost",
@@ -210,14 +240,14 @@
   },
   "aboutPage": {
     "heroTitle": "Naša zgodba",
-    "heroSubtitle": "Več kot 55 let ustvarjamo funkcionalne in estetske rešitve za vsak dom.",
+    "heroSubtitle": "Več kot 55 let najbolj znana blagovna znamka na tem področju.",
     "storyTitle": "Naša zgodba: tradicija, ki gradi prihodnost",
     "storyEyebrow": "ARMAL / OD 1969.",
     "storyCaption": "Armal skozi čas",
     "storyParagraph1": "Armalova zgodba se začne pred več kot 55 leti, ko je blagovna znamka postavila temelje svoje prepoznavnosti na trgu Adria. Skozi desetletja dosledne kakovosti in zanesljivosti smo zgradili močan odnos s kupci, partnerji in generacijami uporabnikov, ki od kopalnice pričakujejo več kot le funkcijo.",
-    "storyParagraph2": "Iz družinske poslovne tradicije smo razvili sodobno in celovito blagovno znamko, ki danes združuje mešalnike, tuš programe, kopalniško pohištvo, ogledala, galanterijo in drugo opremo. Nova razvojna faza se je začela leta 2018 s prevzemom s strani podjetja Armal d.o.o., od leta 2023 pa smo dodatno usmerjeni skozi ločeno podjetje, osredotočeno izključno na rast blagovne znamke in razvoj asortimana za opremljanje kopalnic.",
+    "storyParagraph2": "Iz družinske poslovne tradicije smo razvili sodobno in celovito blagovno znamko, ki danes združuje mešalnike, tuš programe, kopalniško pohištvo, ogledala, galanterijo in drugo opremo.",
     "storyParagraph3": "Prihodnost gradimo z jasnim ciljem: širiti portfelj, krepiti oblikovalsko identiteto in razvijati inovativne, trajnostne ter dolgoročne rešitve za sodoben življenjski prostor. Danes smo prisotni na več kot 300 prodajnih mestih na Hrvaškem, v Sloveniji in Bosni in Hercegovini, jutri pa želimo biti še močnejši regionalni partner za celovito opremljanje kopalnic.",
-    "storyParagraph4": "Prihodnost gradimo na temeljih tradicije — z neprekinjenim napredkom znanja, izkušenj in novih idej.",
+    "storyParagraph4": "Prihodnost gradimo na temeljih tradicije z neprekinjenim napredkom znanja, izkušenj in novih idej.",
     "valuesTitle": "Naše vrednote",
     "valuesSubtitle": "Te temeljne vrednote vodijo vse, kar počnemo, od izbire izdelkov do uporabniške storitve.",
     "values": {
