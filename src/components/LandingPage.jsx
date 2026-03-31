@@ -333,7 +333,7 @@ const LandingPage = () => {
     <>
       {/* Hero Section */}
       <section
-        className="relative flex h-[50vh] w-full flex-1 items-center overflow-hidden bg-slate-900 text-white"
+        className="relative flex h-[65vh] w-full flex-1 items-center overflow-hidden bg-slate-900 text-white"
       >
         <img
           src={headerPipa}
