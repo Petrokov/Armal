@@ -1,7 +1,7 @@
 import { BadgeCheck, ShieldCheck, Package, Truck } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { useLanguage } from '../contexts/LanguageContext'
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import headerPipa from '../assets/header/header-pipa.webp'
 import rubiProstor from '../assets/slavine/rubi-compresed/rubi-prostor.webp'
 import oNamaKupaonicaHero from '../assets/o_nama_kupaonica_hero.png'
@@ -16,6 +16,8 @@ import TeamSection from './TeamSection'
 const LandingPage = () => {
   const { t } = useLanguage()
   const [isAnimated, setIsAnimated] = useState(false)
+  const partnerSectionRef = useRef(null)
+  const partnerCanvasRef = useRef(null)
 
   useEffect(() => {
     // Pokreni animaciju nakon kratkog delay-a
@@ -23,6 +25,124 @@ const LandingPage = () => {
       setIsAnimated(true)
     }, 100)
     return () => clearTimeout(timer)
+  }, [])
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+    const sectionEl = partnerSectionRef.current
+    const canvas = partnerCanvasRef.current
+    if (!sectionEl || !canvas) return
+
+    const ctx = canvas.getContext('2d')
+    let width = 0
+    let height = 0
+    let dots = []
+    let mouse = { x: null, y: null, inside: false }
+    let animationFrameId
+
+    const GRID_SPACING = 30
+    const BASE_RADIUS = 1.5
+    const MAX_RADIUS = 4
+    const INFLUENCE_RADIUS = 70
+    const FRICTION = 0.75
+
+    const createDots = () => {
+      const rect = sectionEl.getBoundingClientRect()
+      width = rect.width
+      height = rect.height
+      canvas.width = width
+      canvas.height = height
+      dots = []
+
+      for (let y = GRID_SPACING / 2; y < height; y += GRID_SPACING) {
+        for (let x = GRID_SPACING / 2; x < width; x += GRID_SPACING) {
+          dots.push({
+            ox: x,
+            oy: y,
+            x,
+            y,
+            vx: 0,
+            vy: 0,
+            radius: BASE_RADIUS,
+          })
+        }
+      }
+    }
+
+    const onMouseMove = (e) => {
+      const rect = sectionEl.getBoundingClientRect()
+      mouse.x = e.clientX - rect.left
+      mouse.y = e.clientY - rect.top
+      mouse.inside = true
+    }
+
+    const onMouseLeave = () => {
+      mouse.inside = false
+      mouse.x = null
+      mouse.y = null
+    }
+
+    const animate = () => {
+      ctx.clearRect(0, 0, width, height)
+
+      for (const d of dots) {
+        if (mouse.inside && mouse.x != null && mouse.y != null) {
+          const dx = d.x - mouse.x
+          const dy = d.y - mouse.y
+          const dist = Math.sqrt(dx * dx + dy * dy) || 0.0001
+
+          if (dist < INFLUENCE_RADIUS) {
+            const force = (INFLUENCE_RADIUS - dist) / INFLUENCE_RADIUS
+            const nx = dx / dist
+            const ny = dy / dist
+            d.vx += nx * force * 2
+            d.vy += ny * force * 2
+            d.radius += (MAX_RADIUS - d.radius) * 0.2
+          } else {
+            d.radius += (BASE_RADIUS - d.radius) * 0.1
+          }
+        } else {
+          d.radius += (BASE_RADIUS - d.radius) * 0.1
+        }
+
+        d.vx += (d.ox - d.x) * (1 - FRICTION) * 0.5
+        d.vy += (d.oy - d.y) * (1 - FRICTION) * 0.5
+
+        d.vx *= FRICTION
+        d.vy *= FRICTION
+
+        d.x += d.vx
+        d.y += d.vy
+
+        const alphaFactor = (d.radius - BASE_RADIUS) / (MAX_RADIUS - BASE_RADIUS || 1)
+        const alpha = 0.12 + Math.max(0, alphaFactor) * (0.45 - 0.12)
+
+        ctx.beginPath()
+        ctx.arc(d.x, d.y, d.radius, 0, Math.PI * 2)
+        ctx.fillStyle = `rgba(26,108,196,${alpha})`
+        ctx.fill()
+      }
+
+      animationFrameId = requestAnimationFrame(animate)
+    }
+
+    createDots()
+    animate()
+
+    const handleResize = () => {
+      createDots()
+    }
+
+    sectionEl.addEventListener('mousemove', onMouseMove)
+    sectionEl.addEventListener('mouseleave', onMouseLeave)
+    window.addEventListener('resize', handleResize)
+
+    return () => {
+      sectionEl.removeEventListener('mousemove', onMouseMove)
+      sectionEl.removeEventListener('mouseleave', onMouseLeave)
+      window.removeEventListener('resize', handleResize)
+      if (animationFrameId) cancelAnimationFrame(animationFrameId)
+    }
   }, [])
 
   // Funkcija za animaciju specifičnih riječi
@@ -91,6 +211,7 @@ const LandingPage = () => {
   const categoryCards = [
     {
       key: 'faucets',
+      eyebrowLabel: 'MJEŠALICE ZA VODU',
       titleKey: 'products.faucets',
       descriptionKey: 'products.faucetsDescription',
       to: '/proizvodi/slavine',
@@ -99,6 +220,7 @@ const LandingPage = () => {
     },
     {
       key: 'bathing',
+      eyebrowLabel: 'KUPANJE + TUŠIRANJE',
       titleKey: 'products.bathing',
       descriptionKey: 'products.bathingDescription',
       to: '/proizvodi/kupanje-tusiranje',
@@ -107,6 +229,7 @@ const LandingPage = () => {
     },
     {
       key: 'sanitary',
+      eyebrowLabel: 'SANITARIJE',
       titleKey: 'products.sanitary',
       descriptionKey: 'products.sanitaryDescription',
       to: '/proizvodi/sanitarije',
@@ -210,7 +333,7 @@ const LandingPage = () => {
     <>
       {/* Hero Section */}
       <section
-        className="relative flex h-screen w-full flex-1 items-center overflow-hidden bg-slate-900 text-white"
+        className="relative flex h-[50vh] w-full flex-1 items-center overflow-hidden bg-slate-900 text-white"
       >
         <img
           src={headerPipa}
@@ -275,11 +398,8 @@ const LandingPage = () => {
         <div className="mx-auto max-w-7xl px-6">
           <div className="mb-10 max-w-4xl md:mb-14">
             <h2 className="text-[28px] font-semibold leading-tight tracking-tight text-slate-900 sm:text-3xl md:text-[36px] lg:text-[40px]">
-              {t('landingCategories.title')}
+              Naši proizvodi
             </h2>
-            <p className="mt-3 text-base leading-relaxed text-slate-600 sm:text-lg">
-              {t('landingCategories.subtitle')}
-            </p>
           </div>
 
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 lg:gap-7">
@@ -302,7 +422,7 @@ const LandingPage = () => {
                       style={{ backgroundColor: card.accent }}
                     />
                     <p className="text-xs font-semibold uppercase tracking-[0.22em] text-slate-600">
-                      {t('landingCategories.cardEyebrow')}
+                      {card.eyebrowLabel}
                     </p>
                   </div>
 
@@ -341,8 +461,15 @@ const LandingPage = () => {
       </section>
 
       {/* Partner Map Section */}
-      <section className="w-full bg-white py-14 md:py-20">
-        <div className="mx-auto max-w-7xl px-6">
+      <section
+        ref={partnerSectionRef}
+        className="relative w-full overflow-hidden bg-[#EEF4FB] py-14 md:py-20"
+      >
+        <canvas
+          ref={partnerCanvasRef}
+          className="pointer-events-none absolute inset-0 z-0 h-full w-full"
+        />
+        <div className="relative z-10 mx-auto max-w-7xl px-6">
           <div className="mb-10 flex max-w-5xl flex-col gap-3 md:mb-14">
             <p className="text-sm font-semibold uppercase tracking-[0.22em] text-slate-500">
               {t('landingPartnerMap.eyebrow')}
@@ -401,7 +528,13 @@ const LandingPage = () => {
             )}
           </div>
 
-          <div className="rounded-2xl border border-slate-200/70 bg-white p-6 shadow-sm md:p-8">
+          <div
+            className="rounded-2xl border border-white/80 bg-white/60 p-6 shadow-sm md:p-8"
+            style={{
+              backdropFilter: 'blur(16px)',
+              WebkitBackdropFilter: 'blur(16px)',
+            }}
+          >
             {/* Filters */}
             <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
               <div>
@@ -409,7 +542,13 @@ const LandingPage = () => {
                   {t('landingPartnerMap.filters.countryLabel')}
                 </label>
                 <select
-                  className="h-[44px] w-full rounded-xl border border-slate-200/70 bg-slate-50 px-4 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#0070CD]/40"
+                  className="h-[44px] w-full rounded-xl border px-4 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#0070CD]/40"
+                  style={{
+                    background: 'rgba(255,255,255,0.7)',
+                    borderColor: 'rgba(255,255,255,0.9)',
+                    borderWidth: 1,
+                    borderRadius: 8,
+                  }}
                   value={partnerCountry}
                   onChange={(e) => setPartnerCountry(e.target.value)}
                 >
@@ -426,7 +565,13 @@ const LandingPage = () => {
                 </label>
                 <input
                   type="text"
-                  className="h-[44px] w-full rounded-xl border border-slate-200/70 bg-slate-50 px-4 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#0070CD]/40"
+                  className="h-[44px] w-full rounded-xl border px-4 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#0070CD]/40"
+                  style={{
+                    background: 'rgba(255,255,255,0.7)',
+                    borderColor: 'rgba(255,255,255,0.9)',
+                    borderWidth: 1,
+                    borderRadius: 8,
+                  }}
                   value={partnerQuery}
                   placeholder={t('landingPartnerMap.filters.partnerPlaceholder')}
                   onChange={(e) => setPartnerQuery(e.target.value)}
@@ -438,7 +583,13 @@ const LandingPage = () => {
                   {t('landingPartnerMap.filters.distanceLabel')}
                 </label>
                 <select
-                  className="h-[44px] w-full rounded-xl border border-slate-200/70 bg-slate-50 px-4 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#0070CD]/40"
+                  className="h-[44px] w-full rounded-xl border px-4 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#0070CD]/40"
+                  style={{
+                    background: 'rgba(255,255,255,0.7)',
+                    borderColor: 'rgba(255,255,255,0.9)',
+                    borderWidth: 1,
+                    borderRadius: 8,
+                  }}
                   value={distanceKm}
                   onChange={(e) => setDistanceKm(e.target.value)}
                 >
@@ -492,20 +643,32 @@ const LandingPage = () => {
             {/* Map + List */}
             <div className="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-5 lg:items-start lg:gap-8">
               {/* Map */}
-              <div className="order-2 lg:order-1 lg:col-span-3">
+              <div
+                className="order-2 lg:order-1 lg:col-span-3 rounded-2xl border border-white/80 bg-white/60 shadow-sm"
+                style={{
+                  backdropFilter: 'blur(16px)',
+                  WebkitBackdropFilter: 'blur(16px)',
+                }}
+              >
                 <PartnerMap
                   partnerLocations={filteredPartners}
                   selectedPartnerId={selectedPartnerId}
                   onPartnerSelect={setSelectedPartnerId}
                   onDebugChange={showMapDebug ? setMapDebug : undefined}
                   heightClassName="h-[420px] sm:h-[460px] md:h-[520px] lg:h-[540px]"
-                  className="border border-slate-200/70 bg-white shadow-sm"
+                  className="rounded-2xl"
                 />
               </div>
 
               {/* List */}
               <div className="order-3 lg:order-2 lg:col-span-2">
-                <div className="h-[420px] overflow-hidden rounded-2xl border border-slate-200/70 bg-white sm:h-[460px] md:h-[520px] lg:h-[540px]">
+                <div
+                  className="h-[420px] overflow-hidden rounded-2xl border border-white/80 bg-white/60 sm:h-[460px] md:h-[520px] lg:h-[540px]"
+                  style={{
+                    backdropFilter: 'blur(16px)',
+                    WebkitBackdropFilter: 'blur(16px)',
+                  }}
+                >
                   <div className="h-full overflow-auto p-3 sm:p-4">
                     {filteredPartners.length > 0 ? (
                       <ul className="space-y-2 pr-1">

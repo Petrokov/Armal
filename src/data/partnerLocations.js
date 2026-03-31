@@ -1,7 +1,7 @@
 // Napomena: ovo su demo podaci (primjer). Možeš ih zamijeniti stvarnim partnerima.
 // Polja koja map/filtri očekuju: id, name, country, address, phone, lat, lng (+ opcionalno googleMapsUrl).
 const partnerLocations = [
- {
+  {
     id: 'vitos_d_o_o_188',
     name: 'VITOS d.o.o.',
     country: 'HR',

@@ -11,9 +11,9 @@ const ProizvodiKupanjeTusiranje = () => {
   // Podkategorije kupanje + tuširanje – za svaku kategoriju moguće je postaviti vlastiti link za B2B i Uredi dom
   const categories = [
     {
-      key: 'bathtubs',
-      image: '/kade_tuskade_kanalice/kade.webp',
-      b2bLink: 'https://b2b.armal.hr/Store?grupa=0506&podgrupa1=050601',
+      key: 'showerCabins',
+      image: '/kade_tuskade_kanalice/tus_kabine.webp',
+      b2bLink: 'https://b2b.armal.hr/Store?grupa=0507',
       editHomeLink: 'https://uredidom.hr/',
     },
     {
@@ -23,15 +23,15 @@ const ProizvodiKupanjeTusiranje = () => {
       editHomeLink: 'https://uredidom.hr/',
     },
     {
-      key: 'showerChannels',
-      image: '/kade_tuskade_kanalice/kanalice.webp',
-      b2bLink: 'https://b2b.armal.hr/Store?grupa=0506&podgrupa1=050604',
+      key: 'bathtubs',
+      image: '/kade_tuskade_kanalice/kade.webp',
+      b2bLink: 'https://b2b.armal.hr/Store?grupa=0506&podgrupa1=050601',
       editHomeLink: 'https://uredidom.hr/',
     },
     {
-      key: 'showerCabins',
-      image: '/kade_tuskade_kanalice/tus_kabine.webp',
-      b2bLink: 'https://b2b.armal.hr/Store?grupa=0507',
+      key: 'showerChannels',
+      image: '/kade_tuskade_kanalice/kanalice.webp',
+      b2bLink: 'https://b2b.armal.hr/Store?grupa=0506&podgrupa1=050604',
       editHomeLink: 'https://uredidom.hr/',
     },
   ]

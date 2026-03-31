@@ -2,7 +2,7 @@ import { useLanguage } from '../contexts/LanguageContext'
 import { useEffect, useRef } from 'react'
 import kupaonicaImage from '../assets/kupaonica-zelena.webp'
 import sanitarije1 from '../assets/sanitarije/sanitarije_1.webp'
-import sanitarije2 from '../assets/sanitarije/wc_sjedalice.webp'
+import wcBowlsImage from '../assets/sanitarije/wc_sjedalice.webp'
 import sanitarije3 from '../assets/sanitarije/sanitarije_3.webp'
 import daska from '../assets/sanitarije/daska.webp'
 import bide from '../assets/sanitarije/bide.webp'
@@ -15,33 +15,39 @@ const ProizvodiSanitarije = () => {
   // Kategorije sanitarije – za svaku kategoriju moguće je postaviti vlastiti link za B2B i Uredi dom
   const categories = [
     {
-      key: 'washbasins',
+      key: 'washbasins', // Umivaonici
       image: sanitarije1,
       b2bLink: 'https://b2b.armal.hr/Store?grupa=0502&podgrupa1=050209',
       editHomeLink: 'https://uredidom.hr/',
     },
     {
-      key: 'toiletSeats',
-      image: sanitarije2,
+      key: 'toiletBowls', // WC školjke
+      image: wcBowlsImage,
+      b2bLink: 'https://b2b.armal.hr/Store?grupa=0502&podgrupa1=050201',
+      editHomeLink: 'https://uredidom.hr/',
+    },
+    {
+      key: 'toiletSeats', // WC sjedalice
+      image: daska,
       b2bLink: 'https://b2b.armal.hr/Store?grupa=0502&podgrupa1=050204',
       editHomeLink: 'https://uredidom.hr/',
     },
     {
-      key: 'toiletCisterns',
+      key: 'toiletCisterns', // Vodokotlići
       image: sanitarije3,
       b2bLink: 'https://b2b.armal.hr/Store?grupa=0502&podgrupa1=050203',
       editHomeLink: 'https://uredidom.hr/',
     },
     {
-      key: 'bidets',
-      image: bide,
-      b2bLink: 'https://b2b.armal.hr/Store?grupa=0502&podgrupa1=050205',
+      key: 'monoblock', // Monoblok
+      image: monoblock,
+      b2bLink: 'https://b2b.armal.hr/Store?grupa=0502&podgrupa1=050202',
       editHomeLink: 'https://uredidom.hr/',
     },
     {
-      key: 'monoblock',
-      image: monoblock,
-      b2bLink: 'https://b2b.armal.hr/Store?grupa=0502&podgrupa1=050202',
+      key: 'bidets', // Bide
+      image: bide,
+      b2bLink: 'https://b2b.armal.hr/Store?grupa=0502&podgrupa1=050205',
       editHomeLink: 'https://uredidom.hr/',
     },
   ]

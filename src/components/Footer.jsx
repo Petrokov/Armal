@@ -20,11 +20,19 @@ const Footer = () => {
     { key: 'cookies', path: '#cookies' },
   ]
 
+  // Usluge linkovi
+  const servicesLinks = [
+    { key: 'servis', path: '/servis', isRoute: true },
+    { key: 'b2b', path: 'https://b2b.armal.hr/', isRoute: false },
+    { key: 'editHome', path: 'https://uredidom.hr/', isRoute: false },
+    { key: 'blog', path: '/blog', isRoute: true },
+  ]
+
   return (
     <footer className="w-full border-t border-slate-200 bg-white">
       <div className="mx-auto max-w-7xl px-6 py-12 md:py-16">
-        {/* Main Footer Content - Three Columns */}
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-3 lg:gap-12">
+        {/* Main Footer Content */}
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4 lg:gap-12">
           {/* Left Column - Logo, Slogan, Company Info */}
           <div className="flex flex-col">
             <img src={logo} alt="Armal logo" className="mb-4 h-8 w-36" />
@@ -32,9 +40,17 @@ const Footer = () => {
               {t('footer.slogan')}
             </p>
             <div className="space-y-2 text-sm text-slate-500">
-              <p>{t('footer.oib')}: {t('footer.oibValue')}</p>
-              <p>{t('footer.mbs')}: {t('footer.mbsValue')}</p>
-              <p>{t('footer.uid')}: {t('footer.uidValue')}</p>
+              <p>Mrkšina 52D, 10000 Zagreb, Hrvatska</p>
+              <p>mail address: info@armal.hr i servis@armal.hr</p>
+              <p>
+                {t('footer.oib')}: {t('footer.oibValue')}
+              </p>
+              <p>
+                {t('footer.mbs')}: {t('footer.mbsValue')}
+              </p>
+              <p>
+                {t('footer.uid')}: {t('footer.uidValue')}
+              </p>
             </div>
           </div>
 
@@ -56,6 +72,40 @@ const Footer = () => {
                     </a>
                   )
                 }
+                return (
+                  <Link
+                    key={link.key}
+                    to={link.path}
+                    className="text-sm text-slate-600 transition-colors hover:text-[#0070CD]"
+                  >
+                    {t(`navbar.${link.key}`)}
+                  </Link>
+                )
+              })}
+            </nav>
+          </div>
+
+          {/* Services Column */}
+          <div className="flex flex-col">
+            <h3 className="mb-4 text-base font-semibold text-slate-900">
+              Usluge
+            </h3>
+            <nav className="flex flex-col space-y-3">
+              {servicesLinks.map((link) => {
+                if (!link.isRoute) {
+                  return (
+                    <a
+                      key={link.key}
+                      href={link.path}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-sm text-slate-600 transition-colors hover:text-[#0070CD]"
+                    >
+                      {t(`navbar.${link.key}`)}
+                    </a>
+                  )
+                }
+
                 return (
                   <Link
                     key={link.key}

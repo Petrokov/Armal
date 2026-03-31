@@ -6,8 +6,8 @@
     "catalogues": "Katalozi",
     "about": "O nama",
     "servis": "Сервис",
-    "b2b": "B2B Trgovina",
-    "editHome": "Uredi dom",
+    "b2b": "Armal B2B webshop",
+    "editHome": "Uredi dom webshop",
     "blog": "Blog",
     "viewAllProducts": "Pogledaj sve proizvode",
     "openMenu": "Otvori meni",
@@ -334,6 +334,11 @@
       "name": "Umivaonici",
       "description": "Elegantni i funkcionalni umivaonici dostupni u različitim stilovima, veličinama i materijalima. Od klasičnih do modernih dizajna koji se uklapaju u svaki prostor.",
       "benefit": "Kombinacija estetike i praktičnosti za vašu kupaonicu"
+    },
+    "toiletBowls": {
+      "name": "WC školjke",
+      "description": "Samostojeće i viseće WC školjke modernog dizajna koje se lako uklapaju u različite stilove kupatila.",
+      "benefit": "Pouzdano i higijensko rešenje za svako kupatilo"
     },
     "toiletSeats": {
       "name": "WC sjedalice",

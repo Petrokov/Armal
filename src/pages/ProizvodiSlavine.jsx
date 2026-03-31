@@ -355,6 +355,8 @@ const ProizvodiSlavine = () => {
   ]
 
   // Kolekcije slavina – image = glavna, images = niz za galeriju, finishes = obrade (opcionalno)
+  // Redoslijed prilagođen traženom popisu koristeći postojeće kolekcije:
+  // 1. Rubi, 2. Topaz, 3. Violet, 4. Start, potom ostale postojeće kolekcije.
   const collections = [
     {
       key: 'rubi',
@@ -379,9 +381,29 @@ const ProizvodiSlavine = () => {
         { key: 'chrome', color: '#e5e7eb' },
         { key: 'black', color: '#1f2937' },
         { key: 'gunMetal', color: '#4b5563' },
-        { key: 'brushGold', color: '#c9a227' }
+        { key: 'brushGold', color: '#c9a227' },
       ],
       b2bLink: 'https://b2b.armal.hr/Store/Index?grupa=0504&brend=TOPAZ',
+      editHomeLink: 'https://uredidom.hr/',
+    },
+    {
+      key: 'violet',
+      image: violetMain,
+      images: violetImages,
+      finishes: [
+        { key: 'chrome', color: '#e5e7eb' },
+      ],
+      b2bLink: 'https://b2b.armal.hr/Store/Index?grupa=0504&brend=VIOLET',
+      editHomeLink: 'https://uredidom.hr/',
+    },
+    {
+      key: 'start',
+      image: startMain,
+      images: startImages,
+      finishes: [
+        { key: 'chrome', color: '#e5e7eb' },
+      ],
+      b2bLink: 'https://b2b.armal.hr/Store/Index?grupa=0504&brend=START',
       editHomeLink: 'https://uredidom.hr/',
     },
     {
@@ -431,26 +453,6 @@ const ProizvodiSlavine = () => {
       editHomeLink: 'https://uredidom.hr/',
     },
     {
-      key: 'violet',
-      image: violetMain,
-      images: violetImages,
-      finishes: [
-        { key: 'chrome', color: '#e5e7eb' },
-      ],
-      b2bLink: 'https://b2b.armal.hr/Store/Index?grupa=0504&brend=VIOLET',
-      editHomeLink: 'https://uredidom.hr/',
-    },
-    {
-      key: 'jana',
-      image: janaMain,
-      images: janaImages,
-      finishes: [
-        { key: 'chrome', color: '#e5e7eb' },
-      ],
-      b2bLink: 'https://b2b.armal.hr/Store/Index?grupa=0504&brend=JANA',
-      editHomeLink: 'https://uredidom.hr/',
-    },
-    {
       key: 'ana',
       image: anaMain,
       images: anaImages.length ? anaImages : [anaMain],
@@ -461,13 +463,13 @@ const ProizvodiSlavine = () => {
       editHomeLink: 'https://uredidom.hr/',
     },
     {
-      key: 'start',
-      image: startMain,
-      images: startImages,
+      key: 'jana',
+      image: janaMain,
+      images: janaImages,
       finishes: [
         { key: 'chrome', color: '#e5e7eb' },
       ],
-      b2bLink: 'https://b2b.armal.hr/Store/Index?grupa=0504&brend=START',
+      b2bLink: 'https://b2b.armal.hr/Store/Index?grupa=0504&brend=JANA',
       editHomeLink: 'https://uredidom.hr/',
     },
   ]
