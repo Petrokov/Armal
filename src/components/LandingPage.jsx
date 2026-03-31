@@ -352,9 +352,6 @@ const LandingPage = () => {
           <div className="mx-auto flex h-full w-full max-w-6xl flex-col items-start justify-center gap-6 px-6 py-16 text-left md:px-10 lg:px-12">
             <div className="w-full max-w-3xl p-5 sm:p-7 md:p-8">
               <div className="text-white">
-                <p className="text-sm uppercase tracking-[0.5em] text-white/90">
-                  {t('hero.collections')}
-                </p>
                 <h1 className="mt-2 text-4xl font-semibold leading-none sm:text-5xl md:text-6xl">
                   <span className="block mb-2">
                     {getAnimatedText(t('hero.title1'), ['kupaonicu', 'kupatilo', 'kopalnico'], 200)}
