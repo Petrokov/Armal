@@ -2,6 +2,7 @@ import { useLanguage } from '../contexts/LanguageContext'
 import { Link } from 'react-router-dom'
 import kupaonicaImage from '../assets/kupaonica-zelena.webp'
 import oNamaImage from '../assets/o_nama_kupaonica_2.png'
+import armalObavijestImage from '../assets/blogovi/armal-obavjest.png'
 
 const BlogPage = () => {
   const { t, language } = useLanguage()
@@ -11,8 +12,8 @@ const BlogPage = () => {
     {
       id: 1,
       key: 'blog1',
-      image: kupaonicaImage,
-      date: '2025-01-15',
+      image: armalObavijestImage,
+      date: '2026-03-26',
     },
     {
       id: 2,

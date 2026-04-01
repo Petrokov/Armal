@@ -7,7 +7,7 @@ import rubiProstor from '../assets/slavine/rubi-compresed/rubi-prostor.webp'
 import oNamaKupaonicaHero from '../assets/o_nama_kupaonica_hero.png'
 import wcSjedalice from '../assets/sanitarije/wc_sjedalice.webp'
 import PartnerMap from './PartnerMap'
-import partnerLocationsData from '../data/partnerLocations'
+import partnerLocationsData, { partnerLocationsSI } from '../data/partnerLocations'
 import FeaturedCollections from './FeaturedCollections'
 import MoodboardSection from './MoodboardSection'
 import CTASection from './CTASection'
@@ -301,9 +301,10 @@ const LandingPage = () => {
   const filteredPartners = useMemo(() => {
     const q = partnerQuery.trim().toLowerCase()
     const locationFilterEnabled = geoStatus === 'success' && myCoords && distanceKm !== 'all'
-    const basePartners = partnerLocationsData.filter(
-      (p) => p.country !== 'SLO' && p.disabledOnMap !== true
-    )
+    const basePartners = [
+      ...partnerLocationsData.filter((p) => p.country !== 'SLO' && p.disabledOnMap !== true),
+      ...partnerLocationsSI,
+    ]
 
     let list = basePartners
     if (partnerCountry !== 'ALL') {
@@ -318,7 +319,15 @@ const LandingPage = () => {
       list = list.filter((p) => haversineKm(myCoords.lat, myCoords.lng, p.lat, p.lng) <= limit)
     }
 
-    return list
+    // Petrokov poslovnice uvijek prikaži prve u rezultatima pretrage.
+    return [...list].sort((a, b) => {
+      const aIsPetrokov = (a.name || '').toLowerCase().includes('petrokov')
+      const bIsPetrokov = (b.name || '').toLowerCase().includes('petrokov')
+
+      if (aIsPetrokov && !bIsPetrokov) return -1
+      if (!aIsPetrokov && bIsPetrokov) return 1
+      return 0
+    })
   }, [partnerCountry, partnerQuery, distanceKm, geoStatus, myCoords, haversineKm])
 
   useEffect(() => {
@@ -553,6 +562,7 @@ const LandingPage = () => {
                   <option value="HR">HR</option>
                   <option value="BIH">BIH</option>
                   <option value="RS">RS</option>
+                  <option value="SI">{t('landingPartnerMap.filters.countrySI')}</option>
                 </select>
               </div>
 
@@ -697,6 +707,28 @@ const LandingPage = () => {
                                   )}
                                 </div>
                                 <div className="mt-1 text-xs leading-relaxed text-slate-600">{p.address}</div>
+                                {isActive && p.country === 'SI' && (
+                                  <>
+                                    <div className="mt-1 text-xs leading-relaxed text-slate-600">
+                                      {t('landingPartnerMap.detailCountryLabel')}:{' '}
+                                      {t('landingPartnerMap.countryNames.SI')}
+                                    </div>
+                                    {p.phone ? (
+                                      <div className="mt-1 text-xs leading-relaxed text-slate-600">{p.phone}</div>
+                                    ) : null}
+                                    {p.googleMapsUrl ? (
+                                      <a
+                                        href={p.googleMapsUrl}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="mt-1 block text-xs leading-relaxed text-slate-600 underline"
+                                        onClick={(e) => e.stopPropagation()}
+                                      >
+                                        {t('landingPartnerMap.filters.mapsLinkLabel')}
+                                      </a>
+                                    ) : null}
+                                  </>
+                                )}
                               </button>
                             </li>
                           )

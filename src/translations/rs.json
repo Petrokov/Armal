@@ -90,8 +90,17 @@
       "allDistances": "Sve udaljenosti",
       "useMyLocation": "Koristite moju lokaciju",
       "resetFilters": "Resetuj filtere",
-      "locationHelper": "Za filtriranje po udaljenosti omogućite pristup lokaciji."
+      "locationHelper": "Za filtriranje po udaljenosti omogućite pristup lokaciji.",
+      "countrySI": "Slovenija",
+      "mapsLinkLabel": "Google Maps"
     },
+    "countryNames": {
+      "HR": "Hrvatska",
+      "SI": "Slovenija",
+      "BIH": "Bosna i Hercegovina",
+      "RS": "Srbija"
+    },
+    "detailCountryLabel": "Država",
     "geo": {
       "loading": "Dohvatamo vašu lokaciju...",
       "error": "Nije moguće dohvatiti lokaciju. Provjerite dopuštenja preglednika."
@@ -371,8 +380,9 @@
     "backToBlog": "Povratak na blog",
     "posts": {
       "blog1": {
-        "title": "Kako odabrati savršenu kadu za vašu kupaonicu",
-        "excerpt": "Vodič kroz različite tipove kada, materijale i dimenzije kako biste pronašli idealno rešenje za vaš prostor."
+        "title": "Armal obavijest veleprodajnim kupcima",
+        "excerpt": "OBAVIJEST ZA VELEPRODAJNE KUPCE",
+        "content": "OBAVIJEST ZA VELEPRODAJNE KUPCE\n\nPoštovani partneri,\n\nuslijed kontinuiranog rasta cijena repromaterijala i energenata primorani smo izvršiti korekciju Armal cjenika.\n\nSvjesni smo izazova koje navedeni porast troškova donosi poslovanju te smo veći dio povećanja nastojali apsorbirati kako bismo zadržali stabilnost cijena za naše kupce. Nažalost, manji dio povećanja troškova primorani smo prenijeti na tržište.Ovim putem najavljujemo porast cijena u prosjeku od 4,5%, koji neće biti linearno primijenjen na sve proizvode.\n\nNovi cjenik bit će vam dostavljen oko 15. travnja 2026. godine.\n\nZahvaljujemo na razumijevanju i dosadašnjoj suradnji.\n\nSrdačan pozdrav,\nArmal d.o.o"
       },
       "blog2": {
         "title": "Moderne tuš kabine: Trendovi i inovacije 2025",

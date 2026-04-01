@@ -70,12 +70,12 @@ const Navbar = () => {
   return (
     <header className="fixed left-0 top-0 z-[1000] w-full">
       <nav className="h-16 border-b border-black/10 bg-[rgba(255,255,255,0.6)] backdrop-blur-[12px]">
-        <div className="relative mx-auto flex h-full w-full items-center justify-between px-[70px]">
+        <div className="relative mx-auto flex h-full w-full items-center justify-between px-6 md:px-[70px]">
           <div className="flex items-center gap-4">
             <button
               type="button"
               onClick={() => setIsSidebarOpen(true)}
-              className="inline-flex h-10 w-10 items-center justify-center rounded-full text-slate-700 transition-colors duration-200 hover:text-[#1a6cc4] max-[479px]:hidden"
+              className="hidden h-10 w-10 items-center justify-center rounded-full text-slate-700 transition-colors duration-200 hover:text-[#1a6cc4] md:inline-flex"
               aria-label={t('navbar.openMenu')}
             >
               <IconHamburger />
@@ -85,7 +85,7 @@ const Navbar = () => {
             </Link>
           </div>
 
-          <ul className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-8 text-[14px] font-medium text-[#1a1a1a] md:flex">
+          <ul className="hidden items-center gap-8 text-[14px] font-medium text-[#1a1a1a] md:ml-auto md:flex min-[1400px]:absolute min-[1400px]:left-1/2 min-[1400px]:-translate-x-1/2">
             {primaryLinks.map((link) => {
               const isActive =
                 link.key === 'products'
@@ -130,7 +130,7 @@ const Navbar = () => {
           </ul>
 
           <div className="flex items-center gap-5">
-            <div className="relative">
+            <div className="relative hidden min-[1400px]:block">
               <button
                 type="button"
                 onClick={() =>
@@ -173,7 +173,16 @@ const Navbar = () => {
               )}
             </div>
 
-            <div className="hidden items-center gap-2 text-[12px] text-[#666] md:flex">
+            <button
+              type="button"
+              onClick={() => setIsSidebarOpen(true)}
+              className="inline-flex h-10 w-10 items-center justify-center rounded-full text-slate-700 transition-colors duration-200 hover:text-[#1a6cc4] md:hidden"
+              aria-label={t('navbar.openMenu')}
+            >
+              <IconHamburgerMobile />
+            </button>
+
+            <div className="hidden items-center gap-2 text-[12px] text-[#666] min-[1400px]:flex">
               {utilityLinks.map((link, idx) => {
                 const LinkComponent = link.isRoute ? Link : 'a'
                 const linkProps = link.isRoute
@@ -355,6 +364,14 @@ const IconHamburger = () => (
   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
   </svg>
+)
+
+const IconHamburgerMobile = () => (
+  <span className="flex flex-col gap-[5px]">
+    <span className="block h-[2px] w-[22px] bg-current" />
+    <span className="block h-[2px] w-[22px] bg-current" />
+    <span className="block h-[2px] w-[22px] bg-current" />
+  </span>
 )
 
 const IconClose = () => (

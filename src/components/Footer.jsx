@@ -42,6 +42,7 @@ const Footer = () => {
             <div className="space-y-2 text-sm text-slate-500">
               <p>Mrkšina 52D, 10000 Zagreb, Hrvatska</p>
               <p>mail address: info@armal.hr i servis@armal.hr</p>
+              <p>broj telefona: +385 91 3375 730</p>
               <p>
                 {t('footer.oib')}: {t('footer.oibValue')}
               </p>

@@ -90,8 +90,17 @@
       "allDistances": "Sve udaljenosti",
       "useMyLocation": "Koristi moju lokaciju",
       "resetFilters": "Reset filtera",
-      "locationHelper": "Za filtriranje po udaljenosti omogućite pristup lokaciji."
+      "locationHelper": "Za filtriranje po udaljenosti omogućite pristup lokaciji.",
+      "countrySI": "Slovenija",
+      "mapsLinkLabel": "Google Maps"
     },
+    "countryNames": {
+      "HR": "Hrvatska",
+      "SI": "Slovenija",
+      "BIH": "Bosna i Hercegovina",
+      "RS": "Srbija"
+    },
+    "detailCountryLabel": "Država",
     "geo": {
       "loading": "Dohvaćamo vašu lokaciju...",
       "error": "Nije moguće dohvatiti lokaciju. Provjerite dopuštenja preglednika."
@@ -371,9 +380,9 @@
     "backToBlog": "Povratak na blog",
     "posts": {
       "blog1": {
-        "title": "Kako odabrati savršenu kadu za vašu kupaonicu",
-        "excerpt": "Vodič kroz različite tipove kada, materijale i dimenzije kako biste pronašli idealno rješenje za vaš prostor.",
-        "content": "Odabir kade za kupaonicu može biti izazovan zadatak, ali s pravim vodičem možete pronaći savršeno rješenje koje odgovara vašem prostoru i stilu života.\n\nPrilikom odabira kade, važno je razmotriti nekoliko ključnih faktora. Dimenzije prostora su prva stvar koju trebate uzeti u obzir. Standardne kade obično imaju duljinu od 150 do 180 cm, dok su kompaktne verzije dostupne za manje prostore.\n\nMaterijali također igraju važnu ulogu. Akrilne kade su popularan izbor zbog svoje lakoće i topline, dok su čelične kade izdržljivije i lakše za održavanje. Kade od kamena ili čakrta nude luksuzan izgled, ali zahtijevaju više pažnje pri održavanju.\n\nNe zaboravite razmotriti i funkcionalne aspekte poput dubine kade, oblikovanja za udobnost i dodatne opcije poput masažnih sustava ili hidroterapije."
+        "title": "Armal obavijest veleprodajnim kupcima",
+        "excerpt": "OBAVIJEST ZA VELEPRODAJNE KUPCE",
+        "content": "OBAVIJEST ZA VELEPRODAJNE KUPCE\n\nPoštovani partneri,\n\nuslijed kontinuiranog rasta cijena repromaterijala i energenata primorani smo izvršiti korekciju Armal cjenika.\n\nSvjesni smo izazova koje navedeni porast troškova donosi poslovanju te smo veći dio povećanja nastojali apsorbirati kako bismo zadržali stabilnost cijena za naše kupce. Nažalost, manji dio povećanja troškova primorani smo prenijeti na tržište.Ovim putem najavljujemo porast cijena u prosjeku od 4,5%, koji neće biti linearno primijenjen na sve proizvode.\n\nNovi cjenik bit će vam dostavljen oko 15. travnja 2026. godine.\n\nZahvaljujemo na razumijevanju i dosadašnjoj suradnji.\n\nSrdačan pozdrav,\nArmal d.o.o"
       },
       "blog2": {
         "title": "Moderne tuš kabine: Trendovi i inovacije 2025",

@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import { useLanguage } from '../contexts/LanguageContext'
 import partnerLocationsData from '../data/partnerLocations'
 
 /**
@@ -15,6 +16,7 @@ const PartnerMap = ({
   heightClassName = 'h-[500px]',
   onDebugChange,
 }) => {
+  const { t, language } = useLanguage()
   const mapRef = useRef(null)
   const mapInstanceRef = useRef(null)
   const markersRef = useRef([])
@@ -139,13 +141,7 @@ const PartnerMap = ({
       markers.push(marker)
       markerById.set(partnerId, marker)
 
-      const contentString = `
-        <div style="padding: 12px; min-width: 220px; font-family: system-ui, sans-serif;">
-          <h3 style="margin: 0 0 8px 0; font-size: 16px; font-weight: 600; color: #0f172a;">${escapeHtml(partner.name)}</h3>
-          <p style="margin: 0 0 4px 0; font-size: 14px; color: #475569; line-height: 1.4;">${escapeHtml(partner.address)}</p>
-          <p style="margin: 0; font-size: 14px; color: #475569;">${escapeHtml(partner.phone)}</p>
-        </div>
-      `
+      const contentString = buildPartnerInfoWindowHtml(partner, t)
       const infoWindow = new window.google.maps.InfoWindow({ content: contentString })
       infoWindows.push(infoWindow)
       infoWindowById.set(partnerId, infoWindow)
@@ -191,7 +187,7 @@ const PartnerMap = ({
       markerByIdRef.current = new Map()
       infoWindowByIdRef.current = new Map()
     }
-  }, [scriptLoaded, partnerLocations])
+  }, [scriptLoaded, partnerLocations, language, t])
 
   // Kada klikneš partner u listi, highlight + infoWindow na mapi.
   useEffect(() => {
@@ -239,6 +235,44 @@ function escapeHtml(text) {
   const div = document.createElement('div')
   div.textContent = text
   return div.innerHTML
+}
+
+function buildPartnerInfoWindowHtml(partner, t) {
+  const code = partner.country || ''
+  const countryKey = code ? `landingPartnerMap.countryNames.${code}` : ''
+  const countryTranslated = countryKey ? t(countryKey) : ''
+  const countryDisplay =
+    countryTranslated && !String(countryTranslated).startsWith('landingPartnerMap')
+      ? countryTranslated
+      : code
+
+  const countryLine =
+    countryDisplay !== ''
+      ? `<p style="margin: 0 0 4px 0; font-size: 14px; color: #475569;">${escapeHtml(
+          t('landingPartnerMap.detailCountryLabel')
+        )}: ${escapeHtml(countryDisplay)}</p>`
+      : ''
+
+  const phoneLine =
+    partner.phone && String(partner.phone).trim()
+      ? `<p style="margin: 0 0 4px 0; font-size: 14px; color: #475569;">${escapeHtml(partner.phone)}</p>`
+      : ''
+
+  const mapsLine = partner.googleMapsUrl
+    ? `<p style="margin: 8px 0 0 0;"><a href="${escapeHtml(partner.googleMapsUrl)}" target="_blank" rel="noopener noreferrer" style="color: #0070CD; font-size: 14px; font-weight: 600;">${escapeHtml(
+        t('landingPartnerMap.filters.mapsLinkLabel')
+      )}</a></p>`
+    : ''
+
+  return `
+        <div style="padding: 12px; min-width: 220px; font-family: system-ui, sans-serif;">
+          <h3 style="margin: 0 0 8px 0; font-size: 16px; font-weight: 600; color: #0f172a;">${escapeHtml(partner.name)}</h3>
+          <p style="margin: 0 0 4px 0; font-size: 14px; color: #475569; line-height: 1.4;">${escapeHtml(partner.address)}</p>
+          ${countryLine}
+          ${phoneLine}
+          ${mapsLine}
+        </div>
+      `
 }
 
 export default PartnerMap
