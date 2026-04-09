@@ -301,14 +301,35 @@ const Navbar = () => {
             <a href="mailto:info@armal.hr" className="block text-sm text-slate-700 hover:text-[#0070CD]">
               info@armal.hr
             </a>
-            <a href="tel:+38512345678" className="block text-sm text-slate-700 hover:text-[#0070CD]">
-              +385 1 234 5678
+            <a href="tel:+385913375730" className="block text-sm text-slate-700 hover:text-[#0070CD]">
+              +385 91 3375 730
             </a>
 
             <div className="mt-4 flex items-center gap-3">
-              <a href="#" className="text-sm text-slate-600 hover:text-[#0070CD]">Facebook</a>
-              <a href="#" className="text-sm text-slate-600 hover:text-[#0070CD]">Instagram</a>
-              <a href="#" className="text-sm text-slate-600 hover:text-[#0070CD]">LinkedIn</a>
+              <a
+                href="https://www.facebook.com/Armal.Hrvatska"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-sm text-slate-600 hover:text-[#0070CD]"
+              >
+                Facebook
+              </a>
+              <a
+                href="https://www.instagram.com/armal_hrvatska/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-sm text-slate-600 hover:text-[#0070CD]"
+              >
+                Instagram
+              </a>
+              <a
+                href="https://hr.linkedin.com/company/armal-d-o-o"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-sm text-slate-600 hover:text-[#0070CD]"
+              >
+                LinkedIn
+              </a>
             </div>
 
             <div className="relative mt-4">

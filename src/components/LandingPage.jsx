@@ -554,11 +554,9 @@ const LandingPage = () => {
                   {t('landingPartnerMap.filters.countryLabel')}
                 </label>
                 <select
-                  className="h-[44px] w-full rounded-xl border px-4 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#0070CD]/40"
+                  className="h-[44px] w-full rounded-xl border border-slate-200/80 px-4 text-sm text-slate-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#0070CD]/40"
                   style={{
                     background: 'rgba(255,255,255,0.7)',
-                    borderColor: 'rgba(255,255,255,0.9)',
-                    borderWidth: 1,
                     borderRadius: 8,
                   }}
                   value={partnerCountry}
@@ -578,11 +576,9 @@ const LandingPage = () => {
                 </label>
                 <input
                   type="text"
-                  className="h-[44px] w-full rounded-xl border px-4 text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#0070CD]/40"
+                  className="h-[44px] w-full rounded-xl border border-slate-200/80 px-4 text-sm text-slate-900 shadow-sm placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-[#0070CD]/40"
                   style={{
                     background: 'rgba(255,255,255,0.7)',
-                    borderColor: 'rgba(255,255,255,0.9)',
-                    borderWidth: 1,
                     borderRadius: 8,
                   }}
                   value={partnerQuery}
@@ -596,11 +592,9 @@ const LandingPage = () => {
                   {t('landingPartnerMap.filters.distanceLabel')}
                 </label>
                 <select
-                  className="h-[44px] w-full rounded-xl border px-4 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#0070CD]/40"
+                  className="h-[44px] w-full rounded-xl border border-slate-200/80 px-4 text-sm text-slate-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-[#0070CD]/40"
                   style={{
                     background: 'rgba(255,255,255,0.7)',
-                    borderColor: 'rgba(255,255,255,0.9)',
-                    borderWidth: 1,
                     borderRadius: 8,
                   }}
                   value={distanceKm}
@@ -676,7 +670,7 @@ const LandingPage = () => {
               {/* List */}
               <div className="order-3 lg:order-2 lg:col-span-2">
                 <div
-                  className="h-[420px] overflow-hidden rounded-2xl border border-white/80 bg-white/60 sm:h-[460px] md:h-[520px] lg:h-[540px]"
+                  className="h-[420px] overflow-hidden rounded-2xl border border-slate-200/80 bg-white/60 shadow-sm sm:h-[460px] md:h-[520px] lg:h-[540px]"
                   style={{
                     backdropFilter: 'blur(16px)',
                     WebkitBackdropFilter: 'blur(16px)',
