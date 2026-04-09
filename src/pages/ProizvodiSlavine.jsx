@@ -651,50 +651,63 @@ const ProizvodiSlavine = () => {
                             <label className="block text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">
                               {t('faucetsPage.colorLabel') ?? 'BOJA'}
                             </label>
-                            <div className="relative inline-flex w-full max-w-xs">
-                              <select
-                                className="w-full appearance-none rounded-full border border-slate-300 bg-white px-4 pr-10 py-2.5 text-xs font-medium text-slate-900 shadow-sm transition-colors focus:border-[#0070CD] focus:outline-none focus:ring-2 focus:ring-[#0070CD]/60"
-                                value={colorFilters[collection.key] ?? ''}
-                                onChange={(e) => {
-                                  const next = e.target.value
-                                  setColorFilters((prev) => ({ ...prev, [collection.key]: next }))
+                            <div className="flex w-full max-w-xs items-center gap-2">
+                              <div className="relative inline-flex flex-1">
+                                <select
+                                  className="w-full appearance-none rounded-full border border-slate-300 bg-white px-4 pr-10 py-2.5 text-xs font-medium text-slate-900 shadow-sm transition-colors focus:border-[#0070CD] focus:outline-none focus:ring-2 focus:ring-[#0070CD]/60"
+                                  value={colorFilters[collection.key] ?? ''}
+                                  onChange={(e) => {
+                                    const next = e.target.value
+                                    setColorFilters((prev) => ({ ...prev, [collection.key]: next }))
+                                    setActiveImageIndexes((prev) => ({ ...prev, [collection.key]: 0 }))
+                                  }}
+                                >
+                                  <option value="">{t('faucetsPage.colorAll') ?? 'Svi proizvodi'}</option>
+                                  {(collection.key === 'safir' || collection.key === 'beril'
+                                    ? ['chrome', 'black']
+                                    : collection.key === 'violet'
+                                    ? ['chrome']
+                                    : collection.key === 'lapis'
+                                    ? ['black', 'bronze']
+                                    : collection.key === 'opal'
+                                    ? ['chrome', 'black', 'gunMetal']
+                                    : collection.key === 'topaz'
+                                    ? ['chrome', 'black', 'gunMetal', 'brushGold']
+                                    : ['chrome', 'black', 'gunMetal', 'brushGold', 'brushedNickel']
+                                  ).map((finishKey) => (
+                                    <option key={finishKey} value={finishKey}>
+                                      {t(`faucetsPage.finishes.${finishKey}`)}
+                                    </option>
+                                  ))}
+                                </select>
+                                <span className="pointer-events-none absolute inset-y-0 right-3 flex items-center text-slate-500">
+                                  <svg
+                                    className="h-3 w-3"
+                                    viewBox="0 0 12 8"
+                                    aria-hidden="true"
+                                  >
+                                    <path
+                                      d="M1 1.5L6 6.5L11 1.5"
+                                      fill="none"
+                                      stroke="currentColor"
+                                      strokeWidth="1.5"
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"
+                                    />
+                                  </svg>
+                                </span>
+                              </div>
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  setColorFilters((prev) => ({ ...prev, [collection.key]: '' }))
+                                  setCategoryFilters((prev) => ({ ...prev, [collection.key]: '' }))
                                   setActiveImageIndexes((prev) => ({ ...prev, [collection.key]: 0 }))
                                 }}
+                                className="inline-flex items-center rounded-full border border-slate-300 bg-white px-4 py-2.5 text-xs font-semibold text-slate-700 shadow-sm transition-colors hover:border-[#0070CD] hover:text-[#0070CD]"
                               >
-                                <option value="">{t('faucetsPage.colorAll') ?? 'Svi proizvodi'}</option>
-                                {(collection.key === 'safir' || collection.key === 'beril'
-                                  ? ['chrome', 'black']
-                                  : collection.key === 'violet'
-                                  ? ['chrome']
-                                  : collection.key === 'lapis'
-                                  ? ['black', 'bronze']
-                                  : collection.key === 'opal'
-                                  ? ['chrome', 'black', 'gunMetal']
-                                  : collection.key === 'topaz'
-                                  ? ['chrome', 'black', 'gunMetal', 'brushGold']
-                                  : ['chrome', 'black', 'gunMetal', 'brushGold', 'brushedNickel']
-                                ).map((finishKey) => (
-                                  <option key={finishKey} value={finishKey}>
-                                    {t(`faucetsPage.finishes.${finishKey}`)}
-                                  </option>
-                                ))}
-                              </select>
-                              <span className="pointer-events-none absolute inset-y-0 right-3 flex items-center text-slate-500">
-                                <svg
-                                  className="h-3 w-3"
-                                  viewBox="0 0 12 8"
-                                  aria-hidden="true"
-                                >
-                                  <path
-                                    d="M1 1.5L6 6.5L11 1.5"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    strokeWidth="1.5"
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                  />
-                                </svg>
-                              </span>
+                                Reset
+                              </button>
                             </div>
                           </div>
                         )}
@@ -895,52 +908,65 @@ const ProizvodiSlavine = () => {
                         <label className="block text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">
                           {t('faucetsPage.colorLabel') ?? 'Boja proizvoda'}
                         </label>
-                        <div className="relative inline-flex w-full max-w-xs">
-                          <select
-                            className="w-full appearance-none rounded-full border border-slate-300 bg-white px-4 pr-10 py-2.5 text-xs font-medium text-slate-900 shadow-sm transition-colors focus:border-[#0070CD] focus:outline-none focus:ring-2 focus:ring-[#0070CD]/60"
-                            value={colorFilter}
-                            onChange={(e) => {
-                              const next = e.target.value
-                              setColorFilters((prev) => ({
-                                ...prev,
-                                [collection.key]: next,
-                              }))
-                              setActiveImageIndexes((prev) => ({
-                                ...prev,
-                                [collection.key]: 0,
-                              }))
-                            }}
-                          >
-                            <option value="">
-                              {t('faucetsPage.colorAll') ?? 'Svi proizvodi'}
-                            </option>
-                            {(collection.key === 'topaz'
-                              ? ['chrome', 'black', 'gunMetal', 'brushGold'] // Topaz: bez Nikla
-                              : collection.key === 'opal'
-                              ? ['chrome', 'black', 'gunMetal'] // Opal: krom, crna, gun metal
-                              : ['chrome', 'black', 'gunMetal', 'brushGold', 'brushedNickel']
-                            ).map((finishKey) => (
-                              <option key={finishKey} value={finishKey}>
-                                {t(`faucetsPage.finishes.${finishKey}`)}
-                              </option>
-                            ))}
-                          </select>
-                          <span className="pointer-events-none absolute inset-y-0 right-3 flex items-center text-slate-500">
-                            <svg
-                              className="h-3 w-3"
-                              viewBox="0 0 12 8"
-                              aria-hidden="true"
+                        <div className="flex w-full max-w-xs items-center gap-2">
+                          <div className="relative inline-flex flex-1">
+                            <select
+                              className="w-full appearance-none rounded-full border border-slate-300 bg-white px-4 pr-10 py-2.5 text-xs font-medium text-slate-900 shadow-sm transition-colors focus:border-[#0070CD] focus:outline-none focus:ring-2 focus:ring-[#0070CD]/60"
+                              value={colorFilter}
+                              onChange={(e) => {
+                                const next = e.target.value
+                                setColorFilters((prev) => ({
+                                  ...prev,
+                                  [collection.key]: next,
+                                }))
+                                setActiveImageIndexes((prev) => ({
+                                  ...prev,
+                                  [collection.key]: 0,
+                                }))
+                              }}
                             >
-                              <path
-                                d="M1 1.5L6 6.5L11 1.5"
-                                fill="none"
-                                stroke="currentColor"
-                                strokeWidth="1.5"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                              />
-                            </svg>
-                          </span>
+                              <option value="">
+                                {t('faucetsPage.colorAll') ?? 'Svi proizvodi'}
+                              </option>
+                              {(collection.key === 'topaz'
+                                ? ['chrome', 'black', 'gunMetal', 'brushGold'] // Topaz: bez Nikla
+                                : collection.key === 'opal'
+                                ? ['chrome', 'black', 'gunMetal'] // Opal: krom, crna, gun metal
+                                : ['chrome', 'black', 'gunMetal', 'brushGold', 'brushedNickel']
+                              ).map((finishKey) => (
+                                <option key={finishKey} value={finishKey}>
+                                  {t(`faucetsPage.finishes.${finishKey}`)}
+                                </option>
+                              ))}
+                            </select>
+                            <span className="pointer-events-none absolute inset-y-0 right-3 flex items-center text-slate-500">
+                              <svg
+                                className="h-3 w-3"
+                                viewBox="0 0 12 8"
+                                aria-hidden="true"
+                              >
+                                <path
+                                  d="M1 1.5L6 6.5L11 1.5"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  strokeWidth="1.5"
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                />
+                              </svg>
+                            </span>
+                          </div>
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setColorFilters((prev) => ({ ...prev, [collection.key]: '' }))
+                              setCategoryFilters((prev) => ({ ...prev, [collection.key]: '' }))
+                              setActiveImageIndexes((prev) => ({ ...prev, [collection.key]: 0 }))
+                            }}
+                            className="inline-flex items-center rounded-full border border-slate-300 bg-white px-4 py-2.5 text-xs font-semibold text-slate-700 shadow-sm transition-colors hover:border-[#0070CD] hover:text-[#0070CD]"
+                          >
+                            Reset
+                          </button>
                         </div>
                       </div>
                     )}
