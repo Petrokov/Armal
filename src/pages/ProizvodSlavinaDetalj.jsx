@@ -175,7 +175,7 @@ const ProizvodSlavinaDetalj = () => {
   return (
     <div className="min-h-screen bg-white">
       {/* Hero s pozadinskom slikom i naslovom kolekcije */}
-      <section className="relative flex min-h-[40vh] w-full items-center justify-center overflow-hidden">
+      <section className="relative flex min-h-[40vh] w-full items-center overflow-hidden">
         <img
           src={kupaonicaImage}
           alt="Slavine"
@@ -184,16 +184,18 @@ const ProizvodSlavinaDetalj = () => {
           fetchPriority="high"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-slate-900/80 via-slate-900/60 to-slate-900/50" />
-        <div className="relative z-10 mx-auto max-w-4xl px-6 text-center text-white">
-          <p className="mb-2 text-sm font-semibold uppercase tracking-[0.35em] text-white/70">
-            {t('products.faucets')}
-          </p>
-          <h1 className="mb-3 text-4xl font-bold md:text-5xl lg:text-6xl">
-            {t(`collections.${collection.key}.name`)}
-          </h1>
-          <p className="text-lg text-white/85 md:text-xl">
-            {t(`collections.${collection.key}.benefit`)}
-          </p>
+        <div className="relative z-10 mx-auto flex w-full max-w-7xl items-center px-6 text-left text-white">
+          <div className="max-w-3xl rounded-2xl border border-white/35 bg-white/15 p-5 backdrop-blur-md md:p-7">
+            <p className="mb-2 text-sm font-semibold uppercase tracking-[0.35em] text-white/70">
+              {t('products.faucets')}
+            </p>
+            <h1 className="mb-3 text-4xl font-bold md:text-5xl lg:text-6xl">
+              {t(`collections.${collection.key}.name`)}
+            </h1>
+            <p className="text-lg text-white/85 md:text-xl">
+              {t(`collections.${collection.key}.benefit`)}
+            </p>
+          </div>
         </div>
       </section>
 

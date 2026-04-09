@@ -1,14 +1,25 @@
+import kupaonicaZelena from '../assets/kupaonica-zelena.webp'
+
 /**
  * CTASection - Reusable Call-to-Action section component
  * 
  * @param {string} title - Small heading text above main CTA
  * @param {string} description - Main message below the title (supports line breaks)
  * @param {Array} buttons - Array of button objects with {label, href, icon?}
+ * @param {string} backgroundPositionY - Y pozicija pozadinske slike (npr. 'bottom', '40%', '120px')
  */
-const CTASection = ({ title, description, buttons = [] }) => {
+const CTASection = ({ title, description, buttons = [], backgroundPositionY = '-650px' }) => {
   return (
-    <section className="flex min-h-[400px] items-center justify-center bg-gradient-to-b from-[#1C2431] to-[#0E1320] px-4 py-16 md:min-h-[500px] md:py-24">
-      <div className="mx-auto w-full max-w-4xl text-center">
+    <section
+      className="flex min-h-[400px] items-center justify-center px-4 py-12 md:min-h-[500px] md:py-16"
+      style={{
+        backgroundImage: `url(${kupaonicaZelena})`,
+        backgroundPosition: `center ${backgroundPositionY}`,
+        backgroundSize: 'cover',
+        backgroundRepeat: 'no-repeat',
+      }}
+    >
+      <div className="mx-auto w-full max-w-4xl rounded-2xl border border-white/35 bg-white/20 p-5 text-center shadow-[0_16px_40px_rgba(15,23,42,0.2)] backdrop-blur-md md:p-8">
         {/* Title */}
         {title && (
           <h2 className="mb-6 text-3xl font-bold text-white md:text-4xl lg:text-5xl">
@@ -75,6 +86,7 @@ CTASection.defaultProps = {
   title: 'Stvorimo Vaš Prostor Snova',
   description:
     'Bilo da tražite ekskluzivne komade za vaš dom ili uređujete poslovni prostor, tu smo da pomognemo.',
+  backgroundPositionY: 'bottom',
   buttons: [
     {
       label: 'B2B Trgovina',

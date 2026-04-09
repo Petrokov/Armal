@@ -85,7 +85,7 @@ const BlogPostPage = () => {
   return (
     <div className="min-h-screen bg-white">
       {/* Hero Section */}
-      <section className="relative flex min-h-[50vh] w-full items-center justify-center overflow-hidden">
+      <section className="relative flex min-h-[40vh] w-full items-center overflow-hidden">
         <img
           src={post.image}
           alt={t(`blogPage.posts.${post.key}.title`)}
@@ -94,14 +94,16 @@ const BlogPostPage = () => {
           fetchPriority="high"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-slate-900/70 via-slate-900/60 to-slate-900/50"></div>
-        <div className="relative z-10 mx-auto max-w-4xl px-6 text-center text-white">
-          <div className="mb-4 flex items-center justify-center gap-2 text-sm text-white/80">
-            <CalendarIcon />
-            <span>{formatDate(post.date)}</span>
+        <div className="relative z-10 mx-auto flex w-full max-w-7xl items-center px-6 text-left text-white">
+          <div className="max-w-3xl rounded-2xl border border-white/35 bg-white/15 p-5 backdrop-blur-md md:p-7">
+            <div className="mb-4 flex items-center gap-2 text-sm text-white/80">
+              <CalendarIcon />
+              <span>{formatDate(post.date)}</span>
+            </div>
+            <h1 className="mb-4 text-4xl font-bold md:text-5xl lg:text-6xl">
+              {t(`blogPage.posts.${post.key}.title`)}
+            </h1>
           </div>
-          <h1 className="mb-4 text-4xl font-bold md:text-5xl lg:text-6xl">
-            {t(`blogPage.posts.${post.key}.title`)}
-          </h1>
         </div>
       </section>
 

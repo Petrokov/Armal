@@ -1,4 +1,4 @@
-import { BadgeCheck, ShieldCheck, Package, Truck } from 'lucide-react'
+import { BadgeCheck, ShieldCheck, Package, Truck, Store } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { useLanguage } from '../contexts/LanguageContext'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
@@ -400,8 +400,8 @@ const LandingPage = () => {
       </section>
 
       {/* Product Categories Section */}
-      <section className="w-full bg-slate-50 py-14 md:py-20">
-        <div className="mx-auto max-w-7xl px-6">
+      <section className="w-full bg-slate-50 py-10 md:py-14">
+        <div className="mx-auto max-w-7xl px-4 md:px-5">
           <div className="mb-10 max-w-4xl md:mb-14">
             <h2 className="text-[28px] font-semibold leading-tight tracking-tight text-slate-900 sm:text-3xl md:text-[36px] lg:text-[40px]">
               Naši proizvodi
@@ -469,73 +469,79 @@ const LandingPage = () => {
       {/* Partner Map Section */}
       <section
         ref={partnerSectionRef}
-        className="relative w-full overflow-hidden bg-[#EEF4FB] py-14 md:py-20"
+        className="relative w-full overflow-hidden bg-[#EEF4FB] py-10 md:py-14"
       >
-        <canvas
+        {/* <canvas
           ref={partnerCanvasRef}
           className="pointer-events-none absolute inset-0 z-0 h-full w-full"
-        />
-        <div className="relative z-10 mx-auto max-w-7xl px-6">
-          <div className="mb-10 flex max-w-5xl flex-col gap-3 md:mb-14">
-            <p className="text-sm font-semibold uppercase tracking-[0.22em] text-slate-500">
-              {t('landingPartnerMap.eyebrow')}
-            </p>
-            <h2 className="mt-2 text-[28px] font-semibold leading-tight tracking-tight text-slate-900 sm:text-3xl md:text-[36px] lg:text-[40px]">
-              {t('landingPartnerMap.title')}
-            </h2>
-            <p className="mt-3 text-base leading-relaxed text-slate-600 sm:text-lg">
-              {t('landingPartnerMap.subtitle')}
-            </p>
-            {showMapDebug && (
-              <div className="inline-flex w-fit flex-wrap items-center gap-2 rounded-xl border border-dashed border-slate-300 bg-slate-50 px-3 py-2 text-xs text-slate-600">
-                <span className="font-semibold text-slate-700">DEBUG</span>
-                <span
-                  className={`rounded-full px-2 py-0.5 font-semibold ${
-                    hasMapsApiKey ? 'bg-emerald-100 text-emerald-700' : 'bg-red-100 text-red-700'
-                  }`}
-                >
-                  {hasMapsApiKey ? 'API key: OK' : 'API key: MISSING'}
-                </span>
-                <span className="rounded-full bg-slate-200 px-2 py-0.5 font-semibold text-slate-700">
-                  rezultati: {filteredPartners.length}
-                </span>
-                <span className="rounded-full bg-slate-200 px-2 py-0.5 font-semibold text-slate-700">
-                  geo: {geoStatus}
-                </span>
-                <span className="rounded-full bg-slate-200 px-2 py-0.5 font-semibold text-slate-700">
-                  selected: {selectedPartnerId || 'none'}
-                </span>
-                <span
-                  className={`rounded-full px-2 py-0.5 font-semibold ${
-                    mapDebug.loadError
-                      ? 'bg-red-100 text-red-700'
-                      : mapDebug.mapReady
-                        ? 'bg-emerald-100 text-emerald-700'
-                        : 'bg-amber-100 text-amber-700'
-                  }`}
-                >
-                  map: {mapDebug.loadError ? 'error' : mapDebug.mapReady ? 'ready' : 'loading'}
-                </span>
-                <span className="rounded-full bg-slate-200 px-2 py-0.5 font-semibold text-slate-700">
-                  google: {mapDebug.hasGoogle ? 'yes' : 'no'}
-                </span>
-                <span className="rounded-full bg-slate-200 px-2 py-0.5 font-semibold text-slate-700">
-                  script: {mapDebug.scriptLoaded ? 'loaded' : 'pending'}
-                </span>
-                <span className="rounded-full bg-slate-200 px-2 py-0.5 font-semibold text-slate-700">
-                  instance: {mapDebug.hasMapInstance ? 'yes' : 'no'}
-                </span>
-                {mapDebug.loadError && (
-                  <span className="max-w-[320px] truncate rounded-full bg-red-100 px-2 py-0.5 font-semibold text-red-700">
-                    err: {mapDebug.loadError}
+        /> */}
+        <div className="relative z-10 mx-auto max-w-7xl px-4 md:px-5">
+          <div className="mb-10 flex w-full flex-col gap-4 md:mb-14 md:flex-row md:items-stretch md:justify-between">
+            <div className="flex flex-col gap-3">
+              <p className="text-sm font-semibold uppercase tracking-[0.22em] text-slate-500">
+                {t('landingPartnerMap.eyebrow')}
+              </p>
+              <h2 className="mt-2 text-[28px] font-semibold leading-tight tracking-tight text-slate-900 sm:text-3xl md:text-[36px] lg:text-[40px]">
+                {t('landingPartnerMap.title')}
+              </h2>
+              <p className="mt-3 text-base leading-relaxed text-slate-600 sm:text-lg">
+                {t('landingPartnerMap.subtitle')}
+              </p>
+              {showMapDebug && (
+                <div className="inline-flex w-fit flex-wrap items-center gap-2 rounded-xl border border-dashed border-slate-300 bg-slate-50 px-3 py-2 text-xs text-slate-600">
+                  <span className="font-semibold text-slate-700">DEBUG</span>
+                  <span
+                    className={`rounded-full px-2 py-0.5 font-semibold ${
+                      hasMapsApiKey ? 'bg-emerald-100 text-emerald-700' : 'bg-red-100 text-red-700'
+                    }`}
+                  >
+                    {hasMapsApiKey ? 'API key: OK' : 'API key: MISSING'}
                   </span>
-                )}
-              </div>
-            )}
+                  <span className="rounded-full bg-slate-200 px-2 py-0.5 font-semibold text-slate-700">
+                    rezultati: {filteredPartners.length}
+                  </span>
+                  <span className="rounded-full bg-slate-200 px-2 py-0.5 font-semibold text-slate-700">
+                    geo: {geoStatus}
+                  </span>
+                  <span className="rounded-full bg-slate-200 px-2 py-0.5 font-semibold text-slate-700">
+                    selected: {selectedPartnerId || 'none'}
+                  </span>
+                  <span
+                    className={`rounded-full px-2 py-0.5 font-semibold ${
+                      mapDebug.loadError
+                        ? 'bg-red-100 text-red-700'
+                        : mapDebug.mapReady
+                          ? 'bg-emerald-100 text-emerald-700'
+                          : 'bg-amber-100 text-amber-700'
+                    }`}
+                  >
+                    map: {mapDebug.loadError ? 'error' : mapDebug.mapReady ? 'ready' : 'loading'}
+                  </span>
+                  <span className="rounded-full bg-slate-200 px-2 py-0.5 font-semibold text-slate-700">
+                    google: {mapDebug.hasGoogle ? 'yes' : 'no'}
+                  </span>
+                  <span className="rounded-full bg-slate-200 px-2 py-0.5 font-semibold text-slate-700">
+                    script: {mapDebug.scriptLoaded ? 'loaded' : 'pending'}
+                  </span>
+                  <span className="rounded-full bg-slate-200 px-2 py-0.5 font-semibold text-slate-700">
+                    instance: {mapDebug.hasMapInstance ? 'yes' : 'no'}
+                  </span>
+                  {mapDebug.loadError && (
+                    <span className="max-w-[320px] truncate rounded-full bg-red-100 px-2 py-0.5 font-semibold text-red-700">
+                      err: {mapDebug.loadError}
+                    </span>
+                  )}
+                </div>
+              )}
+            </div>
+
+            <div className="hidden shrink-0 items-center justify-center rounded-2xl border border-white/80 bg-white/60 px-6 text-[#0070CD] shadow-sm backdrop-blur-sm md:inline-flex md:min-h-[170px]">
+              <Store className="h-20 w-20" />
+            </div>
           </div>
 
           <div
-            className="rounded-2xl border border-white/80 bg-white/60 p-6 shadow-sm md:p-8"
+            className="rounded-2xl border border-white/80 bg-white/60 p-4 shadow-sm md:p-6"
             style={{
               backdropFilter: 'blur(16px)',
               WebkitBackdropFilter: 'blur(16px)',
@@ -691,37 +697,43 @@ const LandingPage = () => {
                               <button
                                 type="button"
                                 onClick={() => setSelectedPartnerId(p.id)}
-                                className={`w-full rounded-xl border px-3 py-3 text-left transition focus:outline-none focus:ring-2 focus:ring-[#0070CD]/40 ${
+                                className={`group w-full rounded-xl border px-2.5 py-2 text-left transition focus:outline-none focus:ring-2 focus:ring-[#0070CD]/40 ${
                                   isActive
                                     ? 'border-[#0070CD]/60 bg-white shadow-sm'
-                                    : 'border-transparent hover:border-slate-200/70 hover:bg-slate-50'
+                                    : 'border-transparent hover:border-[#0070CD] hover:bg-[#0070CD]'
                                 }`}
                                 aria-current={isActive ? 'true' : 'false'}
                               >
                                 <div className="flex items-start justify-between gap-3">
-                                  <span className="text-sm font-semibold text-slate-900">{p.name}</span>
+                                  <span className="text-sm font-semibold text-slate-900 transition-colors group-hover:text-white">
+                                    {p.name}
+                                  </span>
                                   {distance != null && (
-                                    <span className="shrink-0 text-xs font-semibold text-[#0070CD]">
+                                    <span className="shrink-0 text-xs font-semibold text-[#0070CD] transition-colors group-hover:text-white">
                                       {Math.round(distance)} km
                                     </span>
                                   )}
                                 </div>
-                                <div className="mt-1 text-xs leading-relaxed text-slate-600">{p.address}</div>
+                                <div className="mt-0.5 text-xs leading-relaxed text-slate-600 transition-colors group-hover:text-white">
+                                  {p.address}
+                                </div>
                                 {isActive && p.country === 'SI' && (
                                   <>
-                                    <div className="mt-1 text-xs leading-relaxed text-slate-600">
+                                    <div className="mt-1 text-xs leading-relaxed text-slate-600 transition-colors group-hover:text-white">
                                       {t('landingPartnerMap.detailCountryLabel')}:{' '}
                                       {t('landingPartnerMap.countryNames.SI')}
                                     </div>
                                     {p.phone ? (
-                                      <div className="mt-1 text-xs leading-relaxed text-slate-600">{p.phone}</div>
+                                      <div className="mt-1 text-xs leading-relaxed text-slate-600 transition-colors group-hover:text-white">
+                                        {p.phone}
+                                      </div>
                                     ) : null}
                                     {p.googleMapsUrl ? (
                                       <a
                                         href={p.googleMapsUrl}
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="mt-1 block text-xs leading-relaxed text-slate-600 underline"
+                                        className="mt-1 block text-xs leading-relaxed text-slate-600 underline transition-colors group-hover:text-white"
                                         onClick={(e) => e.stopPropagation()}
                                       >
                                         {t('landingPartnerMap.filters.mapsLinkLabel')}

@@ -68,8 +68,8 @@ const Navbar = () => {
   }, [isSidebarOpen])
 
   return (
-    <header className="fixed left-0 top-0 z-[1000] w-full">
-      <nav className="h-16 border-b border-black/10 bg-[rgba(255,255,255,0.6)] backdrop-blur-[12px]">
+    <header className="sticky top-0 z-[1000] w-full">
+      <nav className="h-16 border-b border-black/10 bg-white">
         <div className="relative mx-auto flex h-full w-full items-center justify-between px-6 md:px-[70px]">
           <div className="flex items-center gap-4">
             <button
@@ -130,7 +130,7 @@ const Navbar = () => {
           </ul>
 
           <div className="flex items-center gap-5">
-            <div className="relative hidden min-[1400px]:block">
+            <div className="relative hidden rounded-full bg-slate-100 p-1 min-[1400px]:block">
               <button
                 type="button"
                 onClick={() =>

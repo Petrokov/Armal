@@ -2,7 +2,7 @@ import { useLanguage } from '../contexts/LanguageContext'
 import { Award, CheckCircle, Handshake, Target } from 'lucide-react'
 import TeamSection from '../components/TeamSection'
 import heroImage from '../assets/kupaonica-zelena.webp'
-import aboutImage from '../assets/o-nama/o-nama-image.webp'
+import aboutImage from '../assets/armal-rodendan-1.webp'
 
 const ONamaPage = () => {
   const { t } = useLanguage()
@@ -43,12 +43,14 @@ const ONamaPage = () => {
     <div className="min-h-screen bg-white">
       {/* 1. Hero Section */}
       <section
-        className="w-full py-16 text-white"
-        style={{ background: 'linear-gradient(to bottom right, #0070CD, #005bb0, #004A8A)' }}
+        className="w-full h-[40vh] flex items-center text-white"
+        style={{ backgroundImage: `url(${heroImage})`, backgroundPosition: 'center 72%', backgroundSize: 'cover', backgroundRepeat: 'no-repeat' }}
       >
-        <div className="mx-auto max-w-7xl px-6">
-          <h1 className="text-4xl font-bold md:text-5xl">{t('aboutPage.heroTitle')}</h1>
-          <p className="mt-4 text-lg text-white/90">{t('aboutPage.heroSubtitle')}</p>
+        <div className="mx-auto flex w-full max-w-7xl items-center px-6 text-left">
+          <div className="max-w-3xl rounded-2xl border border-white/35 bg-white/15 p-5 backdrop-blur-md md:p-7">
+            <h1 className="text-4xl font-bold md:text-5xl">{t('aboutPage.heroTitle')}</h1>
+            <p className="mt-4 text-lg text-white/90">{t('aboutPage.heroSubtitle')}</p>
+          </div>
         </div>
       </section>
 
