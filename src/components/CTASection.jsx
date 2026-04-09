@@ -35,19 +35,26 @@ const CTASection = ({ title, description, buttons = [] }) => {
 
         {/* Buttons */}
         {buttons.length > 0 && (
-          <div className="flex flex-wrap items-center justify-center gap-4">
-            {buttons.map((button, index) => (
-              <a
-                key={index}
-                href={button.href || '#'}
-                target={button.href?.startsWith('http') ? '_blank' : undefined}
-                rel={button.href?.startsWith('http') ? 'noopener noreferrer' : undefined}
-                className="inline-flex items-center gap-2 rounded-lg bg-white px-6 py-3 text-base font-semibold text-slate-900 transition-all hover:bg-slate-100 hover:shadow-lg md:px-8 md:py-4 md:text-lg"
-              >
-                {button.label}
-                {button.icon !== false && <ArrowRightIcon />}
-              </a>
-            ))}
+          <div className="flex flex-col items-stretch justify-center gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:gap-4">
+            {buttons.map((button, index) => {
+              const isPrimary = index === 0
+              const baseClass = isPrimary
+                ? 'inline-flex items-center justify-center gap-2 rounded-lg bg-[#0070CD] px-6 py-3 text-sm font-semibold text-white shadow-md transition-all duration-300 hover:scale-105 hover:bg-[#005bb0] hover:shadow-lg'
+                : 'inline-flex items-center justify-center gap-2 rounded-lg bg-slate-700 px-6 py-3 text-sm font-semibold text-white shadow-md transition-all duration-300 hover:scale-105 hover:bg-slate-800 hover:shadow-lg'
+              return (
+                <a
+                  key={index}
+                  href={button.href || '#'}
+                  target={button.href?.startsWith('http') ? '_blank' : undefined}
+                  rel={button.href?.startsWith('http') ? 'noopener noreferrer' : undefined}
+                  className={baseClass}
+                >
+                  {button.icon !== false &&
+                    (isPrimary ? <CTAShopIcon /> : <CTAHomeIcon />)}
+                  {button.label}
+                </a>
+              )
+            })}
           </div>
         )}
       </div>
@@ -55,22 +62,25 @@ const CTASection = ({ title, description, buttons = [] }) => {
   )
 }
 
-// Arrow Icon Component
-const ArrowRightIcon = () => (
-  <svg
-    width="20"
-    height="20"
-    viewBox="0 0 24 24"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-    className="text-slate-900"
-  >
+/** Isti vizual kao gumbi B2B / Uredi dom na ProizvodiSlavine.jsx */
+const CTAShopIcon = () => (
+  <svg className="h-4 w-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
     <path
-      d="M5 12h14M13 6l6 6-6 6"
-      stroke="currentColor"
-      strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"
+      strokeWidth={2}
+      d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"
+    />
+  </svg>
+)
+
+const CTAHomeIcon = () => (
+  <svg className="h-4 w-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={2}
+      d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
     />
   </svg>
 )
