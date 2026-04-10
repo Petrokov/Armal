@@ -352,11 +352,6 @@ const LandingPage = () => {
           draggable={false}
         />
 
-        <div
-          className="absolute inset-0 bg-gradient-to-r from-slate-900/75 via-slate-900/60 to-slate-900/20"
-          style={{ zIndex: 0 }}
-        />
-
         <div className="relative z-10 w-full">
           <div className="mx-auto flex h-full w-full max-w-6xl flex-col items-start justify-center gap-6 px-6 py-16 text-left md:px-10 lg:px-12">
             <div className="w-full max-w-3xl p-5 sm:p-7 md:p-8">
@@ -476,7 +471,7 @@ const LandingPage = () => {
           className="pointer-events-none absolute inset-0 z-0 h-full w-full"
         /> */}
         <div className="relative z-10 mx-auto max-w-7xl px-4 md:px-5">
-          <div className="mb-10 flex w-full flex-col gap-4 md:mb-14 md:flex-row md:items-stretch md:justify-between">
+          <div className="mb-10 flex w-full flex-col gap-4 md:mb-4 md:flex-row md:items-stretch md:justify-between">
             <div className="flex flex-col gap-3">
               <p className="text-sm font-semibold uppercase tracking-[0.22em] text-slate-500">
                 {t('landingPartnerMap.eyebrow')}
@@ -662,7 +657,7 @@ const LandingPage = () => {
                   selectedPartnerId={selectedPartnerId}
                   onPartnerSelect={setSelectedPartnerId}
                   onDebugChange={showMapDebug ? setMapDebug : undefined}
-                  heightClassName="h-[420px] sm:h-[460px] md:h-[520px] lg:h-[540px]"
+                  heightClassName="h-[210px] sm:h-[230px] md:h-[260px] lg:h-[270px]"
                   className="rounded-2xl"
                 />
               </div>
@@ -670,7 +665,7 @@ const LandingPage = () => {
               {/* List */}
               <div className="order-3 lg:order-2 lg:col-span-2">
                 <div
-                  className="h-[420px] overflow-hidden rounded-2xl border border-slate-200/80 bg-white/60 shadow-sm sm:h-[460px] md:h-[520px] lg:h-[540px]"
+                  className="h-[210px] overflow-hidden rounded-2xl border border-slate-200/80 bg-white/60 shadow-sm sm:h-[230px] md:h-[260px] lg:h-[270px]"
                   style={{
                     backdropFilter: 'blur(16px)',
                     WebkitBackdropFilter: 'blur(16px)',

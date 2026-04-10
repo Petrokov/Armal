@@ -1,5 +1,6 @@
 import { useLanguage } from '../contexts/LanguageContext'
 import { Link } from 'react-router-dom'
+import blogHeroImage from '../assets/armal-blog.webp'
 import kupaonicaImage from '../assets/kupaonica-zelena.webp'
 import oNamaImage from '../assets/o_nama_kupaonica_2.png'
 import armalObavijestImage from '../assets/blogovi/armal-obavjest.png'
@@ -63,7 +64,7 @@ const BlogPage = () => {
 
   return (
     <div className="min-h-screen bg-white">
-      <section className="w-full h-[40vh] flex items-center text-white" style={{ backgroundImage: `url(${kupaonicaImage})`, backgroundPosition: 'center 72%', backgroundSize: 'cover', backgroundRepeat: 'no-repeat' }}>
+      <section className="w-full h-[40vh] flex items-center text-white" style={{ backgroundImage: `url(${blogHeroImage})`, backgroundPosition: 'center 72%', backgroundSize: 'cover', backgroundRepeat: 'no-repeat' }}>
         <div className="mx-auto flex w-full max-w-7xl items-center px-6 text-left">
           <div className="max-w-3xl rounded-2xl border border-white/35 bg-white/15 p-5 backdrop-blur-md md:p-7">
             <h1 className="text-4xl font-bold md:text-5xl">{t('navbar.blog')}</h1>

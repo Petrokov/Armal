@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useLanguage } from '../contexts/LanguageContext'
 import { Phone, Mail, User, MessageSquare, Image as ImageIcon, FileText } from 'lucide-react'
-import kupaonicaImage from '../assets/kupaonica-zelena.webp'
+import servisHeroImage from '../assets/armal-auti.webp'
 
 // Kad nije postavljen, koristi se relativni URL (/api/servis) – isti poslužitelj (npr. jedan deploy na Railway)
 const API_URL = import.meta.env.VITE_API_URL ?? ''
@@ -73,7 +73,7 @@ const ServisPage = () => {
       {/* Hero Section */}
       <section
         className="w-full h-[40vh] flex items-center text-white"
-        style={{ backgroundImage: `url(${kupaonicaImage})`, backgroundPosition: 'center 72%', backgroundSize: 'cover', backgroundRepeat: 'no-repeat' }}
+        style={{ backgroundImage: `url(${servisHeroImage})`, backgroundPosition: 'center 72%', backgroundSize: 'cover', backgroundRepeat: 'no-repeat' }}
       >
         <div className="mx-auto flex w-full max-w-7xl items-center px-6 text-left">
           <div className="max-w-3xl rounded-2xl border border-white/35 bg-white/15 p-5 backdrop-blur-md md:p-7">

@@ -1,8 +1,115 @@
+import { useEffect, useRef, useState } from 'react'
 import { useLanguage } from '../contexts/LanguageContext'
 import { Award, CheckCircle, Handshake, Target } from 'lucide-react'
 import TeamSection from '../components/TeamSection'
 import heroImage from '../assets/kupaonica-zelena.webp'
 import aboutImage from '../assets/armal-rodendan-1.webp'
+
+/** Parsira prikaz poput "300+" ili "1" u ciljni broj i sufiks (npr. "+"). */
+function parseStatNumberString(display) {
+  const s = String(display).trim()
+  const m = s.match(/^(\d+)/)
+  if (!m) return { target: 0, suffix: s }
+  return { target: parseInt(m[1], 10), suffix: s.slice(m[1].length) }
+}
+
+function useCountUp(target, active, durationMs = 1400) {
+  const [value, setValue] = useState(0)
+  useEffect(() => {
+    if (!active) {
+      setValue(0)
+      return
+    }
+    let rafId
+    const start = performance.now()
+    const tick = (now) => {
+      const t = Math.min(1, (now - start) / durationMs)
+      const eased = 1 - (1 - t) ** 3
+      setValue(Math.round(target * eased))
+      if (t < 1) rafId = requestAnimationFrame(tick)
+      else setValue(target)
+    }
+    rafId = requestAnimationFrame(tick)
+    return () => {
+      if (rafId) cancelAnimationFrame(rafId)
+    }
+  }, [active, target, durationMs])
+  return value
+}
+
+function AboutStatsSection({ t }) {
+  const sectionRef = useRef(null)
+  const [inView, setInView] = useState(false)
+
+  useEffect(() => {
+    const el = sectionRef.current
+    if (!el || inView) return
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setInView(true)
+          observer.disconnect()
+        }
+      },
+      { threshold: 0.2, rootMargin: '0px 0px -10% 0px' }
+    )
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [inView])
+
+  const stat1 = parseStatNumberString(t('aboutPage.stats.stat1Number'))
+  const stat2 = parseStatNumberString(t('aboutPage.stats.stat2Number'))
+  const stat3 = parseStatNumberString(t('aboutPage.stats.stat3Number'))
+
+  const n1 = useCountUp(stat1.target, inView)
+  const n2 = useCountUp(stat2.target, inView)
+  const n3 = useCountUp(stat3.target, inView)
+
+  const numClass =
+    'mb-4 text-5xl font-bold tabular-nums md:text-6xl lg:text-7xl'
+
+  return (
+    <section
+      ref={sectionRef}
+      className="w-full py-16 md:py-24 text-white"
+      style={{ background: 'linear-gradient(to right, #0070CD, #005bb0, #004A8A)' }}
+    >
+      <div className="mx-auto max-w-7xl px-6">
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
+          <div className="text-center text-white">
+            <div className={numClass} aria-live={inView ? 'polite' : undefined}>
+              {n1}
+              {stat1.suffix}
+            </div>
+            <p className="text-base text-white/90 md:text-lg lg:text-xl">
+              {t('aboutPage.stats.stat1Caption')}
+            </p>
+          </div>
+
+          <div className="text-center text-white">
+            <div className={numClass} aria-live={inView ? 'polite' : undefined}>
+              {n2}
+              {stat2.suffix}
+            </div>
+            <p className="text-base text-white/90 md:text-lg lg:text-xl">
+              {t('aboutPage.stats.stat2Caption')}
+            </p>
+          </div>
+
+          <div className="text-center text-white">
+            <div className={numClass} aria-live={inView ? 'polite' : undefined}>
+              {n3}
+              {stat3.suffix}
+            </div>
+            <p className="text-base text-white/90 md:text-lg lg:text-xl">
+              {t('aboutPage.stats.stat3Caption')}
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+  )
+}
 
 const ONamaPage = () => {
   const { t } = useLanguage()
@@ -55,7 +162,7 @@ const ONamaPage = () => {
       </section>
 
       {/* 2. Naša priča – tekst koji se omata oko slike */}
-      <section className="w-full bg-slate-50 py-16 md:py-24">
+      <section className="w-full bg-slate-50 pt-16 pb-8 md:pt-24 md:pb-12">
         <div className="mx-auto max-w-7xl px-6">
           <p className="mb-3 text-sm font-semibold uppercase tracking-[0.22em] text-[#0070CD]/80 md:mb-4">
             {t('aboutPage.storyEyebrow')}
@@ -106,7 +213,7 @@ const ONamaPage = () => {
       </section>
 
       {/* 3. Naše vrijednosti Section */}
-      <section className="w-full bg-slate-50 py-16 md:py-24">
+      <section className="w-full bg-slate-50 py-8 md:py-12">
         <div className="mx-auto max-w-7xl px-6">
           {/* Header */}
           <div className="mb-12 text-center">
@@ -155,42 +262,8 @@ const ONamaPage = () => {
         ]}
       />
 
-      {/* 5. Stats Section */}
-      <section className="w-full py-16 md:py-24 text-white" style={{ background: 'linear-gradient(to right, #0070CD, #005bb0, #004A8A)' }}>
-        <div className="mx-auto max-w-7xl px-6">
-          <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
-            {/* Stat 1 */}
-            <div className="text-center text-white">
-              <div className="mb-4 text-5xl font-bold md:text-6xl lg:text-7xl">
-                {t('aboutPage.stats.stat1Number')}
-              </div>
-              <p className="text-base text-white/90 md:text-lg lg:text-xl">
-                {t('aboutPage.stats.stat1Caption')}
-              </p>
-            </div>
-
-            {/* Stat 2 */}
-            <div className="text-center text-white">
-              <div className="mb-4 text-5xl font-bold md:text-6xl lg:text-7xl">
-                {t('aboutPage.stats.stat2Number')}
-              </div>
-              <p className="text-base text-white/90 md:text-lg lg:text-xl">
-                {t('aboutPage.stats.stat2Caption')}
-              </p>
-            </div>
-
-            {/* Stat 3 */}
-            <div className="text-center text-white">
-              <div className="mb-4 text-5xl font-bold md:text-6xl lg:text-7xl">
-                {t('aboutPage.stats.stat3Number')}
-              </div>
-              <p className="text-base text-white/90 md:text-lg lg:text-xl">
-                {t('aboutPage.stats.stat3Caption')}
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* 5. Stats Section — brojač pokreće IntersectionObserver kad sekcija uđe u vidno polje */}
+      <AboutStatsSection t={t} />
     </div>
   )
 }
