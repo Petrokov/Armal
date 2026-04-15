@@ -1,0 +1,6 @@
+node_modules
+dist
+.env
+.env.*
+armal-cms/node_modules
+armal-cms/.env
