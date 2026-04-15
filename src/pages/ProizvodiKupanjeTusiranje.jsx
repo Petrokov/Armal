@@ -1,11 +1,15 @@
 import { useLanguage } from '../contexts/LanguageContext'
 import { useEffect, useRef } from 'react'
+import { useLocation } from 'react-router-dom'
 import kupaonicaImage from '../assets/kupaonica-zelena.webp'
 import oNamaImage from '../assets/o_nama_kupaonica_2.png'
 import ProductGallery from '../components/ProductGallery'
+import JsonLd from '../components/JsonLd'
+import { buildBreadcrumbListSchema } from '../seo/structuredData'
 
 const ProizvodiKupanjeTusiranje = () => {
   const { t } = useLanguage()
+  const location = useLocation()
   const productRefs = useRef([])
 
   // Podkategorije kupanje + tuširanje – za svaku kategoriju moguće je postaviti vlastiti link za B2B i Uredi dom
@@ -64,6 +68,17 @@ const ProizvodiKupanjeTusiranje = () => {
 
   return (
     <div className="min-h-screen bg-white">
+      <JsonLd
+        id="breadcrumb-products-bathing"
+        data={buildBreadcrumbListSchema({
+          pathname: location.pathname,
+          items: [
+            { name: t('navbar.home'), path: '/' },
+            { name: t('navbar.products'), path: '/proizvodi' },
+            { name: t('products.bathing'), path: '/proizvodi/kupanje-tusiranje' },
+          ],
+        })}
+      />
       {/* Hero Section */}
       <section
         className="w-full h-[40vh] flex items-center text-white"
@@ -131,7 +146,7 @@ const ProizvodiKupanjeTusiranje = () => {
                           href={category.b2bLink}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="inline-flex items-center justify-center gap-2 rounded-lg bg-[#0070CD] px-6 py-3 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-[#005bb0]"
+                          className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg bg-[#0070CD] px-6 py-3 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-[#005bb0]"
                         >
                           {t('navbar.b2b')}
                         </a>
@@ -139,7 +154,7 @@ const ProizvodiKupanjeTusiranje = () => {
                           href={category.editHomeLink}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="inline-flex items-center justify-center gap-2 rounded-lg bg-slate-800 px-6 py-3 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-slate-900"
+                          className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg bg-slate-800 px-6 py-3 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-slate-900"
                         >
                           {t('navbar.editHome')}
                         </a>
@@ -167,7 +182,7 @@ const ProizvodiKupanjeTusiranje = () => {
               href="https://b2b.armal.hr/"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2 rounded-lg bg-[#0070CD] px-8 py-4 text-base font-semibold text-white shadow-md transition-all duration-300 hover:scale-105 hover:bg-[#005bb0] hover:shadow-lg"
+              className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg bg-[#0070CD] px-6 py-3 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-[#005bb0]"
             >
               <svg
                 className="h-5 w-5"
@@ -188,7 +203,7 @@ const ProizvodiKupanjeTusiranje = () => {
               href="https://uredidom.hr/"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2 rounded-lg bg-slate-700 px-8 py-4 text-base font-semibold text-white shadow-md transition-all duration-300 hover:scale-105 hover:bg-slate-800 hover:shadow-lg"
+              className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg bg-slate-800 px-6 py-3 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-slate-900"
             >
               <svg
                 className="h-5 w-5"

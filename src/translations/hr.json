@@ -11,7 +11,8 @@
     "blog": "Blog",
     "viewAllProducts": "Pogledaj sve proizvode",
     "openMenu": "Otvori izbornik",
-    "closeMenu": "Zatvori izbornik"
+    "closeMenu": "Zatvori izbornik",
+    "skipToMainContent": "Preskoči na glavni sadržaj"
   },
   "products": {
     "faucets": "Mješalice za vodu",
@@ -293,6 +294,24 @@
     "ctaDescription": "Istražite našu široku ponudu i pronađite idealna rješenja za vaš dom ili poslovni prostor.",
     "colorLabel": "BOJA",
     "colorAll": "Svi proizvodi",
+    "ui": {
+      "reset": "Reset"
+    },
+    "gallery": {
+      "regionSuffix": "galerija",
+      "previousImage": "Prethodna slika",
+      "nextImage": "Sljedeća slika",
+      "previousThumbnails": "Prethodni thumbnaili",
+      "nextThumbnails": "Sljedeći thumbnaili",
+      "imageLabel": "Slika"
+    },
+    "lightbox": {
+      "dialogLabel": "Galerija slika",
+      "closeButton": "Zatvori",
+      "previousImage": "Prethodna slika",
+      "nextImage": "Sljedeća slika",
+      "enlargedImageAlt": "Povećana slika"
+    },
     "finishes": {
       "chrome": "Krom",
       "black": "Crna",
@@ -309,6 +328,39 @@
         "builtInMixer": "Ugradbena mješalica",
         "builtInShower": "Stojeća mješalica",
         "showerSet": "Mješalica za tuš"
+      },
+      "waterMixersOverrides": {
+        "ana": {
+          "bathtub": "kada",
+          "builtInMixer": "mješalica",
+          "showerSet": "mješalica za tuš"
+        },
+        "start": {
+          "bidet": "Bidet",
+          "bathtub": "kada",
+          "builtInMixer": "mješalica",
+          "showerSet": "mješalica za tuš"
+        },
+        "jana": {
+          "bidet": "Bidet",
+          "bathtub": "kada",
+          "builtInMixer": "mješalica",
+          "builtInShower": "mješalica za tuš",
+          "showerSet": "tuš set"
+        },
+        "violet": {
+          "bidet": "Bidet",
+          "bathtub": "Kada",
+          "builtInMixer": "Mješalica",
+          "showerSet": "Mješalica za tuš"
+        },
+        "lapis": {
+          "builtInMixer": "Stojeća mješalica",
+          "builtInShower": "Ugradbena mješalica za tuš"
+        },
+        "beril": {
+          "builtInShower": "Ugradbena mješalica tuša"
+        }
       }
     }
   },

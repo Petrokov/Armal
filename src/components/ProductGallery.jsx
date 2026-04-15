@@ -1,4 +1,5 @@
-import { useState, useRef, useEffect } from 'react'
+import { useMemo, useState, useRef, useEffect } from 'react'
+import { useLanguage } from '../contexts/LanguageContext'
 
 const ASPECT_MAIN_MD = 'aspect-[4/3]' // prazan state
 const ASPECT_THUMB = 'aspect-[4/3]'
@@ -11,8 +12,18 @@ const ASPECT_THUMB = 'aspect-[4/3]'
  * @param {string} alt - alt tekst za slike
  * @param {(src: string, index: number) => void} [onImageClick] - callback za otvaranje lightboxa (src, indeks u galeriji)
  * @param {number} [activeIndexExternal] - vanjska kontrola aktivne slike (npr. klik na \"Bidet\" badge)
+ * @param {boolean} [isPriority] - oznaci samo LCP kandidata kao eager
+ * @param {boolean} [shouldRenderFull] - odgodi tezi DOM dok kartica ne ude blizu viewporta
  */
-const ProductGallery = ({ images = [], alt = '', onImageClick, activeIndexExternal }) => {
+const ProductGallery = ({
+  images = [],
+  alt = '',
+  onImageClick,
+  activeIndexExternal,
+  isPriority = false,
+  shouldRenderFull = true,
+}) => {
+  const { t } = useLanguage()
   const [activeIndex, setActiveIndex] = useState(0)
   const scrollRef = useRef(null)
   const thumbStripRef = useRef(null)
@@ -86,6 +97,17 @@ const ProductGallery = ({ images = [], alt = '', onImageClick, activeIndexExtern
   }
 
   const canScrollThumbs = count > 4
+  const galleryLabel = `${alt} ${t('faucetsPage.gallery.regionSuffix')}`
+  const thumbnailIndexes = useMemo(() => {
+    if (!canScrollThumbs || count <= 12) {
+      return Array.from({ length: count }, (_, i) => i)
+    }
+    const windowSize = 12
+    const halfWindow = Math.floor(windowSize / 2)
+    const start = Math.max(0, Math.min(activeIndex - halfWindow, count - windowSize))
+    const end = Math.min(count, start + windowSize)
+    return Array.from({ length: end - start }, (_, i) => start + i)
+  }, [activeIndex, canScrollThumbs, count])
 
   if (!hasImages) {
     return (
@@ -93,8 +115,38 @@ const ProductGallery = ({ images = [], alt = '', onImageClick, activeIndexExtern
     )
   }
 
+  // Minimalni prikaz za kartice koje jos nisu usle u viewport:
+  // zadrzava isti vizualni okvir, ali izbjegava render kompletnog slide/thumb seta.
+  if (!shouldRenderFull) {
+    const previewSrc = images[0]
+    return (
+      <section
+        className="w-full"
+        role="region"
+        aria-roledescription="carousel"
+        aria-label={galleryLabel}
+      >
+        <div className="w-full overflow-hidden rounded-lg bg-slate-100 shadow-xl">
+          <img
+            src={previewSrc}
+            alt={alt}
+            className="w-full h-auto block object-contain object-center rounded-lg"
+            loading="lazy"
+            sizes="(min-width: 1024px) 50vw, (min-width: 768px) 50vw, 100vw"
+            draggable={false}
+          />
+        </div>
+      </section>
+    )
+  }
+
   return (
-    <div className="w-full">
+    <section
+      className="w-full"
+      role="region"
+      aria-roledescription="carousel"
+      aria-label={galleryLabel}
+    >
       {/* Mobile (< 768px): jedna slika po slideu, strelice lijevo/desno, scroll-snap */}
       <div className="relative md:hidden">
         <div
@@ -110,14 +162,14 @@ const ProductGallery = ({ images = [], alt = '', onImageClick, activeIndexExtern
               >
                 <button
                   type="button"
-                  onClick={() => onImageClick?.(src, i)}
+                  onClick={(e) => onImageClick?.(src, i, e.currentTarget)}
                   className="block w-full rounded-lg bg-slate-100 focus:outline-none focus:ring-2 focus:ring-[#0070CD] focus:ring-offset-2"
                 >
                   <img
                     src={src}
                     alt={`${alt} ${i + 1}`}
                     className="w-full h-auto block object-contain object-center rounded-lg"
-                    loading={i === 0 ? 'eager' : 'lazy'}
+                    loading={isPriority && i === 0 ? 'eager' : 'lazy'}
                     draggable={false}
                     sizes="100vw"
                   />
@@ -133,7 +185,7 @@ const ProductGallery = ({ images = [], alt = '', onImageClick, activeIndexExtern
               type="button"
               onClick={() => scrollMobileTo(activeIndex - 1)}
               disabled={activeIndex <= 0}
-              aria-label="Prethodna slika"
+              aria-label={t('faucetsPage.gallery.previousImage')}
               className="absolute left-2 top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-slate-700 shadow-md transition hover:bg-white hover:text-[#0070CD] disabled:opacity-40 disabled:pointer-events-none focus:outline-none focus:ring-2 focus:ring-[#0070CD]"
             >
               <ChevronLeft />
@@ -142,7 +194,7 @@ const ProductGallery = ({ images = [], alt = '', onImageClick, activeIndexExtern
               type="button"
               onClick={() => scrollMobileTo(activeIndex + 1)}
               disabled={activeIndex >= count - 1}
-              aria-label="Sljedeća slika"
+              aria-label={t('faucetsPage.gallery.nextImage')}
               className="absolute right-2 top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-slate-700 shadow-md transition hover:bg-white hover:text-[#0070CD] disabled:opacity-40 disabled:pointer-events-none focus:outline-none focus:ring-2 focus:ring-[#0070CD]"
             >
               <ChevronRight />
@@ -156,14 +208,15 @@ const ProductGallery = ({ images = [], alt = '', onImageClick, activeIndexExtern
         <div className="w-full overflow-hidden rounded-lg bg-slate-100 shadow-xl">
           <button
             type="button"
-            onClick={() => onImageClick?.(mainSrc, activeIndex)}
+            onClick={(e) => onImageClick?.(mainSrc, activeIndex, e.currentTarget)}
             className="block w-full focus:outline-none focus:ring-2 focus:ring-[#0070CD] focus:ring-offset-2 focus:ring-offset-slate-100 rounded-lg"
           >
             <img
               src={mainSrc}
               alt={alt}
               className="w-full h-auto block object-contain object-center"
-              loading="eager"
+              loading={isPriority ? 'eager' : 'lazy'}
+              fetchPriority={isPriority ? 'high' : 'auto'}
               sizes="(min-width: 1024px) 50vw, (min-width: 768px) 50vw, 100vw"
             />
           </button>
@@ -177,7 +230,7 @@ const ProductGallery = ({ images = [], alt = '', onImageClick, activeIndexExtern
                 type="button"
                 onClick={() => scrollThumbs('left')}
                 className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-slate-300 bg-white text-slate-600 shadow-sm transition hover:bg-slate-50 hover:text-[#0070CD] focus:outline-none focus:ring-2 focus:ring-[#0070CD]"
-                aria-label="Prethodni thumbnaili"
+                aria-label={t('faucetsPage.gallery.previousThumbnails')}
               >
                 <ChevronLeft />
               </button>
@@ -192,7 +245,8 @@ const ProductGallery = ({ images = [], alt = '', onImageClick, activeIndexExtern
               `}
               style={{ WebkitOverflowScrolling: 'touch' }}
             >
-              {images.map((src, i) => {
+              {thumbnailIndexes.map((i) => {
+                const src = images[i]
                 const isActive = i === activeIndex
                 return (
                   <button
@@ -200,7 +254,7 @@ const ProductGallery = ({ images = [], alt = '', onImageClick, activeIndexExtern
                     type="button"
                     onClick={() => {
                       setActiveIndex(i)
-                      onImageClick?.(src, i)
+                      onImageClick?.(src, i, null)
                     }}
                     className={`
                       relative shrink-0 overflow-hidden rounded-lg border-2 transition-all bg-slate-100
@@ -213,7 +267,7 @@ const ProductGallery = ({ images = [], alt = '', onImageClick, activeIndexExtern
                       focus:outline-none focus:ring-2 focus:ring-[#0070CD] focus:ring-offset-2
                       ${canScrollThumbs ? 'snap-center min-w-[3.5rem] sm:min-w-[4rem] md:min-w-[5rem] lg:min-w-[5.5rem]' : 'flex-1 min-w-0 max-w-[calc(25%-0.375rem)]'}
                     `}
-                    aria-label={`Slika ${i + 1}`}
+                      aria-label={`${t('faucetsPage.gallery.imageLabel')} ${i + 1}`}
                     aria-pressed={isActive}
                   >
                     <img
@@ -233,7 +287,7 @@ const ProductGallery = ({ images = [], alt = '', onImageClick, activeIndexExtern
                 type="button"
                 onClick={() => scrollThumbs('right')}
                 className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-slate-300 bg-white text-slate-600 shadow-sm transition hover:bg-slate-50 hover:text-[#0070CD] focus:outline-none focus:ring-2 focus:ring-[#0070CD]"
-                aria-label="Sljedeći thumbnaili"
+                aria-label={t('faucetsPage.gallery.nextThumbnails')}
               >
                 <ChevronRight />
               </button>
@@ -241,7 +295,7 @@ const ProductGallery = ({ images = [], alt = '', onImageClick, activeIndexExtern
           </div>
         )}
       </div>
-    </div>
+    </section>
   )
 }
 

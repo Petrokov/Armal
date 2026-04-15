@@ -1,7 +1,8 @@
 import { BadgeCheck, ShieldCheck, Package, Truck, Store } from 'lucide-react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { useLanguage } from '../contexts/LanguageContext'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { buildLocalizedPath } from '../utils/languageRouting'
 import headerPipa from '../assets/header/header-pipa.webp'
 import rubiProstor from '../assets/slavine/rubi-compresed/rubi-prostor.webp'
 import oNamaKupaonicaHero from '../assets/o_nama_kupaonica_hero.png'
@@ -12,9 +13,16 @@ import FeaturedCollections from './FeaturedCollections'
 import MoodboardSection from './MoodboardSection'
 import CTASection from './CTASection'
 import TeamSection from './TeamSection'
+import SEOHead from './SEOHead'
+import JsonLd from './JsonLd'
+import { getSeoData, SEO_ROUTE_KEYS } from '../seo/seoConfig'
+import { buildOrganizationSchema } from '../seo/structuredData'
 
 const LandingPage = () => {
-  const { t } = useLanguage()
+  const { t, language } = useLanguage()
+  const location = useLocation()
+  const localizePath = (path) => buildLocalizedPath(path, language)
+  const seo = getSeoData(SEO_ROUTE_KEYS.HOME, language)
   const [isAnimated, setIsAnimated] = useState(false)
   const partnerSectionRef = useRef(null)
   const partnerCanvasRef = useRef(null)
@@ -340,6 +348,15 @@ const LandingPage = () => {
 
   return (
     <>
+      <SEOHead
+        title={seo.title}
+        description={seo.description}
+        ogType={seo.ogType}
+      />
+      <JsonLd
+        id="org-home"
+        data={buildOrganizationSchema({ pathname: location.pathname })}
+      />
       {/* Hero Section */}
       <section
         className="relative flex h-[65vh] w-full flex-1 items-center overflow-hidden bg-slate-900 text-white"
@@ -376,14 +393,14 @@ const LandingPage = () => {
 
               <div className="mt-10 flex flex-wrap items-center gap-4">
                 <Link
-                  to="/proizvodi"
+                  to={localizePath('/proizvodi')}
                   className="inline-flex items-center justify-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-semibold text-slate-900 shadow-[0_12px_30px_rgba(15,23,42,0.2)] transition hover:-translate-y-0.5 hover:shadow-[0_18px_35px_rgba(15,23,42,0.25)] whitespace-nowrap min-w-[200px] flex-1 sm:flex-initial sm:min-w-[240px]"
                 >
                   {t('hero.exploreCollection')}
                   <ArrowIcon />
                 </Link>
                 <Link
-                  to="/katalozi"
+                  to={localizePath('/katalozi')}
                   className="inline-flex items-center justify-center rounded-full border border-white/60 bg-white/25 px-6 py-3 text-sm font-semibold text-white backdrop-blur transition hover:bg-white/30 whitespace-nowrap min-w-[200px] flex-1 sm:flex-initial sm:min-w-[240px]"
                 >
                   {t('hero.viewCatalog')}
@@ -404,10 +421,10 @@ const LandingPage = () => {
           </div>
 
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 lg:gap-7">
-            {categoryCards.map((card) => (
+            {categoryCards.map((card, index) => (
               <Link
                 key={card.key}
-                to={card.to}
+                to={localizePath(card.to)}
                 aria-label={t(card.titleKey)}
                 className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-slate-200/70 bg-white/70 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_18px_45px_rgba(15,23,42,0.14)]"
               >

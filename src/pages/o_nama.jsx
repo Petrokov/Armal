@@ -2,6 +2,8 @@ import { useEffect, useRef, useState } from 'react'
 import { useLanguage } from '../contexts/LanguageContext'
 import { Award, CheckCircle, Handshake, Target } from 'lucide-react'
 import TeamSection from '../components/TeamSection'
+import SEOHead from '../components/SEOHead'
+import { getSeoData, SEO_ROUTE_KEYS } from '../seo/seoConfig'
 import heroImage from '../assets/kupaonica-zelena.webp'
 import aboutImage from '../assets/armal-rodendan-1.webp'
 
@@ -112,7 +114,8 @@ function AboutStatsSection({ t }) {
 }
 
 const ONamaPage = () => {
-  const { t } = useLanguage()
+  const { t, language } = useLanguage()
+  const seo = getSeoData(SEO_ROUTE_KEYS.ABOUT, language)
 
   // Vrijednosti - podaci za kartice
   const values = [
@@ -148,6 +151,11 @@ const ONamaPage = () => {
 
   return (
     <div className="min-h-screen bg-white">
+      <SEOHead
+        title={seo.title}
+        description={seo.description}
+        ogType={seo.ogType}
+      />
       {/* 1. Hero Section */}
       <section
         className="w-full h-[40vh] flex items-center text-white"

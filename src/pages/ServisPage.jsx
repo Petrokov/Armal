@@ -2,12 +2,15 @@ import { useState } from 'react'
 import { useLanguage } from '../contexts/LanguageContext'
 import { Phone, Mail, User, MessageSquare, Image as ImageIcon, FileText } from 'lucide-react'
 import servisHeroImage from '../assets/armal-auti.webp'
+import SEOHead from '../components/SEOHead'
+import { getSeoData, SEO_ROUTE_KEYS } from '../seo/seoConfig'
 
 // Kad nije postavljen, koristi se relativni URL (/api/servis) – isti poslužitelj (npr. jedan deploy na Railway)
 const API_URL = import.meta.env.VITE_API_URL ?? ''
 
 const ServisPage = () => {
-  const { t } = useLanguage()
+  const { t, language } = useLanguage()
+  const seo = getSeoData(SEO_ROUTE_KEYS.SERVICE, language)
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -70,6 +73,11 @@ const ServisPage = () => {
 
   return (
     <div className="min-h-screen bg-slate-50">
+      <SEOHead
+        title={seo.title}
+        description={seo.description}
+        ogType={seo.ogType}
+      />
       {/* Hero Section */}
       <section
         className="w-full h-[40vh] flex items-center text-white"

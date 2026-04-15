@@ -1,14 +1,18 @@
 import { useState, useEffect, useRef } from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useLanguage } from '../contexts/LanguageContext'
 import logo from '../assets/Armal_logo_BLUE.png'
+import { buildLocalizedPath, stripLanguagePrefix } from '../utils/languageRouting'
 
 const Navbar = () => {
   const { t, language, changeLanguage } = useLanguage()
   const [openLanguageDropdownId, setOpenLanguageDropdownId] = useState(null) // 'main' | 'sidebar'
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
   const location = useLocation()
+  const navigate = useNavigate()
   const sidebarRef = useRef(null)
+  const currentPath = stripLanguagePrefix(location.pathname)
+  const localizePath = (path) => buildLocalizedPath(path, language)
 
   const utilityLinks = [
     { key: 'servis', href: '/servis', isRoute: true },
@@ -33,13 +37,24 @@ const Navbar = () => {
   const languages = [
     { code: 'hr', label: t('languages.hr'), short: 'HR' },
     { code: 'slo', label: t('languages.slo'), short: 'SI' },
-    { code: 'rs', label: t('languages.rs'), short: 'BA' },
+    { code: 'rs', label: t('languages.rs'), short: 'RS' },
   ]
 
   const currentLanguage = languages.find((lang) => lang.code === language) || languages[0]
 
   const closeSidebar = () => {
     setIsSidebarOpen(false)
+  }
+
+  const switchLanguage = (lang, shouldCloseSidebar = false) => {
+    const localizedUrl = buildLocalizedPath(
+      `${location.pathname}${location.search}${location.hash}`,
+      lang
+    )
+    changeLanguage(lang)
+    navigate(localizedUrl)
+    setOpenLanguageDropdownId(null)
+    if (shouldCloseSidebar) closeSidebar()
   }
 
   useEffect(() => {
@@ -80,7 +95,7 @@ const Navbar = () => {
             >
               <IconHamburger />
             </button>
-            <Link to="/" aria-label="armal logo">
+            <Link to={localizePath('/')} aria-label="armal logo">
               <img src={logo} alt="armal logo" className="h-8 w-auto" />
             </Link>
           </div>
@@ -89,13 +104,13 @@ const Navbar = () => {
             {primaryLinks.map((link) => {
               const isActive =
                 link.key === 'products'
-                  ? location.pathname === link.href || location.pathname.startsWith(`${link.href}/`)
-                  : location.pathname === link.href
+                  ? currentPath === link.href || currentPath.startsWith(`${link.href}/`)
+                  : currentPath === link.href
 
               return (
                 <li key={link.key} className="group relative inline-flex items-center">
                   <Link
-                    to={link.href}
+                    to={localizePath(link.href)}
                     className={`flex items-center gap-1 border-b-2 border-transparent pb-1 transition-colors duration-200 ${
                       isActive
                         ? 'border-[#1a6cc4] text-[#1a6cc4]'
@@ -113,7 +128,7 @@ const Navbar = () => {
                           {productCategories.map((category) => (
                             <li key={category.key}>
                               <Link
-                                to={category.href}
+                                to={localizePath(category.href)}
                                 className="block rounded-lg px-4 py-3 text-sm font-medium text-slate-700 transition-colors hover:bg-[#1a6cc4]/10 hover:text-[#1a6cc4]"
                               >
                                 {t(category.translationKey)}
@@ -155,10 +170,7 @@ const Navbar = () => {
                     {languages.map((lang) => (
                       <button
                         key={lang.code}
-                        onClick={() => {
-                          changeLanguage(lang.code)
-                          setOpenLanguageDropdownId(null)
-                        }}
+                        onClick={() => switchLanguage(lang.code)}
                         className={`w-full px-4 py-2 text-left text-sm transition-colors ${
                           language === lang.code
                             ? 'bg-[#0070CD]/10 font-semibold text-[#0070CD]'
@@ -186,12 +198,12 @@ const Navbar = () => {
               {utilityLinks.map((link, idx) => {
                 const LinkComponent = link.isRoute ? Link : 'a'
                 const linkProps = link.isRoute
-                  ? { to: link.href }
+                  ? { to: localizePath(link.href) }
                   : { href: link.href, target: '_blank', rel: 'noopener noreferrer' }
                 const isActive =
                   link.isRoute &&
-                  (link.href === location.pathname ||
-                    (link.href === '/blog' && location.pathname.startsWith('/blog/')))
+                  (link.href === currentPath ||
+                    (link.href === '/blog' && currentPath.startsWith('/blog/')))
 
                 return (
                   <div key={link.key} className="flex items-center gap-2">
@@ -226,7 +238,7 @@ const Navbar = () => {
       >
         <div className="flex h-full flex-col">
           <div className="flex items-center justify-between border-b border-slate-200 px-5 py-4">
-            <Link to="/" onClick={closeSidebar}>
+            <Link to={localizePath('/')} onClick={closeSidebar}>
               <img src={logo} alt="armal logo" className="h-8 w-auto" />
             </Link>
             <button
@@ -244,13 +256,13 @@ const Navbar = () => {
               {primaryLinks.map((link) => {
                 const isActive =
                   link.key === 'products'
-                    ? location.pathname === link.href || location.pathname.startsWith(`${link.href}/`)
-                    : location.pathname === link.href
+                    ? currentPath === link.href || currentPath.startsWith(`${link.href}/`)
+                    : currentPath === link.href
 
                 return (
                   <div key={link.key} className="flex flex-col">
                     <Link
-                      to={link.href}
+                      to={localizePath(link.href)}
                       onClick={closeSidebar}
                       className={`rounded-lg px-4 py-3 text-base font-medium transition-colors ${
                         isActive ? 'bg-[#0070CD]/10 text-[#0070CD]' : 'text-slate-700 hover:bg-slate-50'
@@ -263,7 +275,7 @@ const Navbar = () => {
                         {productCategories.map((category) => (
                           <Link
                             key={category.key}
-                            to={category.href}
+                            to={localizePath(category.href)}
                             onClick={closeSidebar}
                             className="block rounded-lg px-3 py-2 text-sm text-slate-600 transition-colors hover:bg-slate-50 hover:text-[#0070CD]"
                           >
@@ -280,7 +292,7 @@ const Navbar = () => {
                 {utilityLinks.map((link) => {
                   const LinkComponent = link.isRoute ? Link : 'a'
                   const linkProps = link.isRoute
-                    ? { to: link.href, onClick: closeSidebar }
+                    ? { to: localizePath(link.href), onClick: closeSidebar }
                     : { href: link.href, onClick: closeSidebar, target: '_blank', rel: 'noopener noreferrer' }
                   return (
                     <LinkComponent
@@ -357,10 +369,7 @@ const Navbar = () => {
                   {languages.map((lang) => (
                     <button
                       key={lang.code}
-                      onClick={() => {
-                        changeLanguage(lang.code)
-                        setOpenLanguageDropdownId(null)
-                      }}
+                      onClick={() => switchLanguage(lang.code, true)}
                       className={`w-full px-4 py-2 text-left text-sm transition-colors first:rounded-t-lg last:rounded-b-lg ${
                         language === lang.code
                           ? 'bg-[#0070CD]/10 font-semibold text-[#0070CD]'

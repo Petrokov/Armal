@@ -52,6 +52,16 @@ const PartnerMap = ({
       setScriptLoaded(true)
       return
     }
+    const callbackName = '__armalPartnerMapInit'
+    const safeNoop = () => {}
+    let timeoutId
+
+    // Callback mora uvijek biti funkcija dok se skripta učitava (izbjegava InvalidValueError).
+    window[callbackName] = () => {
+      if (timeoutId) clearTimeout(timeoutId)
+      setScriptLoaded(true)
+    }
+
     const existing = document.querySelector('script[src*="maps.googleapis.com"]')
     if (existing) {
       const checkReady = () => {
@@ -61,33 +71,28 @@ const PartnerMap = ({
       checkReady()
       return
     }
-    const callbackName = '__armalPartnerMapInit'
-    let timeoutId
-    window[callbackName] = () => {
-      if (timeoutId) clearTimeout(timeoutId)
-      setScriptLoaded(true)
-    }
+
     timeoutId = setTimeout(() => {
       if (!window.google?.maps) {
         setLoadError(
           'Mapa nije uspjela učitati. Provjeri: 1) U .env je VITE_GOOGLE_MAPS_API_KEY=tvoj_kljuc 2) Restartaj npm run dev 3) U Google Cloud je uključen "Maps JavaScript API".'
         )
-        window[callbackName] = null
+        window[callbackName] = safeNoop
       }
     }, 12000)
     const script = document.createElement('script')
-    script.src = `https://maps.googleapis.com/maps/api/js?key=${encodeURIComponent(key)}&callback=${callbackName}`
+    script.src = `https://maps.googleapis.com/maps/api/js?key=${encodeURIComponent(key)}&callback=${callbackName}&loading=async`
     script.async = true
     script.defer = true
     script.onerror = () => {
       if (timeoutId) clearTimeout(timeoutId)
-      window[callbackName] = null
+      window[callbackName] = safeNoop
       setLoadError('Google Mape nije moguće učitati. Provjeri internet i API ključ u Google Cloud Console.')
     }
     document.head.appendChild(script)
     return () => {
       if (timeoutId) clearTimeout(timeoutId)
-      window[callbackName] = null
+      window[callbackName] = safeNoop
     }
   }, [apiKey])
 

@@ -1,12 +1,20 @@
-import { useParams, Link } from 'react-router-dom'
+import { useParams, Link, useLocation } from 'react-router-dom'
 import { useLanguage } from '../contexts/LanguageContext'
 import kupaonicaImage from '../assets/kupaonica-zelena.webp'
 import oNamaImage from '../assets/o_nama_kupaonica_2.png'
 import armalObavijestImage from '../assets/blogovi/armal-obavjest.png'
+import { buildLocalizedPath } from '../utils/languageRouting'
+import SEOHead from '../components/SEOHead'
+import JsonLd from '../components/JsonLd'
+import { getSeoData, SEO_ROUTE_KEYS } from '../seo/seoConfig'
+import { buildArticleSchema } from '../seo/structuredData'
 
 const BlogPostPage = () => {
   const { id } = useParams()
+  const location = useLocation()
   const { t, language } = useLanguage()
+  const localizePath = (path) => buildLocalizedPath(path, language)
+  const seo = getSeoData(SEO_ROUTE_KEYS.BLOG, language)
 
   // Blog posts data - mora biti isti kao u BlogPage.jsx
   const blogPosts = [
@@ -55,10 +63,15 @@ const BlogPostPage = () => {
   if (!post) {
     return (
       <div className="min-h-screen bg-white">
+        <SEOHead
+          title={seo.title}
+          description={seo.description}
+          ogType={seo.ogType}
+        />
         <section className="mx-auto max-w-4xl px-6 py-16 text-center">
           <h1 className="mb-4 text-3xl font-bold text-slate-900">Blog post nije pronađen</h1>
           <Link
-            to="/blog"
+            to={localizePath('/blog')}
             className="inline-flex items-center gap-2 rounded-lg bg-[#0070CD] px-6 py-3 text-base font-semibold text-white transition-colors hover:bg-[#005bb0]"
           >
             Povratak na blog
@@ -84,6 +97,23 @@ const BlogPostPage = () => {
 
   return (
     <div className="min-h-screen bg-white">
+      <SEOHead
+        title={`${t(`blogPage.posts.${post.key}.title`)} | Armal`}
+        description={t(`blogPage.posts.${post.key}.excerpt`) || seo.description}
+        ogType={seo.ogType}
+      />
+      <JsonLd
+        id={`article-blog-${post.id}`}
+        data={buildArticleSchema({
+          pathname: location.pathname,
+          language,
+          headline: t(`blogPage.posts.${post.key}.title`),
+          description: t(`blogPage.posts.${post.key}.excerpt`) || seo.description,
+          image: post.image,
+          datePublished: post.date,
+          dateModified: post.date,
+        })}
+      />
       {/* Hero Section */}
       <section className="relative flex min-h-[40vh] w-full items-center overflow-hidden">
         <img
@@ -112,11 +142,11 @@ const BlogPostPage = () => {
         <div className="mx-auto max-w-4xl px-6">
           {/* Breadcrumb */}
           <nav className="mb-8 flex items-center gap-2 text-sm text-slate-600">
-            <Link to="/" className="hover:text-[#0070CD] transition-colors">
+            <Link to={localizePath('/')} className="hover:text-[#0070CD] transition-colors">
               {t('navbar.home')}
             </Link>
             <span>/</span>
-            <Link to="/blog" className="hover:text-[#0070CD] transition-colors">
+            <Link to={localizePath('/blog')} className="hover:text-[#0070CD] transition-colors">
               {t('navbar.blog')}
             </Link>
             <span>/</span>
@@ -165,7 +195,7 @@ const BlogPostPage = () => {
           {/* Back to Blog Button */}
           <div className="mt-12 flex justify-center">
             <Link
-              to="/blog"
+              to={localizePath('/blog')}
               className="inline-flex items-center gap-2 rounded-lg bg-[#0070CD] px-8 py-3 text-base font-semibold text-white transition-colors hover:bg-[#005bb0]"
             >
               <ArrowLeftIcon />

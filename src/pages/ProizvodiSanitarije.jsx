@@ -1,5 +1,6 @@
 import { useLanguage } from '../contexts/LanguageContext'
 import { useEffect, useRef } from 'react'
+import { useLocation } from 'react-router-dom'
 import kupaonicaImage from '../assets/kupaonica-zelena.webp'
 import sanitarije1 from '../assets/sanitarije/sanitarije_1.webp'
 import wcBowlsImage from '../assets/sanitarije/wc_sjedalice.webp'
@@ -7,9 +8,12 @@ import sanitarije3 from '../assets/sanitarije/sanitarije_3.webp'
 import daska from '../assets/sanitarije/daska.webp'
 import bide from '../assets/sanitarije/bide.webp'
 import monoblock from '../assets/sanitarije/monoblock.webp'
+import JsonLd from '../components/JsonLd'
+import { buildBreadcrumbListSchema } from '../seo/structuredData'
 
 const ProizvodiSanitarije = () => {
   const { t } = useLanguage()
+  const location = useLocation()
   const productRefs = useRef([])
 
   // Kategorije sanitarije – za svaku kategoriju moguće je postaviti vlastiti link za B2B i Uredi dom
@@ -80,6 +84,17 @@ const ProizvodiSanitarije = () => {
 
   return (
     <div className="min-h-screen bg-white">
+      <JsonLd
+        id="breadcrumb-products-sanitary"
+        data={buildBreadcrumbListSchema({
+          pathname: location.pathname,
+          items: [
+            { name: t('navbar.home'), path: '/' },
+            { name: t('navbar.products'), path: '/proizvodi' },
+            { name: t('products.sanitary'), path: '/proizvodi/sanitarije' },
+          ],
+        })}
+      />
       {/* Hero Section */}
       <section
         className="w-full h-[40vh] flex items-center text-white"

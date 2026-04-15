@@ -11,7 +11,8 @@
     "blog": "Blog",
     "viewAllProducts": "Oglej si vse izdelke",
     "openMenu": "Odpri meni",
-    "closeMenu": "Zapri meni"
+    "closeMenu": "Zapri meni",
+    "skipToMainContent": "Preskoči na glavno vsebino"
   },
   "products": {
     "faucets": "Mešalniki za vodo",
@@ -291,6 +292,26 @@
   "faucetsPage": {
     "ctaTitle": "Poiščite popolne pipe za vaš prostor",
     "ctaDescription": "Raziščite našo široko ponudbo in poiščite idealne rešitve za vaš dom ali poslovni prostor.",
+    "colorLabel": "BARVA",
+    "colorAll": "Vsi izdelki",
+    "ui": {
+      "reset": "Ponastavi"
+    },
+    "gallery": {
+      "regionSuffix": "galerija",
+      "previousImage": "Prejšnja slika",
+      "nextImage": "Naslednja slika",
+      "previousThumbnails": "Prejšnje sličice",
+      "nextThumbnails": "Naslednje sličice",
+      "imageLabel": "Slika"
+    },
+    "lightbox": {
+      "dialogLabel": "Galerija slik",
+      "closeButton": "Zapri",
+      "previousImage": "Prejšnja slika",
+      "nextImage": "Naslednja slika",
+      "enlargedImageAlt": "Povečana slika"
+    },
     "finishes": {
       "chrome": "Chrome",
       "black": "Black",
@@ -298,6 +319,49 @@
       "brushGold": "Brush Gold",
       "brushedNickel": "Brushed Nickel",
       "bronze": "Bronze"
+    },
+    "sections": {
+      "waterMixersTitle": "Mešalniki za vodo - uporaba",
+      "waterMixers": {
+        "bidet": "Bide",
+        "bathtub": "Mešalnik za kad",
+        "builtInMixer": "Vgradni mešalnik",
+        "builtInShower": "Samostoječi mešalnik",
+        "showerSet": "Mešalnik za tuš"
+      },
+      "waterMixersOverrides": {
+        "ana": {
+          "bathtub": "kad",
+          "builtInMixer": "mešalnik",
+          "showerSet": "mešalnik za tuš"
+        },
+        "start": {
+          "bidet": "Bide",
+          "bathtub": "kad",
+          "builtInMixer": "mešalnik",
+          "showerSet": "mešalnik za tuš"
+        },
+        "jana": {
+          "bidet": "Bide",
+          "bathtub": "kad",
+          "builtInMixer": "mešalnik",
+          "builtInShower": "mešalnik za tuš",
+          "showerSet": "tuš set"
+        },
+        "violet": {
+          "bidet": "Bide",
+          "bathtub": "Kad",
+          "builtInMixer": "Mešalnik",
+          "showerSet": "Mešalnik za tuš"
+        },
+        "lapis": {
+          "builtInMixer": "Samostoječi mešalnik",
+          "builtInShower": "Vgradni mešalnik za tuš"
+        },
+        "beril": {
+          "builtInShower": "Vgradni mešalnik za tuš"
+        }
+      }
     }
   },
   "bathingCategories": {
