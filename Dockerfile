@@ -45,8 +45,6 @@ RUN apt-get update && apt-get install -y \
 
 WORKDIR /app
 
-ENV NODE_ENV=production
-
 # Copy package files and install all dependencies (including devDependencies for the build)
 COPY package.json package-lock.json ./
 RUN npm ci
@@ -54,6 +52,9 @@ RUN npm ci
 # Copy the rest of the source and build (runs generate-sitemap, vite build, and prerender)
 COPY . .
 RUN npm run build
+
+# Set production mode after build so devDependencies were available during the build step
+ENV NODE_ENV=production
 
 # Expose the port the Express server listens on
 EXPOSE 3001
