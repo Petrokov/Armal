@@ -55,7 +55,10 @@ const prerender = async () => {
   const baseHtml = fs.readFileSync(templatePath, 'utf8')
 
   const server = await createServer(baseHtml)
-  const browser = await puppeteer.launch({ headless: true })
+  const browser = await puppeteer.launch({
+    headless: 'shell',
+    args: ['--no-sandbox', '--disable-setuid-sandbox']
+  })
 
   try {
     for (const route of ROUTES) {
