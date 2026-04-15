@@ -1,9 +1,11 @@
 import { Link } from 'react-router-dom'
 import { useLanguage } from '../contexts/LanguageContext'
 import logo from '../assets/Armal_logo_BLUE.png'
+import { buildLocalizedPath } from '../utils/languageRouting'
 
 const Footer = () => {
-  const { t } = useLanguage()
+  const { t, language } = useLanguage()
+  const localizePath = (path) => buildLocalizedPath(path, language)
 
   // Navigacijski linkovi za footer
   const footerLinks = [
@@ -116,7 +118,7 @@ const Footer = () => {
                     return (
                       <Link
                         key={link.key}
-                        to={link.path}
+                        to={localizePath(link.path)}
                         className="text-sm text-slate-600 transition-colors hover:text-[#0070CD]"
                       >
                         {t(`navbar.${link.key}`)}
@@ -149,7 +151,7 @@ const Footer = () => {
                     return (
                       <Link
                         key={link.key}
-                        to={link.path}
+                        to={localizePath(link.path)}
                         className="text-sm text-slate-600 transition-colors hover:text-[#0070CD]"
                       >
                         {t(`navbar.${link.key}`)}

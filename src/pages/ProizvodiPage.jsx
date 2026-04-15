@@ -1,5 +1,10 @@
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { useLanguage } from '../contexts/LanguageContext'
+import { buildLocalizedPath } from '../utils/languageRouting'
+import SEOHead from '../components/SEOHead'
+import JsonLd from '../components/JsonLd'
+import { getSeoData, SEO_ROUTE_KEYS } from '../seo/seoConfig'
+import { buildBreadcrumbListSchema } from '../seo/structuredData'
 import kupaonicaImage from '../assets/kupaonica-zelena.webp'
 import oNamaImage from '../assets/o_nama_kupaonica_2.png'
 import heroImage from '../assets/kupaonica-zelena.webp'
@@ -20,7 +25,10 @@ import sanitarije4 from '../assets/sanitarije/sanitarije_4.webp'
 import sanitarije5 from '../assets/sanitarije/sanitarije_5.webp'
 
 const ProizvodiPage = () => {
-  const { t } = useLanguage()
+  const { t, language } = useLanguage()
+  const location = useLocation()
+  const localizePath = (path) => buildLocalizedPath(path, language)
+  const seo = getSeoData(SEO_ROUTE_KEYS.PRODUCTS, language)
 
   const productCategories = [
     {
@@ -51,6 +59,21 @@ const ProizvodiPage = () => {
 
   return (
     <div className="min-h-screen bg-slate-50">
+      <SEOHead
+        title={seo.title}
+        description={seo.description}
+        ogType={seo.ogType}
+      />
+      <JsonLd
+        id="breadcrumb-products"
+        data={buildBreadcrumbListSchema({
+          pathname: location.pathname,
+          items: [
+            { name: t('navbar.home'), path: '/' },
+            { name: t('navbar.products'), path: '/proizvodi' },
+          ],
+        })}
+      />
       {/* Hero Section */}
       <section
         className="w-full h-[40vh] flex items-center text-white"
@@ -71,7 +94,7 @@ const ProizvodiPage = () => {
       {productCategories.map((category) => (
         <Link
           key={category.key}
-          to={category.href}
+          to={localizePath(category.href)}
           className="group relative flex flex-col md:flex-row w-full items-center overflow-visible rounded-r-2xl bg-slate-200 p-4 md:p-6 shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-lg mt-8 md:mt-12 mb-8 md:mb-12"
         >
           {/* Slika gore na mobitelu, lijevo na većim ekranima */}

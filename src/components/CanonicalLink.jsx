@@ -3,9 +3,21 @@ import { useLocation } from 'react-router-dom'
 
 const CanonicalLink = () => {
   const location = useLocation()
-  const baseUrl = 'https://www.armal.hr'
+  const baseUrl = import.meta.env.VITE_PUBLIC_SITE_URL || 'https://www.armal.hr'
 
   useEffect(() => {
+    const isBrowser = typeof window !== 'undefined'
+    const hostname = isBrowser ? window.location.hostname.toLowerCase() : ''
+    const isProductionHost = hostname === 'www.armal.hr' || hostname === 'armal.hr'
+
+    let robotsMeta = document.querySelector('meta[name="robots"]')
+    if (!robotsMeta) {
+      robotsMeta = document.createElement('meta')
+      robotsMeta.setAttribute('name', 'robots')
+      document.head.appendChild(robotsMeta)
+    }
+    robotsMeta.setAttribute('content', isProductionHost ? 'index,follow' : 'noindex,nofollow')
+
     // Pronađi postojeći canonical link ili kreiraj novi
     let canonicalLink = document.querySelector('link[rel="canonical"]')
     

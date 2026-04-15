@@ -1,25 +1,11 @@
 import './App.css'
-import { lazy, Suspense } from 'react'
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-import { LanguageProvider } from './contexts/LanguageContext'
+import { Suspense } from 'react'
+import { BrowserRouter as Router } from 'react-router-dom'
+import { LanguageProvider, useLanguage } from './contexts/LanguageContext'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
-import CanonicalLink from './components/CanonicalLink'
+import AppRoutes from './AppRoutes'
 
-// Lazy load stranice za code splitting
-const LandingPage = lazy(() => import('./components/LandingPage'))
-const KataloziPage = lazy(() => import('./pages/KataloziPage'))
-const ONamaPage = lazy(() => import('./pages/o_nama'))
-const ServisPage = lazy(() => import('./pages/ServisPage'))
-const ProizvodiPage = lazy(() => import('./pages/ProizvodiPage'))
-const ProizvodiSlavine = lazy(() => import('./pages/ProizvodiSlavine'))
-const ProizvodSlavinaDetalj = lazy(() => import('./pages/ProizvodSlavinaDetalj'))
-const ProizvodiKupanjeTusiranje = lazy(() => import('./pages/ProizvodiKupanjeTusiranje'))
-const ProizvodiSanitarije = lazy(() => import('./pages/ProizvodiSanitarije'))
-const BlogPage = lazy(() => import('./pages/BlogPage'))
-const BlogPostPage = lazy(() => import('./pages/BlogPostPage'))
-
-// Loading fallback komponenta
 const PageLoader = () => (
   <div className="flex min-h-screen items-center justify-center bg-slate-50">
     <div className="text-center">
@@ -29,34 +15,35 @@ const PageLoader = () => (
   </div>
 )
 
+const AppLayout = () => {
+  const { t } = useLanguage()
+
+  return (
+    <div className="flex min-h-screen flex-col bg-slate-50">
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[1200] focus:rounded-md focus:bg-white focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-[#0070CD] focus:shadow-lg focus:outline-none focus:ring-2 focus:ring-[#0070CD]"
+      >
+        {t('navbar.skipToMainContent')}
+      </a>
+      <Navbar />
+      <main id="main-content" tabIndex={-1} className="flex-1 focus:outline-none">
+        <Suspense fallback={<PageLoader />}>
+          <AppRoutes />
+        </Suspense>
+      </main>
+      <Footer />
+    </div>
+  )
+}
+
 function App() {
   return (
-    <LanguageProvider>
-      <Router>
-        <CanonicalLink />
-        <div className="flex min-h-screen flex-col bg-slate-50">
-          <Navbar />
-          <main className="flex-1">
-            <Suspense fallback={<PageLoader />}>
-              <Routes>
-                <Route path="/" element={<LandingPage />} />
-                <Route path="/katalozi" element={<KataloziPage />} />
-                <Route path="/o-nama" element={<ONamaPage />} />
-                <Route path="/servis" element={<ServisPage />} />
-                <Route path="/proizvodi" element={<ProizvodiPage />} />
-                <Route path="/proizvodi/slavine" element={<ProizvodiSlavine />} />
-                <Route path="/proizvodi/slavine/:id" element={<ProizvodSlavinaDetalj />} />
-                <Route path="/proizvodi/kupanje-tusiranje" element={<ProizvodiKupanjeTusiranje />} />
-                <Route path="/proizvodi/sanitarije" element={<ProizvodiSanitarije />} />
-                <Route path="/blog" element={<BlogPage />} />
-                <Route path="/blog/:id" element={<BlogPostPage />} />
-              </Routes>
-            </Suspense>
-          </main>
-          <Footer />
-        </div>
-      </Router>
-    </LanguageProvider>
+    <Router>
+      <LanguageProvider>
+        <AppLayout />
+      </LanguageProvider>
+    </Router>
   )
 }
 

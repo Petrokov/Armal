@@ -4,6 +4,7 @@ import kupaonicaImage from '../assets/kupaonica-zelena.webp'
 import ProductGallery from '../components/ProductGallery'
 import rubiProstor from '../assets/slavine/rubi-compresed/rubi-prostor.webp'
 import { useMemo, useState } from 'react'
+import { buildLocalizedPath } from '../utils/languageRouting'
 
 // Rubi – povuci sve slike iz rubi-compresed foldera (galerija)
 const rubiGlob = import.meta.glob('../assets/slavine/rubi-compresed/**/*.{webp,png,jpg,jpeg}', { eager: true })
@@ -100,7 +101,8 @@ const collections = [
 
 const ProizvodSlavinaDetalj = () => {
   const { id } = useParams()
-  const { t } = useLanguage()
+  const { t, language } = useLanguage()
+  const localizePath = (path) => buildLocalizedPath(path, language)
   const [activeImageIndex, setActiveImageIndex] = useState(0)
   const [colorFilter, setColorFilter] = useState('')
 
@@ -162,7 +164,7 @@ const ProizvodSlavinaDetalj = () => {
             {t('faucetsPage.notFoundDescription') ?? 'Odabrana kolekcija ne postoji ili je trenutno nedostupna.'}
           </p>
           <RouterLink
-            to="/proizvodi/slavine"
+            to={localizePath('/proizvodi/slavine')}
             className="inline-flex items-center justify-center rounded-lg bg-slate-900 px-6 py-3 text-sm font-semibold text-white shadow-md transition hover:bg-slate-800"
           >
             {t('faucetsPage.backToList') ?? 'Natrag na slavine'}
@@ -266,7 +268,7 @@ const ProizvodSlavinaDetalj = () => {
                 </div>
 
                 <RouterLink
-                  to="/proizvodi/slavine"
+                  to={localizePath('/proizvodi/slavine')}
                   className="inline-flex items-center justify-center text-sm font-semibold text-[#0070CD] underline-offset-4 hover:underline"
                 >
                   {t('faucetsPage.backToList') ?? 'Natrag na popis slavina'}

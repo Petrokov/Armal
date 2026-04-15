@@ -1,12 +1,20 @@
 import { useLanguage } from '../contexts/LanguageContext'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import blogHeroImage from '../assets/armal-blog.webp'
 import kupaonicaImage from '../assets/kupaonica-zelena.webp'
 import oNamaImage from '../assets/o_nama_kupaonica_2.png'
 import armalObavijestImage from '../assets/blogovi/armal-obavjest.png'
+import { buildLocalizedPath } from '../utils/languageRouting'
+import SEOHead from '../components/SEOHead'
+import JsonLd from '../components/JsonLd'
+import { getSeoData, SEO_ROUTE_KEYS } from '../seo/seoConfig'
+import { buildBreadcrumbListSchema } from '../seo/structuredData'
 
 const BlogPage = () => {
   const { t, language } = useLanguage()
+  const location = useLocation()
+  const localizePath = (path) => buildLocalizedPath(path, language)
+  const seo = getSeoData(SEO_ROUTE_KEYS.BLOG, language)
 
   // Blog posts data
   const blogPosts = [
@@ -64,6 +72,21 @@ const BlogPage = () => {
 
   return (
     <div className="min-h-screen bg-white">
+      <SEOHead
+        title={seo.title}
+        description={seo.description}
+        ogType={seo.ogType}
+      />
+      <JsonLd
+        id="breadcrumb-blog"
+        data={buildBreadcrumbListSchema({
+          pathname: location.pathname,
+          items: [
+            { name: t('navbar.home'), path: '/' },
+            { name: t('navbar.blog'), path: '/blog' },
+          ],
+        })}
+      />
       <section className="w-full h-[40vh] flex items-center text-white" style={{ backgroundImage: `url(${blogHeroImage})`, backgroundPosition: 'center 72%', backgroundSize: 'cover', backgroundRepeat: 'no-repeat' }}>
         <div className="mx-auto flex w-full max-w-7xl items-center px-6 text-left">
           <div className="max-w-3xl rounded-2xl border border-white/35 bg-white/15 p-5 backdrop-blur-md md:p-7">
@@ -112,7 +135,7 @@ const BlogPage = () => {
 
                   {/* Read More Button */}
                   <Link
-                    to={`/blog/${post.id}`}
+                    to={localizePath(`/blog/${post.id}`)}
                     className="inline-flex items-center gap-2 text-sm font-semibold text-[#0070CD] transition-colors hover:text-[#005bb0]"
                   >
                     {t('blogPage.readMore')}

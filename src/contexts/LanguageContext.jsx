@@ -10,9 +10,11 @@
  */
 
 import { createContext, useContext, useState, useEffect, useMemo } from 'react'
+import { useLocation } from 'react-router-dom'
 import hrTranslations from '../translations/hr.json'
 import sloTranslations from '../translations/slo.json'
 import rsTranslations from '../translations/rs.json'
+import { getLanguageFromPathname, isSupportedLanguage } from '../utils/languageRouting'
 
 // Fallback jezik - koristi se ako prijevod nije dostupan
 const FALLBACK_LANGUAGE = 'hr'
@@ -24,10 +26,8 @@ const translations = {
   rs: rsTranslations,
 }
 
-// Provjera da li je jezik podržan
-const isLanguageSupported = (lang) => {
-  return Object.keys(translations).includes(lang)
-}
+// Lokalni alias radi kompatibilnosti s postojećim pozivima u ovom contextu.
+const isLanguageSupported = (lang) => isSupportedLanguage(lang)
 
 // Dohvaćanje prijevoda s fallback mehanizmom
 const getTranslation = (lang, key) => {
@@ -85,11 +85,17 @@ export const useLanguage = () => {
  * @param {ReactNode} props.children - Dječje komponente
  */
 export const LanguageProvider = ({ children }) => {
-  // Inicijalizacija jezika iz localStorage ili default na hrvatski
+  const location = useLocation()
+
+  // URL je izvor istine; localStorage je samo pomoćni fallback pri prvom čitanju.
   const [language, setLanguage] = useState(() => {
+    const fromUrl = getLanguageFromPathname(
+      typeof window !== 'undefined' ? window.location.pathname : '/'
+    )
+    if (isLanguageSupported(fromUrl)) return fromUrl
+
     try {
       const saved = localStorage.getItem('armal_language')
-      // Provjeri da li je spremljeni jezik podržan
       if (saved && isLanguageSupported(saved)) {
         return saved
       }
@@ -98,6 +104,12 @@ export const LanguageProvider = ({ children }) => {
     }
     return FALLBACK_LANGUAGE
   })
+
+  // Sinkronizacija jezika s URL putanjom (URL je autoritet).
+  useEffect(() => {
+    const fromUrl = getLanguageFromPathname(location.pathname)
+    setLanguage((prev) => (prev === fromUrl ? prev : fromUrl))
+  }, [location.pathname])
 
   // Spremi jezik u localStorage kada se promijeni
   useEffect(() => {
@@ -123,6 +135,7 @@ export const LanguageProvider = ({ children }) => {
    */
   const changeLanguage = (lang) => {
     if (isLanguageSupported(lang)) {
+      // Navigacija URL-om se radi u layeru router/linkova.
       setLanguage(lang)
     } else {
       console.warn(`Language "${lang}" is not supported. Falling back to "${FALLBACK_LANGUAGE}"`)

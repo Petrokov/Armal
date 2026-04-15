@@ -1,322 +1,38 @@
 import { useLanguage } from '../contexts/LanguageContext'
 import { useEffect, useRef, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 import kupaonicaImage from '../assets/kupaonica-zelena.webp'
 import ProductGallery from '../components/ProductGallery'
-// Glavna slika Rubi galerije (uvijek rubi-prostor.webp). Fallback ako glob ne nađe nijednu sliku.
-import rubiProstor from '../assets/slavine/rubi-compresed/rubi-prostor.webp'
-// Glavna slika Safir galerije
-import safirMain from '../assets/slavine/safir/glavna-slika.webp'
-// Glavna slika Beril galerije
-import berilMain from '../assets/slavine/beril/glavna-slika-beril.webp'
-// Glavna slika Lapis galerije
-import lapisMain from '../assets/slavine/lapis/lapis-glavna-slika.webp'
-// Glavna slika Violet galerije
-import violetMain from '../assets/slavine/violet/Violet glavna.webp'
-// Glavna slika Jana galerije
-import janaMain from '../assets/slavine/jana/Slavina Jana naslovna.webp'
-// Glavna slika Ana galerije
-import anaMain from '../assets/slavine/ana/glavna-slika.webp'
-// Glavna slika Start galerije
-import startMain from '../assets/slavine/start/Start-glavna-slika.webp'
-
-// Automatsko učitavanje svih slika iz src/assets/slavine/rubi-compresed (uključujući podfoldere).
-// Održavanje: dodaj novu sliku u folder → automatski se pojavi u galeriji Rubi. Sortirano po putanji (natural order).
-const rubiGlob = import.meta.glob('../assets/slavine/rubi-compresed/**/*.{webp,png,jpg,jpeg}', { eager: true })
-const rubiGalleryImages = Object.entries(rubiGlob)
-  .sort(([pathA], [pathB]) => pathA.localeCompare(pathB, undefined, { numeric: true }))
-  .map(([, mod]) => (mod && 'default' in mod ? mod.default : mod))
-// ProductGallery prikazuje images[0] kao glavnu – rubi-prostor mora biti prvi u nizu
-const rubiImages =
-  rubiGalleryImages.length > 0
-    ? [rubiProstor, ...rubiGalleryImages.filter((src) => src !== rubiProstor)]
-    : [rubiProstor]
-
-// Automatsko učitavanje svih slika iz src/assets/slavine/safir za Safir
-const safirGlob = import.meta.glob('../assets/slavine/safir/**/*.{webp,png,jpg,jpeg}', { eager: true })
-const safirGalleryImages = Object.entries(safirGlob)
-  .sort(([pathA], [pathB]) => pathA.localeCompare(pathB, undefined, { numeric: true }))
-  .map(([, mod]) => (mod && 'default' in mod ? mod.default : mod))
-// Safir – glavna slika iz assets te sve ostale
-const safirImages =
-  safirGalleryImages.length > 0
-    ? [safirMain, ...safirGalleryImages.filter((src) => src !== safirMain)]
-    : [safirMain]
-
-// Automatsko učitavanje svih slika iz src/assets/slavine/beril za Beril
-const berilGlob = import.meta.glob('../assets/slavine/beril/**/*.{webp,png,jpg,jpeg}', { eager: true })
-const berilGalleryImages = Object.entries(berilGlob)
-  .sort(([pathA], [pathB]) => pathA.localeCompare(pathB, undefined, { numeric: true }))
-  .map(([, mod]) => (mod && 'default' in mod ? mod.default : mod))
-// Beril – glavna slika iz assets te sve ostale
-const berilImages =
-  berilGalleryImages.length > 0
-    ? [berilMain, ...berilGalleryImages.filter((src) => src !== berilMain)]
-    : [berilMain]
-
-// Automatsko učitavanje svih slika iz src/assets/slavine/lapis za Lapis
-const lapisGlob = import.meta.glob('../assets/slavine/lapis/**/*.{webp,png,jpg,jpeg}', { eager: true })
-const lapisGalleryImages = Object.entries(lapisGlob)
-  .sort(([pathA], [pathB]) => pathA.localeCompare(pathB, undefined, { numeric: true }))
-  .map(([, mod]) => (mod && 'default' in mod ? mod.default : mod))
-// Lapis – glavna slika iz assets te sve ostale
-const lapisImages =
-  lapisGalleryImages.length > 0
-    ? [lapisMain, ...lapisGalleryImages.filter((src) => src !== lapisMain)]
-    : [lapisMain]
-
-// Automatsko učitavanje svih slika iz src/assets/slavine/violet za Violet
-const violetGlob = import.meta.glob('../assets/slavine/violet/**/*.{webp,png,jpg,jpeg}', { eager: true })
-const violetGalleryImages = Object.entries(violetGlob)
-  .sort(([pathA], [pathB]) => pathA.localeCompare(pathB, undefined, { numeric: true }))
-  .map(([, mod]) => (mod && 'default' in mod ? mod.default : mod))
-// Violet – glavna slika iz assets te sve ostale
-const violetImages =
-  violetGalleryImages.length > 0
-    ? [violetMain, ...violetGalleryImages.filter((src) => src !== violetMain)]
-    : [violetMain]
-
-// Automatsko učitavanje svih slika iz src/assets/slavine/jana za Jana
-const janaGlob = import.meta.glob('../assets/slavine/jana/**/*.{webp,png,jpg,jpeg}', { eager: true })
-const janaGalleryImages = Object.entries(janaGlob)
-  .sort(([pathA], [pathB]) => pathA.localeCompare(pathB, undefined, { numeric: true }))
-  .map(([, mod]) => (mod && 'default' in mod ? mod.default : mod))
-// Jana – glavna slika iz assets te sve ostale
-const janaImages =
-  janaGalleryImages.length > 0
-    ? [janaMain, ...janaGalleryImages.filter((src) => src !== janaMain)]
-    : [janaMain]
-
-// Automatsko učitavanje svih slika iz src/assets/slavine/ana za Ana
-const anaGlob = import.meta.glob('../assets/slavine/ana/**/*.{webp,png,jpg,jpeg}', { eager: true })
-const anaGalleryImages = Object.entries(anaGlob)
-  .sort(([pathA], [pathB]) => pathA.localeCompare(pathB, undefined, { numeric: true }))
-  .map(([, mod]) => (mod && 'default' in mod ? mod.default : mod))
-// Ana – glavna slika iz assets te sve ostale
-const anaImages =
-  anaGalleryImages.length > 0
-    ? [anaMain, ...anaGalleryImages.filter((src) => src !== anaMain)]
-    : [anaMain]
-
-// Automatsko učitavanje svih slika iz src/assets/slavine/start za Start
-const startGlob = import.meta.glob('../assets/slavine/start/**/*.{webp,png,jpg,jpeg}', { eager: true })
-const startGalleryImages = Object.entries(startGlob)
-  .sort(([pathA], [pathB]) => pathA.localeCompare(pathB, undefined, { numeric: true }))
-  .map(([, mod]) => (mod && 'default' in mod ? mod.default : mod))
-// Start – glavna slika iz assets te sve ostale
-const startImages =
-  startGalleryImages.length > 0
-    ? [startMain, ...startGalleryImages.filter((src) => src !== startMain)]
-    : [startMain]
-
-// Automatsko učitavanje svih slika iz src/assets/slavine/topaz-compresed za Topaz
-const topazGlob = import.meta.glob('../assets/slavine/topaz-compresed/**/*.{webp,png,jpg,jpeg}', { eager: true })
-const topazGalleryImages = Object.entries(topazGlob)
-  .sort(([pathA], [pathB]) => pathA.localeCompare(pathB, undefined, { numeric: true }))
-  .map(([, mod]) => (mod && 'default' in mod ? mod.default : mod))
-// U galeriji želimo prvo prikazati hero sliku topaz.webp, a zatim sve ostale
-const topazImages = ['/slavine/topaz.webp', ...topazGalleryImages]
-
-// Automatsko učitavanje svih slika iz src/assets/slavine/opal compresed za Opal
-const opalGlob = import.meta.glob('../assets/slavine/opal compresed/**/*.{webp,png,jpg,jpeg}', { eager: true })
-const opalGalleryImages = Object.entries(opalGlob)
-  .sort(([pathA], [pathB]) => pathA.localeCompare(pathB, undefined, { numeric: true }))
-  .map(([, mod]) => (mod && 'default' in mod ? mod.default : mod))
-// U galeriji želimo prvo hero sliku opal.webp, zatim sve opal-compresed slike
-const opalImages = ['/slavine/opal.webp', ...opalGalleryImages]
-
-// Mapiranje boja na nazive datoteka za filtriranje po kolekciji (Rubi, Topaz)
-const colorFilenameMapByCollection = {
-  rubi: {
-    chrome: ['bidet-4.webp', 'high-4.webp', 'slavina-4.webp', 'thub-1.webp', 'ug-tus-1.webp', 'ugradbena-5.webp'],
-    black: ['bide-3.webp', 'high-5.webp', 'slavina-2.webp', 'thub-2.webp', 'ugradbena-1.webp', 'ug-tus-3.webp', 'zid-tus-4.webp'],
-    gunMetal: ['bide-1.webp', 'high-2.webp', 'slavina-3.webp', 'thub-4.webp', 'ugradbena-3.webp', 'ug-tus-5.webp', 'zid-tus-2.webp'],
-    brushGold: ['bide-5.webp', 'high-1.webp', 'slavina-1.webp', 'thub-3.webp', 'ugradbena-2.webp', 'ug-tus-4.webp', 'zid-tus-1.webp'],
-    brushedNickel: ['bide-2.webp', 'high-3.webp', 'slavina-5.webp', 'thub-5.webp', 'ugradbena-4.webp', 'ug-tus-2.webp', 'zid-tus-5.webp'],
-  },
-  safir: {
-    chrome: [
-      'bide-krom.webp',
-      'kada-krom.webp',
-      'niska-krom.webp',
-      'tus-krom.webp',
-      'ugr-mjesalica-krom.webp',
-      'visoka-krom.webp',
-    ],
-    black: [
-      'bide-crna.webp',
-      'kada-crna.webp',
-      'niska-crna.webp',
-      'tus-crna.webp',
-      'ugr-mjesalica-crna.webp',
-      'visoka-crna.webp',
-    ],
-  },
-  topaz: {
-    // Topaz – boje i datoteke iz src/assets/slavine/topaz-compresed
-    brushGold: ['bide-zlatna.webp', 'kada-zlatna.webp', 'slavina-zlatna.webp', 'visoka-zlatna.webp', 'tus-slavina-zlatna.webp'],
-    black: ['bide-crna.webp', 'kada-crna.webp', 'slavina-crna.webp', 'visoka-crna.webp', 'tus-slavina-crna.webp'],
-    gunMetal: ['bide-gunmetal.webp', 'kada-gunmetal.webp', 'slavina-gunmetal.webp', 'visoka-gunmetal.webp', 'tus-slavina-gunmetal.webp'],
-    chrome: ['bide-krom.webp', 'kada-krom.webp', 'slavina-krom.webp', 'visoka-krom.webp', 'tus-slavina-krom.webp'],
-  },
-  // Opal trenutno nema specifične datoteke po boji – dropdown služi samo za odabir boje bez filtriranja
-  opal: {
-    // Opal – boje i datoteke iz src/assets/slavine/opal compresed
-    black: [
-      'bidet-crna.webp',
-      'kada-crna.webp',
-      'niska-crna.webp',
-      'tus-crni.webp',
-      'ugr-slavina-crna.webp',
-      'ugr-tus-crna.webp',
-      'visoka-crna.webp',
-    ],
-    gunMetal: [
-      'bidet-gunmetal.webp',
-      'kada-gunmetal.webp',
-      'niska-gunmetal.webp',
-      'tus-gunmetal.webp',
-      'ugr-slavina-gunmetal.webp',
-      'ugr-tus-gunmetal.webp',
-      'visoka-gunmetal.webp',
-    ],
-    chrome: [
-      'bidet-krom.webp',
-      'kada-krom.webp',
-      'niska-krom.webp',
-      'tus-krom.webp',
-      'ugr-slavina-krom.webp',
-      'ugr-tus-krom.webp',
-      'visoka-krom.webp',
-    ],
-  },
-  beril: {
-    chrome: [
-      'bidet-krom.webp',
-      'kada-krom.webp',
-      'slavina-niska-krom.webp',
-      'slavina-3-krom.webp',
-      'tus-krom.webp',
-      'tus-2-krom.webp',
-      'ugr-tus-krom.webp',
-      'ugr-tus-strop-krom.webp',
-      'beril_FH8226A-D111 Picture copy.webp',
-    ],
-    black: [
-      'bidet-crna.webp',
-      'kada-crna.webp',
-      'slavina-niska-crna.webp',
-      'slavina-3-crna.webp',
-      'ugr-tus-strop-crni.webp',
-      'beril_FH8226A-D111-PB Picture copy.webp',
-    ],
-  },
-  lapis: {
-    bronze: [
-      'bidet-bronca.webp',
-      'kada-bronca.webp',
-      'kada-visoka-bronca.webp',
-      'mješalica-bronca.webp',
-      'mješalica-visoka-bronca.webp',
-      'tus-bronca.webp',
-      'tus-set-bronca.webp',
-      'ugradbeni-tus-bronca.webp',
-    ],
-    black: [
-      'bidet-crna.webp',
-      'kada-crna.webp',
-      'kada-visoka-crna.webp',
-      'mješalica-crna.webp',
-      'mješalica-visoka-crna.webp',
-      'tus-crna.webp',
-      'tus-set-crna.webp',
-      'ugradbeni-tus-crna.webp',
-    ],
-  },
-}
-
-// Mapiranje kategorija (bidet, kada, tuš...) na reprezentativne datoteke po kolekciji
-const categoryFilenameMapByCollection = {
-  rubi: {
-    bidet: 'bide-1.webp',
-    bathtub: 'thub-1.webp',
-    builtInMixer: 'ugradbena-1.webp',
-    builtInShower: 'ug-tus-1.webp',
-    showerSet: 'zid-tus-1.webp',
-  },
-  safir: {
-    bidet: 'bide-crna.webp',
-    bathtub: 'kada-crna.webp',
-    builtInMixer: 'ugr-mjesalica-crna.webp',
-    builtInShower: 'visoka-crna.webp',
-    showerSet: 'tus-crna.webp',
-  },
-  beril: {
-    bidet: 'bidet-crna.webp', // Bidet
-    bathtub: 'kada-crna.webp', // Kada
-    builtInMixer: 'slavina-3-crna.webp', // Mješalica za vodu
-    showerSet: 'tus-2-krom.webp', // Mješalica za tuš
-    builtInShower: 'ugr-tus-krom.webp', // Ugradbena mješalica tuša
-  },
-  lapis: {
-    // Lapis: mapiramo folder podstringove da bude neovisno o boji (bronca/crna)
-    bidet: 'lapis/bidet/',
-    bathtub: 'lapis/kada/',
-    builtInMixer: 'lapis/slavina/',
-    showerSet: 'lapis/tus/',
-    builtInShower: 'lapis/ugradbeni-tus/',
-  },
-  jana: {
-    bidet: 'slavina-bidet-korm.webp',
-    bathtub: 'slavina-kada-krom.webp',
-    builtInMixer: 'slavina-krom.webp',
-    builtInShower: 'slavina-tus-krom.webp',
-    showerSet: 'tus-set-krom.webp',
-  },
-  violet: {
-    bidet: 'bidet-krom.webp',
-    bathtub: 'kada-krom.webp',
-    builtInMixer: 'slavina-krom.webp',
-    showerSet: 'tus-krom.webp',
-  },
-  topaz: {
-    bidet: 'bide-crna.webp',
-    bathtub: 'kada-crna.webp',
-    showerSet: 'tus-slavina-crna.webp', // mješalica za tuš
-    builtInShower: 'visoka-crna.webp', // stojeća mješalica
-  },
-  opal: {
-    // Opal – mapiranje kategorija na crne varijante proizvoda
-    bidet: 'bidet-crna.webp',
-    bathtub: 'kada-crna.webp', // mješalica za kadu
-    builtInMixer: 'ugr-slavina-crna.webp', // ugradbena mješalica
-    builtInShower: 'visoka-crna.webp', // stojeća mješalica
-    showerSet: 'ugr-tus-crna.webp', // mješalica za tuš
-  },
-  ana: {
-    // Ana – mapiranje kategorija na reprezentativne krom varijante
-    bathtub: 'kada-krom.webp',
-    builtInMixer: 'slavina-krom.webp',
-    showerSet: 'tus-krom.webp',
-  },
-  start: {
-    // Start – mapiranje kategorija na krom varijante
-    // Napomena: nazivi sadrže razmake pa je potrebno decodeURIComponent u onClick handleru.
-    bidet: 'bidet krom.webp',
-    bathtub: 'kada-krom.webp',
-    builtInMixer: 'slavina-krom.webp',
-    showerSet: 'tus-krom.webp',
-  },
-}
-const rubiMainImage = rubiProstor
+import SEOHead from '../components/SEOHead'
+import JsonLd from '../components/JsonLd'
+import { getSeoData, SEO_ROUTE_KEYS } from '../seo/seoConfig'
+import { getProizvodiSlavineSeoLocale } from '../seo/proizvodiSlavineSeoLocale'
+import { buildBreadcrumbListSchema, buildFaqPageSchema } from '../seo/structuredData'
+import { buildLocalizedPath } from '../utils/languageRouting'
+import {
+  faucetsCollections,
+  defaultFinishes,
+  colorFilenameMapByCollection,
+  categoryFilenameMapByCollection,
+} from './proizvodiSlavine/faucetsData'
+import { getWaterMixerLabel } from './proizvodiSlavine/faucetsHelpers'
+import FaucetsFaqSection from './proizvodiSlavine/FaucetsFaqSection'
+import FaucetsCtaSection from './proizvodiSlavine/FaucetsCtaSection'
 
 const ProizvodiSlavine = () => {
-  const { t } = useLanguage()
+  const { t, language } = useLanguage()
+  const location = useLocation()
+  const seo = getSeoData(SEO_ROUTE_KEYS.FAUCETS, language)
+  const localizePath = (path) => buildLocalizedPath(path, language)
   const productRefs = useRef([])
+  const lightboxDialogRef = useRef(null)
+  const lightboxCloseButtonRef = useRef(null)
+  const lightboxTriggerRef = useRef(null)
+  const lightboxPreviouslyFocusedRef = useRef(null)
   const [lightbox, setLightbox] = useState(null) // { images: string[], index: number } | null
   const [activeImageIndexes, setActiveImageIndexes] = useState({}) // po kolekciji: { [key]: index }
   const [colorFilters, setColorFilters] = useState({}) // po kolekciji: { [key]: colorKey }
-  const [categoryFilters, setCategoryFilters] = useState({}) // po kolekciji: { [key]: categoryKey }
+  const [renderFullGalleryByCollection, setRenderFullGalleryByCollection] = useState(() => ({ rubi: true }))
 
   // Uvijek ostani na hero sekciji (vrh stranice) nakon mount-a, refresh-a ili vraćanja pozicije.
   // Sprječavamo bilo kakvo automatsko "scroll restoration" ponašanje i forsiramo `scroll` na 0.
@@ -344,149 +60,25 @@ const ProizvodiSlavine = () => {
     }
   }, [])
 
-  // Boje obrada za prikaz ispod naslova serije (key za prijevod, hex za swatch)
-  const defaultFinishes = [
-    { key: 'chrome', color: '#e5e7eb' },
-    { key: 'black', color: '#1f2937' },
-    { key: 'gunMetal', color: '#4b5563' },
-    { key: 'brushGold', color: '#c9a227' },
-    { key: 'brushedNickel', color: '#a8a9ad' },
-    { key: 'bronze', color: '#cd7f32' },
-  ]
-
-  // Kolekcije slavina – image = glavna, images = niz za galeriju, finishes = obrade (opcionalno)
-  // Redoslijed prilagođen traženom popisu koristeći postojeće kolekcije:
-  // 1. Rubi, 2. Topaz, 3. Violet, 4. Start, potom ostale postojeće kolekcije.
-  const collections = [
-    {
-      key: 'rubi',
-      image: rubiMainImage,
-      images: rubiImages,
-      finishes: [
-        { key: 'chrome', color: '#e5e7eb' },
-        { key: 'black', color: '#1f2937' },
-        { key: 'gunMetal', color: '#4b5563' },
-        { key: 'brushGold', color: '#c9a227' },
-        { key: 'brushedNickel', color: '#a8a9ad' },
-      ],
-      b2bLink: 'https://b2b.armal.hr/Store/Index?grupa=0504&brend=RUBI',
-      editHomeLink: 'https://uredidom.hr/',
-    },
-    {
-      key: 'topaz',
-      // Glavna slika Topaz kolekcije – dizajnirana hero slika iz dist/slavine/topaz.webp
-      image: '/slavine/topaz.webp',
-      images: topazImages.length ? topazImages : ['/slavine/topaz.webp'],
-      finishes: [
-        { key: 'chrome', color: '#e5e7eb' },
-        { key: 'black', color: '#1f2937' },
-        { key: 'gunMetal', color: '#4b5563' },
-        { key: 'brushGold', color: '#c9a227' },
-      ],
-      b2bLink: 'https://b2b.armal.hr/Store/Index?grupa=0504&brend=TOPAZ',
-      editHomeLink: 'https://uredidom.hr/',
-    },
-    {
-      key: 'violet',
-      image: violetMain,
-      images: violetImages,
-      finishes: [
-        { key: 'chrome', color: '#e5e7eb' },
-      ],
-      b2bLink: 'https://b2b.armal.hr/Store/Index?grupa=0504&brend=VIOLET',
-      editHomeLink: 'https://uredidom.hr/',
-    },
-    {
-      key: 'start',
-      image: startMain,
-      images: startImages,
-      finishes: [
-        { key: 'chrome', color: '#e5e7eb' },
-      ],
-      b2bLink: 'https://b2b.armal.hr/Store/Index?grupa=0504&brend=START',
-      editHomeLink: 'https://uredidom.hr/',
-    },
-    {
-      key: 'opal',
-      // Glavna slika Opal kolekcije – hero iz dist/slavine/opal.webp
-      image: '/slavine/opal.webp',
-      images: opalImages,
-      finishes: [
-        { key: 'chrome', color: '#e5e7eb' },
-        { key: 'black', color: '#1f2937' },
-        { key: 'gunMetal', color: '#4b5563' },
-      ],
-      b2bLink: 'https://b2b.armal.hr/Store/Index?grupa=0504&brend=OPAL',
-      editHomeLink: 'https://uredidom.hr/',
-    },
-    {
-      key: 'safir',
-      image: safirMain,
-      images: safirImages,
-      finishes: [
-        { key: 'chrome', color: '#e5e7eb' },
-        { key: 'black', color: '#1f2937' },
-      ],
-      b2bLink: 'https://b2b.armal.hr/Store/Index?grupa=0504&brend=SAFIR',
-      editHomeLink: 'https://uredidom.hr/',
-    },
-    {
-      key: 'beril',
-      image: berilMain,
-      images: berilImages,
-      finishes: [
-        { key: 'chrome', color: '#e5e7eb' },
-        { key: 'black', color: '#1f2937' },
-      ],
-      b2bLink: 'https://b2b.armal.hr/Store/Index?grupa=0504&brend=BERIL',
-      editHomeLink: 'https://uredidom.hr/',
-    },
-    {
-      key: 'lapis',
-      image: lapisMain,
-      images: lapisImages,
-      finishes: [
-        { key: 'black', color: '#1f2937' },
-        { key: 'bronze', color: '#cd7f32' },
-      ],
-      b2bLink: 'https://b2b.armal.hr/Store/Index?grupa=0504&brend=LAPIS',
-      editHomeLink: 'https://uredidom.hr/',
-    },
-    {
-      key: 'ana',
-      image: anaMain,
-      images: anaImages.length ? anaImages : [anaMain],
-      finishes: [
-        { key: 'chrome', color: '#e5e7eb' },
-      ],
-      b2bLink: 'https://b2b.armal.hr/Store/Index?grupa=0504&brend=ANA',
-      editHomeLink: 'https://uredidom.hr/',
-    },
-    {
-      key: 'jana',
-      image: janaMain,
-      images: janaImages,
-      finishes: [
-        { key: 'chrome', color: '#e5e7eb' },
-      ],
-      b2bLink: 'https://b2b.armal.hr/Store/Index?grupa=0504&brend=JANA',
-      editHomeLink: 'https://uredidom.hr/',
-    },
-  ]
+  const collections = faucetsCollections
+  const seoLocale = getProizvodiSlavineSeoLocale(language)
 
   useEffect(() => {
     if (!lightbox) return
-    const onKey = (e) => {
-      if (e.key === 'Escape') setLightbox(null)
-      if (e.key === 'ArrowLeft') {
-        setLightbox((l) => l && { ...l, index: (l.index - 1 + l.images.length) % l.images.length })
-      }
-      if (e.key === 'ArrowRight') {
-        setLightbox((l) => l && { ...l, index: (l.index + 1) % l.images.length })
+    const previousOverflow = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+    lightboxPreviouslyFocusedRef.current = document.activeElement
+    window.requestAnimationFrame(() => {
+      lightboxCloseButtonRef.current?.focus()
+    })
+
+    return () => {
+      document.body.style.overflow = previousOverflow
+      const focusTarget = lightboxTriggerRef.current || lightboxPreviouslyFocusedRef.current
+      if (focusTarget && typeof focusTarget.focus === 'function') {
+        focusTarget.focus()
       }
     }
-    window.addEventListener('keydown', onKey)
-    return () => window.removeEventListener('keydown', onKey)
   }, [lightbox])
 
   // Fade-in animacija pri skrolanju
@@ -515,8 +107,61 @@ const ProizvodiSlavine = () => {
     }
   }, [])
 
+  // Performance: render kompletne gallery DOM blokove tek kad je kolekcija blizu viewporta.
+  useEffect(() => {
+    const observers = productRefs.current.map((ref) => {
+      if (!ref) return null
+      const key = ref.id
+      if (!key) return null
+
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (!entry.isIntersecting) return
+            const collectionKey = entry.target.id
+            if (!collectionKey) return
+            setRenderFullGalleryByCollection((prev) => (
+              prev[collectionKey] ? prev : { ...prev, [collectionKey]: true }
+            ))
+            observer.unobserve(entry.target)
+          })
+        },
+        { rootMargin: '600px 0px', threshold: 0.01 }
+      )
+
+      observer.observe(ref)
+      return observer
+    })
+
+    return () => {
+      observers.forEach((observer) => observer?.disconnect())
+    }
+  }, [])
+
   return (
     <div className="min-h-screen bg-white">
+      <SEOHead
+        title={seo.title}
+        description={seo.description}
+        ogType={seo.ogType}
+      />
+      <JsonLd
+        id="breadcrumb-products-faucets"
+        data={buildBreadcrumbListSchema({
+          pathname: location.pathname,
+          items: [
+            { name: t('navbar.home'), path: '/' },
+            { name: t('navbar.products'), path: '/proizvodi' },
+            { name: t('products.faucets'), path: '/proizvodi/slavine' },
+          ],
+        })}
+      />
+      {Array.isArray(seoLocale.faqs) && seoLocale.faqs.length > 0 && (
+        <JsonLd
+          id="faq-products-faucets"
+          data={buildFaqPageSchema(seoLocale.faqs)}
+        />
+      )}
       {/* Hero Section */}
       <section
         className="w-full h-[40vh] flex items-center text-white"
@@ -531,9 +176,28 @@ const ProizvodiSlavine = () => {
       </section>
 
       {/* Products Section */}
-      <section className="w-full bg-white py-16 md:py-24">
+      <section className="w-full bg-white py-10 md:py-14">
         <div className="mx-auto max-w-7xl px-6">
-          <div className="space-y-24 md:space-y-32">
+          <div className="mb-4 flex flex-col items-center justify-center md:mb-6">
+            <p className="mb-2 text-center text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-500 sm:text-xs">
+              {seoLocale.anchorTitle}
+            </p>
+            <p className="mb-3 max-w-3xl text-center text-sm text-slate-600 md:text-base">
+              {seoLocale.introText}
+            </p>
+            <div className="flex w-full flex-wrap justify-center gap-2">
+              {collections.map((collection) => (
+                <a
+                  key={`anchor-${collection.key}`}
+                  href={`#${collection.key}`}
+                  className="inline-flex items-center rounded-full border border-slate-300 px-3 py-1.5 text-xs font-semibold text-slate-700 transition-colors hover:border-[#0070CD] hover:text-[#0070CD]"
+                >
+                  {t(`collections.${collection.key}.name`)}
+                </a>
+              ))}
+            </div>
+          </div>
+          <div className="space-y-16 md:space-y-24">
             {collections.map((collection, index) => {
               const isEven = index % 2 === 0
               const imagePosition = isEven ? 'left' : 'right'
@@ -541,7 +205,6 @@ const ProizvodiSlavine = () => {
               const baseImages = collection.images ?? [collection.image]
               const colorFilenameMap = colorFilenameMapByCollection[collection.key]
               const colorFilter = colorFilters[collection.key] ?? ''
-              const categoryFilter = categoryFilters[collection.key] ?? ''
 
               // 1) Filtriranje po boji (ako kolekcija ima mapu boja)
               const colorFilteredImages =
@@ -576,6 +239,7 @@ const ProizvodiSlavine = () => {
                 return (
                   <div
                     key={collection.key}
+                    id={collection.key}
                     ref={(el) => (productRefs.current[index] = el)}
                     className={`group relative flex flex-col gap-8 p-6 md:flex-row md:gap-10 md:p-8 ${
                       imagePosition === 'right' ? 'md:flex-row-reverse' : ''
@@ -589,13 +253,16 @@ const ProizvodiSlavine = () => {
                       <ProductGallery
                         images={imagesForGallery}
                         alt={t(`collections.${collection.key}.name`)}
+                        isPriority={index === 0}
+                        shouldRenderFull={Boolean(renderFullGalleryByCollection[collection.key])}
                         activeIndexExternal={
                           typeof activeImageIndexes[collection.key] === 'number'
                             ? activeImageIndexes[collection.key]
                             : 0
                         }
-                        onImageClick={(_, idx) => {
+                        onImageClick={(_, idx, triggerEl) => {
                           const images = imagesForGallery
+                          lightboxTriggerRef.current = triggerEl
                           setActiveImageIndexes((prev) => ({
                             ...prev,
                             [collection.key]: idx,
@@ -624,6 +291,9 @@ const ProizvodiSlavine = () => {
                             {t(`collections.${collection.key}.benefit`)}
                           </p>
                         )}
+                        <p className="text-sm leading-relaxed text-slate-600 md:text-base">
+                          {seoLocale.collectionSeoCopy[collection.key]}
+                        </p>
                       </div>
 
                       {/* Boje – krugovi + dropdown */}
@@ -701,12 +371,11 @@ const ProizvodiSlavine = () => {
                                 type="button"
                                 onClick={() => {
                                   setColorFilters((prev) => ({ ...prev, [collection.key]: '' }))
-                                  setCategoryFilters((prev) => ({ ...prev, [collection.key]: '' }))
                                   setActiveImageIndexes((prev) => ({ ...prev, [collection.key]: 0 }))
                                 }}
                                 className="inline-flex items-center rounded-full border border-slate-300 bg-white px-4 py-2.5 text-xs font-semibold text-slate-700 shadow-sm transition-colors hover:border-[#0070CD] hover:text-[#0070CD]"
                               >
-                                Reset
+                                {t('faucetsPage.ui.reset')}
                               </button>
                             </div>
                           </div>
@@ -780,45 +449,7 @@ const ProizvodiSlavine = () => {
                                 }}
                                 className="inline-flex items-center rounded-full border border-slate-200 bg-white px-3 py-1 text-xs font-medium text-slate-700 shadow-sm transition hover:border-[#0070CD] hover:bg-slate-50 hover:text-[#0070CD]"
                               >
-                                {collection.key === 'ana' && key === 'bathtub'
-                                  ? 'kada'
-                                  : collection.key === 'ana' && key === 'builtInMixer'
-                                    ? 'mješalica'
-                                    : collection.key === 'ana' && key === 'showerSet'
-                                      ? 'mješalica za tuš'
-                                      : collection.key === 'start' && key === 'bidet'
-                                        ? 'Bidet'
-                                        : collection.key === 'start' && key === 'bathtub'
-                                          ? 'kada'
-                                          : collection.key === 'start' && key === 'builtInMixer'
-                                            ? 'mješalica'
-                                            : collection.key === 'start' && key === 'showerSet'
-                                              ? 'mješalica za tuš'
-                                              : collection.key === 'jana' && key === 'bidet'
-                                  ? 'Bidet'
-                                  : collection.key === 'jana' && key === 'bathtub'
-                                    ? 'kada'
-                                    : collection.key === 'jana' && key === 'builtInMixer'
-                                      ? 'mješalica'
-                                      : collection.key === 'jana' && key === 'builtInShower'
-                                        ? 'mješalica za tuš'
-                                        : collection.key === 'jana' && key === 'showerSet'
-                                          ? 'tuš set'
-                                          : collection.key === 'violet' && key === 'bidet'
-                                            ? 'Bidet'
-                                            : collection.key === 'violet' && key === 'bathtub'
-                                              ? 'Kada'
-                                              : collection.key === 'violet' && key === 'builtInMixer'
-                                                ? 'Mješalica'
-                                                : collection.key === 'violet' && key === 'showerSet'
-                                                  ? 'Mješalica za tuš'
-                                                  : collection.key === 'lapis' && key === 'builtInMixer'
-                                                    ? 'Stojeća mješalica'
-                                                    : collection.key === 'lapis' && key === 'builtInShower'
-                                                      ? 'Ugradbena mješalica za tuš'
-                                                      : collection.key === 'beril' && key === 'builtInShower'
-                                                        ? 'Ugradbena mješalica tuša'
-                                                        : t(`faucetsPage.sections.waterMixers.${key}`)}
+                                {getWaterMixerLabel(t, collection.key, key)}
                               </button>
                             ))}
                             </div>
@@ -853,6 +484,7 @@ const ProizvodiSlavine = () => {
               return (
                 <div
                   key={collection.key}
+                  id={collection.key}
                   ref={(el) => (productRefs.current[index] = el)}
                   className={`flex flex-col items-center gap-8 opacity-0 translate-y-8 transition-all duration-700 md:flex-row md:gap-12 ${
                     imagePosition === 'right' ? 'md:flex-row-reverse' : ''
@@ -863,13 +495,16 @@ const ProizvodiSlavine = () => {
                     <ProductGallery
                       images={imagesForGallery}
                       alt={t(`collections.${collection.key}.name`)}
+                      isPriority={index === 0}
+                      shouldRenderFull={Boolean(renderFullGalleryByCollection[collection.key])}
                       activeIndexExternal={
                         typeof activeImageIndexes[collection.key] === 'number'
                           ? activeImageIndexes[collection.key]
                           : 0
                       }
-                      onImageClick={(_, index) => {
+                      onImageClick={(_, index, triggerEl) => {
                         const images = imagesForGallery
+                        lightboxTriggerRef.current = triggerEl
                         setActiveImageIndexes((prev) => ({
                           ...prev,
                           [collection.key]: index,
@@ -884,6 +519,12 @@ const ProizvodiSlavine = () => {
                     <h2 className="mb-2 text-3xl font-bold text-slate-900 md:text-4xl lg:text-5xl">
                       {t(`collections.${collection.key}.name`)}
                     </h2>
+                    <p className="mb-2 text-sm text-slate-600 md:text-base">
+                      {t(`collections.${collection.key}.description`)}
+                    </p>
+                    <p className="mb-4 text-sm leading-relaxed text-slate-600 md:text-base">
+                      {seoLocale.collectionSeoCopy[collection.key]}
+                    </p>
                     {/* Boje obrada – prilagodivo po proizvodu (collection.finishes), inače defaultFinishes */}
                     <div className="mb-4 flex flex-wrap items-center justify-center gap-3 p-2 md:justify-start">
                       {(collection.finishes ?? defaultFinishes).map((finish) => (
@@ -960,12 +601,11 @@ const ProizvodiSlavine = () => {
                             type="button"
                             onClick={() => {
                               setColorFilters((prev) => ({ ...prev, [collection.key]: '' }))
-                              setCategoryFilters((prev) => ({ ...prev, [collection.key]: '' }))
                               setActiveImageIndexes((prev) => ({ ...prev, [collection.key]: 0 }))
                             }}
                             className="inline-flex items-center rounded-full border border-slate-300 bg-white px-4 py-2.5 text-xs font-semibold text-slate-700 shadow-sm transition-colors hover:border-[#0070CD] hover:text-[#0070CD]"
                           >
-                            Reset
+                            {t('faucetsPage.ui.reset')}
                           </button>
                         </div>
                       </div>
@@ -1076,13 +716,51 @@ const ProizvodiSlavine = () => {
           onClick={() => setLightbox(null)}
           role="dialog"
           aria-modal="true"
-          aria-label="Galerija slika"
+          aria-label={t('faucetsPage.lightbox.dialogLabel')}
+          ref={lightboxDialogRef}
+          tabIndex={-1}
+          onKeyDown={(e) => {
+            if (!lightbox) return
+            if (e.key === 'Escape') {
+              e.preventDefault()
+              setLightbox(null)
+              return
+            }
+            if (e.key === 'ArrowLeft' && lightbox.images.length > 1) {
+              e.preventDefault()
+              setLightbox((l) => l && { ...l, index: (l.index - 1 + l.images.length) % l.images.length })
+              return
+            }
+            if (e.key === 'ArrowRight' && lightbox.images.length > 1) {
+              e.preventDefault()
+              setLightbox((l) => l && { ...l, index: (l.index + 1) % l.images.length })
+              return
+            }
+            if (e.key === 'Tab') {
+              const dialog = lightboxDialogRef.current
+              if (!dialog) return
+              const focusable = dialog.querySelectorAll(
+                'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+              )
+              if (!focusable.length) return
+              const first = focusable[0]
+              const last = focusable[focusable.length - 1]
+              if (e.shiftKey && document.activeElement === first) {
+                e.preventDefault()
+                last.focus()
+              } else if (!e.shiftKey && document.activeElement === last) {
+                e.preventDefault()
+                first.focus()
+              }
+            }
+          }}
         >
           <button
             type="button"
             onClick={() => setLightbox(null)}
             className="absolute right-4 top-4 z-10 rounded-full bg-white/10 p-2 text-white transition hover:bg-white/20 focus:outline-none focus:ring-2 focus:ring-white"
-            aria-label="Zatvori"
+            aria-label={t('faucetsPage.lightbox.closeButton')}
+            ref={lightboxCloseButtonRef}
           >
             <svg className="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -1098,7 +776,7 @@ const ProizvodiSlavine = () => {
                   setLightbox({ ...lightbox, index: (lightbox.index - 1 + lightbox.images.length) % lightbox.images.length })
                 }}
                 className="absolute left-2 top-1/2 z-10 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full bg-white/10 text-white transition hover:bg-white/20 focus:outline-none focus:ring-2 focus:ring-white md:left-4"
-                aria-label="Prethodna slika"
+                aria-label={t('faucetsPage.lightbox.previousImage')}
               >
                 <svg className="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -1111,7 +789,7 @@ const ProizvodiSlavine = () => {
                   setLightbox({ ...lightbox, index: (lightbox.index + 1) % lightbox.images.length })
                 }}
                 className="absolute right-2 top-1/2 z-10 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full bg-white/10 text-white transition hover:bg-white/20 focus:outline-none focus:ring-2 focus:ring-white md:right-4"
-                aria-label="Sljedeća slika"
+                aria-label={t('faucetsPage.lightbox.nextImage')}
               >
                 <svg className="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -1122,7 +800,7 @@ const ProizvodiSlavine = () => {
 
           <img
             src={lightbox.images[lightbox.index]}
-            alt="Povećana slika"
+            alt={t('faucetsPage.lightbox.enlargedImageAlt')}
             className="max-h-full max-w-full object-contain"
             onClick={(e) => e.stopPropagation()}
           />
@@ -1135,61 +813,8 @@ const ProizvodiSlavine = () => {
         </div>
       )}
 
-      {/* CTA Section */}
-      <section className="w-full bg-slate-50 py-16 md:py-24">
-        <div className="mx-auto max-w-4xl px-6 text-center">
-          <h2 className="mb-8 text-3xl font-bold text-slate-900 md:text-4xl">
-            {t('faucetsPage.ctaTitle')}
-          </h2>
-          <p className="mb-12 text-lg text-slate-600">
-            {t('faucetsPage.ctaDescription')}
-          </p>
-          <div className="flex flex-col gap-4 sm:flex-row sm:justify-center">
-            <a
-              href="https://b2b.armal.hr/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2 rounded-lg bg-[#0070CD] px-8 py-4 text-base font-semibold text-white shadow-md transition-all duration-300 hover:scale-105 hover:bg-[#005bb0] hover:shadow-lg"
-            >
-              <svg
-                className="h-5 w-5"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"
-                />
-              </svg>
-              {t('navbar.b2b')}
-            </a>
-            <a
-              href="https://uredidom.hr/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2 rounded-lg bg-slate-700 px-8 py-4 text-base font-semibold text-white shadow-md transition-all duration-300 hover:scale-105 hover:bg-slate-800 hover:shadow-lg"
-            >
-              <svg
-                className="h-5 w-5"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
-                />
-              </svg>
-              {t('navbar.editHome')}
-            </a>
-          </div>
-        </div>
-      </section>
+      <FaucetsFaqSection seoLocale={seoLocale} localizePath={localizePath} />
+      <FaucetsCtaSection t={t} />
     </div>
   )
 }
