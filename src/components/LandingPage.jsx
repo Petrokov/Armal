@@ -663,7 +663,7 @@ const LandingPage = () => {
             <div className="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-5 lg:items-start lg:gap-8">
               {/* Map */}
               <div
-                className="order-2 lg:order-1 lg:col-span-3 rounded-2xl border border-white/80 bg-white/60 shadow-sm"
+                className="order-2 lg:order-1 lg:col-span-3 h-[210px] sm:h-[230px] md:h-[260px] lg:h-[270px] rounded-2xl border border-white/80 bg-white/60 shadow-sm"
                 style={{
                   backdropFilter: 'blur(16px)',
                   WebkitBackdropFilter: 'blur(16px)',
@@ -674,7 +674,7 @@ const LandingPage = () => {
                   selectedPartnerId={selectedPartnerId}
                   onPartnerSelect={setSelectedPartnerId}
                   onDebugChange={showMapDebug ? setMapDebug : undefined}
-                  heightClassName="h-[210px] sm:h-[230px] md:h-[260px] lg:h-[270px]"
+                  heightClassName="h-full"
                   className="rounded-2xl"
                 />
               </div>
