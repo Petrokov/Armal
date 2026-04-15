@@ -45,6 +45,8 @@ RUN apt-get update && apt-get install -y \
 
 WORKDIR /app
 
+ENV NODE_ENV=production
+
 # Copy package files and install all dependencies (including devDependencies for the build)
 COPY package.json package-lock.json ./
 RUN npm ci
