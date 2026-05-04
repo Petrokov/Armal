@@ -2,32 +2,13 @@ import fs from 'fs'
 import path from 'path'
 import express from 'express'
 import puppeteer from 'puppeteer'
+import { buildLocalizedRoutes } from './seo-routes.js'
 
 const DIST_DIR = path.resolve(process.cwd(), 'dist')
 const PORT = Number(process.env.PRERENDER_PORT || 4173)
 const HOST = '127.0.0.1'
 
-const BASE_ROUTES = [
-  '/',
-  '/o-nama',
-  '/servis',
-  '/katalozi',
-  '/proizvodi',
-  '/proizvodi/slavine',
-  '/proizvodi/kupanje-tusiranje',
-  '/proizvodi/sanitarije',
-  '/blog',
-]
-
-const LANGUAGE_PREFIXES = ['', '/slo', '/rs']
-
-const ROUTES = LANGUAGE_PREFIXES.flatMap((prefix) =>
-  BASE_ROUTES.map((route) => {
-    if (!prefix) return route
-    if (route === '/') return prefix
-    return `${prefix}${route}`.replace(/\/{2,}/g, '/')
-  })
-)
+const ROUTES = buildLocalizedRoutes()
 
 const routeToOutputFile = (route) => {
   if (route === '/') return path.join(DIST_DIR, 'index.html')

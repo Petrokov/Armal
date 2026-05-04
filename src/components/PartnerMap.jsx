@@ -23,9 +23,23 @@ const PartnerMap = ({
   const infoWindowsRef = useRef([])
   const markerByIdRef = useRef(new Map())
   const infoWindowByIdRef = useRef(new Map())
-  const [scriptLoaded, setScriptLoaded] = useState(false)
+  const selectedPartnerIdRef = useRef(selectedPartnerId)
+  const onPartnerSelectRef = useRef(onPartnerSelect)
+  const [scriptLoaded, setScriptLoaded] = useState(() => !!window.google?.maps)
   const [loadError, setLoadError] = useState(null)
   const [mapReady, setMapReady] = useState(false)
+  const rawApiKey = apiKey || import.meta.env.VITE_GOOGLE_MAPS_API_KEY
+  const googleMapsApiKey = typeof rawApiKey === 'string' ? rawApiKey.trim() : ''
+  const missingApiKeyError =
+    'Google Maps API ključ nije postavljen. U rootu projekta napravi datoteku .env s redom: VITE_GOOGLE_MAPS_API_KEY=tvoj_kljuc'
+
+  useEffect(() => {
+    selectedPartnerIdRef.current = selectedPartnerId
+  }, [selectedPartnerId])
+
+  useEffect(() => {
+    onPartnerSelectRef.current = onPartnerSelect
+  }, [onPartnerSelect])
 
   useEffect(() => {
     onDebugChange?.({
@@ -40,16 +54,8 @@ const PartnerMap = ({
 
   // Učitavanje Google Maps skripte (callback da znamo kad je API stvarno spreman)
   useEffect(() => {
-    const rawKey = apiKey || import.meta.env.VITE_GOOGLE_MAPS_API_KEY
-    const key = typeof rawKey === 'string' ? rawKey.trim() : ''
-    if (!key) {
-      setLoadError(
-        'Google Maps API ključ nije postavljen. U rootu projekta napravi datoteku .env s redom: VITE_GOOGLE_MAPS_API_KEY=tvoj_kljuc'
-      )
-      return
-    }
+    if (!googleMapsApiKey) return
     if (window.google?.maps) {
-      setScriptLoaded(true)
       return
     }
     const callbackName = '__armalPartnerMapInit'
@@ -81,7 +87,7 @@ const PartnerMap = ({
       }
     }, 12000)
     const script = document.createElement('script')
-    script.src = `https://maps.googleapis.com/maps/api/js?key=${encodeURIComponent(key)}&callback=${callbackName}&loading=async`
+    script.src = `https://maps.googleapis.com/maps/api/js?key=${encodeURIComponent(googleMapsApiKey)}&callback=${callbackName}&loading=async`
     script.async = true
     script.defer = true
     script.onerror = () => {
@@ -94,14 +100,11 @@ const PartnerMap = ({
       if (timeoutId) clearTimeout(timeoutId)
       window[callbackName] = safeNoop
     }
-  }, [apiKey])
+  }, [googleMapsApiKey])
 
   // Inicijalizacija mape i markera nakon učitavanja skripte
   useEffect(() => {
     if (!scriptLoaded || !mapRef.current || !window.google?.maps || !partnerLocations?.length) return
-
-    setMapReady(false)
-    setLoadError(null)
 
     let map
     try {
@@ -117,13 +120,14 @@ const PartnerMap = ({
       mapInstanceRef.current = map
       window.google.maps.event.addListenerOnce(map, 'idle', () => setMapReady(true))
     } catch (error) {
-      setLoadError(
-        `Google mapa se nije inicijalizirala. ${
-          error instanceof Error ? error.message : 'Provjeri API restrikcije i billing u Google Cloud.'
-        }`
-      )
+      const initError = `Google mapa se nije inicijalizirala. ${
+        error instanceof Error ? error.message : 'Provjeri API restrikcije i billing u Google Cloud.'
+      }`
       mapInstanceRef.current = null
-      setMapReady(false)
+      setTimeout(() => {
+        setLoadError(initError)
+        setMapReady(false)
+      }, 0)
       return
     }
 
@@ -154,7 +158,7 @@ const PartnerMap = ({
       marker.addListener('click', () => {
         infoWindows.forEach((iw) => iw.close())
         infoWindow.open(map, marker)
-        onPartnerSelect?.(partnerId)
+        onPartnerSelectRef.current?.(partnerId)
       })
     })
 
@@ -167,9 +171,9 @@ const PartnerMap = ({
     }
 
     // Ako je selected partner još uvijek u ovom skupu rezultata, odmah prikaži info.
-    if (selectedPartnerId) {
-      const marker = markerById.get(selectedPartnerId)
-      const infoWindow = infoWindowById.get(selectedPartnerId)
+    if (selectedPartnerIdRef.current) {
+      const marker = markerById.get(selectedPartnerIdRef.current)
+      const infoWindow = infoWindowById.get(selectedPartnerIdRef.current)
       if (marker && infoWindow) {
         infoWindows.forEach((iw) => iw.close())
         infoWindow.open(map, marker)
@@ -211,13 +215,15 @@ const PartnerMap = ({
     map.setZoom(14)
   }, [scriptLoaded, selectedPartnerId])
 
-  if (loadError) {
+  const renderedLoadError = loadError || (!googleMapsApiKey ? missingApiKeyError : null)
+
+  if (renderedLoadError) {
     return (
       <div
         className={`flex items-center justify-center rounded-2xl bg-slate-100 text-slate-600 ${className} ${heightClassName}`}
         style={{ width: '100%' }}
       >
-        <p className="px-4 text-center text-sm">{loadError}</p>
+        <p className="px-4 text-center text-sm">{renderedLoadError}</p>
       </div>
     )
   }
@@ -281,4 +287,3 @@ function buildPartnerInfoWindowHtml(partner, t) {
 }
 
 export default PartnerMap
-export { partnerLocationsData as defaultPartnerLocations }

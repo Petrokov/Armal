@@ -330,6 +330,9 @@
         "showerSet": "Mešalica za tuš"
       },
       "waterMixersOverrides": {
+        "rubi": {
+          "builtInShower": "Ugradni tuš"
+        },
         "ana": {
           "bathtub": "kada",
           "builtInMixer": "mešalica",

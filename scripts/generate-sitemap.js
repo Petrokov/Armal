@@ -1,25 +1,12 @@
 import fs from 'fs'
 import path from 'path'
+import { buildLocalizedRoutes } from './seo-routes.js'
 
 const ROOT_DIR = process.cwd()
 const PUBLIC_DIR = path.join(ROOT_DIR, 'public')
 const OUTPUT_PATH = path.join(PUBLIC_DIR, 'sitemap.xml')
 const FALLBACK_BASE_URL = 'https://www.armal.hr'
 const PRODUCTION_HOSTS = new Set(['armal.hr', 'www.armal.hr'])
-
-const INDEXABLE_PATHS = [
-  '/',
-  '/o-nama',
-  '/servis',
-  '/katalozi',
-  '/proizvodi',
-  '/proizvodi/slavine',
-  '/proizvodi/kupanje-tusiranje',
-  '/proizvodi/sanitarije',
-  '/blog',
-]
-
-const LANGUAGE_PREFIXES = ['', '/slo', '/rs']
 
 const resolveBaseUrl = () => {
   const raw = (process.env.VITE_PUBLIC_SITE_URL || '').trim()
@@ -34,20 +21,6 @@ const resolveBaseUrl = () => {
     return FALLBACK_BASE_URL
   }
 }
-
-const normalizePath = (value) => {
-  const next = `${value}`.replace(/\/{2,}/g, '/')
-  return next === '' ? '/' : next
-}
-
-const buildLocalizedPaths = () =>
-  LANGUAGE_PREFIXES.flatMap((prefix) =>
-    INDEXABLE_PATHS.map((basePath) => {
-      if (prefix === '') return basePath
-      if (basePath === '/') return prefix
-      return normalizePath(`${prefix}${basePath}`)
-    })
-  )
 
 const buildSitemapXml = (baseUrl, paths) => {
   const today = new Date().toISOString().slice(0, 10)
@@ -76,7 +49,7 @@ const buildSitemapXml = (baseUrl, paths) => {
 
 const run = () => {
   const baseUrl = resolveBaseUrl()
-  const localizedPaths = buildLocalizedPaths()
+  const localizedPaths = buildLocalizedRoutes()
   const uniquePaths = Array.from(new Set(localizedPaths))
   const xml = buildSitemapXml(baseUrl, uniquePaths)
 

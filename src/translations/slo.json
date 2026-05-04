@@ -330,6 +330,9 @@
         "showerSet": "Mešalnik za tuš"
       },
       "waterMixersOverrides": {
+        "rubi": {
+          "builtInShower": "Vgradna prha"
+        },
         "ana": {
           "bathtub": "kad",
           "builtInMixer": "mešalnik",
