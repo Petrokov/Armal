@@ -32,6 +32,7 @@ const ProizvodiSlavine = () => {
   const [lightbox, setLightbox] = useState(null) // { images: string[], index: number } | null
   const [activeImageIndexes, setActiveImageIndexes] = useState({}) // po kolekciji: { [key]: index }
   const [colorFilters, setColorFilters] = useState({}) // po kolekciji: { [key]: colorKey }
+  const [categoryFilters, setCategoryFilters] = useState({}) // po kolekciji: { [key]: waterMixerKey }
   const [renderFullGalleryByCollection, setRenderFullGalleryByCollection] = useState(() => ({ rubi: true }))
 
   // Uvijek ostani na hero sekciji (vrh stranice) nakon mount-a, refresh-a ili vraćanja pozicije.
@@ -219,9 +220,65 @@ const ProizvodiSlavine = () => {
                     })()
                   : baseImages
 
-              // 2) Kategorije: Lapis koristi isti model kao Rubi/Safir (klik samo postavlja aktivni index).
-              // Zato nema dodatnog filtriranja images array po kategoriji.
-              const imagesForGallery = colorFilteredImages
+              // 2) Kategorije (bidet/kada/tuš...) - klik sužava images array za odabranu kategoriju.
+              const selectedCategoryKey = categoryFilters[collection.key] ?? ''
+              const filenameMap =
+                categoryFilenameMapByCollection[collection.key] || categoryFilenameMapByCollection.rubi
+              let targetFilename = selectedCategoryKey ? filenameMap?.[selectedCategoryKey] : null
+
+              // Lapis ima specifične varijante koje zavise o odabranom colorFilteru.
+              if (collection.key === 'lapis' && selectedCategoryKey) {
+                if (selectedCategoryKey === 'builtInShower') {
+                  targetFilename =
+                    !colorFilter || colorFilter === 'bronze'
+                      ? 'ugradbeni-tus-bronca.webp'
+                      : 'ugradbeni-tus-crna.webp'
+                }
+                if (selectedCategoryKey === 'builtInMixer') {
+                  targetFilename =
+                    !colorFilter || colorFilter === 'bronze'
+                      ? 'mješalica-bronca.webp'
+                      : 'mješalica-crna.webp'
+                }
+              }
+
+              const imagesForGallery = targetFilename
+                ? (() => {
+                    const needsDecode =
+                      collection.key === 'lapis' || collection.key === 'start' || collection.key === 'ana'
+
+                    // `categoryFilenameMapByCollection` često drži "referentnu" datoteku (npr. `bide-1.webp`)
+                    // pa `src.includes(targetFilename)` suzuje previše (dobiješ samo jednu sliku).
+                    // Zato iz `targetFilename` izvučemo stabilni prefix (npr. `bide-`) i filtriramo sve varijante.
+                    const categoryMatchToken = (() => {
+                      if (typeof targetFilename !== 'string') return targetFilename
+                      if (targetFilename.includes('/')) return targetFilename
+
+                      const noExt = targetFilename.replace(/\.(webp|png|jpg|jpeg)$/i, '')
+                      // Ukloni završni broj ako postoji (npr. `bide-1` -> `bide-`)
+                      const withoutIndex = noExt.replace(/\d+$/i, '')
+                      // Ukloni završni finish/color suffix kad je referentna datoteka previše specifična
+                      // (npr. `tus-slavina-crna` -> `tus-slavina-`, `visoka-krom` -> `visoka-`)
+                      const withoutFinish = withoutIndex.replace(
+                        /-(crna|black|krom|chrome|gunmetal|gun-metal|zlatna|gold|brushgold|bronca|bronze|brushednickel|nikl)$/i,
+                        '-'
+                      )
+                      return withoutFinish || withoutIndex || noExt
+                    })()
+
+                    const filtered = colorFilteredImages.filter((src) => {
+                      if (typeof src !== 'string') return false
+                      if (!needsDecode) return src.includes(categoryMatchToken)
+                      try {
+                        return decodeURIComponent(src).includes(categoryMatchToken)
+                      } catch {
+                        return src.includes(categoryMatchToken)
+                      }
+                    })
+
+                    return filtered.length ? filtered : colorFilteredImages
+                  })()
+                : colorFilteredImages
 
               if (
                 collection.key === 'rubi' ||
@@ -371,6 +428,9 @@ const ProizvodiSlavine = () => {
                                 type="button"
                                 onClick={() => {
                                   setColorFilters((prev) => ({ ...prev, [collection.key]: '' }))
+                                  // Reset cijelog galerijskog stanja za tu kolekciju:
+                                  // korisnik očekuje da se vrati na "početno" (bez odabrane kategorije).
+                                  setCategoryFilters((prev) => ({ ...prev, [collection.key]: '' }))
                                   setActiveImageIndexes((prev) => ({ ...prev, [collection.key]: 0 }))
                                 }}
                                 className="inline-flex items-center rounded-full border border-slate-300 bg-white px-4 py-2.5 text-xs font-semibold text-slate-700 shadow-sm transition-colors hover:border-[#0070CD] hover:text-[#0070CD]"
@@ -379,6 +439,19 @@ const ProizvodiSlavine = () => {
                               </button>
                             </div>
                           </div>
+                        )}
+
+                        {['jana', 'ana', 'start'].includes(collection.key) && (
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setCategoryFilters((prev) => ({ ...prev, [collection.key]: '' }))
+                              setActiveImageIndexes((prev) => ({ ...prev, [collection.key]: 0 }))
+                            }}
+                            className="inline-flex w-fit items-center rounded-full border border-slate-300 bg-white px-4 py-2.5 text-xs font-semibold text-slate-700 shadow-sm transition-colors hover:border-[#0070CD] hover:text-[#0070CD]"
+                          >
+                            {t('faucetsPage.ui.reset')}
+                          </button>
                         )}
                       </div>
 
@@ -405,47 +478,9 @@ const ProizvodiSlavine = () => {
                                 key={key}
                                 type="button"
                                 onClick={() => {
-                                  // Rubi/Safir/Lapis: postojeće ponašanje – skok na reprezentativnu sliku
-                                  const filenameMap = categoryFilenameMapByCollection[collection.key]
-                                  let targetFilename = filenameMap?.[key]
-
-                                  // Lapis: veži točno tražene varijante slika po kategoriji
-                                  // (imagesForGallery je već filtriran po boji preko colorFilteredImages).
-                                  if (collection.key === 'lapis') {
-                                    if (key === 'builtInShower') {
-                                      // Default ("" bez odabira) tretiramo kao broncu kako bi prikaz bio dosljedan
-                                      targetFilename =
-                                        !colorFilter || colorFilter === 'bronze'
-                                          ? 'ugradbeni-tus-bronca.webp'
-                                          : 'ugradbeni-tus-crna.webp'
-                                    }
-                                    if (key === 'builtInMixer') {
-                                      targetFilename =
-                                        !colorFilter || colorFilter === 'bronze'
-                                          ? 'mješalica-bronca.webp'
-                                          : 'mješalica-crna.webp'
-                                    }
-                                  }
-
-                                  const images = imagesForGallery
-                                  const targetIndex =
-                                    targetFilename != null
-                                      ? images.findIndex((src) => {
-                                          if (typeof src !== 'string') return false
-                                          // Lapis nazivi s dijakritikima mogu biti URL-encoded u Vite bundlu.
-                                          // Zato dekodiramo samo za Lapis da provjera includes uvijek radi.
-                                          const needsDecode =
-                                            collection.key === 'lapis' || collection.key === 'start' || collection.key === 'ana'
-                                          if (!needsDecode) return src.includes(targetFilename)
-                                          try {
-                                            return decodeURIComponent(src).includes(targetFilename)
-                                          } catch {
-                                            return src.includes(targetFilename)
-                                          }
-                                        })
-                                      : -1
-                                  const indexToOpen = targetIndex >= 0 ? targetIndex : 0
-                                  setActiveImageIndexes((prev) => ({ ...prev, [collection.key]: indexToOpen }))
+                                  // Kategorija sužava images array za taj galerijski set.
+                                  setCategoryFilters((prev) => ({ ...prev, [collection.key]: key }))
+                                  setActiveImageIndexes((prev) => ({ ...prev, [collection.key]: 0 }))
                                 }}
                                 className="inline-flex items-center rounded-full border border-slate-200 bg-white px-3 py-1 text-xs font-medium text-slate-700 shadow-sm transition hover:border-[#0070CD] hover:bg-slate-50 hover:text-[#0070CD]"
                               >
@@ -601,6 +636,9 @@ const ProizvodiSlavine = () => {
                             type="button"
                             onClick={() => {
                               setColorFilters((prev) => ({ ...prev, [collection.key]: '' }))
+                              // Reset cijelog galerijskog stanja za tu kolekciju:
+                              // korisnik očekuje da se vrati na "početno" (bez odabrane kategorije).
+                              setCategoryFilters((prev) => ({ ...prev, [collection.key]: '' }))
                               setActiveImageIndexes((prev) => ({ ...prev, [collection.key]: 0 }))
                             }}
                             className="inline-flex items-center rounded-full border border-slate-300 bg-white px-4 py-2.5 text-xs font-semibold text-slate-700 shadow-sm transition-colors hover:border-[#0070CD] hover:text-[#0070CD]"
@@ -625,20 +663,14 @@ const ProizvodiSlavine = () => {
                               key={key}
                               type="button"
                               onClick={() => {
-                                const filenameMap =
-                                  categoryFilenameMapByCollection[collection.key] ||
-                                  categoryFilenameMapByCollection.rubi
-                                const targetFilename = filenameMap[key]
-                                const images = imagesForGallery
-                                const targetIndex = images.findIndex((src) =>
-                                  typeof src === 'string' && src.includes(targetFilename)
-                                )
-                                const indexToOpen = targetIndex >= 0 ? targetIndex : 0
-
-                                setActiveImageIndexes((prev) => ({
-                                  ...prev,
-                                  [collection.key]: indexToOpen,
-                                }))
+                                  setCategoryFilters((prev) => ({
+                                    ...prev,
+                                    [collection.key]: key,
+                                  }))
+                                  setActiveImageIndexes((prev) => ({
+                                    ...prev,
+                                    [collection.key]: 0,
+                                  }))
                               }}
                               className="inline-flex items-center rounded-full border border-slate-200 bg-white px-3 py-1 text-xs font-medium text-slate-700 shadow-sm transition hover:border-[#0070CD] hover:text-[#0070CD]"
                             >
@@ -820,4 +852,3 @@ const ProizvodiSlavine = () => {
 }
 
 export default ProizvodiSlavine
-
