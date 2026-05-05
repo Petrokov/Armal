@@ -12,6 +12,7 @@ import ProizvodiKupanjeTusiranje from './pages/ProizvodiKupanjeTusiranje'
 import ProizvodiSanitarije from './pages/ProizvodiSanitarije'
 import BlogPage from './pages/BlogPage'
 import BlogPostPage from './pages/BlogPostPage'
+import LegalPage from './pages/LegalPage'
 
 const routeConfig = [
   { path: '/', element: <LandingPage /> },
@@ -25,6 +26,9 @@ const routeConfig = [
   { path: '/proizvodi/sanitarije', element: <ProizvodiSanitarije /> },
   { path: '/blog', element: <BlogPage /> },
   { path: '/blog/:id', element: <BlogPostPage /> },
+  { path: '/privacy-policy', element: <LegalPage type="privacy-policy" /> },
+  { path: '/terms-of-service', element: <LegalPage type="terms-of-service" /> },
+  { path: '/cookie-policy', element: <LegalPage type="cookie-policy" /> },
 ]
 
 const renderRouteSet = (prefix = '') => (

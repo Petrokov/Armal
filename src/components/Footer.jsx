@@ -17,9 +17,9 @@ const Footer = () => {
 
   // Legal linkovi
   const legalLinks = [
-    { key: 'privacy', path: '#privacy' },
-    { key: 'terms', path: '#terms' },
-    { key: 'cookies', path: '#cookies' },
+    { key: 'privacy', path: '/privacy-policy' },
+    { key: 'terms', path: '/terms-of-service' },
+    { key: 'cookies', path: '/cookie-policy' },
   ]
 
   // Usluge linkovi
@@ -167,13 +167,13 @@ const Footer = () => {
                 </h3>
                 <nav className="flex flex-col space-y-2">
                   {legalLinks.map((link) => (
-                    <a
+                    <Link
                       key={link.key}
-                      href={link.path}
+                      to={localizePath(link.path)}
                       className="text-sm text-slate-600 transition-colors hover:text-[#0070CD]"
                     >
                       {t(`footer.${link.key}`)}
-                    </a>
+                    </Link>
                   ))}
                 </nav>
               </div>

@@ -8,6 +8,9 @@ export const BASE_ROUTES = [
   '/proizvodi/kupanje-tusiranje',
   '/proizvodi/sanitarije',
   '/blog',
+  '/privacy-policy',
+  '/terms-of-service',
+  '/cookie-policy',
 ]
 
 export const FAUCET_COLLECTION_SLUGS = [

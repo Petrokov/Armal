@@ -242,11 +242,11 @@
     "uid": "UID",
     "uidValue": "HR02300129401",
     "linksTitle": "Linkovi",
-    "legalTitle": "Legal",
-    "privacy": "Privacy Policy",
-    "terms": "Terms of Service",
-    "cookies": "Cookie Policy",
-    "copyright": "© 2025 Armal. All rights reserved."
+    "legalTitle": "Pravno",
+    "privacy": "Politika privatnosti",
+    "terms": "Uvjeti korištenja",
+    "cookies": "Politika kolačića",
+    "copyright": "© 2026 Armal. Sva prava pridržana."
   },
   "aboutPage": {
     "heroTitle": "Naša priča",
