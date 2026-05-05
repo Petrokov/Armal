@@ -5,7 +5,7 @@ import puppeteer from 'puppeteer'
 import { buildLocalizedRoutes } from './seo-routes.js'
 
 const DIST_DIR = path.resolve(process.cwd(), 'dist')
-const PORT = Number(process.env.PRERENDER_PORT || 4173)
+const PORT = Number(process.env.PRERENDER_PORT || 4174)
 const HOST = '127.0.0.1'
 
 const ROUTES = buildLocalizedRoutes()
