@@ -25,7 +25,10 @@ const PartnerMap = ({
   const infoWindowByIdRef = useRef(new Map())
   const selectedPartnerIdRef = useRef(selectedPartnerId)
   const onPartnerSelectRef = useRef(onPartnerSelect)
-  const [scriptLoaded, setScriptLoaded] = useState(() => !!window.google?.maps)
+  const isPrerenderBuild = typeof window !== 'undefined' && window.__ARMAL_PRERENDER__ === true
+  const [scriptLoaded, setScriptLoaded] = useState(
+    () => !isPrerenderBuild && typeof window !== 'undefined' && !!window.google?.maps
+  )
   const [loadError, setLoadError] = useState(null)
   const [mapReady, setMapReady] = useState(false)
   const rawApiKey = apiKey || import.meta.env.VITE_GOOGLE_MAPS_API_KEY
@@ -44,16 +47,17 @@ const PartnerMap = ({
   useEffect(() => {
     onDebugChange?.({
       scriptLoaded,
-      hasGoogle: !!window.google?.maps,
+      hasGoogle: !isPrerenderBuild && !!window.google?.maps,
       hasMapInstance: !!mapInstanceRef.current,
       mapReady,
       loadError: loadError || '',
       locationsCount: partnerLocations?.length || 0,
     })
-  }, [onDebugChange, scriptLoaded, loadError, partnerLocations, mapReady])
+  }, [onDebugChange, scriptLoaded, loadError, partnerLocations, mapReady, isPrerenderBuild])
 
   // Učitavanje Google Maps skripte (callback da znamo kad je API stvarno spreman)
   useEffect(() => {
+    if (isPrerenderBuild) return
     if (!googleMapsApiKey) return
     if (window.google?.maps) {
       return
@@ -100,7 +104,7 @@ const PartnerMap = ({
       if (timeoutId) clearTimeout(timeoutId)
       window[callbackName] = safeNoop
     }
-  }, [googleMapsApiKey])
+  }, [googleMapsApiKey, isPrerenderBuild])
 
   // Inicijalizacija mape i markera nakon učitavanja skripte
   useEffect(() => {

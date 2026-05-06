@@ -304,7 +304,7 @@ const LandingPage = () => {
     setPartnerQuery('')
     setDistanceKm('all')
     setSelectedPartnerId(null)
-  }, [])
+  }, [setPartnerCountry, setPartnerQuery, setDistanceKm, setSelectedPartnerId])
 
   const filteredPartners = useMemo(() => {
     const q = partnerQuery.trim().toLowerCase()
@@ -327,7 +327,15 @@ const LandingPage = () => {
       list = list.filter((p) => haversineKm(myCoords.lat, myCoords.lng, p.lat, p.lng) <= limit)
     }
 
-    // Petrokov poslovnice uvijek prikaži prve u rezultatima pretrage.
+    if (geoStatus === 'success' && myCoords) {
+      return [...list].sort((a, b) => {
+        const aDistance = haversineKm(myCoords.lat, myCoords.lng, a.lat, a.lng)
+        const bDistance = haversineKm(myCoords.lat, myCoords.lng, b.lat, b.lng)
+        return aDistance - bDistance
+      })
+    }
+
+    // Petrokov poslovnice prikaži prve dok lista nije sortirana po udaljenosti.
     return [...list].sort((a, b) => {
       const aIsPetrokov = (a.name || '').toLowerCase().includes('petrokov')
       const bIsPetrokov = (b.name || '').toLowerCase().includes('petrokov')
@@ -341,7 +349,9 @@ const LandingPage = () => {
   useEffect(() => {
     if (!selectedPartnerId) return
     const stillExists = filteredPartners.some((p) => p.id === selectedPartnerId)
-    if (!stillExists) setSelectedPartnerId(null)
+    if (!stillExists) {
+      setTimeout(() => setSelectedPartnerId(null), 0)
+    }
   }, [filteredPartners, selectedPartnerId])
 
   const hasMapsApiKey = !!(import.meta.env.VITE_GOOGLE_MAPS_API_KEY || '').trim()
@@ -421,7 +431,7 @@ const LandingPage = () => {
           </div>
 
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 lg:gap-7">
-            {categoryCards.map((card, index) => (
+            {categoryCards.map((card) => (
               <Link
                 key={card.key}
                 to={localizePath(card.to)}
