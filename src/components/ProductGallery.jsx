@@ -50,7 +50,7 @@ const ProductGallery = ({
   useEffect(() => {
     if (typeof activeIndexExternal !== 'number' || count <= 0) return
     const i = Math.max(0, Math.min(activeIndexExternal, count - 1))
-    setActiveIndex(i)
+    setTimeout(() => setActiveIndex(i), 0)
 
     // Spriječi automatsko pomicanje pri početnom mountu / refreshu.
     // To je najčešći razlog za “skok” stranice prema dolje.

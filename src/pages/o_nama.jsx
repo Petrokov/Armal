@@ -19,7 +19,7 @@ function useCountUp(target, active, durationMs = 1400) {
   const [value, setValue] = useState(0)
   useEffect(() => {
     if (!active) {
-      setValue(0)
+      setTimeout(() => setValue(0), 0)
       return
     }
     let rafId

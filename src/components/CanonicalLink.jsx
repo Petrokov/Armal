@@ -30,7 +30,7 @@ const CanonicalLink = () => {
     // Ažuriraj href s trenutnom rutom
     const canonicalUrl = `${baseUrl}${location.pathname}`
     canonicalLink.setAttribute('href', canonicalUrl)
-  }, [location.pathname])
+  }, [baseUrl, location.pathname])
 
   return null
 }

@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 /**
  * LanguageContext - Upravljanje multijezičnošću aplikacije
  * 
@@ -108,7 +109,9 @@ export const LanguageProvider = ({ children }) => {
   // Sinkronizacija jezika s URL putanjom (URL je autoritet).
   useEffect(() => {
     const fromUrl = getLanguageFromPathname(location.pathname)
-    setLanguage((prev) => (prev === fromUrl ? prev : fromUrl))
+    setTimeout(() => {
+      setLanguage((prev) => (prev === fromUrl ? prev : fromUrl))
+    }, 0)
   }, [location.pathname])
 
   // Spremi jezik u localStorage kada se promijeni

@@ -34,7 +34,7 @@ const proizvodiSlavineSeoLocale = {
         a: 'Najprije odaberite kolekciju i završnu obradu koju možete ponoviti na više točki u kupaonici. Time dobivate vizualno ujednačen prostor i jednostavnije planiranje kupnje.',
       },
       {
-        q: 'Koja je razlika između ugradbene i nadzidne mješalice?',
+        q: 'Koja je razlika između ugradbene i nadzidne miješalice?',
         a: 'Ugradbena rješenja skrivaju veći dio instalacije i daju čist izgled zida, dok su nadzidne varijante brže za ugradnju i servis. Odabir ovisi o projektu i fazi radova.',
       },
       {

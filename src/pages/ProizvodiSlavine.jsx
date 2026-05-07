@@ -648,7 +648,7 @@ const ProizvodiSlavine = () => {
                         </div>
                       </div>
                     )}
-                    {/* Sekcije pregleda mješalica (bidet, kada, tuš...) – za Rubi, Topaz i Opal */}
+                    {/* Sekcije pregleda miješalica (bidet, kada, tuš...) – za Rubi, Topaz i Opal */}
                     {['topaz', 'opal'].includes(collection.key) && (
                       <div className="mb-4 space-y-2">
                         <p className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">

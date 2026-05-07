@@ -219,7 +219,7 @@ const LandingPage = () => {
   const categoryCards = [
     {
       key: 'faucets',
-      eyebrowLabel: 'MJEŠALICE ZA VODU',
+      eyebrowLabel: 'MIJEŠALICE ZA VODU',
       titleKey: 'products.faucets',
       descriptionKey: 'products.faucetsDescription',
       to: '/proizvodi/slavine',

@@ -58,7 +58,7 @@ const Navbar = () => {
   }
 
   useEffect(() => {
-    closeSidebar()
+    setTimeout(() => closeSidebar(), 0)
   }, [location.pathname])
 
   useEffect(() => {

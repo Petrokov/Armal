@@ -15,12 +15,12 @@
     "skipToMainContent": "Preskoči na glavni sadržaj"
   },
   "products": {
-    "faucets": "Mješalice za vodu",
-    "faucetsHeroTitle": "Serije mješalica za svaku viziju kupaonice",
-    "faucetsIntroHeading": "Serije mješalica za svaku viziju kupaonice",
+    "faucets": "Miješalice za vodu",
+    "faucetsHeroTitle": "Serije miješalica za svaku viziju kupaonice",
+    "faucetsIntroHeading": "Serije miješalica za svaku viziju kupaonice",
     "faucetsIntroSubheading": "Od dizajnerskih ikona do tihih klasika – odaberite seriju koja najbolje prati vaš stil, funkcionalne potrebe i budžet.",
     "faucetsIntroBody": "Uz pregled po bojama i namjeni (umivaonik, kada, tuš, bide), svaka serija jasno prikazuje gdje dolazi do izražaja. Kombinirajte različite modele unutar iste linije i postignite dosljedan izgled cijele kupaonice, od prve skice do završnog detalja.",
-    "faucetsDescription": "Širok asortiman mješalica za kupaonicu i kuhinju",
+    "faucetsDescription": "Širok asortiman miješalica za kupaonicu i kuhinju",
     "bathing": "Kupanje + tuširanje",
     "bathingDescription": "Kade, tuš kabine, vrata i sve za kupanje",
     "sanitary": "Sanitarije",
@@ -255,7 +255,7 @@
     "storyEyebrow": "ARMAL / OD 1967.",
     "storyCaption": "Armal kroz vrijeme",
     "storyParagraph1": "Armalova priča započela je prije više od 59 godina, kada je brend postavio temelje svoje prepoznatljivosti na tržištu Adria regije. Kroz desetljeća dosljedne kvalitete i pouzdanosti izgradili smo snažan odnos s kupcima, partnerima i generacijama korisnika koji od kupaonice očekuju više od funkcije.",
-    "storyParagraph2": "Iz obiteljske poslovne tradicije razvili smo moderan i cjelovit brend koji danas objedinjuje mješalice, tuš programe, kupaonski namještaj, ogledala, galanteriju i drugu opremu.",
+    "storyParagraph2": "Iz obiteljske poslovne tradicije razvili smo moderan i cjelovit brend koji danas objedinjuje miješalice, tuš programe, kupaonski namještaj, ogledala, galanteriju i drugu opremu.",
     "storyParagraph3": "Gledamo unaprijed s jasnom ambicijom: širiti portfelj, jačati dizajnerski identitet i razvijati inovativna, održiva i dugotrajna rješenja za suvremeni životni prostor. Danas smo prisutni na više od 300 prodajnih mjesta u Hrvatskoj, Sloveniji i Bosni i Hercegovini, a sutra želimo biti još snažniji regionalni partner za cjelovito opremanje kupaonica.",
     "storyParagraph4": "Budućnost gradimo na temeljima tradicije uz kontinuirano unaprjeđenje znanja i iskustva.",
     "valuesTitle": "Naše vrijednosti",
@@ -321,13 +321,13 @@
       "bronze": "Bronze"
     },
     "sections": {
-      "waterMixersTitle": "Mješalice za vodu – primjena",
+      "waterMixersTitle": "Miješalice za vodu – primjena",
       "waterMixers": {
         "bidet": "Bidet",
-        "bathtub": "Mješalica za kadu",
-        "builtInMixer": "Ugradbena mješalica",
-        "builtInShower": "Stojeća mješalica",
-        "showerSet": "Mješalica za tuš"
+        "bathtub": "Miješalica za kadu",
+        "builtInMixer": "Ugradbena miješalica",
+        "builtInShower": "Stojeća miješalica",
+        "showerSet": "Miješalica za tuš"
       },
       "waterMixersOverrides": {
         "rubi": {
@@ -335,34 +335,34 @@
         },
         "ana": {
           "bathtub": "kada",
-          "builtInMixer": "mješalica",
-          "showerSet": "mješalica za tuš"
+          "builtInMixer": "miješalica",
+          "showerSet": "miješalica za tuš"
         },
         "start": {
           "bidet": "Bidet",
           "bathtub": "kada",
-          "builtInMixer": "mješalica",
-          "showerSet": "mješalica za tuš"
+          "builtInMixer": "miješalica",
+          "showerSet": "miješalica za tuš"
         },
         "jana": {
           "bidet": "Bidet",
           "bathtub": "kada",
-          "builtInMixer": "mješalica",
-          "builtInShower": "mješalica za tuš",
+          "builtInMixer": "miješalica",
+          "builtInShower": "miješalica za tuš",
           "showerSet": "tuš set"
         },
         "violet": {
           "bidet": "Bidet",
           "bathtub": "Kada",
-          "builtInMixer": "Mješalica",
-          "showerSet": "Mješalica za tuš"
+          "builtInMixer": "Miješalica",
+          "showerSet": "Miješalica za tuš"
         },
         "lapis": {
-          "builtInMixer": "Stojeća mješalica",
-          "builtInShower": "Ugradbena mješalica za tuš"
+          "builtInMixer": "Stojeća miješalica",
+          "builtInShower": "Ugradbena miješalica za tuš"
         },
         "beril": {
-          "builtInShower": "Ugradbena mješalica tuša"
+          "builtInShower": "Ugradbena miješalica tuša"
         }
       }
     }

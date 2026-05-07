@@ -127,7 +127,7 @@ const ProizvodSlavinaDetalj = () => {
     return filtered.length ? filtered : baseImages
   }, [collection, baseImages, colorFilter])
 
-  // Mapiranje tipova mješalica na indeks slike u TRENUTNOJ galeriji (respektira filter boje)
+  // Mapiranje tipova miješalica na indeks slike u TRENUTNOJ galeriji (respektira filter boje)
   const waterMixerImageMap = useMemo(() => {
     // samo za Rubi koristimo precizno mapiranje po imenu datoteke
     if (collection?.key === 'rubi') {
@@ -222,7 +222,7 @@ const ProizvodSlavinaDetalj = () => {
                   {t(`collections.${collection.key}.description`)}
                 </p>
 
-                {/* Sekcije proizvoda – mješalice za vodu */}
+                {/* Sekcije proizvoda – miješalice za vodu */}
                 <div className="mt-4 space-y-3">
                   <h2 className="text-sm font-semibold uppercase tracking-[0.18em] text-slate-500">
                     {t('faucetsPage.sections.waterMixersTitle')}
@@ -358,11 +358,11 @@ const ProizvodSlavinaDetalj = () => {
                     {t('faucetsPage.variantInfoPlaceholder') ?? 'Odaberite kratki opis'}
                   </option>
                   <option value="washbasin">
-                    {t('faucetsPage.variantWashbasin') ?? 'Mješalica za umivaonik'}
+                    {t('faucetsPage.variantWashbasin') ?? 'Miješalica za umivaonik'}
                   </option>
-                  <option value="bidet">{t('faucetsPage.variantBidet') ?? 'Mješalica za bide'}</option>
-                  <option value="bathtub">{t('faucetsPage.variantBathtub') ?? 'Mješalica za kadu / tuš'}</option>
-                  <option value="builtIn">{t('faucetsPage.variantBuiltIn') ?? 'Ugradbena mješalica'}</option>
+                  <option value="bidet">{t('faucetsPage.variantBidet') ?? 'Miješalica za bide'}</option>
+                  <option value="bathtub">{t('faucetsPage.variantBathtub') ?? 'Miješalica za kadu / tuš'}</option>
+                  <option value="builtIn">{t('faucetsPage.variantBuiltIn') ?? 'Ugradbena miješalica'}</option>
                   <option value="showerSet">{t('faucetsPage.variantShowerSet') ?? 'Tuš set / sistem'}</option>
                 </select>
               </div>

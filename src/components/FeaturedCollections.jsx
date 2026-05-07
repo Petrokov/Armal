@@ -20,9 +20,9 @@ const FeaturedCollections = () => {
       id: 2,
       image: 'https://via.placeholder.com/400x300/2D3748/FFFFFF?text=SPINEL',
       category: 'kitchen-faucets',
-      name: 'SPINEL MJEŠALICA',
+      name: 'SPINEL MIJEŠALICA',
       description:
-        'Mješalica za sudoper sa izvlačnom glavom tuša. Moderni dizajn koji kombinira praktičnost i stil za vašu kuhinju.',
+        'Miješalica za sudoper sa izvlačnom glavom tuša. Moderni dizajn koji kombinira praktičnost i stil za vašu kuhinju.',
     },
     {
       id: 3,
@@ -78,7 +78,7 @@ const FeaturedCollections = () => {
 
   // Resetiraj currentIndex kada se promijeni itemsPerPage
   useEffect(() => {
-    setCurrentIndex(0)
+    setTimeout(() => setCurrentIndex(0), 0)
   }, [itemsPerPage])
 
   const totalPages = Math.ceil(collections.length / itemsPerPage)
@@ -269,4 +269,3 @@ const ArrowRightIcon = () => (
 )
 
 export default FeaturedCollections
-
