@@ -192,16 +192,25 @@ const upload = multer({
 app.use(cors({ origin: corsOrigin }))
 app.use(express.json())
 
-// POST /api/servis – prima formu (name, phone, message, image)
+// POST /api/servis – prima formu (name, phone, address, message, image)
 app.post('/api/servis', requireAllowedServiceOrigin, serviceRateLimit, upload.single('image'), async (req, res) => {
   try {
-    const { name, email, phone, message } = req.body || {}
+    const { name, email, phone, street, houseNumber, city, postalCode, country, message } = req.body || {}
     const file = req.file
 
-    if (!name?.trim() || !email?.trim() || !phone?.trim()) {
+    if (
+      !name?.trim() ||
+      !email?.trim() ||
+      !phone?.trim() ||
+      !street?.trim() ||
+      !houseNumber?.trim() ||
+      !city?.trim() ||
+      !postalCode?.trim() ||
+      !country?.trim()
+    ) {
       return res.status(400).json({
         success: false,
-        error: 'Ime, email i telefon su obavezni.',
+        error: 'Ime, email, telefon i adresa su obavezni.',
       })
     }
 
@@ -218,6 +227,14 @@ app.post('/api/servis', requireAllowedServiceOrigin, serviceRateLimit, upload.si
       `Ime i prezime: ${name}`,
       `Email: ${email}`,
       `Telefon: ${phone}`,
+      '',
+      'Adresa:',
+      `Ulica: ${street}`,
+      `Broj: ${houseNumber}`,
+      `Mjesto: ${city}`,
+      `Postanski broj: ${postalCode}`,
+      `Drzava: ${country}`,
+      '',
       message ? `Poruka: ${message}` : '',
     ]
       .filter(Boolean)

@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useLanguage } from '../contexts/LanguageContext'
-import { Phone, Mail, User, MessageSquare, Image as ImageIcon, FileText } from 'lucide-react'
+import { Phone, Mail, User, MessageSquare, Image as ImageIcon, FileText, MapPin } from 'lucide-react'
 import servisHeroImage from '../assets/armal-auti.webp'
 import SEOHead from '../components/SEOHead'
 import { getSeoData, SEO_ROUTE_KEYS } from '../seo/seoConfig'
@@ -15,6 +15,11 @@ const ServisPage = () => {
     name: '',
     email: '',
     phone: '',
+    street: '',
+    houseNumber: '',
+    city: '',
+    postalCode: '',
+    country: '',
     message: '',
     image: null,
   })
@@ -30,6 +35,11 @@ const ServisPage = () => {
       data.append('name', formData.name)
       data.append('email', formData.email)
       data.append('phone', formData.phone)
+      data.append('street', formData.street)
+      data.append('houseNumber', formData.houseNumber)
+      data.append('city', formData.city)
+      data.append('postalCode', formData.postalCode)
+      data.append('country', formData.country)
       data.append('message', formData.message || '')
       if (formData.image) data.append('image', formData.image)
 
@@ -43,7 +53,18 @@ const ServisPage = () => {
       if (!res.ok) {
         throw new Error(json.error || 'Slanje nije uspjelo.')
       }
-      setFormData({ name: '', email: '', phone: '', message: '', image: null })
+      setFormData({
+        name: '',
+        email: '',
+        phone: '',
+        street: '',
+        houseNumber: '',
+        city: '',
+        postalCode: '',
+        country: '',
+        message: '',
+        image: null,
+      })
       alert(t('servisPage.submitSuccess'))
     } catch (err) {
       const msg = err.message || ''
@@ -95,7 +116,7 @@ const ServisPage = () => {
       <section className="mx-auto max-w-7xl px-6 py-16">
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
           {/* Forma */}
-          <div className="rounded-2xl bg-white p-8 shadow-lg">
+          <div className="flex h-full flex-col rounded-2xl bg-white p-8 shadow-lg">
             <div className="mb-6 flex items-center gap-3">
               <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#0070CD]/10">
                 <FileText className="h-6 w-6 text-[#0070CD]" />
@@ -165,6 +186,88 @@ const ServisPage = () => {
                   />
                 </div>
               </div>
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+                <div className="sm:col-span-2">
+                  <label htmlFor="street" className="mb-2 block text-sm font-medium text-slate-700">
+                    {t('servisPage.streetLabel')} <span className="text-red-500">*</span>
+                  </label>
+                  <div className="relative">
+                    <MapPin className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-400" />
+                    <input
+                      type="text"
+                      id="street"
+                      name="street"
+                      value={formData.street}
+                      onChange={handleChange}
+                      required
+                      className="w-full rounded-lg border border-slate-300 bg-white py-3 pl-10 pr-4 text-slate-900 placeholder-slate-400 focus:border-[#0070CD] focus:outline-none focus:ring-2 focus:ring-[#0070CD]/20"
+                      placeholder={t('servisPage.streetPlaceholder')}
+                    />
+                  </div>
+                </div>
+                <div>
+                  <label htmlFor="houseNumber" className="mb-2 block text-sm font-medium text-slate-700">
+                    {t('servisPage.houseNumberLabel')} <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    id="houseNumber"
+                    name="houseNumber"
+                    value={formData.houseNumber}
+                    onChange={handleChange}
+                    required
+                    className="w-full rounded-lg border border-slate-300 bg-white px-4 py-3 text-slate-900 placeholder-slate-400 focus:border-[#0070CD] focus:outline-none focus:ring-2 focus:ring-[#0070CD]/20"
+                    placeholder={t('servisPage.houseNumberPlaceholder')}
+                  />
+                </div>
+              </div>
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+                <div>
+                  <label htmlFor="postalCode" className="mb-2 block text-sm font-medium text-slate-700">
+                    {t('servisPage.postalCodeLabel')} <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    id="postalCode"
+                    name="postalCode"
+                    value={formData.postalCode}
+                    onChange={handleChange}
+                    required
+                    className="w-full rounded-lg border border-slate-300 bg-white px-4 py-3 text-slate-900 placeholder-slate-400 focus:border-[#0070CD] focus:outline-none focus:ring-2 focus:ring-[#0070CD]/20"
+                    placeholder={t('servisPage.postalCodePlaceholder')}
+                  />
+                </div>
+                <div className="sm:col-span-2">
+                  <label htmlFor="city" className="mb-2 block text-sm font-medium text-slate-700">
+                    {t('servisPage.cityLabel')} <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    id="city"
+                    name="city"
+                    value={formData.city}
+                    onChange={handleChange}
+                    required
+                    className="w-full rounded-lg border border-slate-300 bg-white px-4 py-3 text-slate-900 placeholder-slate-400 focus:border-[#0070CD] focus:outline-none focus:ring-2 focus:ring-[#0070CD]/20"
+                    placeholder={t('servisPage.cityPlaceholder')}
+                  />
+                </div>
+              </div>
+              <div>
+                <label htmlFor="country" className="mb-2 block text-sm font-medium text-slate-700">
+                  {t('servisPage.countryLabel')} <span className="text-red-500">*</span>
+                </label>
+                <input
+                  type="text"
+                  id="country"
+                  name="country"
+                  value={formData.country}
+                  onChange={handleChange}
+                  required
+                  className="w-full rounded-lg border border-slate-300 bg-white px-4 py-3 text-slate-900 placeholder-slate-400 focus:border-[#0070CD] focus:outline-none focus:ring-2 focus:ring-[#0070CD]/20"
+                  placeholder={t('servisPage.countryPlaceholder')}
+                />
+              </div>
               <div>
                 <label htmlFor="message" className="mb-2 block text-sm font-medium text-slate-700">
                   {t('servisPage.messageLabel')}
@@ -215,7 +318,7 @@ const ServisPage = () => {
           </div>
 
           {/* Kontakt za mail */}
-          <div className="rounded-2xl bg-white p-8 shadow-lg">
+          <div className="flex h-full flex-col rounded-2xl bg-white p-8 shadow-lg">
             <div className="mb-6 flex items-center gap-3">
               <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#0070CD]/10">
                 <Mail className="h-6 w-6 text-[#0070CD]" />
@@ -225,8 +328,8 @@ const ServisPage = () => {
             <p className="mb-6 text-slate-600">
               {t('servisPage.contactDescription')}
             </p>
-            <div className="space-y-6">
-              <div className="rounded-lg border border-slate-200 bg-slate-50 p-6">
+            <div className="grid flex-1 grid-rows-4 gap-6">
+              <div className="flex flex-col justify-center rounded-lg border border-slate-200 bg-slate-50 p-6">
                 <h3 className="mb-4 text-lg font-semibold text-slate-900">{t('servisPage.emailAddress')}</h3>
                 <a
                   href="mailto:info@armal.hr"
@@ -236,7 +339,7 @@ const ServisPage = () => {
                   <span className="text-lg font-medium">info@armal.hr</span>
                 </a>
               </div>
-              <div className="rounded-lg border border-slate-200 bg-slate-50 p-6">
+              <div className="flex flex-col justify-center rounded-lg border border-slate-200 bg-slate-50 p-6">
                 <h3 className="mb-4 text-lg font-semibold text-slate-900">{t('servisPage.servisEmailLabel')}</h3>
                 <a
                   href="mailto:servis@armal.hr"
@@ -246,7 +349,7 @@ const ServisPage = () => {
                   <span className="text-lg font-medium">servis@armal.hr</span>
                 </a>
               </div>
-              <div className="rounded-lg border border-slate-200 bg-slate-50 p-6">
+              <div className="flex flex-col justify-center rounded-lg border border-slate-200 bg-slate-50 p-6">
                 <h3 className="mb-4 text-lg font-semibold text-slate-900">{t('servisPage.phoneNumber')}</h3>
                 <a
                   href="tel:+385913375730"
@@ -256,7 +359,7 @@ const ServisPage = () => {
                   <span className="text-lg font-medium">+385 91 3375 730</span>
                 </a>
               </div>
-              <div className="rounded-lg border border-slate-200 bg-slate-50 p-6">
+              <div className="flex flex-col justify-center rounded-lg border border-slate-200 bg-slate-50 p-6">
                 <h3 className="mb-4 text-lg font-semibold text-slate-900">{t('servisPage.workingHours')}</h3>
                 <div className="space-y-2 text-slate-700">
                   <p className="flex justify-between">
