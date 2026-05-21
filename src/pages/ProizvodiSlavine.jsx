@@ -1,6 +1,6 @@
 import { useLanguage } from '../contexts/LanguageContext'
 import { useEffect, useRef, useState } from 'react'
-import { useLocation } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import kupaonicaImage from '../assets/kupaonica-zelena.webp'
 import ProductGallery from '../components/ProductGallery'
 import SEOHead from '../components/SEOHead'
@@ -509,6 +509,12 @@ const ProizvodiSlavine = () => {
                         >
                           {t('navbar.editHome')}
                         </a>
+                        <Link
+                          to={localizePath('/katalozi')}
+                          className="inline-flex items-center justify-center gap-2 rounded-lg border-2 border-[#0070CD] bg-white px-6 py-3 text-sm font-semibold text-[#0070CD] shadow-sm transition-colors hover:border-[#0070CD] hover:bg-[#0070CD] hover:text-white"
+                        >
+                          {t('faucetsPage.viewCatalogues')}
+                        </Link>
                       </div>
                     </div>
                   </div>
@@ -732,6 +738,12 @@ const ProizvodiSlavine = () => {
                         </svg>
                         {t('navbar.editHome')}
                       </a>
+                      <Link
+                        to={localizePath('/katalozi')}
+                        className="inline-flex items-center justify-center gap-2 rounded-lg border-2 border-[#0070CD] bg-white px-6 py-3 text-sm font-semibold text-[#0070CD] shadow-md transition-all duration-300 hover:scale-105 hover:border-[#0070CD] hover:bg-[#0070CD] hover:text-white hover:shadow-lg"
+                      >
+                        {t('faucetsPage.viewCatalogues')}
+                      </Link>
                     </div>
                   </div>
                 </div>

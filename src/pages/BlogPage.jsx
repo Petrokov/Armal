@@ -1,5 +1,6 @@
 import { useLanguage } from '../contexts/LanguageContext'
 import { Link, useLocation } from 'react-router-dom'
+import { useEffect, useState } from 'react'
 import blogHeroImage from '../assets/armal-blog.webp'
 import kupaonicaImage from '../assets/kupaonica-zelena.webp'
 import oNamaImage from '../assets/o_nama_kupaonica_2.png'
@@ -9,12 +10,14 @@ import SEOHead from '../components/SEOHead'
 import JsonLd from '../components/JsonLd'
 import { getSeoData, SEO_ROUTE_KEYS } from '../seo/seoConfig'
 import { buildBreadcrumbListSchema } from '../seo/structuredData'
+import { isSupabaseConfigured, supabasePublic } from '../lib/supabaseClient'
 
 const BlogPage = () => {
   const { t, language } = useLanguage()
   const location = useLocation()
   const localizePath = (path) => buildLocalizedPath(path, language)
   const seo = getSeoData(SEO_ROUTE_KEYS.BLOG, language)
+  const [supabasePosts, setSupabasePosts] = useState([])
 
   // Blog posts data
   const blogPosts = [
@@ -55,6 +58,44 @@ const BlogPage = () => {
       date: '2024-12-15',
     },
   ]
+
+  useEffect(() => {
+    let active = true
+
+    if (!isSupabaseConfigured) {
+      return undefined
+    }
+
+    supabasePublic
+      .getPublishedBlogPosts(language)
+      .then((posts) => {
+        if (active) setSupabasePosts(Array.isArray(posts) ? posts : [])
+      })
+      .catch(() => {
+        if (active) setSupabasePosts([])
+      })
+
+    return () => {
+      active = false
+    }
+  }, [language])
+
+  const displayedPosts = supabasePosts.length
+    ? supabasePosts.map((post) => ({
+        id: post.id,
+        slug: post.slug,
+        title: post.title,
+        excerpt: post.excerpt,
+        image: post.cover_image_url || blogHeroImage,
+        date: post.published_at || post.created_at,
+        isSupabase: true,
+      }))
+    : blogPosts.map((post) => ({
+        ...post,
+        title: t(`blogPage.posts.${post.key}.title`),
+        excerpt: t(`blogPage.posts.${post.key}.excerpt`),
+        isSupabase: false,
+      }))
 
   const formatDate = (dateString) => {
     const date = new Date(dateString)
@@ -100,7 +141,7 @@ const BlogPage = () => {
       <section className="w-full bg-white py-12 md:py-16">
         <div className="mx-auto max-w-7xl px-6">
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {blogPosts.map((post) => (
+            {displayedPosts.map((post) => (
               <article
                 key={post.id}
                 className="group flex flex-col overflow-hidden rounded-2xl bg-white shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
@@ -109,7 +150,7 @@ const BlogPage = () => {
                 <div className="relative h-48 w-full overflow-hidden bg-slate-100">
                   <img
                     src={post.image}
-                    alt={t(`blogPage.posts.${post.key}.title`)}
+                    alt={post.title}
                     className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-110"
                     loading="lazy"
                   />
@@ -125,17 +166,17 @@ const BlogPage = () => {
 
                   {/* Title */}
                   <h2 className="mb-3 text-xl font-bold text-slate-900">
-                    {t(`blogPage.posts.${post.key}.title`)}
+                    {post.title}
                   </h2>
 
                   {/* Excerpt */}
                   <p className="mb-4 flex-1 text-sm leading-relaxed text-slate-600">
-                    {t(`blogPage.posts.${post.key}.excerpt`)}
+                    {post.excerpt}
                   </p>
 
                   {/* Read More Button */}
                   <Link
-                    to={localizePath(`/blog/${post.id}`)}
+                    to={localizePath(`/blog/${post.slug || post.id}`)}
                     className="inline-flex items-center gap-2 text-sm font-semibold text-[#0070CD] transition-colors hover:text-[#005bb0]"
                   >
                     {t('blogPage.readMore')}

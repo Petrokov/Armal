@@ -1,8 +1,11 @@
 import { useLanguage } from '../contexts/LanguageContext'
+import { useEffect, useState } from 'react'
 import kupaonicaImage from '../assets/kupaonica-zelena.webp'
+import { isSupabaseConfigured, supabasePublic } from '../lib/supabaseClient'
 
 const KataloziPage = () => {
-  const { t } = useLanguage()
+  const { t, language } = useLanguage()
+  const [supabaseCatalogues, setSupabaseCatalogues] = useState([])
 
   // Catalogue data - all catalogues from katalozi folder
   const catalogues = [
@@ -68,6 +71,40 @@ const KataloziPage = () => {
     },
   ]
 
+  useEffect(() => {
+    let active = true
+
+    if (!isSupabaseConfigured) {
+      return undefined
+    }
+
+    supabasePublic
+      .getPublishedCatalogs(language)
+      .then((items) => {
+        if (active) setSupabaseCatalogues(Array.isArray(items) ? items : [])
+      })
+      .catch(() => {
+        if (active) setSupabaseCatalogues([])
+      })
+
+    return () => {
+      active = false
+    }
+  }, [language])
+
+  const displayedCatalogues = supabaseCatalogues.length
+    ? supabaseCatalogues.map((catalogue) => ({
+        id: catalogue.id,
+        title: catalogue.title,
+        subtitle: catalogue.subtitle,
+        image: catalogue.cover_image_url || '/katalozi/placeholder_slika/Armal_slavine_mockup_50.png',
+        fileSize: catalogue.file_size || '-',
+        year: catalogue.year,
+        pdfUrl: catalogue.pdf_url,
+        createdAt: new Date(catalogue.published_at || catalogue.created_at),
+      }))
+    : catalogues
+
   // Check if a catalogue is "new" (created within 30 days)
   const isNew = (createdAt) => {
     const now = new Date()
@@ -77,14 +114,14 @@ const KataloziPage = () => {
 
   // Find the latest catalogue (most recent createdAt)
   const getLatestCatalogue = () => {
-    return catalogues.reduce((latest, current) => {
+    return displayedCatalogues.reduce((latest, current) => {
       return current.createdAt > latest.createdAt ? current : latest
     })
   }
 
   // Get other catalogues (excluding the latest only if it's featured)
   const getOtherCatalogues = (excludeId) => {
-    return catalogues.filter((cat) => cat.id !== excludeId)
+    return displayedCatalogues.filter((cat) => cat.id !== excludeId)
   }
 
   const latestCatalogue = getLatestCatalogue()
@@ -94,7 +131,7 @@ const KataloziPage = () => {
   const featuredCatalogue = isLatestNew ? latestCatalogue : null
   const otherCatalogues = featuredCatalogue 
     ? getOtherCatalogues(featuredCatalogue.id)
-    : catalogues
+    : displayedCatalogues
   const isFeaturedNew = featuredCatalogue ? isNew(featuredCatalogue.createdAt) : false
 
   const handleDownload = (pdfUrl) => {
@@ -343,5 +380,3 @@ const FileSizeIcon = () => (
 )
 
 export default KataloziPage
-
-

@@ -13,6 +13,13 @@ import ProizvodiSanitarije from './pages/ProizvodiSanitarije'
 import BlogPage from './pages/BlogPage'
 import BlogPostPage from './pages/BlogPostPage'
 import LegalPage from './pages/LegalPage'
+import {
+  AdminBlogEditorPage,
+  AdminBlogListPage,
+  AdminCatalogEditorPage,
+  AdminCatalogListPage,
+  AdminLoginPage,
+} from './pages/AdminPages'
 
 const routeConfig = [
   { path: '/', element: <LandingPage /> },
@@ -29,6 +36,14 @@ const routeConfig = [
   { path: '/privacy-policy', element: <LegalPage type="privacy-policy" /> },
   { path: '/terms-of-service', element: <LegalPage type="terms-of-service" /> },
   { path: '/cookie-policy', element: <LegalPage type="cookie-policy" /> },
+]
+
+const adminRouteConfig = [
+  { path: '/admin/login', element: <AdminLoginPage /> },
+  { path: '/admin/blog', element: <AdminBlogListPage /> },
+  { path: '/admin/blog/:id', element: <AdminBlogEditorPage /> },
+  { path: '/admin/catalogs', element: <AdminCatalogListPage /> },
+  { path: '/admin/catalogs/:id', element: <AdminCatalogEditorPage /> },
 ]
 
 const renderRouteSet = (prefix = '') => (
@@ -57,6 +72,9 @@ const AppRoutes = () => (
     {renderRouteSet('')}
     {renderRouteSet('/slo')}
     {renderRouteSet('/rs')}
+    {adminRouteConfig.map((route) => (
+      <Route key={route.path} path={route.path} element={route.element} />
+    ))}
   </Routes>
 )
 
