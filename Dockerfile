@@ -47,7 +47,11 @@ WORKDIR /app
 
 # Declare build argument and expose it as an env var so Vite can embed it at build time
 ARG VITE_GOOGLE_MAPS_API_KEY
+ARG VITE_SUPABASE_URL
+ARG VITE_SUPABASE_ANON_KEY
 ENV VITE_GOOGLE_MAPS_API_KEY=${VITE_GOOGLE_MAPS_API_KEY}
+ENV VITE_SUPABASE_URL=${VITE_SUPABASE_URL}
+ENV VITE_SUPABASE_ANON_KEY=${VITE_SUPABASE_ANON_KEY}
 
 # Copy package files and install all dependencies (including devDependencies for the build)
 COPY package.json package-lock.json ./
