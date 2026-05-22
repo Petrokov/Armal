@@ -117,7 +117,7 @@ const TeamSection = ({ maxMembers, showLearnMore = true, columnsLg = 5, memberRo
         <img
           src={member.image}
           alt={member.name}
-          className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-110"
+          className="h-full w-full object-cover object-[center_25%] md:object-center transition-transform duration-300 group-hover:scale-110"
           loading="lazy"
         />
       </div>

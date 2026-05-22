@@ -1,60 +1,52 @@
 import { useLanguage } from '../contexts/LanguageContext'
 import { Link, useLocation } from 'react-router-dom'
+import { useEffect, useState } from 'react'
 import blogHeroImage from '../assets/armal-blog.webp'
-import kupaonicaImage from '../assets/kupaonica-zelena.webp'
-import oNamaImage from '../assets/o_nama_kupaonica_2.png'
-import armalObavijestImage from '../assets/blogovi/armal-obavjest.png'
 import { buildLocalizedPath } from '../utils/languageRouting'
 import SEOHead from '../components/SEOHead'
 import JsonLd from '../components/JsonLd'
 import { getSeoData, SEO_ROUTE_KEYS } from '../seo/seoConfig'
 import { buildBreadcrumbListSchema } from '../seo/structuredData'
+import { isSupabaseConfigured, supabasePublic } from '../lib/supabaseClient'
 
 const BlogPage = () => {
   const { t, language } = useLanguage()
   const location = useLocation()
   const localizePath = (path) => buildLocalizedPath(path, language)
   const seo = getSeoData(SEO_ROUTE_KEYS.BLOG, language)
+  const [supabasePosts, setSupabasePosts] = useState([])
 
-  // Blog posts data
-  const blogPosts = [
-    {
-      id: 1,
-      key: 'blog1',
-      image: armalObavijestImage,
-      date: '2026-03-26',
-    },
-    {
-      id: 2,
-      key: 'blog2',
-      image: oNamaImage,
-      date: '2025-01-10',
-    },
-    {
-      id: 3,
-      key: 'blog3',
-      image: kupaonicaImage,
-      date: '2025-01-05',
-    },
-    {
-      id: 4,
-      key: 'blog4',
-      image: oNamaImage,
-      date: '2024-12-28',
-    },
-    {
-      id: 5,
-      key: 'blog5',
-      image: kupaonicaImage,
-      date: '2024-12-20',
-    },
-    {
-      id: 6,
-      key: 'blog6',
-      image: oNamaImage,
-      date: '2024-12-15',
-    },
-  ]
+  useEffect(() => {
+    let active = true
+
+    if (!isSupabaseConfigured) {
+      return undefined
+    }
+
+    supabasePublic
+      .getPublishedBlogPosts(language)
+      .then((posts) => {
+        if (active) setSupabasePosts(Array.isArray(posts) ? posts : [])
+      })
+      .catch(() => {
+        if (active) setSupabasePosts([])
+      })
+
+    return () => {
+      active = false
+    }
+  }, [language])
+
+  const displayedPosts = supabasePosts
+    .map((post) => ({
+      id: post.id,
+      slug: post.slug,
+      title: post.title,
+      excerpt: post.excerpt,
+      image: post.cover_image_url || blogHeroImage,
+      date: post.published_at || post.created_at,
+    }))
+    .sort((first, second) => new Date(second.date) - new Date(first.date))
 
   const formatDate = (dateString) => {
     const date = new Date(dateString)
@@ -96,62 +88,60 @@ const BlogPage = () => {
         </div>
       </section>
 
-      {/* Blog Posts Grid Section */}
       <section className="w-full bg-white py-12 md:py-16">
         <div className="mx-auto max-w-7xl px-6">
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {blogPosts.map((post) => (
-              <article
-                key={post.id}
-                className="group flex flex-col overflow-hidden rounded-2xl bg-white shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
-              >
-                {/* Image */}
-                <div className="relative h-48 w-full overflow-hidden bg-slate-100">
-                  <img
-                    src={post.image}
-                    alt={t(`blogPage.posts.${post.key}.title`)}
-                    className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-110"
-                    loading="lazy"
-                  />
-                </div>
-
-                {/* Content */}
-                <div className="flex flex-1 flex-col p-6">
-                  {/* Date */}
-                  <div className="mb-3 flex items-center gap-2 text-xs text-slate-500">
-                    <CalendarIcon />
-                    <span>{formatDate(post.date)}</span>
+          {displayedPosts.length > 0 ? (
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {displayedPosts.map((post) => (
+                <article
+                  key={post.id}
+                  className="group flex flex-col overflow-hidden rounded-2xl bg-white shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
+                >
+                  <div className="relative h-48 w-full overflow-hidden bg-slate-100">
+                    <img
+                      src={post.image}
+                      alt={post.title}
+                      className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-110"
+                      loading="lazy"
+                    />
                   </div>
 
-                  {/* Title */}
-                  <h2 className="mb-3 text-xl font-bold text-slate-900">
-                    {t(`blogPage.posts.${post.key}.title`)}
-                  </h2>
+                  <div className="flex flex-1 flex-col p-6">
+                    <div className="mb-3 flex items-center gap-2 text-xs text-slate-500">
+                      <CalendarIcon />
+                      <span>{formatDate(post.date)}</span>
+                    </div>
 
-                  {/* Excerpt */}
-                  <p className="mb-4 flex-1 text-sm leading-relaxed text-slate-600">
-                    {t(`blogPage.posts.${post.key}.excerpt`)}
-                  </p>
+                    <h2 className="mb-3 text-xl font-bold text-slate-900">
+                      {post.title}
+                    </h2>
 
-                  {/* Read More Button */}
-                  <Link
-                    to={localizePath(`/blog/${post.id}`)}
-                    className="inline-flex items-center gap-2 text-sm font-semibold text-[#0070CD] transition-colors hover:text-[#005bb0]"
-                  >
-                    {t('blogPage.readMore')}
-                    <ArrowRightIcon />
-                  </Link>
-                </div>
-              </article>
-            ))}
-          </div>
+                    <p className="mb-4 flex-1 text-sm leading-relaxed text-slate-600">
+                      {post.excerpt}
+                    </p>
+
+                    <Link
+                      to={localizePath(`/blog/${post.slug}`)}
+                      className="inline-flex items-center gap-2 text-sm font-semibold text-[#0070CD] transition-colors hover:text-[#005bb0]"
+                    >
+                      {t('blogPage.readMore')}
+                      <ArrowRightIcon />
+                    </Link>
+                  </div>
+                </article>
+              ))}
+            </div>
+          ) : (
+            <div className="rounded-2xl border border-slate-200 bg-slate-50 p-8 text-center text-slate-600">
+              Trenutno nema objavljenih blogova za odabrani jezik.
+            </div>
+          )}
         </div>
       </section>
     </div>
   )
 }
 
-// Icon Components
 const CalendarIcon = () => (
   <svg
     width="16"
@@ -189,4 +179,3 @@ const ArrowRightIcon = () => (
 )
 
 export default BlogPage
-

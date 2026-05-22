@@ -1,115 +1,73 @@
 import { useLanguage } from '../contexts/LanguageContext'
+import { useEffect, useState } from 'react'
 import kupaonicaImage from '../assets/kupaonica-zelena.webp'
+import { isSupabaseConfigured, supabasePublic } from '../lib/supabaseClient'
 
 const KataloziPage = () => {
-  const { t } = useLanguage()
+  const { t, language } = useLanguage()
+  const [supabaseCatalogues, setSupabaseCatalogues] = useState([])
 
-  // Catalogue data - all catalogues from katalozi folder
-  const catalogues = [
-    {
-      id: 1,
-      title: 'Katalog Walkin 2025',
-      subtitle: 'Nove kolekcije Walkin tuš stijena',
-      image: '/katalozi/placeholder_slika/Armal_walk_in_2.png',
-      fileSize: '1 MB',
-      year: 2025,
-      pdfUrl: '/katalozi/ARMAL_OPEN_WALK.pdf',
-      createdAt: new Date('2026-01-15'),
-    },
-    {
-      id: 2,
-      title: 'Katalog Kabine',
-      subtitle: 'Kolekcija tuš kabina i vrata',
-      image: '/katalozi/placeholder_slika/Armal_tus_kabine_mockup_33.png',
-      fileSize: '2.5 MB',
-      year: 2025,
-      pdfUrl: '/katalozi/armal_katalog_kabine_2.pdf',
-      createdAt: new Date('2025-11-15'),
-    },
-    {
-      id: 3,
-      title: 'Katalog Kade i Kanalice',
-      subtitle: 'Premium kolekcija kada i tuš kanalica',
-      image: '/katalozi/placeholder_slika/Armal_kade_mockup_33.png',
-      fileSize: '3.2 MB',
-      year: 2025,
-      pdfUrl: '/katalozi/Armal_katalog_kade_kanalice.pdf',
-      createdAt: new Date('2025-11-15'),
-    },
-    {
-      id: 4,
-      title: 'Katalog Slavine',
-      subtitle: 'Kolekcija slavina za kupaonicu i kuhinju',
-      image: '/katalozi/placeholder_slika/Armal_slavine_mockup_50.png',
-      fileSize: '2.8 MB',
-      year: 2025,
-      pdfUrl: '/katalozi/Katalog_Armal_slavine.pdf',
-      createdAt: new Date('2025-11-15'),
-    },
-    {
-      id: 5,
-      title: 'Katalog Sanitarije',
-      subtitle: 'Kompletan asortiman sanitarije',
-      image: '/katalozi/placeholder_slika/Armal_sanitarije_mockup.png',
-      fileSize: '2.1 MB',
-      year: 2025,
-      pdfUrl: '/katalozi/KATALOG_SANITARIJE.pdf',
-      createdAt: new Date('2025-11-15'),
-    },
-    {
-      id: 6,
-      title: 'Katalog Usponski Tuševi 2024',
-      subtitle: 'Kolekcija usponskih tuševa',
-      image: '/katalozi/placeholder_slika/Armal_tus_kade_mockup_33.png',
-      fileSize: '1.9 MB',
-      year: 2024,
-      pdfUrl: '/katalozi/Katalog_usponski_tusevi_2024.pdf',
-      createdAt: new Date('2025-11-15'),
-    },
-  ]
+  useEffect(() => {
+    let active = true
 
-  // Check if a catalogue is "new" (created within 30 days)
+    if (!isSupabaseConfigured) {
+      return undefined
+    }
+
+    supabasePublic
+      .getPublishedCatalogs(language)
+      .then((items) => {
+        if (active) setSupabaseCatalogues(Array.isArray(items) ? items : [])
+      })
+      .catch(() => {
+        if (active) setSupabaseCatalogues([])
+      })
+
+    return () => {
+      active = false
+    }
+  }, [language])
+
+  const displayedCatalogues = supabaseCatalogues.map((catalogue) => ({
+    id: catalogue.id,
+    title: catalogue.title,
+    subtitle: catalogue.subtitle,
+    image: catalogue.cover_image_url || '/katalozi/placeholder_slika/Armal_slavine_mockup_50.png',
+    fileSize: catalogue.file_size || '-',
+    year: catalogue.year,
+    pdfUrl: catalogue.pdf_url,
+    createdAt: new Date(catalogue.published_at || catalogue.created_at),
+  }))
+
   const isNew = (createdAt) => {
     const now = new Date()
     const daysDiff = Math.floor((now - createdAt) / (1000 * 60 * 60 * 24))
     return daysDiff <= 30
   }
 
-  // Find the latest catalogue (most recent createdAt)
-  const getLatestCatalogue = () => {
-    return catalogues.reduce((latest, current) => {
-      return current.createdAt > latest.createdAt ? current : latest
-    })
-  }
+  const latestCatalogue = displayedCatalogues.reduce((latest, current) => {
+    if (!latest) return current
+    return current.createdAt > latest.createdAt ? current : latest
+  }, null)
 
-  // Get other catalogues (excluding the latest only if it's featured)
-  const getOtherCatalogues = (excludeId) => {
-    return catalogues.filter((cat) => cat.id !== excludeId)
-  }
-
-  const latestCatalogue = getLatestCatalogue()
-  const isLatestNew = isNew(latestCatalogue.createdAt)
-  
-  // Only show as featured if it's new (within 30 days)
-  const featuredCatalogue = isLatestNew ? latestCatalogue : null
-  const otherCatalogues = featuredCatalogue 
-    ? getOtherCatalogues(featuredCatalogue.id)
-    : catalogues
+  const featuredCatalogue = latestCatalogue && isNew(latestCatalogue.createdAt) ? latestCatalogue : null
+  const otherCatalogues = featuredCatalogue
+    ? displayedCatalogues.filter((catalogue) => catalogue.id !== featuredCatalogue.id)
+    : displayedCatalogues
   const isFeaturedNew = featuredCatalogue ? isNew(featuredCatalogue.createdAt) : false
 
   const handleDownload = (pdfUrl) => {
-    // Handle PDF download
+    if (!pdfUrl) return
     window.open(pdfUrl, '_blank')
   }
 
   const handlePreview = (pdfUrl) => {
-    // Handle PDF preview
+    if (!pdfUrl) return
     window.open(pdfUrl, '_blank')
   }
 
   return (
     <div className="min-h-screen bg-slate-50">
-      {/* Header Section */}
       <section
         className="w-full h-[40vh] flex items-center text-white"
         style={{ backgroundImage: `url(${kupaonicaImage})`, backgroundPosition: 'center 72%', backgroundSize: 'cover', backgroundRepeat: 'no-repeat' }}
@@ -122,7 +80,6 @@ const KataloziPage = () => {
         </div>
       </section>
 
-      {/* Featured Catalogue Section */}
       {featuredCatalogue && (
         <section className="w-full bg-slate-50 py-12 md:py-16">
           <div className="mx-auto max-w-7xl px-6">
@@ -131,7 +88,6 @@ const KataloziPage = () => {
             </h2>
 
             <div className="relative overflow-hidden rounded-2xl bg-white shadow-lg transition-shadow hover:shadow-xl">
-              {/* New Badge */}
               {isFeaturedNew && (
                 <div className="absolute right-4 top-4 z-10">
                   <span className="inline-flex items-center rounded-full bg-green-500 px-3 py-1 text-xs font-semibold text-white shadow-md">
@@ -141,7 +97,6 @@ const KataloziPage = () => {
               )}
 
               <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
-                {/* Image */}
                 <div className="relative flex h-64 items-center justify-center overflow-hidden bg-slate-100 md:h-auto md:min-h-[400px]">
                   <img
                     src={featuredCatalogue.image}
@@ -151,135 +106,138 @@ const KataloziPage = () => {
                   />
                 </div>
 
-              {/* Content */}
-              <div className="flex flex-col justify-center p-6 md:p-8">
-                <div className="mb-4 flex items-center gap-3">
-                  <span className="rounded-full bg-[#0070CD]/20 px-3 py-1 text-sm font-semibold text-[#005bb0]">
-                    {featuredCatalogue.year}
-                  </span>
-                </div>
+                <div className="flex flex-col justify-center p-6 md:p-8">
+                  <div className="mb-4 flex items-center gap-3">
+                    <span className="rounded-full bg-[#0070CD]/20 px-3 py-1 text-sm font-semibold text-[#005bb0]">
+                      {featuredCatalogue.year}
+                    </span>
+                  </div>
 
-                <h3 className="mb-2 text-2xl font-bold text-slate-900 md:text-3xl">
-                  {featuredCatalogue.title}
-                </h3>
+                  <h3 className="mb-2 text-2xl font-bold text-slate-900 md:text-3xl">
+                    {featuredCatalogue.title}
+                  </h3>
 
-                <p className="mb-6 text-base text-slate-600 md:text-lg">
-                  {featuredCatalogue.subtitle}
-                </p>
+                  <p className="mb-6 text-base text-slate-600 md:text-lg">
+                    {featuredCatalogue.subtitle}
+                  </p>
 
-                <div className="mb-6 flex items-center gap-4 text-sm text-slate-500">
-                  <span className="flex items-center gap-2">
-                    <FileSizeIcon />
-                    {t('catalogues.fileSize')}: {featuredCatalogue.fileSize}
-                  </span>
-                </div>
+                  <div className="mb-6 flex items-center gap-4 text-sm text-slate-500">
+                    <span className="flex items-center gap-2">
+                      <FileSizeIcon />
+                      {t('catalogues.fileSize')}: {featuredCatalogue.fileSize}
+                    </span>
+                  </div>
 
-                {/* Buttons */}
-                <div className="flex flex-wrap gap-4">
-                  <button
-                    onClick={() => handleDownload(featuredCatalogue.pdfUrl)}
-                    className="inline-flex items-center gap-2 rounded-lg bg-[#0070CD] px-6 py-3 text-base font-semibold text-white transition-colors hover:bg-[#005bb0]"
-                  >
-                    <DownloadIcon />
-                    {t('catalogues.downloadPDF')}
-                  </button>
-                  <button
-                    onClick={() => handlePreview(featuredCatalogue.pdfUrl)}
-                    className="inline-flex items-center gap-2 rounded-lg border border-slate-300 bg-white px-6 py-3 text-base font-semibold text-slate-700 transition-colors hover:bg-slate-50"
-                  >
-                    <PreviewIcon />
-                    {t('catalogues.preview')}
-                  </button>
+                  <div className="flex flex-wrap gap-4">
+                    <button
+                      onClick={() => handleDownload(featuredCatalogue.pdfUrl)}
+                      disabled={!featuredCatalogue.pdfUrl}
+                      className="inline-flex items-center gap-2 rounded-lg bg-[#0070CD] px-6 py-3 text-base font-semibold text-white transition-colors hover:bg-[#005bb0] disabled:cursor-not-allowed disabled:bg-slate-300"
+                    >
+                      <DownloadIcon />
+                      {t('catalogues.downloadPDF')}
+                    </button>
+                    <button
+                      onClick={() => handlePreview(featuredCatalogue.pdfUrl)}
+                      disabled={!featuredCatalogue.pdfUrl}
+                      className="inline-flex items-center gap-2 rounded-lg border border-slate-300 bg-white px-6 py-3 text-base font-semibold text-slate-700 transition-colors hover:bg-slate-50 disabled:cursor-not-allowed disabled:bg-slate-100 disabled:text-slate-400"
+                    >
+                      <PreviewIcon />
+                      {t('catalogues.preview')}
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
       )}
 
-      {/* More Catalogues Grid Section */}
       <section className="w-full bg-slate-50 py-12 md:py-16">
         <div className="mx-auto max-w-7xl px-6">
           <h2 className="mb-8 text-2xl font-semibold text-slate-900 md:text-3xl">
             {t('catalogues.moreCatalogues')}
           </h2>
 
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {otherCatalogues.map((catalogue) => {
-              const isCatalogueNew = isNew(catalogue.createdAt)
-              return (
-                <div
-                  key={catalogue.id}
-                  className="group overflow-hidden rounded-2xl bg-white shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
-                >
-                  {/* Image */}
-                  <div className="relative flex h-48 w-full items-center justify-center overflow-hidden bg-slate-100">
-                    <img
-                      src={catalogue.image}
-                      alt={catalogue.title}
-                      className="max-h-full max-w-full object-contain transition-transform duration-300 group-hover:scale-110"
-                      loading="lazy"
-                    />
-                    {isCatalogueNew && (
-                      <div className="absolute right-3 top-3">
-                        <span className="inline-flex items-center rounded-full bg-green-500 px-2.5 py-1 text-xs font-semibold text-white shadow-md">
-                          {t('catalogues.new')}
+          {otherCatalogues.length > 0 ? (
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+              {otherCatalogues.map((catalogue) => {
+                const isCatalogueNew = isNew(catalogue.createdAt)
+                return (
+                  <div
+                    key={catalogue.id}
+                    className="group overflow-hidden rounded-2xl bg-white shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
+                  >
+                    <div className="relative flex h-48 w-full items-center justify-center overflow-hidden bg-slate-100">
+                      <img
+                        src={catalogue.image}
+                        alt={catalogue.title}
+                        className="max-h-full max-w-full object-contain transition-transform duration-300 group-hover:scale-110"
+                        loading="lazy"
+                      />
+                      {isCatalogueNew && (
+                        <div className="absolute right-3 top-3">
+                          <span className="inline-flex items-center rounded-full bg-green-500 px-2.5 py-1 text-xs font-semibold text-white shadow-md">
+                            {t('catalogues.new')}
+                          </span>
+                        </div>
+                      )}
+                    </div>
+
+                    <div className="p-6">
+                      <div className="mb-3 flex items-center gap-3">
+                        <span className="rounded-full bg-[#0070CD]/20 px-3 py-1 text-xs font-semibold text-[#005bb0]">
+                          {catalogue.year}
                         </span>
                       </div>
-                    )}
-                  </div>
 
-                  {/* Content */}
-                  <div className="p-6">
-                    <div className="mb-3 flex items-center gap-3">
-                      <span className="rounded-full bg-[#0070CD]/20 px-3 py-1 text-xs font-semibold text-[#005bb0]">
-                        {catalogue.year}
-                      </span>
-                    </div>
+                      <h3 className="mb-2 text-xl font-bold text-slate-900">
+                        {catalogue.title}
+                      </h3>
 
-                    <h3 className="mb-2 text-xl font-bold text-slate-900">
-                      {catalogue.title}
-                    </h3>
+                      <p className="mb-4 text-sm text-slate-600">
+                        {catalogue.subtitle}
+                      </p>
 
-                    <p className="mb-4 text-sm text-slate-600">
-                      {catalogue.subtitle}
-                    </p>
+                      <div className="mb-4 flex items-center gap-2 text-xs text-slate-500">
+                        <FileSizeIcon />
+                        {t('catalogues.fileSize')}: {catalogue.fileSize}
+                      </div>
 
-                    <div className="mb-4 flex items-center gap-2 text-xs text-slate-500">
-                      <FileSizeIcon />
-                      {t('catalogues.fileSize')}: {catalogue.fileSize}
-                    </div>
-
-                    {/* Buttons */}
-                    <div className="flex flex-wrap gap-3">
-                      <button
-                        onClick={() => handleDownload(catalogue.pdfUrl)}
-                        className="inline-flex items-center gap-2 rounded-lg bg-[#0070CD] px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-[#005bb0]"
-                      >
-                        <DownloadIcon />
-                        {t('catalogues.downloadPDF')}
-                      </button>
-                      <button
-                        onClick={() => handlePreview(catalogue.pdfUrl)}
-                        className="inline-flex items-center gap-2 rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition-colors hover:bg-slate-50"
-                      >
-                        <PreviewIcon />
-                        {t('catalogues.preview')}
-                      </button>
+                      <div className="flex flex-wrap gap-3">
+                        <button
+                          onClick={() => handleDownload(catalogue.pdfUrl)}
+                          disabled={!catalogue.pdfUrl}
+                          className="inline-flex items-center gap-2 rounded-lg bg-[#0070CD] px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-[#005bb0] disabled:cursor-not-allowed disabled:bg-slate-300"
+                        >
+                          <DownloadIcon />
+                          {t('catalogues.downloadPDF')}
+                        </button>
+                        <button
+                          onClick={() => handlePreview(catalogue.pdfUrl)}
+                          disabled={!catalogue.pdfUrl}
+                          className="inline-flex items-center gap-2 rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition-colors hover:bg-slate-50 disabled:cursor-not-allowed disabled:bg-slate-100 disabled:text-slate-400"
+                        >
+                          <PreviewIcon />
+                          {t('catalogues.preview')}
+                        </button>
+                      </div>
                     </div>
                   </div>
-                </div>
-              )
-            })}
-          </div>
+                )
+              })}
+            </div>
+          ) : (
+            <div className="rounded-2xl border border-slate-200 bg-white p-8 text-center text-slate-600">
+              Trenutno nema objavljenih kataloga za odabrani jezik.
+            </div>
+          )}
         </div>
       </section>
     </div>
   )
 }
 
-// Icon Components
 const DownloadIcon = () => (
   <svg
     width="18"
@@ -343,5 +301,3 @@ const FileSizeIcon = () => (
 )
 
 export default KataloziPage
-
-

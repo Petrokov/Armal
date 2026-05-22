@@ -1,6 +1,7 @@
 import fs from 'fs'
 import path from 'path'
 import { buildLocalizedRoutes } from './seo-routes.js'
+import { fetchPublishedBlogRoutes, loadLocalEnv } from './cms-routes.js'
 
 const ROOT_DIR = process.cwd()
 const PUBLIC_DIR = path.join(ROOT_DIR, 'public')
@@ -22,15 +23,38 @@ const resolveBaseUrl = () => {
   }
 }
 
-const buildSitemapXml = (baseUrl, paths) => {
+const toSitemapEntry = (entry, fallbackLastmod) => {
+  if (typeof entry === 'string') {
+    return {
+      pathname: entry,
+      lastmod: fallbackLastmod,
+    }
+  }
+
+  return {
+    pathname: entry.pathname,
+    lastmod: entry.lastmod || fallbackLastmod,
+  }
+}
+
+const escapeXml = (value) =>
+  `${value}`
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&apos;')
+
+const buildSitemapXml = (baseUrl, entries) => {
   const today = new Date().toISOString().slice(0, 10)
-  const urlNodes = paths
-    .map((pathname) => {
+  const urlNodes = entries
+    .map((entry) => toSitemapEntry(entry, today))
+    .map(({ pathname, lastmod }) => {
       const absoluteUrl = `${baseUrl}${pathname}`
       return [
         '  <url>',
-        `    <loc>${absoluteUrl}</loc>`,
-        `    <lastmod>${today}</lastmod>`,
+        `    <loc>${escapeXml(absoluteUrl)}</loc>`,
+        `    <lastmod>${escapeXml(lastmod)}</lastmod>`,
         '    <changefreq>weekly</changefreq>',
         '    <priority>0.8</priority>',
         '  </url>',
@@ -47,10 +71,27 @@ const buildSitemapXml = (baseUrl, paths) => {
   ].join('\n')
 }
 
-const run = () => {
+const uniqueEntries = (entries) => {
+  const seen = new Set()
+  const unique = []
+
+  for (const entry of entries) {
+    const normalized = toSitemapEntry(entry, new Date().toISOString().slice(0, 10))
+    if (seen.has(normalized.pathname)) continue
+    seen.add(normalized.pathname)
+    unique.push(normalized)
+  }
+
+  return unique
+}
+
+const run = async () => {
+  loadLocalEnv()
+
   const baseUrl = resolveBaseUrl()
   const localizedPaths = buildLocalizedRoutes()
-  const uniquePaths = Array.from(new Set(localizedPaths))
+  const blogRoutes = await fetchPublishedBlogRoutes()
+  const uniquePaths = uniqueEntries([...localizedPaths, ...blogRoutes])
   const xml = buildSitemapXml(baseUrl, uniquePaths)
 
   if (!fs.existsSync(PUBLIC_DIR)) {
@@ -63,4 +104,7 @@ const run = () => {
   console.log(`URLs included: ${uniquePaths.length}`)
 }
 
-run()
+run().catch((error) => {
+  console.error(error)
+  process.exit(1)
+})

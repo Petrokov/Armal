@@ -3,12 +3,13 @@ import path from 'path'
 import express from 'express'
 import puppeteer from 'puppeteer'
 import { buildLocalizedRoutes } from './seo-routes.js'
+import { fetchPublishedBlogRoutes, loadLocalEnv } from './cms-routes.js'
 
 const DIST_DIR = path.resolve(process.cwd(), 'dist')
 const PORT = Number(process.env.PRERENDER_PORT || 4174)
 const HOST = '127.0.0.1'
 
-const ROUTES = buildLocalizedRoutes()
+const uniqueRoutes = (routes) => Array.from(new Set(routes))
 
 const routeToOutputFile = (route) => {
   if (route === '/') return path.join(DIST_DIR, 'index.html')
@@ -29,6 +30,14 @@ const createServer = (baseHtml) => {
 }
 
 const prerender = async () => {
+  loadLocalEnv()
+
+  const cmsRoutes = await fetchPublishedBlogRoutes()
+  const routes = uniqueRoutes([
+    ...buildLocalizedRoutes(),
+    ...cmsRoutes.map((route) => route.pathname),
+  ])
+
   const templatePath = path.join(DIST_DIR, 'index.html')
   if (!fs.existsSync(templatePath)) {
     throw new Error('dist/index.html not found. Run vite build before prerender.')
@@ -42,7 +51,7 @@ const prerender = async () => {
   })
 
   try {
-    for (const route of ROUTES) {
+    for (const route of routes) {
       const page = await browser.newPage()
       page.setDefaultNavigationTimeout(45000)
       await page.evaluateOnNewDocument(() => {
@@ -73,7 +82,7 @@ const prerender = async () => {
 
 prerender()
   .then(() => {
-    console.log(`Prerender complete. Routes: ${ROUTES.length}`)
+    console.log('Prerender complete.')
   })
   .catch((error) => {
     console.error('Prerender failed:', error)

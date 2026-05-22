@@ -26,8 +26,6 @@ export const FAUCET_COLLECTION_SLUGS = [
   'jana',
 ]
 
-export const BLOG_POST_IDS = ['1', '2', '3', '4', '5', '6']
-
 export const LANGUAGE_PREFIXES = ['', '/slo', '/rs']
 
 const normalizePath = (value) => {
@@ -37,7 +35,6 @@ const normalizePath = (value) => {
 
 export const DYNAMIC_ROUTES = [
   ...FAUCET_COLLECTION_SLUGS.map((slug) => `/proizvodi/slavine/${slug}`),
-  ...BLOG_POST_IDS.map((id) => `/blog/${id}`),
 ]
 
 export const INDEXABLE_ROUTES = [
