@@ -139,7 +139,7 @@ async function getM365AccessToken() {
  * @param {string|string[]} toRecipients - Email adresa ili niz adresa primatelja
  * @param {string} subject - Predmet poruke
  * @param {string} htmlContent - Tijelo poruke u HTML formatu
- * @param {Array<{ name: string, contentBytes: string }>} [attachments] - Prilozi (contentBytes = base64)
+ * @param {Array<{ name: string, contentBytes: string, contentType?: string }>} [attachments] - Prilozi (contentBytes = base64)
  */
 async function sendM365Email(toRecipients, subject, htmlContent, attachments = []) {
   const token = await getM365AccessToken()
@@ -166,6 +166,7 @@ async function sendM365Email(toRecipients, subject, htmlContent, attachments = [
     message.message.attachments = attachments.map((a) => ({
       '@odata.type': '#microsoft.graph.fileAttachment',
       name: a.name,
+      contentType: a.contentType,
       contentBytes: a.contentBytes,
     }))
   }
@@ -179,24 +180,117 @@ async function sendM365Email(toRecipients, subject, htmlContent, attachments = [
 }
 
 // Multer: spremi upload u memoriju (buffer za prilog)
+const MAX_SERVICE_IMAGES = 5
+const MAX_SERVICE_IMAGE_SIZE_MB = 2
+const MAX_SERVICE_FIELDS = 12
+const MAX_SERVICE_FIELD_SIZE_BYTES = 10 * 1024
 const upload = multer({
   storage: multer.memoryStorage(),
-  limits: { fileSize: 5 * 1024 * 1024 }, // 5 MB
+  limits: {
+    fileSize: MAX_SERVICE_IMAGE_SIZE_MB * 1024 * 1024,
+    files: MAX_SERVICE_IMAGES,
+    fields: MAX_SERVICE_FIELDS,
+    fieldSize: MAX_SERVICE_FIELD_SIZE_BYTES,
+    parts: MAX_SERVICE_FIELDS + MAX_SERVICE_IMAGES,
+  },
   fileFilter: (req, file, cb) => {
     const allowed = /^image\/(jpeg|jpg|png|gif|webp)$/i
     if (allowed.test(file.mimetype)) cb(null, true)
     else cb(new Error('Dozvoljeni formati: JPEG, PNG, GIF, WebP'))
   },
 })
+const serviceImagesUpload = upload.fields([
+  { name: 'images', maxCount: MAX_SERVICE_IMAGES },
+  { name: 'image', maxCount: 1 },
+])
+
+function handleServiceImagesUpload(req, res, next) {
+  serviceImagesUpload(req, res, (err) => {
+    if (!err) {
+      next()
+      return
+    }
+
+    const multerErrorMessages = {
+      LIMIT_FILE_SIZE: `Jedna slika smije imati najvise ${MAX_SERVICE_IMAGE_SIZE_MB} MB.`,
+      LIMIT_FILE_COUNT: `Mozete priloziti najvise ${MAX_SERVICE_IMAGES} slika.`,
+      LIMIT_UNEXPECTED_FILE: `Mozete priloziti najvise ${MAX_SERVICE_IMAGES} slika.`,
+      LIMIT_FIELD_COUNT: 'Obrazac ima previse polja.',
+      LIMIT_FIELD_VALUE: 'Jedno polje obrasca je predugacko.',
+      LIMIT_PART_COUNT: 'Obrazac ima previse dijelova.',
+    }
+
+    res.status(400).json({
+      success: false,
+      error: multerErrorMessages[err.code] || err.message || 'Upload slika nije uspio.',
+    })
+  })
+}
+
+function sanitizeAttachmentName(value, index) {
+  const fallback = `prilog-${index + 1}.jpg`
+  if (!value) return fallback
+
+  const baseName = Array.from(path.basename(value))
+    .map((char) => {
+      const code = char.charCodeAt(0)
+      return code < 32 || code === 127 ? '-' : char
+    })
+    .join('')
+  const safeName = baseName
+    .replace(/[<>:"/\\|?*]+/g, '-')
+    .replace(/\s+/g, ' ')
+    .trim()
+    .slice(0, 120)
+
+  return safeName || fallback
+}
+
+function hasValidImageSignature(file) {
+  const buffer = file?.buffer
+  if (!buffer || buffer.length < 4) return false
+
+  if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/jpg') {
+    return buffer[0] === 0xff && buffer[1] === 0xd8 && buffer[2] === 0xff
+  }
+
+  if (file.mimetype === 'image/png') {
+    return buffer.length >= 8 &&
+      buffer[0] === 0x89 &&
+      buffer[1] === 0x50 &&
+      buffer[2] === 0x4e &&
+      buffer[3] === 0x47 &&
+      buffer[4] === 0x0d &&
+      buffer[5] === 0x0a &&
+      buffer[6] === 0x1a &&
+      buffer[7] === 0x0a
+  }
+
+  if (file.mimetype === 'image/gif') {
+    return buffer.subarray(0, 6).toString('ascii') === 'GIF87a' ||
+      buffer.subarray(0, 6).toString('ascii') === 'GIF89a'
+  }
+
+  if (file.mimetype === 'image/webp') {
+    return buffer.length >= 12 &&
+      buffer.subarray(0, 4).toString('ascii') === 'RIFF' &&
+      buffer.subarray(8, 12).toString('ascii') === 'WEBP'
+  }
+
+  return false
+}
 
 app.use(cors({ origin: corsOrigin }))
 app.use(express.json())
 
-// POST /api/servis – prima formu (name, phone, address, message, image)
-app.post('/api/servis', requireAllowedServiceOrigin, serviceRateLimit, upload.single('image'), async (req, res) => {
+// POST /api/servis – prima formu i do 5 slika racuna.
+app.post('/api/servis', requireAllowedServiceOrigin, serviceRateLimit, handleServiceImagesUpload, async (req, res) => {
   try {
     const { name, email, phone, street, houseNumber, city, postalCode, country, message } = req.body || {}
-    const file = req.file
+    const uploadedFiles = [
+      ...(req.files?.images || []),
+      ...(req.files?.image || []),
+    ].slice(0, MAX_SERVICE_IMAGES)
 
     if (
       !name?.trim() ||
@@ -211,6 +305,13 @@ app.post('/api/servis', requireAllowedServiceOrigin, serviceRateLimit, upload.si
       return res.status(400).json({
         success: false,
         error: 'Ime, email, telefon i adresa su obavezni.',
+      })
+    }
+
+    if (uploadedFiles.length === 0) {
+      return res.status(400).json({
+        success: false,
+        error: 'Prilozite barem jednu sliku racuna.',
       })
     }
 
@@ -234,6 +335,7 @@ app.post('/api/servis', requireAllowedServiceOrigin, serviceRateLimit, upload.si
       `Mjesto: ${city}`,
       `Postanski broj: ${postalCode}`,
       `Drzava: ${country}`,
+      uploadedFiles.length ? `Prilozi: ${uploadedFiles.length} slika` : '',
       '',
       message ? `Poruka: ${message}` : '',
     ]
@@ -242,9 +344,19 @@ app.post('/api/servis', requireAllowedServiceOrigin, serviceRateLimit, upload.si
     const htmlContent = `<pre style="font-family: sans-serif; white-space: pre-wrap;">${escapeHtml(text)}</pre>`
 
     const attachments = []
-    if (file && file.buffer) {
+    for (const [index, file] of uploadedFiles.entries()) {
+      if (!file?.buffer) continue
+
+      if (!hasValidImageSignature(file)) {
+        return res.status(400).json({
+          success: false,
+          error: 'Jedna ili vise slika nema ispravan format datoteke.',
+        })
+      }
+
       attachments.push({
-        name: file.originalname || 'prilog.jpg',
+        name: sanitizeAttachmentName(file.originalname, index),
+        contentType: file.mimetype,
         contentBytes: file.buffer.toString('base64'),
       })
     }

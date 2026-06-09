@@ -7,6 +7,10 @@ import { getSeoData, SEO_ROUTE_KEYS } from '../seo/seoConfig'
 
 // Kad nije postavljen, koristi se relativni URL (/api/servis) – isti poslužitelj (npr. jedan deploy na Railway)
 const API_URL = import.meta.env.VITE_API_URL ?? ''
+const MAX_SERVICE_IMAGES = 5
+const MAX_SERVICE_IMAGE_SIZE_MB = 2
+const MAX_SERVICE_IMAGE_SIZE_BYTES = MAX_SERVICE_IMAGE_SIZE_MB * 1024 * 1024
+const ALLOWED_SERVICE_IMAGE_TYPES = new Set(['image/jpeg', 'image/png', 'image/gif', 'image/webp'])
 
 const ServisPage = () => {
   const { t, language } = useLanguage()
@@ -21,14 +25,28 @@ const ServisPage = () => {
     postalCode: '',
     country: '',
     message: '',
-    image: null,
+    images: [],
   })
   const [sending, setSending] = useState(false)
   const [submitError, setSubmitError] = useState(null)
 
+  const serviceText = (key, values = {}) => {
+    let text = t(`servisPage.${key}`)
+    for (const [name, value] of Object.entries(values)) {
+      text = text.replace(`{${name}}`, value)
+    }
+    return text
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault()
     setSubmitError(null)
+
+    if (formData.images.length === 0) {
+      setSubmitError(serviceText('imageRequiredError'))
+      return
+    }
+
     setSending(true)
     try {
       const data = new FormData()
@@ -41,7 +59,9 @@ const ServisPage = () => {
       data.append('postalCode', formData.postalCode)
       data.append('country', formData.country)
       data.append('message', formData.message || '')
-      if (formData.image) data.append('image', formData.image)
+      formData.images.forEach((image) => {
+        data.append('images', image)
+      })
 
       const apiBase = API_URL ? API_URL.replace(/\/$/, '') : ''
       const res = await fetch(`${apiBase}/api/servis`, {
@@ -51,7 +71,7 @@ const ServisPage = () => {
       const json = await res.json().catch(() => ({}))
 
       if (!res.ok) {
-        throw new Error(json.error || 'Slanje nije uspjelo.')
+        throw new Error(json.error || serviceText('submitError'))
       }
       setFormData({
         name: '',
@@ -63,15 +83,15 @@ const ServisPage = () => {
         postalCode: '',
         country: '',
         message: '',
-        image: null,
+        images: [],
       })
       alert(t('servisPage.submitSuccess'))
     } catch (err) {
       const msg = err.message || ''
       if (msg === 'Failed to fetch' || msg.includes('fetch')) {
-        setSubmitError('Nije moguće spojiti se na poslužitelj. Pokreni backend: u terminalu upiši "cd server" pa "npm run dev".')
+        setSubmitError(serviceText('fetchError'))
       } else {
-        setSubmitError(msg || 'Došlo je do greške. Pokušajte ponovno.')
+        setSubmitError(msg || serviceText('genericError'))
       }
     } finally {
       setSending(false)
@@ -80,16 +100,48 @@ const ServisPage = () => {
 
   const handleChange = (e) => {
     if (e.target.type === 'file') {
+      const selectedFiles = Array.from(e.target.files || [])
+      const nextImages = [...formData.images, ...selectedFiles]
+      const invalidType = selectedFiles.find((file) => !ALLOWED_SERVICE_IMAGE_TYPES.has(file.type))
+      const oversized = selectedFiles.find((file) => file.size > MAX_SERVICE_IMAGE_SIZE_BYTES)
+
+      if (nextImages.length > MAX_SERVICE_IMAGES) {
+        setSubmitError(serviceText('maxImagesError', { max: MAX_SERVICE_IMAGES }))
+        e.target.value = ''
+        return
+      }
+
+      if (invalidType) {
+        setSubmitError(serviceText('imageTypeError'))
+        e.target.value = ''
+        return
+      }
+
+      if (oversized) {
+        setSubmitError(serviceText('imageSizeError', { size: MAX_SERVICE_IMAGE_SIZE_MB }))
+        e.target.value = ''
+        return
+      }
+
+      setSubmitError(null)
       setFormData({
         ...formData,
-        image: e.target.files[0],
+        images: nextImages,
       })
+      e.target.value = ''
     } else {
       setFormData({
         ...formData,
         [e.target.name]: e.target.value,
       })
     }
+  }
+
+  const removeImage = (indexToRemove) => {
+    setFormData({
+      ...formData,
+      images: formData.images.filter((_, index) => index !== indexToRemove),
+    })
   }
 
   return (
@@ -286,25 +338,45 @@ const ServisPage = () => {
                 </div>
               </div>
               <div>
-                <label htmlFor="image" className="mb-2 block text-sm font-medium text-slate-700">
+                <label htmlFor="images" className="mb-2 block text-sm font-medium text-slate-700">
                   {t('servisPage.imageLabel')} <span className="text-red-500">*</span>
                 </label>
                 <div className="relative">
                   <ImageIcon className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-400" />
                   <input
                     type="file"
-                    id="image"
-                    name="image"
-                    accept="image/*"
+                    id="images"
+                    name="images"
+                    accept="image/jpeg,image/png,image/gif,image/webp"
+                    multiple
                     onChange={handleChange}
-                    required
                     className="w-full rounded-lg border border-slate-300 bg-white py-3 pl-10 pr-4 text-slate-900 file:mr-4 file:rounded-lg file:border-0 file:bg-[#0070CD] file:px-4 file:py-2 file:text-sm file:font-semibold file:text-white hover:file:bg-[#005bb0] focus:border-[#0070CD] focus:outline-none focus:ring-2 focus:ring-[#0070CD]/20"
                   />
                 </div>
-                {formData.image && (
-                  <p className="mt-2 text-sm text-slate-600">
-                    {t('servisPage.selectedFile')} {formData.image.name}
-                  </p>
+                <p className="mt-2 text-xs text-slate-500">{t('servisPage.imageHelp')}</p>
+                {formData.images.length > 0 && (
+                  <div className="mt-3 space-y-2">
+                    <p className="text-sm font-medium text-slate-700">
+                      {t('servisPage.selectedFiles')} {formData.images.length} / {MAX_SERVICE_IMAGES}
+                    </p>
+                    <ul className="space-y-2">
+                      {formData.images.map((image, index) => (
+                        <li
+                          key={`${image.name}-${image.lastModified}-${index}`}
+                          className="flex items-center justify-between gap-3 rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700"
+                        >
+                          <span className="min-w-0 truncate">{image.name}</span>
+                          <button
+                            type="button"
+                            onClick={() => removeImage(index)}
+                            className="shrink-0 rounded-md px-2 py-1 text-xs font-semibold text-red-600 hover:bg-red-50"
+                          >
+                            {t('servisPage.removeFile')}
+                          </button>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
                 )}
               </div>
               <button
@@ -312,7 +384,7 @@ const ServisPage = () => {
                 disabled={sending}
                 className="w-full rounded-lg bg-[#0070CD] px-6 py-3 font-semibold text-white transition-colors hover:bg-[#005bb0] focus:outline-none focus:ring-2 focus:ring-[#0070CD] focus:ring-offset-2 disabled:opacity-70 disabled:cursor-not-allowed"
               >
-                {sending ? 'Šaljem...' : t('servisPage.submitButton')}
+                {sending ? t('servisPage.sendingButton') : t('servisPage.submitButton')}
               </button>
             </form>
           </div>
