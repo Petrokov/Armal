@@ -9,7 +9,8 @@
     "build": "node scripts/generate-sitemap.js && vite build && node scripts/prerender-routes.js",
     "lint": "eslint .",
     "preview": "vite preview",
-    "start": "node server/index.js"
+    "start": "node server/index.js",
+    "seed:team": "node scripts/seed-team-members.js"
   },
   "dependencies": {
     "axios": "^1.7.7",
@@ -33,6 +34,7 @@
     "eslint-plugin-react-hooks": "^7.0.1",
     "eslint-plugin-react-refresh": "^0.4.24",
     "globals": "^16.5.0",
+    "pg": "^8.22.0",
     "postcss": "^8.5.6",
     "puppeteer": "^24.40.0",
     "tailwindcss": "^3.4.13",

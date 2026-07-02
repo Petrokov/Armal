@@ -261,14 +261,7 @@ const ONamaPage = () => {
       </section>
 
       {/* 4. Team Section - Reuse existing component, show all members */}
-      <TeamSection
-        showLearnMore={false}
-        memberRows={[
-          ['Simona Zavratnik', 'Suzana Mahović', 'Marko Hrgetić'],
-          ['Aleksandar Franolić', 'Miroslav Salopek', 'Saša Čačić', 'Marko Čović'],
-          ['Anja Križanić', 'Sandra Miklec', 'Natalija Jović', 'Marija Pršir', 'Morena Sršen', 'Mladen Luketić'],
-        ]}
-      />
+      <TeamSection showLearnMore={false} rowLayout />
 
       {/* 5. Stats Section — brojač pokreće IntersectionObserver kad sekcija uđe u vidno polje */}
       <AboutStatsSection t={t} />

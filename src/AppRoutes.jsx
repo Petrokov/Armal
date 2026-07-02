@@ -19,6 +19,8 @@ import {
   AdminCatalogEditorPage,
   AdminCatalogListPage,
   AdminLoginPage,
+  AdminTeamEditorPage,
+  AdminTeamListPage,
 } from './pages/AdminPages'
 
 const routeConfig = [
@@ -44,6 +46,8 @@ const adminRouteConfig = [
   { path: '/admin/blog/:id', element: <AdminBlogEditorPage /> },
   { path: '/admin/catalogs', element: <AdminCatalogListPage /> },
   { path: '/admin/catalogs/:id', element: <AdminCatalogEditorPage /> },
+  { path: '/admin/team', element: <AdminTeamListPage /> },
+  { path: '/admin/team/:id', element: <AdminTeamEditorPage /> },
 ]
 
 const renderRouteSet = (prefix = '') => (

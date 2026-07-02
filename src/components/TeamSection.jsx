@@ -1,201 +1,230 @@
+import { useEffect, useMemo, useState } from 'react'
 import { useLanguage } from '../contexts/LanguageContext'
+import { isSupabaseConfigured, supabasePublic } from '../lib/supabaseClient'
 
+const mapTeamMember = (member) => ({
+  id: member.id,
+  name: member.name,
+  role: member.title,
+  image: member.image_url,
+  linkedin: member.linkedin_url || '#',
+  email: member.email || '',
+})
 
+const GRID_COLS = {
+  3: 'lg:grid-cols-3',
+  4: 'lg:grid-cols-4',
+  5: 'lg:grid-cols-5',
+}
 
-const TeamSection = ({ maxMembers, showLearnMore = true, columnsLg = 5, memberRows }) => {
+const TeamSection = ({
+  maxMembers,
+  showLearnMore = true,
+  columnsLg = 5,
+  homepageOnly = false,
+  rowLayout = false,
+}) => {
   const { t } = useLanguage()
+  const [members, setMembers] = useState([])
+  const [layoutRows, setLayoutRows] = useState([])
+  const [loading, setLoading] = useState(isSupabaseConfigured)
 
-  // Team members data
-  const teamMembers = [
-    {
-      name: 'Simona Zavratnik',
-      role: 'Direktorica',
-      image: '/slike_team/simona_zavratnik_2.png',
-      linkedin: '#',
-      email: 'simona.zavratnik@armal.hr',
-    },
-    {
-      name: 'Suzana Mahović',
-      role: 'COO – operativni direktor',
-      image: '/slike_team/Suzana-Mahovic-2.webp',
-      linkedin: '#',
-      email: 'suzana.mahovic@armal.hr',
-    },
-    {
-      name: 'Anja Križanić',
-      role: 'Koordinator prodaje za RH',
-      image: '/slike_team/anonimno.jpg',
-      linkedin: '#',
-      email: 'anja.krizanic@armal.hr',
-    },
-    {
-      name: 'Aleksandar Franolić',
-      role: 'Export menager',
-      image: '/slike_team/Aleksandar-Franolic.webp',
-      linkedin: '#',
-      email: 'aleksandar.franolic@armal.hr',
-    },
-    {
-      name: 'Miroslav Salopek',
-      role: 'Terenski komercijalist',
-      image: '/slike_team/Miro-Salopek.webp',
-      linkedin: '#',
-      email: 'miroslav.salopek@armal.hr',
-    },
-    {
-      name: 'Saša Čačić',
-      role: 'Terenski komercijalist',
-      image: '/slike_team/Sasa-Cacic.webp',
-      linkedin: '#',
-      email: 'sasa.cacic@armal.hr',
-    },
-    {
-      name: 'Marko Čović',
-      role: 'Terenski komercijalist',
-      image: '/slike_team/Marko-Covic.webp',
-      linkedin: '#',
-      email: 'marko.covic@armal.hr',
-    },
-    {
-      name: 'Sandra Miklec',
-      role: 'Administrator u odjelu prodaje',
-      image: '/slike_team/Sandra-Miklec.webp',
-      linkedin: '#',
-      email: 'sandra.miklec@armal.hr',
-    },
-    {
-      name: 'Marko Hrgetić',
-      role: 'Voditelj nabave',
-      image: '/slike_team/Marko-Hrgetic.webp',
-      linkedin: '#',
-      email: 'marko.hrgetic@armal.hr',
-    },
-    {
-      name: 'Natalija Jović',
-      role: 'Referent nabave',
-      image: '/slike_team/Natalija-Jovic.webp',
-      linkedin: '#',
-      email: 'natalija.jovic@armal.hr',
-    },
-    {
-      name: 'Marija Pršir',
-      role: 'Administrator nabave',
-      image: '/slike_team/Marija-Prsir.webp',
-      linkedin: '#',
-      email: 'marija.prsir@armal.hr',
-    },
-    {
-      name: 'Morena Sršen',
-      role: 'Voditelj odjela postprodaje',
-      image: '/slike_team/Morena-Srsen.webp',
-      linkedin: '#',
-      email: 'morena.srsen@armal.hr',
-    },
-    {
-      name: 'Mladen Luketić',
-      role: 'Serviser i montažer',
-      image: '/slike_team/Mladen-Luketic.webp',
-      linkedin: '#',
-      email: 'mladen.luketic@armal.hr',
-    },
-  ]
+  useEffect(() => {
+    if (!isSupabaseConfigured) {
+      setLoading(false)
+      return
+    }
 
-  // Display members based on maxMembers prop
-  // If maxMembers is not provided or is undefined, show all members
-  const displayedMembers = maxMembers ? teamMembers.slice(0, maxMembers) : teamMembers
+    let active = true
 
-  const membersByName = new Map(teamMembers.map((member) => [member.name, member]))
-  const hasCustomRows = Array.isArray(memberRows) && memberRows.length > 0
+    const load = async () => {
+      try {
+        if (rowLayout) {
+          const rows = await supabasePublic.getPublishedTeamLayout()
+          if (active) setLayoutRows(Array.isArray(rows) ? rows : [])
+        } else {
+          const items = await supabasePublic.getPublishedTeamMembers()
+          if (active) setMembers(Array.isArray(items) ? items : [])
+        }
+      } catch {
+        if (active) {
+          setMembers([])
+          setLayoutRows([])
+        }
+      } finally {
+        if (active) setLoading(false)
+      }
+    }
+
+    load()
+
+    return () => {
+      active = false
+    }
+  }, [rowLayout])
+
+  const displayedMembers = useMemo(() => {
+    let list = members.map(mapTeamMember)
+
+    if (homepageOnly) {
+      list = members.filter((member) => member.show_on_homepage).map(mapTeamMember)
+    }
+
+    if (maxMembers) {
+      list = list.slice(0, maxMembers)
+    }
+
+    return list
+  }, [homepageOnly, maxMembers, members])
+
+  const rowSections = useMemo(
+    () =>
+      layoutRows.map((row) => ({
+        ...row,
+        members: (row.team_members || []).map(mapTeamMember),
+      })),
+    [layoutRows],
+  )
 
   const renderMemberCard = (member, indexKey) => (
     <div
       key={indexKey}
       className="group flex flex-col pb-6 items-center rounded-2xl bg-white p-0 shadow-md transition-all duration-300 hover:-translate-y-2 hover:shadow-xl"
     >
-      {/* Image Container */}
       <div className="mb-4 h-64 w-full overflow-hidden rounded-t-2xl">
-        <img
-          src={member.image}
-          alt={member.name}
-          className="h-full w-full object-cover object-[center_25%] md:object-center transition-transform duration-300 group-hover:scale-110"
-          loading="lazy"
-        />
+        {member.image ? (
+          <img
+            src={member.image}
+            alt={member.name}
+            className="h-full w-full object-cover object-[center_25%] md:object-center transition-transform duration-300 group-hover:scale-110"
+            loading="lazy"
+          />
+        ) : (
+          <div className="flex h-full w-full items-center justify-center bg-slate-100 text-sm text-slate-500">Nema slike</div>
+        )}
       </div>
 
-      {/* Name */}
-      <h3 className="mb-2 text-xl font-bold text-slate-900">
-        {member.name}
-      </h3>
-
-      {/* Role */}
+      <h3 className="mb-2 text-xl font-bold text-slate-900">{member.name}</h3>
       <p className="mb-4 text-sm text-slate-600">{member.role}</p>
 
-      {/* Contact Buttons */}
       <div className="flex items-center gap-3">
-        {/* Email Button */}
-        <a
-          href={`mailto:${member.email}`}
-          className="inline-flex items-center justify-center rounded-full bg-slate-700 p-2 text-white transition-colors hover:bg-slate-600"
-          aria-label={`Pošalji email ${member.name}`}
-          title={member.email}
-        >
-          <EmailIcon />
-        </a>
+        {member.email && (
+          <a
+            href={`mailto:${member.email}`}
+            className="inline-flex items-center justify-center rounded-full bg-slate-700 p-2 text-white transition-colors hover:bg-slate-600"
+            aria-label={`Pošalji email ${member.name}`}
+            title={member.email}
+          >
+            <EmailIcon />
+          </a>
+        )}
 
-        {/* LinkedIn Button */}
-        <a
-          href={member.linkedin}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center justify-center rounded-full bg-[#0070CD] p-2 text-white transition-colors hover:bg-[#005bb0]"
-          aria-label={`${member.name} LinkedIn profil`}
-        >
-          <LinkedInIcon />
-        </a>
+        {member.linkedin && member.linkedin !== '#' && (
+          <a
+            href={member.linkedin}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center justify-center rounded-full bg-[#0070CD] p-2 text-white transition-colors hover:bg-[#005bb0]"
+            aria-label={`${member.name} LinkedIn profil`}
+          >
+            <LinkedInIcon />
+          </a>
+        )}
       </div>
     </div>
   )
 
+  const gridClass = GRID_COLS[columnsLg] || GRID_COLS[5]
+
+  const renderStandardGrid = () => {
+    if (loading) {
+      return (
+        <div className={`mb-12 grid grid-cols-1 gap-8 md:grid-cols-2 ${gridClass}`}>
+          {Array.from({ length: homepageOnly ? 3 : 5 }).map((_, index) => (
+            <div key={`team-skeleton-${index}`} className="animate-pulse rounded-2xl bg-slate-100">
+              <div className="h-64 rounded-t-2xl bg-slate-200" />
+              <div className="space-y-3 px-6 py-6">
+                <div className="mx-auto h-5 w-2/3 rounded bg-slate-200" />
+                <div className="mx-auto h-4 w-1/2 rounded bg-slate-200" />
+              </div>
+            </div>
+          ))}
+        </div>
+      )
+    }
+
+    if (displayedMembers.length === 0) {
+      return (
+        <div className="mb-12 rounded-2xl border border-dashed border-slate-200 px-6 py-12 text-center text-sm text-slate-500">
+          Tim trenutno nije dostupan.
+        </div>
+      )
+    }
+
+    return (
+      <div className={`mb-12 grid grid-cols-1 gap-8 md:grid-cols-2 ${gridClass}`}>
+        {displayedMembers.map((member) => renderMemberCard(member, member.id || member.name))}
+      </div>
+    )
+  }
+
+  const renderRowLayout = () => {
+    if (loading) {
+      return (
+        <div className="mb-12 space-y-8">
+          {[3, 4, 3].map((columns, index) => (
+            <div
+              key={`row-skeleton-${index}`}
+              className={`mx-auto grid max-w-[900px] grid-cols-1 gap-8 md:grid-cols-2 ${GRID_COLS[columns] || GRID_COLS[3]}`}
+            >
+              {Array.from({ length: columns }).map((_, cardIndex) => (
+                <div key={`row-skeleton-${index}-${cardIndex}`} className="animate-pulse rounded-2xl bg-slate-100">
+                  <div className="h-64 rounded-t-2xl bg-slate-200" />
+                </div>
+              ))}
+            </div>
+          ))}
+        </div>
+      )
+    }
+
+    if (!rowSections.length) {
+      return (
+        <div className="mb-12 rounded-2xl border border-dashed border-slate-200 px-6 py-12 text-center text-sm text-slate-500">
+          Tim trenutno nije dostupan.
+        </div>
+      )
+    }
+
+    return (
+      <div className="mb-12 space-y-8">
+        {rowSections.map((row) => {
+          const columns = row.columns_lg || 3
+          const maxWidthClass = columns === 4 ? 'max-w-[1200px]' : 'max-w-[900px]'
+
+          return (
+            <div
+              key={row.id}
+              className={`mx-auto grid grid-cols-1 gap-8 md:grid-cols-2 ${GRID_COLS[columns] || GRID_COLS[3]} ${maxWidthClass}`}
+            >
+              {row.members.map((member) => renderMemberCard(member, member.id || member.name))}
+            </div>
+          )
+        })}
+      </div>
+    )
+  }
+
   return (
     <section className="w-full bg-white py-16">
       <div className="mx-auto max-w-7xl px-6">
-        {/* Header */}
         <div className="mb-12 text-center">
-          <h2 className="mb-4 text-3xl font-bold text-slate-900 md:text-4xl">
-            {t('team.title')}
-          </h2>
-          <p className="mx-auto max-w-2xl text-base text-slate-600 md:text-lg">
-            {t('team.subtitle')}
-          </p>
+          <h2 className="mb-4 text-3xl font-bold text-slate-900 md:text-4xl">{t('team.title')}</h2>
+          <p className="mx-auto max-w-2xl text-base text-slate-600 md:text-lg">{t('team.subtitle')}</p>
         </div>
 
-        {hasCustomRows ? (
-          <div className="mb-12 space-y-8">
-            {memberRows.map((row, rowIndex) => {
-              const columns = rowIndex === 1 ? 4 : 3
-              const maxWidthClass = rowIndex === 1 ? 'max-w-[1200px]' : 'max-w-[900px]'
-              const rowMembers = row
-                .map((memberName) => membersByName.get(memberName))
-                .filter(Boolean)
+        {rowLayout ? renderRowLayout() : renderStandardGrid()}
 
-              return (
-                <div
-                  key={`team-row-${rowIndex}`}
-                  className={`mx-auto grid grid-cols-1 gap-8 md:grid-cols-2 ${columns === 4 ? 'lg:grid-cols-4' : 'lg:grid-cols-3'} ${maxWidthClass}`}
-                >
-                  {rowMembers.map((member) => renderMemberCard(member, member.name))}
-                </div>
-              )
-            })}
-          </div>
-        ) : (
-          /* Team Members Grid: 1 col mobile, 2 cols tablet, columnsLg na laptop+ (3 za Landing, 5 za O nama) */
-          <div className={`mb-12 grid grid-cols-1 gap-8 md:grid-cols-2 ${columnsLg === 3 ? 'lg:grid-cols-3' : 'lg:grid-cols-5'}`}>
-            {displayedMembers.map((member) => renderMemberCard(member, member.name))}
-          </div>
-        )}
-
-        {/* Learn More Button */}
         {showLearnMore && (
           <div className="text-center">
             <a
@@ -211,7 +240,6 @@ const TeamSection = ({ maxMembers, showLearnMore = true, columnsLg = 5, memberRo
   )
 }
 
-// Email Icon Component
 const EmailIcon = () => (
   <svg
     width="20"
@@ -229,7 +257,6 @@ const EmailIcon = () => (
   </svg>
 )
 
-// LinkedIn Icon Component
 const LinkedInIcon = () => (
   <svg
     width="20"

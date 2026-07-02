@@ -59,6 +59,41 @@ create index if not exists blog_posts_public_idx
 create index if not exists catalogs_public_idx
   on public.catalogs (locale, status, sort_order asc, published_at desc);
 
+create table if not exists public.team_rows (
+  id uuid primary key default gen_random_uuid(),
+  sort_order integer not null default 0,
+  columns_lg integer not null default 3 check (columns_lg in (3, 4, 5)),
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+create table if not exists public.team_members (
+  id uuid primary key default gen_random_uuid(),
+  name text not null,
+  title text not null,
+  image_url text,
+  email text,
+  linkedin_url text,
+  sort_order integer not null default 0,
+  show_on_homepage boolean not null default false,
+  row_id uuid references public.team_rows(id) on delete set null,
+  position_in_row integer not null default 0,
+  status text not null default 'draft' check (status in ('draft', 'published')),
+  published_at timestamptz,
+  author_id uuid references auth.users(id) on delete set null,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+create index if not exists team_members_public_idx
+  on public.team_members (status, sort_order asc, published_at desc);
+
+create index if not exists team_members_row_idx
+  on public.team_members (row_id, position_in_row asc);
+
+create index if not exists team_rows_sort_idx
+  on public.team_rows (sort_order asc);
+
 create or replace function public.is_admin()
 returns boolean
 language sql
@@ -77,6 +112,8 @@ $$;
 alter table public.admin_users enable row level security;
 alter table public.blog_posts enable row level security;
 alter table public.catalogs enable row level security;
+alter table public.team_rows enable row level security;
+alter table public.team_members enable row level security;
 
 drop policy if exists "Admins can read admin users" on public.admin_users;
 create policy "Admins can read admin users"
@@ -106,6 +143,32 @@ create policy "Public can read published catalogs"
 drop policy if exists "Admins can manage catalogs" on public.catalogs;
 create policy "Admins can manage catalogs"
   on public.catalogs for all
+  to authenticated
+  using (public.is_admin())
+  with check (public.is_admin());
+
+drop policy if exists "Public can read published team members" on public.team_members;
+create policy "Public can read published team members"
+  on public.team_members for select
+  to anon, authenticated
+  using (status = 'published' and (published_at is null or published_at <= now()));
+
+drop policy if exists "Admins can manage team members" on public.team_members;
+create policy "Admins can manage team members"
+  on public.team_members for all
+  to authenticated
+  using (public.is_admin())
+  with check (public.is_admin());
+
+drop policy if exists "Public can read team rows" on public.team_rows;
+create policy "Public can read team rows"
+  on public.team_rows for select
+  to anon, authenticated
+  using (true);
+
+drop policy if exists "Admins can manage team rows" on public.team_rows;
+create policy "Admins can manage team rows"
+  on public.team_rows for all
   to authenticated
   using (public.is_admin())
   with check (public.is_admin());

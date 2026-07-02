@@ -837,10 +837,7 @@ const LandingPage = () => {
       />
 
       {/* Team Section – 3 kartice u jednom redu */}
-      <TeamSection
-        columnsLg={3}
-        memberRows={[['Simona Zavratnik', 'Suzana Mahović', 'Marko Hrgetić']]}
-      />
+      <TeamSection homepageOnly columnsLg={3} />
 
             {/* Moodboard Section */}
             <MoodboardSection />

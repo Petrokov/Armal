@@ -148,6 +148,26 @@ export const supabasePublic = {
       `?select=*&locale=eq.${filterValue(locale)}&status=eq.published${publishedDateFilter()}&order=sort_order.asc,published_at.desc,created_at.desc`
     return select('catalogs', query)
   },
+  async getPublishedTeamMembers() {
+    const query =
+      `?select=*&status=eq.published${publishedDateFilter()}&order=sort_order.asc,created_at.asc`
+    return select('team_members', query)
+  },
+  async getPublishedTeamLayout() {
+    const rows = await select(
+      'team_rows',
+      '?select=*,team_members(*)&order=sort_order.asc',
+    )
+
+    if (!Array.isArray(rows)) return []
+
+    return rows.map((row) => ({
+      ...row,
+      team_members: (row.team_members || [])
+        .filter((member) => member.status === 'published')
+        .sort((a, b) => (a.position_in_row || 0) - (b.position_in_row || 0)),
+    }))
+  },
 }
 
 export const supabaseAdmin = {
@@ -206,6 +226,123 @@ export const supabaseAdmin = {
   async deleteCatalog(id) {
     const session = getSession()
     return remove('catalogs', session?.access_token, `?id=eq.${filterValue(id)}`)
+  },
+  async listTeamMembers() {
+    const session = getSession()
+    return request('/rest/v1/team_members?select=*&order=sort_order.asc,created_at.asc', {
+      accessToken: session?.access_token,
+    })
+  },
+  async getTeamMember(id) {
+    const session = getSession()
+    const rows = await request(`/rest/v1/team_members?select=*&id=eq.${filterValue(id)}&limit=1`, {
+      accessToken: session?.access_token,
+    })
+    return rows?.[0] || null
+  },
+  async saveTeamMember(payload) {
+    const session = getSession()
+    const body = { ...payload, updated_at: new Date().toISOString() }
+    if (payload.id) {
+      const rows = await mutate('team_members', 'PATCH', body, session?.access_token, `?id=eq.${filterValue(payload.id)}`)
+      return rows?.[0] || null
+    }
+
+    const rows = await mutate('team_members', 'POST', body, session?.access_token)
+    return rows?.[0] || null
+  },
+  async deleteTeamMember(id) {
+    const session = getSession()
+    return remove('team_members', session?.access_token, `?id=eq.${filterValue(id)}`)
+  },
+  async listTeamRows() {
+    const session = getSession()
+    return request('/rest/v1/team_rows?select=*,team_members(id,name,position_in_row,status)&order=sort_order.asc', {
+      accessToken: session?.access_token,
+    })
+  },
+  async saveTeamRow(payload) {
+    const session = getSession()
+    const body = {
+      sort_order: Number(payload.sort_order) || 0,
+      columns_lg: Number(payload.columns_lg) || 3,
+      updated_at: new Date().toISOString(),
+    }
+
+    if (payload.id) {
+      const rows = await mutate('team_rows', 'PATCH', body, session?.access_token, `?id=eq.${filterValue(payload.id)}`)
+      return rows?.[0] || null
+    }
+
+    const rows = await mutate('team_rows', 'POST', body, session?.access_token)
+    return rows?.[0] || null
+  },
+  async deleteTeamRow(id) {
+    const session = getSession()
+    await mutate(
+      'team_members',
+      'PATCH',
+      { row_id: null, position_in_row: 0, updated_at: new Date().toISOString() },
+      session?.access_token,
+      `?row_id=eq.${filterValue(id)}`,
+    )
+    return remove('team_rows', session?.access_token, `?id=eq.${filterValue(id)}`)
+  },
+  async saveTeamRowMembers(rowId, memberIds = []) {
+    const session = getSession()
+    const accessToken = session?.access_token
+    const now = new Date().toISOString()
+
+    let clearQuery = `?row_id=eq.${filterValue(rowId)}`
+    if (memberIds.length) {
+      clearQuery += `&id=not.in.(${memberIds.map(filterValue).join(',')})`
+    }
+
+    await mutate(
+      'team_members',
+      'PATCH',
+      { row_id: null, position_in_row: 0, updated_at: now },
+      accessToken,
+      clearQuery,
+    )
+
+    for (let index = 0; index < memberIds.length; index += 1) {
+      await mutate(
+        'team_members',
+        'PATCH',
+        { row_id: rowId, position_in_row: index, updated_at: now },
+        accessToken,
+        `?id=eq.${filterValue(memberIds[index])}`,
+      )
+    }
+  },
+  async saveTeamLayout(rows) {
+    const seen = new Set()
+    for (const row of rows) {
+      for (const memberId of row.memberIds || []) {
+        if (seen.has(memberId)) {
+          throw new Error('Ista osoba ne smije biti u vise redova.')
+        }
+        seen.add(memberId)
+      }
+    }
+
+    const existingRows = await this.listTeamRows()
+    const savedIds = new Set()
+
+    for (const row of rows) {
+      const saved = await this.saveTeamRow(row)
+      if (saved?.id) {
+        savedIds.add(saved.id)
+        await this.saveTeamRowMembers(saved.id, row.memberIds || [])
+      }
+    }
+
+    for (const row of existingRows || []) {
+      if (!savedIds.has(row.id)) {
+        await this.deleteTeamRow(row.id)
+      }
+    }
   },
   async uploadFile(bucket, file, folder = 'uploads') {
     const session = getSession()
