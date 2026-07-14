@@ -5,6 +5,7 @@ import { LanguageProvider, useLanguage } from './contexts/LanguageContext'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import AppRoutes from './AppRoutes'
+import AnalyticsTracker from './components/AnalyticsTracker'
 
 const PageLoader = () => (
   <div className="flex min-h-screen items-center justify-center bg-slate-50">
@@ -41,6 +42,7 @@ function App() {
   return (
     <Router>
       <LanguageProvider>
+        <AnalyticsTracker />
         <AppLayout />
       </LanguageProvider>
     </Router>

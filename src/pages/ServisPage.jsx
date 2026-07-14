@@ -424,11 +424,11 @@ const ServisPage = () => {
               <div className="flex flex-col justify-center rounded-lg border border-slate-200 bg-slate-50 p-6">
                 <h3 className="mb-4 text-lg font-semibold text-slate-900">{t('servisPage.phoneNumber')}</h3>
                 <a
-                  href="tel:+385913375730"
+                  href="tel:+38517777707"
                   className="flex items-center gap-3 text-[#0070CD] transition-colors hover:text-[#005bb0]"
                 >
                   <Phone className="h-5 w-5" />
-                  <span className="text-lg font-medium">+385 91 3375 730</span>
+                  <span className="text-lg font-medium">+385 1 7777 707</span>
                 </a>
               </div>
               <div className="flex flex-col justify-center rounded-lg border border-slate-200 bg-slate-50 p-6">

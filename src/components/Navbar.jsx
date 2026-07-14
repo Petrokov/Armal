@@ -313,8 +313,8 @@ const Navbar = () => {
             <a href="mailto:info@armal.hr" className="block text-sm text-slate-700 hover:text-[#0070CD]">
               info@armal.hr
             </a>
-            <a href="tel:+385913375730" className="block text-sm text-slate-700 hover:text-[#0070CD]">
-              +385 91 3375 730
+            <a href="tel:+38517777707" className="block text-sm text-slate-700 hover:text-[#0070CD]">
+              +385 1 7777 707
             </a>
 
             <div className="mt-4 flex items-center gap-3">
