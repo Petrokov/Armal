@@ -2,6 +2,7 @@ import { useLanguage } from '../contexts/LanguageContext'
 import { useEffect, useState } from 'react'
 import kupaonicaImage from '../assets/kupaonica-zelena.webp'
 import { isSupabaseConfigured, supabasePublic } from '../lib/supabaseClient'
+import { trackCatalogDownload } from '../utils/analytics'
 
 const KataloziPage = () => {
   const { t, language } = useLanguage()
@@ -56,13 +57,15 @@ const KataloziPage = () => {
     : displayedCatalogues
   const isFeaturedNew = featuredCatalogue ? isNew(featuredCatalogue.createdAt) : false
 
-  const handleDownload = (pdfUrl) => {
+  const handleDownload = (pdfUrl, title) => {
     if (!pdfUrl) return
+    trackCatalogDownload({ title, fileUrl: pdfUrl, action: 'download' })
     window.open(pdfUrl, '_blank')
   }
 
-  const handlePreview = (pdfUrl) => {
+  const handlePreview = (pdfUrl, title) => {
     if (!pdfUrl) return
+    trackCatalogDownload({ title, fileUrl: pdfUrl, action: 'preview' })
     window.open(pdfUrl, '_blank')
   }
 
@@ -130,7 +133,7 @@ const KataloziPage = () => {
 
                   <div className="flex flex-wrap gap-4">
                     <button
-                      onClick={() => handleDownload(featuredCatalogue.pdfUrl)}
+                      onClick={() => handleDownload(featuredCatalogue.pdfUrl, featuredCatalogue.title)}
                       disabled={!featuredCatalogue.pdfUrl}
                       className="inline-flex items-center gap-2 rounded-lg bg-[#0070CD] px-6 py-3 text-base font-semibold text-white transition-colors hover:bg-[#005bb0] disabled:cursor-not-allowed disabled:bg-slate-300"
                     >
@@ -138,7 +141,7 @@ const KataloziPage = () => {
                       {t('catalogues.downloadPDF')}
                     </button>
                     <button
-                      onClick={() => handlePreview(featuredCatalogue.pdfUrl)}
+                      onClick={() => handlePreview(featuredCatalogue.pdfUrl, featuredCatalogue.title)}
                       disabled={!featuredCatalogue.pdfUrl}
                       className="inline-flex items-center gap-2 rounded-lg border border-slate-300 bg-white px-6 py-3 text-base font-semibold text-slate-700 transition-colors hover:bg-slate-50 disabled:cursor-not-allowed disabled:bg-slate-100 disabled:text-slate-400"
                     >
@@ -206,7 +209,7 @@ const KataloziPage = () => {
 
                       <div className="flex flex-wrap gap-3">
                         <button
-                          onClick={() => handleDownload(catalogue.pdfUrl)}
+                          onClick={() => handleDownload(catalogue.pdfUrl, catalogue.title)}
                           disabled={!catalogue.pdfUrl}
                           className="inline-flex items-center gap-2 rounded-lg bg-[#0070CD] px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-[#005bb0] disabled:cursor-not-allowed disabled:bg-slate-300"
                         >
@@ -214,7 +217,7 @@ const KataloziPage = () => {
                           {t('catalogues.downloadPDF')}
                         </button>
                         <button
-                          onClick={() => handlePreview(catalogue.pdfUrl)}
+                          onClick={() => handlePreview(catalogue.pdfUrl, catalogue.title)}
                           disabled={!catalogue.pdfUrl}
                           className="inline-flex items-center gap-2 rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition-colors hover:bg-slate-50 disabled:cursor-not-allowed disabled:bg-slate-100 disabled:text-slate-400"
                         >

@@ -3,6 +3,7 @@ import { Link, useLocation } from 'react-router-dom'
 import { useLanguage } from '../contexts/LanguageContext'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { buildLocalizedPath } from '../utils/languageRouting'
+import { trackPartnerInteraction } from '../utils/analytics'
 import headerPipa from '../assets/header/header-pipa.webp'
 import rubiProstor from '../assets/slavine/rubi-compresed/rubi-prostor.webp'
 import oNamaKupaonicaHero from '../assets/o_nama_kupaonica_hero.png'
@@ -286,6 +287,7 @@ const LandingPage = () => {
 
     setGeoStatus('loading')
     setGeoError('')
+    trackPartnerInteraction({ interaction: 'use_my_location' })
     navigator.geolocation.getCurrentPosition(
       (pos) => {
         setMyCoords({ lat: pos.coords.latitude, lng: pos.coords.longitude })

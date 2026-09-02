@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { useLanguage } from '../contexts/LanguageContext'
 import partnerLocationsData from '../data/partnerLocations'
+import { trackPartnerInteraction } from '../utils/analytics'
 
 /**
  * PartnerMap – Google Mapa s markerima lokacija partnera.
@@ -162,6 +163,7 @@ const PartnerMap = ({
       marker.addListener('click', () => {
         infoWindows.forEach((iw) => iw.close())
         infoWindow.open(map, marker)
+        trackPartnerInteraction({ interaction: 'marker_click', partnerName: partner.name })
         onPartnerSelectRef.current?.(partnerId)
       })
     })

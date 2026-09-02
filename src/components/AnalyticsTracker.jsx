@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
-import { trackPageView, trackWebshopClick } from '../utils/analytics'
+import { trackPageView, trackWebshopClick, trackPhoneClick } from '../utils/analytics'
 
 const AnalyticsTracker = () => {
   const location = useLocation()
@@ -17,10 +17,17 @@ const AnalyticsTracker = () => {
       const href = link.getAttribute('href')
       if (!href) return
 
+      const pagePath = `${location.pathname}${location.search}`
+
+      if (href.toLowerCase().startsWith('tel:')) {
+        trackPhoneClick({ href, label: link.textContent, pagePath })
+        return
+      }
+
       trackWebshopClick({
         href,
         label: link.textContent,
-        pagePath: `${location.pathname}${location.search}`,
+        pagePath,
       })
     }
 
