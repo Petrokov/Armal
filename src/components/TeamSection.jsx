@@ -1,6 +1,12 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useLanguage } from '../contexts/LanguageContext'
 import { isSupabaseConfigured, supabasePublic } from '../lib/supabaseClient'
+import {
+  buildTeamImageCss,
+  normalizeTeamImageSettings,
+  teamImageCssKey,
+  teamImageCssVarStyle,
+} from '../lib/teamImageSettings'
 
 const mapTeamMember = (member) => ({
   id: member.id,
@@ -9,6 +15,8 @@ const mapTeamMember = (member) => ({
   image: member.image_url,
   linkedin: member.linkedin_url || '#',
   email: member.email || '',
+  imageSettings: normalizeTeamImageSettings(member.image_settings),
+  cssKey: teamImageCssKey(member),
 })
 
 const GRID_COLS = {
@@ -96,7 +104,9 @@ const TeamSection = ({
           <img
             src={member.image}
             alt={member.name}
-            className="h-full w-full object-cover object-[center_25%] md:object-center transition-transform duration-300 group-hover:scale-110"
+            data-team-image={member.cssKey}
+            style={teamImageCssVarStyle}
+            className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-110"
             loading="lazy"
           />
         ) : (
@@ -133,6 +143,14 @@ const TeamSection = ({
       </div>
     </div>
   )
+
+  const imageCss = useMemo(() => {
+    const visible = rowLayout ? rowSections.flatMap((row) => row.members) : displayedMembers
+
+    return buildTeamImageCss(
+      visible.map((member) => ({ cssKey: member.cssKey, settings: member.imageSettings })),
+    )
+  }, [displayedMembers, rowLayout, rowSections])
 
   const gridClass = GRID_COLS[columnsLg] || GRID_COLS[5]
 
@@ -217,6 +235,7 @@ const TeamSection = ({
 
   return (
     <section className="w-full bg-white py-16">
+      {imageCss && <style>{imageCss}</style>}
       <div className="mx-auto max-w-7xl px-6">
         <div className="mb-12 text-center">
           <h2 className="mb-4 text-3xl font-bold text-slate-900 md:text-4xl">{t('team.title')}</h2>
