@@ -8,6 +8,8 @@ import {
   supabaseAdmin,
   supabaseAuth,
 } from '../lib/supabaseClient'
+import { DEFAULT_TEAM_IMAGE_SETTINGS, normalizeTeamImageSettings } from '../lib/teamImageSettings'
+import TeamImageSettingsEditor from '../components/TeamImageSettingsEditor'
 
 const locales = [
   { value: 'hr', label: 'HR' },
@@ -45,10 +47,16 @@ const emptyCatalog = {
   seo_description: '',
 }
 
+const isMissingImageSettingsColumn = (error) =>
+  typeof error?.message === 'string' &&
+  error.message.includes('image_settings') &&
+  error.message.includes('PGRST204')
+
 const emptyTeamMember = {
   name: '',
   title: '',
   image_url: '',
+  image_settings: DEFAULT_TEAM_IMAGE_SETTINGS,
   email: '',
   linkedin_url: '',
   sort_order: 0,
@@ -621,6 +629,14 @@ export const AdminTeamListPage = () => {
                           >
                             <ChevronDown size={14} />
                           </button>
+                          <Link
+                            to={`/admin/team/${memberId}`}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="rounded border border-slate-300 bg-white px-2 py-1 text-xs font-semibold text-slate-700 hover:bg-slate-50"
+                          >
+                            Uredi
+                          </Link>
                           <button
                             type="button"
                             onClick={() => toggleLayoutMember(row.clientKey, memberId)}
@@ -1127,6 +1143,7 @@ const TeamEditor = ({ id }) => {
           ...emptyTeamMember,
           ...member,
           row_id: member.row_id || '',
+          image_settings: normalizeTeamImageSettings(member.image_settings),
           published_at: toDatetimeLocalValue(member.published_at),
         })
       }
@@ -1153,10 +1170,25 @@ const TeamEditor = ({ id }) => {
         position_in_row: Number(form.position_in_row) || 0,
         row_id: form.row_id || null,
         show_on_homepage: Boolean(form.show_on_homepage),
+        image_settings: normalizeTeamImageSettings(form.image_settings),
         published_at: form.status === 'published' ? toPublishedAtIso(form.published_at) : null,
       }
-      const saved = await supabaseAdmin.saveTeamMember(payload)
-      setMessage('Spremljeno.')
+      let saved
+
+      try {
+        saved = await supabaseAdmin.saveTeamMember(payload)
+        setMessage('Spremljeno.')
+      } catch (saveError) {
+        if (!isMissingImageSettingsColumn(saveError)) throw saveError
+
+        const fallbackPayload = { ...payload }
+        delete fallbackPayload.image_settings
+        saved = await supabaseAdmin.saveTeamMember(fallbackPayload)
+        setMessage(
+          'Spremljeno, ali bez postavki slike po ekranima - u bazi nedostaje stupac image_settings (pusti supabase/add-team-image-settings.sql).',
+        )
+      }
+
       if (isNew && saved?.id) navigate(`/admin/team/${saved.id}`, { replace: true })
     } catch (err) {
       setError(err.message || 'Spremanje zaposlenika nije uspjelo.')
@@ -1247,11 +1279,12 @@ const TeamEditor = ({ id }) => {
         <span className="text-sm font-semibold text-slate-700">Prikazi na homepage</span>
       </label>
       <UploadField label="Slika zaposlenika" value={form.image_url} onUpload={uploadImage} icon={<ImageUp size={16} />} />
-      {form.image_url && (
-        <div className="overflow-hidden rounded-md border border-slate-200 bg-white">
-          <img src={form.image_url} alt={form.name || 'Preview'} className="h-48 w-full max-w-xs object-cover object-[center_25%]" loading="lazy" />
-        </div>
-      )}
+      <TeamImageSettingsEditor
+        imageUrl={form.image_url}
+        name={form.name}
+        settings={form.image_settings}
+        onChange={(next) => update('image_settings', next)}
+      />
       <EditorActions showDelete={!isNew} onDelete={handleDelete} busy={busy} />
     </EditorFrame>
   )
