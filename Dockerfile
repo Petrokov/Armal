@@ -1,5 +1,5 @@
 # Use Debian-based Node image — required for Puppeteer's system library dependencies
-FROM node:20-slim
+FROM node:22-slim
 
 # Install system packages required by Puppeteer/Chromium
 RUN apt-get update && apt-get install -y \
