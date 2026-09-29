@@ -37,6 +37,7 @@ RUN apt-get update && apt-get install -y \
     libxss1 \
     libxtst6 \
     lsb-release \
+    unzip \
     wget \
     xdg-utils \
     xvfb \
@@ -56,8 +57,6 @@ ENV VITE_SUPABASE_ANON_KEY=${VITE_SUPABASE_ANON_KEY}
 # Copy package files and install all dependencies (including devDependencies for the build)
 COPY package.json package-lock.json ./
 RUN npm ci
-RUN rm -rf /root/.cache/puppeteer/chrome-headless-shell \
-    && npx puppeteer browsers install chrome-headless-shell
 
 # Copy the rest of the source and build (runs generate-sitemap, vite build, and prerender)
 COPY . .
