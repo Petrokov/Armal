@@ -1,8 +1,9 @@
 import { useLanguage } from '../contexts/LanguageContext'
 import kupaonicaImage from '../assets/o_nama.jpeg'
+import { buildLocalizedPath } from '../utils/languageRouting'
 
 const AboutSection = () => {
-  const { t } = useLanguage()
+  const { t, language } = useLanguage()
 
   return (
     <section className="w-full bg-white px-4 py-12 md:py-16">
@@ -12,7 +13,7 @@ const AboutSection = () => {
           <div className="w-full">
             <img
               src={kupaonicaImage}
-              alt="Moderni kupaonski interijer"
+              alt={t('about.imageAlt')}
               className="h-full w-full rounded-2xl object-cover"
               loading="lazy"
             />
@@ -27,7 +28,7 @@ const AboutSection = () => {
               {t('about.description')}
             </p>
             <a
-              href="/o-nama"
+              href={buildLocalizedPath('/o-nama', language)}
               className="w-fit rounded-lg bg-[#0070CD] px-6 py-3 text-base font-semibold text-white transition-colors hover:bg-[#005bb0] md:px-8 md:py-4 md:text-lg"
             >
               {t('about.learnMore')}
@@ -40,6 +41,4 @@ const AboutSection = () => {
 }
 
 export default AboutSection
-
-
 

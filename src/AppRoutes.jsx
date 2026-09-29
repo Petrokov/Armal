@@ -76,6 +76,7 @@ const AppRoutes = () => (
     {renderRouteSet('')}
     {renderRouteSet('/slo')}
     {renderRouteSet('/rs')}
+    {renderRouteSet('/eng')}
     {adminRouteConfig.map((route) => (
       <Route key={route.path} path={route.path} element={route.element} />
     ))}

@@ -1,4 +1,7 @@
 {
+  "common": {
+    "loading": "Učitavanje..."
+  },
   "navbar": {
     "home": "Početna",
     "products": "Proizvodi",
@@ -12,7 +15,9 @@
     "viewAllProducts": "Pogledaj sve proizvode",
     "openMenu": "Otvori meni",
     "closeMenu": "Zatvori meni",
-    "skipToMainContent": "Preskoči na glavni sadržaj"
+    "skipToMainContent": "Preskoči na glavni sadržaj",
+    "changeLanguage": "Promeni jezik",
+    "contact": "Kontakt"
   },
   "products": {
     "faucets": "Mješalice za vodu",
@@ -76,6 +81,9 @@
     "title": "Proizvodne kategorije",
     "subtitle": "Tri linije proizvoda za cjelovito opremanje kupatila.",
     "cardEyebrow": "Kategorija",
+    "faucetsLabel": "Mešalice za vodu",
+    "bathingLabel": "Kupanje + tuširanje",
+    "sanitaryLabel": "Sanitarije",
     "ctaExplore": "Istražite kategoriju"
   },
   "landingPartnerMap": {
@@ -89,6 +97,7 @@
       "partnerPlaceholder": "Unesite naziv partnera...",
       "distanceLabel": "Udaljenost od mene",
       "allDistances": "Sve udaljenosti",
+      "upToDistance": "do {distance} km",
       "useMyLocation": "Koristite moju lokaciju",
       "resetFilters": "Resetuj filtere",
       "locationHelper": "Za filtriranje po udaljenosti omogućite pristup lokaciji.",
@@ -105,6 +114,13 @@
     "geo": {
       "loading": "Dohvatamo vašu lokaciju...",
       "error": "Nije moguće dohvatiti lokaciju. Provjerite dopuštenja preglednika."
+    },
+    "map": {
+      "missingApiKey": "Google Maps API ključ nije podešen.",
+      "loadTimeout": "Mapu nije moguće učitati. Proverite Google Maps konfiguraciju i pokušajte ponovo.",
+      "loadError": "Google Maps nije moguće učitati. Proverite internet vezu i API konfiguraciju.",
+      "initError": "Google Maps nije moguće inicijalizovati.",
+      "initRestrictionHint": "Proverite API ograničenja i billing podešavanja u Google Cloud-u."
     },
     "resultShownPrefix": "Prikazano: ",
     "resultShownSuffix": " prodajnih mjesta",
@@ -134,6 +150,9 @@
     "subtitle": "Otkrijte naše vrhunske kolekcije stvorene za profinjene životne prostore.",
     "exploreCollection": "Istražite Kolekciju",
     "viewAll": "Pogledajte Sve Kolekcije",
+    "previous": "Prethodna kolekcija",
+    "next": "Sledeća kolekcija",
+    "goToPage": "Idi na stranicu {page}",
     "rubi": {
       "name": "Rubi",
       "description": "Elegantna kolekcija slavina koja kombinuje moderan dizajn sa vrhunskom funkcionalnošću. Izrađena od visokokvalitetnih materijala, Rubi kolekcija donosi sofisticiranu eleganciju u svaki prostor.",
@@ -199,12 +218,14 @@
     "title": "Moodboard",
     "subtitle": "Paleta tekstura, boja i formi koje čine srž našeg estetskog pristupa",
     "description": "Moodboard kupatila služi kao vizuelna smernica za usklađivanje svih ključnih elemenata prostora pre konačnog odabira. Kroz pažljivo odabrane slavine, završne obrade i stilske detalje jasno prikazuje odnos materijala, boja i oblika i pomaže da se definiše željeni karakter kupatila. Na jednom mestu objedinjuje estetiku i funkcionalnost, kako bi konačno uređenje delovalo skladno, promišljeno i dosledno.",
-    "tagline": "BE INSPIRED"
+    "tagline": "BE INSPIRED",
+    "imageAlt": "Moodboard slika"
   },
   "about": {
     "title": "O nama",
     "description": "Brand Armal poznat je na području Adria regije već više od 59 godina. Nakon što ga je 2018. godine preuzela tvrtka Armal d.o.o. nastavlja svoj daljnji razvoj. Od 2023., s ciljem osiguranja potpunog fokusa na poslovanje i rast branda izdvojena je zasebna tvrtka Armal d.o.o. koja u svom portfelju ima asortiman za opremanje kupaonica.",
-    "learnMore": "Saznaj više o nama"
+    "learnMore": "Saznaj više o nama",
+    "imageAlt": "Moderan enterijer kupatila"
   },
   "cta": {
     "title": "Stvorimo Vaš Prostor Snova",
@@ -215,7 +236,16 @@
   "team": {
     "title": "Naš tim",
     "subtitle": "Upoznajte stručnjake koji stoje iza našeg uspeha",
-    "learnMore": "Saznaj više o timu"
+    "learnMore": "Saznaj više o timu",
+    "noImage": "Nema slike",
+    "unavailable": "Tim trenutno nije dostupan.",
+    "emailAria": "Pošalji e-mail osobi {name}",
+    "linkedInAria": "LinkedIn profil osobe {name}",
+    "roles": {
+      "managingDirector": "Direktorka",
+      "chiefOperatingOfficer": "COO – operativni direktor",
+      "headOfProcurement": "Rukovodilac nabavke"
+    }
   },
   "catalogues": {
     "title": "Katalozi proizvoda",
@@ -226,12 +256,14 @@
     "preview": "Pregled",
     "fileSize": "Veličina datoteke",
     "year": "Godina",
-    "new": "Novo"
+    "new": "Novo",
+    "empty": "Trenutno nema objavljenih kataloga za izabrani jezik."
   },
   "languages": {
     "hr": "Hrvatski",
     "slo": "Slovenački",
-    "rs": "Srpski"
+    "rs": "Srpski",
+    "eng": "Engleski"
   },
   "footer": {
     "slogan": "Uredite prostor po svom ukusu, bez kompromisa između izgleda i budžeta.",
@@ -242,10 +274,13 @@
     "uid": "UID",
     "uidValue": "HR02300129401",
     "linksTitle": "Linkovi",
+    "servicesTitle": "Usluge",
     "legalTitle": "Pravno",
     "privacy": "Politika privatnosti",
     "terms": "Uslovi korišćenja",
     "cookies": "Politika kolačića",
+    "bank": "Banka",
+    "countryCroatia": "Hrvatska",
     "copyright": "© 2026 Armal. Sva prava zadržana."
   },
   "aboutPage": {
@@ -258,6 +293,7 @@
     "storyParagraph2": "Iz porodične poslovne tradicije razvili smo moderan i celovit brend koji danas objedinjuje mešalice, tuš programe, kupatilski nameštaj, ogledala, galanteriju i drugu opremu.",
     "storyParagraph3": "Gledamo unapred s jasnom ambicijom: širiti portfelj, jačati dizajnerski identitet i razvijati inovativna, održiva i dugotrajna rešenja za savremeni životni prostor. Danas smo prisutni na više od 300 prodajnih mesta u Hrvatskoj, Sloveniji i Bosni i Hercegovini, a sutra želimo biti još snažniji regionalni partner za celovito opremanje kupatila.",
     "storyParagraph4": "Budućnost gradimo na temeljima tradicije uz kontinuirano unapređenje znanja i iskustva.",
+    "storyImageAlt": "Staro Armal kupatilo",
     "valuesTitle": "Naše vrednosti",
     "valuesSubtitle": "Ove temeljne vrednosti vode sve što radimo, od odabira proizvoda do korisničke usluge.",
     "values": {
@@ -295,6 +331,20 @@
     "viewCatalogues": "Vidi kataloge",
     "colorLabel": "BOJA",
     "colorAll": "Svi proizvodi",
+    "colorPlaceholder": "Izaberite boju",
+    "notFoundLabel": "Kolekcija slavina nije pronađena",
+    "notFoundDescription": "Izabrana kolekcija ne postoji ili trenutno nije dostupna.",
+    "backToList": "Nazad na slavine",
+    "productVariantTitle": "Varijante proizvoda",
+    "productVariantSubtitle": "Izaberite boju i tip proizvoda da biste lakše uporedili različite varijante unutar kolekcije.",
+    "variantInfoLabel": "Tip proizvoda",
+    "variantInfoPlaceholder": "Izaberite tip proizvoda",
+    "variantWashbasin": "Slavina za umivaonik",
+    "variantBidet": "Slavina za bide",
+    "variantBathtub": "Slavina za kadu / tuš",
+    "variantBuiltIn": "Ugradna slavina",
+    "variantShowerSet": "Tuš set / sistem",
+    "heroImageAlt": "Slavine",
     "ui": {
       "reset": "Reset"
     },
@@ -434,6 +484,8 @@
     "subtitle": "Inspiracija, saveti i najnovije vesti o kupatilskim rešenjima",
     "readMore": "Pročitaj više",
     "backToBlog": "Povratak na blog",
+    "empty": "Trenutno nema objavljenih blogova za izabrani jezik.",
+    "notFound": "Blog objava nije pronađena",
     "posts": {
       "blog1": {
         "title": "Armal obavijest veleprodajnim kupcima",

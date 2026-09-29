@@ -26,7 +26,7 @@ export const FAUCET_COLLECTION_SLUGS = [
   'jana',
 ]
 
-export const LANGUAGE_PREFIXES = ['', '/slo', '/rs']
+export const LANGUAGE_PREFIXES = ['', '/slo', '/rs', '/eng']
 
 const normalizePath = (value) => {
   const next = `${value}`.replace(/\/{2,}/g, '/')

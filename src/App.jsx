@@ -7,14 +7,18 @@ import Footer from './components/Footer'
 import AppRoutes from './AppRoutes'
 import AnalyticsTracker from './components/AnalyticsTracker'
 
-const PageLoader = () => (
-  <div className="flex min-h-screen items-center justify-center bg-slate-50">
-    <div className="text-center">
-      <div className="mb-4 inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-[#0070CD] border-r-transparent"></div>
-      <p className="text-slate-600">Učitavanje...</p>
+const PageLoader = () => {
+  const { t } = useLanguage()
+
+  return (
+    <div className="flex min-h-screen items-center justify-center bg-slate-50">
+      <div className="text-center">
+        <div className="mb-4 inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-[#0070CD] border-r-transparent"></div>
+        <p className="text-slate-600">{t('common.loading')}</p>
+      </div>
     </div>
-  </div>
-)
+  )
+}
 
 const AppLayout = () => {
   const { t } = useLanguage()

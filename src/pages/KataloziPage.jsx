@@ -3,6 +3,30 @@ import { useEffect, useState } from 'react'
 import kupaonicaImage from '../assets/kupaonica-zelena.webp'
 import { isSupabaseConfigured, supabasePublic } from '../lib/supabaseClient'
 import { trackCatalogDownload } from '../utils/analytics'
+import { getSafeHttpUrl } from '../utils/urlSafety'
+
+const ENGLISH_CATALOGUE_COPY = {
+  'armal-walk-in-katalog-2026': {
+    title: 'Armal shower enclosures and walk-in catalogue 2026',
+    subtitle: 'Browse the new Armal walk-in catalogue featuring shower screens for contemporary bathrooms, practical installation and safe everyday use.',
+  },
+  'armal-kupaonski-namjestaj-katalog-2026': {
+    title: 'Armal bathroom furniture catalogue 2026',
+    subtitle: 'Browse the Armal bathroom furniture catalogue featuring practical, elegant and functional solutions for contemporary bathrooms.',
+  },
+  'armal-usponski-tusevi-katalog-2024': {
+    title: 'Armal shower systems catalogue 2024',
+    subtitle: 'Browse the Armal shower systems catalogue featuring practical solutions for comfortable showering, robust construction and easy installation.',
+  },
+  'armal-sanitarije-katalog-2025': {
+    title: 'Armal sanitary ware catalogue 2025',
+    subtitle: 'Browse the Armal sanitary ware catalogue featuring reliable bathroom solutions, easy maintenance and safe everyday use.',
+  },
+  'armal-slavine-katalog-2024': {
+    title: 'Armal faucets catalogue 2024',
+    subtitle: 'Browse the Armal faucets catalogue featuring reliable solutions for bathrooms and kitchens, contemporary design and practical everyday use.',
+  },
+}
 
 const KataloziPage = () => {
   const { t, language } = useLanguage()
@@ -15,30 +39,56 @@ const KataloziPage = () => {
       return undefined
     }
 
-    supabasePublic
-      .getPublishedCatalogs(language)
-      .then((items) => {
-        if (active) setSupabaseCatalogues(Array.isArray(items) ? items : [])
-      })
-      .catch(() => {
+    const loadCatalogues = async () => {
+      try {
+        if (language === 'eng') {
+          const [items, croatianItems] = await Promise.all([
+            supabasePublic.getPublishedCatalogs('eng'),
+            supabasePublic.getPublishedCatalogs('hr'),
+          ])
+          const localizedItems = Array.isArray(items) ? items : []
+          const localizedSlugs = new Set(localizedItems.map((catalogue) => catalogue.slug))
+          const englishFallbackItems = (Array.isArray(croatianItems) ? croatianItems : [])
+            .filter((catalogue) => (
+              ENGLISH_CATALOGUE_COPY[catalogue.slug] && !localizedSlugs.has(catalogue.slug)
+            ))
+            .map((catalogue) => ({ ...catalogue, isEnglishFallback: true }))
+
+          if (active) setSupabaseCatalogues([...localizedItems, ...englishFallbackItems])
+          return
+        }
+
+        const items = await supabasePublic.getPublishedCatalogs(language)
+        const localizedItems = Array.isArray(items) ? items : []
+        if (active) setSupabaseCatalogues(localizedItems)
+      } catch {
         if (active) setSupabaseCatalogues([])
-      })
+      }
+    }
+
+    loadCatalogues()
 
     return () => {
       active = false
     }
   }, [language])
 
-  const displayedCatalogues = supabaseCatalogues.map((catalogue) => ({
-    id: catalogue.id,
-    title: catalogue.title,
-    subtitle: catalogue.subtitle,
-    image: catalogue.cover_image_url || '/katalozi/placeholder_slika/Armal_slavine_mockup_50.png',
-    fileSize: catalogue.file_size || '-',
-    year: catalogue.year,
-    pdfUrl: catalogue.pdf_url,
-    createdAt: new Date(catalogue.published_at || catalogue.created_at),
-  }))
+  const displayedCatalogues = supabaseCatalogues.map((catalogue) => {
+    const englishCopy = catalogue.isEnglishFallback
+      ? ENGLISH_CATALOGUE_COPY[catalogue.slug]
+      : null
+
+    return {
+      id: catalogue.id,
+      title: englishCopy?.title || catalogue.title,
+      subtitle: englishCopy?.subtitle || catalogue.subtitle,
+      image: catalogue.cover_image_url || '/katalozi/placeholder_slika/Armal_slavine_mockup_50.png',
+      fileSize: catalogue.file_size || '-',
+      year: catalogue.year,
+      pdfUrl: getSafeHttpUrl(catalogue.pdf_url),
+      createdAt: new Date(catalogue.published_at || catalogue.created_at),
+    }
+  })
 
   const isNew = (createdAt) => {
     const now = new Date()
@@ -57,17 +107,16 @@ const KataloziPage = () => {
     : displayedCatalogues
   const isFeaturedNew = featuredCatalogue ? isNew(featuredCatalogue.createdAt) : false
 
-  const handleDownload = (pdfUrl, title) => {
+  const openCatalogue = (pdfUrl, title, action) => {
     if (!pdfUrl) return
-    trackCatalogDownload({ title, fileUrl: pdfUrl, action: 'download' })
-    window.open(pdfUrl, '_blank')
+    trackCatalogDownload({ title, fileUrl: pdfUrl, action })
+    const openedWindow = window.open(pdfUrl, '_blank', 'noopener,noreferrer')
+    if (openedWindow) openedWindow.opener = null
   }
 
-  const handlePreview = (pdfUrl, title) => {
-    if (!pdfUrl) return
-    trackCatalogDownload({ title, fileUrl: pdfUrl, action: 'preview' })
-    window.open(pdfUrl, '_blank')
-  }
+  const handleDownload = (pdfUrl, title) => openCatalogue(pdfUrl, title, 'download')
+
+  const handlePreview = (pdfUrl, title) => openCatalogue(pdfUrl, title, 'preview')
 
   return (
     <div className="min-h-screen bg-slate-50">
@@ -232,7 +281,7 @@ const KataloziPage = () => {
             </div>
           ) : (
             <div className="rounded-2xl border border-slate-200 bg-white p-8 text-center text-slate-600">
-              Trenutno nema objavljenih kataloga za odabrani jezik.
+              {t('catalogues.empty')}
             </div>
           )}
         </div>

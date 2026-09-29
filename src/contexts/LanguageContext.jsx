@@ -7,7 +7,7 @@
  * - Automatski fallback na hrvatski jezik ako prijevod nije dostupan
  * - Trajno spremanje odabranog jezika u localStorage
  * 
- * Podržani jezici: hr (hrvatski), slo (slovenski), rs (srpski)
+ * Podržani jezici: hr (hrvatski), slo (slovenski), rs (srpski), eng (engleski)
  */
 
 import { createContext, useContext, useState, useEffect, useMemo } from 'react'
@@ -15,6 +15,7 @@ import { useLocation } from 'react-router-dom'
 import hrTranslations from '../translations/hr.json'
 import sloTranslations from '../translations/slo.json'
 import rsTranslations from '../translations/rs.json'
+import engTranslations from '../translations/eng.json'
 import { getLanguageFromPathname, isSupportedLanguage } from '../utils/languageRouting'
 
 // Fallback jezik - koristi se ako prijevod nije dostupan
@@ -25,6 +26,7 @@ const translations = {
   hr: hrTranslations,
   slo: sloTranslations,
   rs: rsTranslations,
+  eng: engTranslations,
 }
 
 // Lokalni alias radi kompatibilnosti s postojećim pozivima u ovom contextu.
@@ -134,7 +136,7 @@ export const LanguageProvider = ({ children }) => {
 
   /**
    * Funkcija za promjenu jezika
-   * @param {string} lang - Kod jezika (hr, slo, rs)
+   * @param {string} lang - Kod jezika (hr, slo, rs, eng)
    */
   const changeLanguage = (lang) => {
     if (isLanguageSupported(lang)) {

@@ -10,11 +10,13 @@ import {
 } from '../lib/supabaseClient'
 import { DEFAULT_TEAM_IMAGE_SETTINGS, normalizeTeamImageSettings } from '../lib/teamImageSettings'
 import TeamImageSettingsEditor from '../components/TeamImageSettingsEditor'
+import { getSafeHttpUrl } from '../utils/urlSafety'
 
 const locales = [
   { value: 'hr', label: 'HR' },
   { value: 'slo', label: 'SLO' },
   { value: 'rs', label: 'RS' },
+  { value: 'eng', label: 'ENG' },
 ]
 
 const emptyBlogPost = {
@@ -55,6 +57,7 @@ const isMissingImageSettingsColumn = (error) =>
 const emptyTeamMember = {
   name: '',
   title: '',
+  title_eng: '',
   image_url: '',
   image_settings: DEFAULT_TEAM_IMAGE_SETTINGS,
   email: '',
@@ -884,6 +887,7 @@ const BlogEditor = ({ id }) => {
         gallery_image_urls: Array.isArray(form.gallery_image_urls) ? form.gallery_image_urls : [],
         published_at: form.status === 'published' ? toPublishedAtIso(form.published_at) : null,
       }
+      if (!payload.title_eng) delete payload.title_eng
       const saved = await supabaseAdmin.saveBlogPost(payload)
       setMessage('Spremljeno.')
       if (isNew && saved?.id) navigate(`/admin/blog/${saved.id}`, { replace: true })
@@ -1243,6 +1247,9 @@ const TeamEditor = ({ id }) => {
       <FormField label="Titula">
         <TextInput value={form.title || ''} onChange={(event) => update('title', event.target.value)} required />
       </FormField>
+      <FormField label="Titula (ENG)">
+        <TextInput value={form.title_eng || ''} onChange={(event) => update('title_eng', event.target.value)} />
+      </FormField>
       <FormField label="Email">
         <TextInput type="email" value={form.email || ''} onChange={(event) => update('email', event.target.value)} />
       </FormField>
@@ -1351,6 +1358,7 @@ const SeoFields = ({ form, update }) => (
 
 const UploadField = ({ label, value, onUpload, icon, accept = 'image/*' }) => {
   const fileId = `${label.replace(/\s+/g, '-').toLowerCase()}-${useId()}`
+  const safeValue = getSafeHttpUrl(value)
 
   return (
     <div>
@@ -1364,8 +1372,8 @@ const UploadField = ({ label, value, onUpload, icon, accept = 'image/*' }) => {
           Upload
         </label>
         <input id={fileId} type="file" accept={accept} className="sr-only" onChange={(event) => onUpload(event.target.files?.[0])} />
-        {value && (
-          <a href={value} target="_blank" rel="noreferrer" className="break-all text-sm font-semibold text-[#0070CD]">
+        {safeValue && (
+          <a href={safeValue} target="_blank" rel="noopener noreferrer" className="break-all text-sm font-semibold text-[#0070CD]">
             {value}
           </a>
         )}

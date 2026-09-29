@@ -43,7 +43,7 @@ const Footer = () => {
                 <p>
                   Mrkšina 52D
                   <br />
-                  10000 Zagreb, Hrvatska
+                  10000 Zagreb, {t('footer.countryCroatia')}
                 </p>
                 <p>
                   <a
@@ -84,7 +84,7 @@ const Footer = () => {
                     {t('footer.uid')}: HR02300129401
                   </span>
                   <span className="sm:max-w-[min(100%,28rem)]">
-                    Banka: Erste&Steiermärkische Bank d. d.
+                    {t('footer.bank')}: Erste&Steiermärkische Bank d. d.
                   </span>
                   <span className="whitespace-nowrap">
                     IBAN:{' '}
@@ -130,7 +130,7 @@ const Footer = () => {
 
               <div className="flex min-w-0 flex-col">
                 <h3 className="mb-3 text-base font-semibold text-slate-900">
-                  Usluge
+                  {t('footer.servicesTitle')}
                 </h3>
                 <nav className="flex flex-col space-y-2">
                   {servicesLinks.map((link) => {

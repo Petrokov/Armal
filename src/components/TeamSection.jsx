@@ -1,6 +1,8 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useLanguage } from '../contexts/LanguageContext'
 import { isSupabaseConfigured, supabasePublic } from '../lib/supabaseClient'
+import { buildLocalizedPath } from '../utils/languageRouting'
+import { getSafeHttpUrl } from '../utils/urlSafety'
 import {
   buildTeamImageCss,
   normalizeTeamImageSettings,
@@ -8,12 +10,23 @@ import {
   teamImageCssVarStyle,
 } from '../lib/teamImageSettings'
 
-const mapTeamMember = (member) => ({
+const TEAM_ROLE_TRANSLATION_KEYS = {
+  Direktorica: 'team.roles.managingDirector',
+  'COO – operativni direktor': 'team.roles.chiefOperatingOfficer',
+  'Voditelj nabave': 'team.roles.headOfProcurement',
+}
+
+const mapTeamMember = (member, language, t) => ({
   id: member.id,
   name: member.name,
-  role: member.title,
+  role:
+    language === 'eng' && member.title_eng
+      ? member.title_eng
+      : TEAM_ROLE_TRANSLATION_KEYS[member.title]
+        ? t(TEAM_ROLE_TRANSLATION_KEYS[member.title])
+        : member.title,
   image: member.image_url,
-  linkedin: member.linkedin_url || '#',
+  linkedin: getSafeHttpUrl(member.linkedin_url),
   email: member.email || '',
   imageSettings: normalizeTeamImageSettings(member.image_settings),
   cssKey: teamImageCssKey(member),
@@ -32,7 +45,7 @@ const TeamSection = ({
   homepageOnly = false,
   rowLayout = false,
 }) => {
-  const { t } = useLanguage()
+  const { t, language } = useLanguage()
   const [members, setMembers] = useState([])
   const [layoutRows, setLayoutRows] = useState([])
   const [loading, setLoading] = useState(isSupabaseConfigured)
@@ -72,10 +85,12 @@ const TeamSection = ({
   }, [rowLayout])
 
   const displayedMembers = useMemo(() => {
-    let list = members.map(mapTeamMember)
+    let list = members.map((member) => mapTeamMember(member, language, t))
 
     if (homepageOnly) {
-      list = members.filter((member) => member.show_on_homepage).map(mapTeamMember)
+      list = members
+        .filter((member) => member.show_on_homepage)
+        .map((member) => mapTeamMember(member, language, t))
     }
 
     if (maxMembers) {
@@ -83,15 +98,15 @@ const TeamSection = ({
     }
 
     return list
-  }, [homepageOnly, maxMembers, members])
+  }, [homepageOnly, language, maxMembers, members, t])
 
   const rowSections = useMemo(
     () =>
       layoutRows.map((row) => ({
         ...row,
-        members: (row.team_members || []).map(mapTeamMember),
+        members: (row.team_members || []).map((member) => mapTeamMember(member, language, t)),
       })),
-    [layoutRows],
+    [language, layoutRows, t],
   )
 
   const renderMemberCard = (member, indexKey) => (
@@ -110,7 +125,7 @@ const TeamSection = ({
             loading="lazy"
           />
         ) : (
-          <div className="flex h-full w-full items-center justify-center bg-slate-100 text-sm text-slate-500">Nema slike</div>
+          <div className="flex h-full w-full items-center justify-center bg-slate-100 text-sm text-slate-500">{t('team.noImage')}</div>
         )}
       </div>
 
@@ -122,20 +137,20 @@ const TeamSection = ({
           <a
             href={`mailto:${member.email}`}
             className="inline-flex items-center justify-center rounded-full bg-slate-700 p-2 text-white transition-colors hover:bg-slate-600"
-            aria-label={`Pošalji email ${member.name}`}
+            aria-label={t('team.emailAria').replace('{name}', member.name)}
             title={member.email}
           >
             <EmailIcon />
           </a>
         )}
 
-        {member.linkedin && member.linkedin !== '#' && (
+        {member.linkedin && (
           <a
             href={member.linkedin}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center justify-center rounded-full bg-[#0070CD] p-2 text-white transition-colors hover:bg-[#005bb0]"
-            aria-label={`${member.name} LinkedIn profil`}
+            aria-label={t('team.linkedInAria').replace('{name}', member.name)}
           >
             <LinkedInIcon />
           </a>
@@ -174,7 +189,7 @@ const TeamSection = ({
     if (displayedMembers.length === 0) {
       return (
         <div className="mb-12 rounded-2xl border border-dashed border-slate-200 px-6 py-12 text-center text-sm text-slate-500">
-          Tim trenutno nije dostupan.
+          {t('team.unavailable')}
         </div>
       )
     }
@@ -209,7 +224,7 @@ const TeamSection = ({
     if (!rowSections.length) {
       return (
         <div className="mb-12 rounded-2xl border border-dashed border-slate-200 px-6 py-12 text-center text-sm text-slate-500">
-          Tim trenutno nije dostupan.
+          {t('team.unavailable')}
         </div>
       )
     }
@@ -247,7 +262,7 @@ const TeamSection = ({
         {showLearnMore && (
           <div className="text-center">
             <a
-              href="/o-nama"
+              href={buildLocalizedPath('/o-nama', language)}
               className="inline-flex items-center gap-2 rounded-lg bg-[#0070CD] px-6 py-3 text-base font-semibold text-white transition-colors hover:bg-[#005bb0] md:px-8 md:py-4 md:text-lg"
             >
               {t('team.learnMore')}

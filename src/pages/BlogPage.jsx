@@ -54,6 +54,7 @@ const BlogPage = () => {
       hr: 'hr-HR',
       slo: 'sl-SI',
       rs: 'sr-RS',
+      eng: 'en-GB',
     }
     return date.toLocaleDateString(localeMap[language] || 'hr-HR', {
       year: 'numeric',
@@ -133,7 +134,7 @@ const BlogPage = () => {
             </div>
           ) : (
             <div className="rounded-2xl border border-slate-200 bg-slate-50 p-8 text-center text-slate-600">
-              Trenutno nema objavljenih blogova za odabrani jezik.
+              {t('blogPage.empty')}
             </div>
           )}
         </div>

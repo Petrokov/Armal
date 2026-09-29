@@ -1,10 +1,12 @@
--- Copies all HR blog posts to SLO and RS with translated text.
+-- Copies all HR blog posts to SLO, RS and ENG with translated text.
 -- Cover image URLs, gallery image URLs, status, publish date and author are copied from HR.
 --
+-- Run supabase/add-english-locale.sql before this script.
 -- Run this in Supabase Dashboard > SQL Editor.
 
 begin;
 
+-- Preserve independently authored ENG posts; the legacy SLO/RS cleanup remains unchanged.
 delete from public.blog_posts target
 where target.locale in ('slo', 'rs')
   and not exists (
@@ -209,6 +211,103 @@ Inovacije u tehnologiji takođe menjaju način na koji doživljavamo tuširanje.
 Prilikom planiranja nove tuš kabine važno je razmotriti veličinu prostora, tip vrata (klizna, otvorena, ugaona) i materijale koji će se koristiti. Svaki izbor utiče na konačni izgled i funkcionalnost vašeg kupatila.',
       'Moderne tuš kabine: Trendovi i inovacije 2025',
       'Istražite najnovije trendove u dizajnu tuš kabina i kako da stvorite luksuzno iskustvo tuširanja u svom domu.'
+    ),
+    (
+      'eng',
+      'armal-obavijest-veleprodajnim-kupcima',
+      'Armal notice for wholesale customers',
+      'NOTICE FOR WHOLESALE CUSTOMERS',
+      'NOTICE FOR WHOLESALE CUSTOMERS
+
+Dear partners,
+
+Due to the continued increase in raw material and energy prices, we are required to adjust the Armal price list.
+
+We understand the challenges these cost increases create for businesses and have sought to absorb most of the increase to maintain price stability for our customers. Unfortunately, we must pass a smaller portion of the increased costs on to the market. We are therefore announcing an average price increase of 4.5%, which will not be applied uniformly to all products.
+
+The new price list will be delivered to you around 15 April 2026.
+
+Thank you for your understanding and continued cooperation.
+
+Kind regards,
+Armal d.o.o.',
+      'Armal notice for wholesale customers',
+      'NOTICE FOR WHOLESALE CUSTOMERS'
+    ),
+    (
+      'eng',
+      'minimalisticki-dizajn-kupaonice-vodic-za-pocetnike',
+      'Minimalist bathroom design: a beginner''s guide',
+      'How to create a clean, functional space defined by elegance and simplicity.',
+      'Minimalist bathroom design is becoming increasingly popular thanks to its clean appearance, simplicity and timeless quality.
+
+The key to minimalist design lies in the principle that less is more. Instead of overcrowding the space with different elements, focus on high-quality, functional pieces with a clear purpose.
+
+Colour is also important. White, grey and neutral shades create a sense of space and cleanliness. Add accent colours through small details such as towels or decorative elements.
+
+Storage is critical in minimalist design. Concealed shelves, built-in cabinets and simple organisational systems help keep the space clean and organised.',
+      'Minimalist bathroom design: a beginner''s guide',
+      'How to create a clean, functional space defined by elegance and simplicity.'
+    ),
+    (
+      'eng',
+      'energetska-ucinkovitost-u-kupaonici-prakticni-savjeti',
+      'Energy efficiency in the bathroom: practical tips',
+      'Learn how to reduce water and energy consumption in your bathroom while maintaining a high level of comfort.',
+      'Energy efficiency in the bathroom is good not only for the environment but also for your budget. There are several simple ways to reduce consumption without sacrificing comfort.
+
+Replacing old faucets with new water-saving models can reduce water consumption by up to 30%. Aerators and flow restrictors are simple additions that can make a significant difference.
+
+Low-flow shower heads are another excellent choice. They can reduce water consumption during showering by almost half while preserving the same comfortable experience.
+
+For water heating, consider solar systems or heat pumps. Although they require an initial investment, they can significantly reduce energy bills over time.',
+      'Energy efficiency in the bathroom: practical tips',
+      'Learn how to reduce water and energy consumption in your bathroom while maintaining a high level of comfort.'
+    ),
+    (
+      'eng',
+      'odrzavanje-i-ciscenje-kupaonice-najbolje-prakse',
+      'Bathroom care and cleaning: best practices',
+      'Practical advice for keeping your bathroom in excellent condition and extending the life of its fixtures and fittings.',
+      'Regular bathroom maintenance not only keeps the space clean and healthy but also extends the life of its fixtures and fittings.
+
+For sanitary ware, use mild cleaners that will not damage the surfaces. Avoid aggressive chemicals that may harm finishes and cause corrosion.
+
+Faucets and shower heads should be cleaned regularly to prevent limescale build-up. Use a vinegar solution or specialist limescale-removal products.
+
+Regularly cleaning floors and walls prevents mould and bacteria from accumulating. Check the ventilation to ensure good air circulation.',
+      'Bathroom care and cleaning: best practices',
+      'Practical advice for keeping your bathroom in excellent condition and extending the life of its fixtures and fittings.'
+    ),
+    (
+      'eng',
+      'pristupacna-renovacija-kupaonice-korak-po-korak',
+      'Affordable bathroom renovation: step by step',
+      'How to renovate a bathroom on a limited budget without compromising quality or functionality.',
+      'A bathroom renovation does not have to cost a fortune. With careful planning and the right approach, you can create a beautiful space within your budget.
+
+Start with a plan. Set your priorities: what matters most to you? It may be a new bathtub or more modern faucets. Focus on the elements that will have the greatest impact on the appearance and functionality of the space.
+
+Consider refinishing rather than complete replacement. If your tiles are in good condition, you may be able to refresh them. The same applies to the bathtub: instead of buying a new one, consider restoring the existing one.
+
+DIY projects can produce significant savings. Simple tasks such as painting the walls, replacing faucets or adding new light fixtures may be projects you can complete yourself.',
+      'Affordable bathroom renovation: step by step',
+      'How to renovate a bathroom on a limited budget without compromising quality or functionality.'
+    ),
+    (
+      'eng',
+      'moderne-tus-kabine-trendovi-i-inovacije-2025',
+      'Modern shower enclosures: trends and innovations for 2025',
+      'Explore the latest trends in shower enclosure design and learn how to create a luxurious bathing experience in your home.',
+      'Shower enclosures have become increasingly popular in modern bathrooms, offering practicality and style in one complete solution.
+
+Current trends for 2025 include minimalist designs with clean lines and frameless enclosures that create a greater sense of space. Glass panels and doors are becoming standard, allowing more light and creating a more modern appearance.
+
+Technological innovations are also changing the way we experience showering. Improved water-flow systems, LED lighting and integrated speakers are just some examples of how shower enclosures are evolving.
+
+When planning a new shower enclosure, it is important to consider the size of the space, the type of door (sliding, hinged or corner) and the materials to be used. Every choice affects the final look and functionality of your bathroom.',
+      'Modern shower enclosures: trends and innovations for 2025',
+      'Explore the latest trends in shower enclosure design and learn how to create a luxurious bathing experience in your home.'
     )
 ),
 source_rows as (

@@ -21,25 +21,25 @@ const MoodboardSection = () => {
       id: 1,
       normal: Slika1Normal,
       hover: Slika1Hover,
-      alt: 'Moodboard slika 1',
+      alt: `${t('moodboard.imageAlt')} 1`,
     },
     {
       id: 2,
       normal: Slika2Normal,
       hover: Slika2Hover,
-      alt: 'Moodboard slika 2',
+      alt: `${t('moodboard.imageAlt')} 2`,
     },
     {
       id: 3,
       normal: Slika3Normal,
       hover: Slika3Hover,
-      alt: 'Moodboard slika 3',
+      alt: `${t('moodboard.imageAlt')} 3`,
     },
     {
       id: 4,
       normal: Slika4Normal,
       hover: Slika4Hover,
-      alt: 'Moodboard slika 4',
+      alt: `${t('moodboard.imageAlt')} 4`,
     },
   ]
 
@@ -112,4 +112,3 @@ const MoodboardSection = () => {
 }
 
 export default MoodboardSection
-

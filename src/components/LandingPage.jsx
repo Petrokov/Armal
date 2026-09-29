@@ -220,7 +220,7 @@ const LandingPage = () => {
   const categoryCards = [
     {
       key: 'faucets',
-      eyebrowLabel: 'MIJEŠALICE ZA VODU',
+      eyebrowKey: 'landingCategories.faucetsLabel',
       titleKey: 'products.faucets',
       descriptionKey: 'products.faucetsDescription',
       to: '/proizvodi/slavine',
@@ -229,7 +229,7 @@ const LandingPage = () => {
     },
     {
       key: 'bathing',
-      eyebrowLabel: 'KUPANJE + TUŠIRANJE',
+      eyebrowKey: 'landingCategories.bathingLabel',
       titleKey: 'products.bathing',
       descriptionKey: 'products.bathingDescription',
       to: '/proizvodi/kupanje-tusiranje',
@@ -238,7 +238,7 @@ const LandingPage = () => {
     },
     {
       key: 'sanitary',
-      eyebrowLabel: 'SANITARIJE',
+      eyebrowKey: 'landingCategories.sanitaryLabel',
       titleKey: 'products.sanitary',
       descriptionKey: 'products.sanitaryDescription',
       to: '/proizvodi/sanitarije',
@@ -428,7 +428,7 @@ const LandingPage = () => {
         <div className="mx-auto max-w-7xl px-4 md:px-5">
           <div className="mb-10 max-w-4xl md:mb-14">
             <h2 className="text-[28px] font-semibold leading-tight tracking-tight text-slate-900 sm:text-3xl md:text-[36px] lg:text-[40px]">
-              Naši proizvodi
+              {t('productsPage.title')}
             </h2>
           </div>
 
@@ -452,7 +452,7 @@ const LandingPage = () => {
                       style={{ backgroundColor: card.accent }}
                     />
                     <p className="text-xs font-semibold uppercase tracking-[0.22em] text-slate-600">
-                      {card.eyebrowLabel}
+                      {t(card.eyebrowKey)}
                     </p>
                   </div>
 
@@ -625,10 +625,11 @@ const LandingPage = () => {
                   onChange={(e) => setDistanceKm(e.target.value)}
                 >
                   <option value="all">{t('landingPartnerMap.filters.allDistances')}</option>
-                  <option value="25">do 25 km</option>
-                  <option value="50">do 50 km</option>
-                  <option value="100">do 100 km</option>
-                  <option value="200">do 200 km</option>
+                  {[25, 50, 100, 200].map((distance) => (
+                    <option key={distance} value={distance}>
+                      {t('landingPartnerMap.filters.upToDistance').replace('{distance}', distance)}
+                    </option>
+                  ))}
                 </select>
 
                 {distanceKm !== 'all' && geoStatus === 'idle' && (

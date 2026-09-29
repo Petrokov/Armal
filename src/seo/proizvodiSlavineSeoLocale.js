@@ -157,6 +157,58 @@ const proizvodiSlavineSeoLocale = {
     faqContactService: 'ili kontaktirajte',
     faqServiceLabel: 'servis',
   },
+  eng: {
+    introText:
+      'Explore our faucet collections and quickly find the range that suits your style, installation method and preferred finish.',
+    anchorTitle: 'Browse collections',
+    collectionSeoCopy: {
+      rubi:
+        'The Rubi collection is designed for modern bathrooms where precise water control and premium finishes matter. It covers the most common installation scenarios and works naturally in both contemporary and classic interiors.',
+      topaz:
+        'Topaz is a faucet range focused on visual impact and a broad selection of finishes. It is an excellent choice when you want to coordinate faucets with details such as the shower set, mirror and metal accessories.',
+      violet:
+        'The Violet collection focuses on clean lines and easy maintenance. It is often selected for projects that call for an elegant appearance without visually overwhelming the space.',
+      start:
+        'Start is a practical collection for everyday use and dependable long-term performance. It works especially well in renovations where a quality foundation and clear value for money are the priorities.',
+      opal:
+        'The Opal range combines contemporary design with functional solutions for different bathroom layouts. It is ideal for customers seeking a consistent style across several areas of the room.',
+      safir:
+        'Safir balances refined aesthetics with robust construction. The collection includes the most popular mixer types for apartments, houses and smaller commercial projects.',
+      beril:
+        'Beril features bold geometry and details that stand out in modern interiors. It is a strong choice when you want distinctive design and reliable functionality at the same time.',
+      lapis:
+        'The Lapis collection was created for interiors that call for character and warmer metallic tones. It works particularly well in design-led projects where the faucet also plays a decorative role.',
+      ana:
+        'Ana is a compact, easy-to-understand collection that simplifies bathroom planning. Its models are suited to customers looking for dependable construction and intuitive use.',
+      jana:
+        'The Jana collection emphasises clean design and easy coordination with other bathroom fittings. It suits projects requiring a neat, understated and durable faucet selection.',
+    },
+    faqHeading: 'Frequently asked questions about faucets',
+    faqs: [
+      {
+        q: 'How do I choose matching washbasin and shower faucets?',
+        a: 'Start by choosing a collection and finish that can be repeated at several points in the bathroom. This creates a visually consistent space and makes planning the purchase easier.',
+      },
+      {
+        q: 'What is the difference between concealed and exposed mixers?',
+        a: 'Concealed solutions hide most of the installation and create a clean wall finish, while exposed variants are faster to install and service. The right choice depends on the project and stage of construction.',
+      },
+      {
+        q: 'How should I maintain faucets so they keep their appearance?',
+        a: 'Clean them regularly with a soft cloth and mild, non-abrasive products. This reduces limescale build-up and helps the surface finish last longer.',
+      },
+      {
+        q: 'Where can I check technical details and model availability?',
+        a: 'Technical specifications and variants are available in the catalogues, user instructions and blog guides, while the service team can help after purchase. These resources make it easier to compare models before making a final decision.',
+      },
+    ],
+    faqCtaStart: 'Need help choosing? View the',
+    faqCatalogsLabel: 'catalogues',
+    faqReadBlog: 'read our',
+    faqBlogLabel: 'blog advice',
+    faqContactService: 'or contact',
+    faqServiceLabel: 'service',
+  },
 }
 
 export const getProizvodiSlavineSeoLocale = (language = FALLBACK_LANGUAGE) =>

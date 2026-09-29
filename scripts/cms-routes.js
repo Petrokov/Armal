@@ -8,6 +8,7 @@ const LOCALE_PREFIXES = {
   hr: '',
   slo: '/slo',
   rs: '/rs',
+  eng: '/eng',
 }
 
 export const loadLocalEnv = () => {

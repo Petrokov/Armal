@@ -63,7 +63,7 @@ const BlogPostPage = () => {
     : null
 
   if (loadingSupabasePost) {
-    return <div className="min-h-screen bg-white px-6 py-16 text-center text-slate-600">Ucitavanje...</div>
+    return <div className="min-h-screen bg-white px-6 py-16 text-center text-slate-600">{t('common.loading')}</div>
   }
 
   if (!post) {
@@ -71,12 +71,12 @@ const BlogPostPage = () => {
       <div className="min-h-screen bg-white">
         <SEOHead title={seo.title} description={seo.description} ogType={seo.ogType} />
         <section className="mx-auto max-w-4xl px-6 py-16 text-center">
-          <h1 className="mb-4 text-3xl font-bold text-slate-900">Blog post nije pronaden</h1>
+          <h1 className="mb-4 text-3xl font-bold text-slate-900">{t('blogPage.notFound')}</h1>
           <Link
             to={localizePath('/blog')}
             className="inline-flex items-center gap-2 rounded-lg bg-[#0070CD] px-6 py-3 text-base font-semibold text-white transition-colors hover:bg-[#005bb0]"
           >
-            Povratak na blog
+            {t('blogPage.backToBlog')}
           </Link>
         </section>
       </div>
@@ -89,6 +89,7 @@ const BlogPostPage = () => {
       hr: 'hr-HR',
       slo: 'sl-SI',
       rs: 'sr-RS',
+      eng: 'en-GB',
     }
     return date.toLocaleDateString(localeMap[language] || 'hr-HR', {
       year: 'numeric',

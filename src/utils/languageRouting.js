@@ -1,10 +1,11 @@
-const LANGUAGE_PREFIXES = ['slo', 'rs']
+const LANGUAGE_PREFIXES = ['slo', 'rs', 'eng']
 const DEFAULT_LANGUAGE = 'hr'
-export const SEO_LANGUAGES = ['hr', 'slo', 'rs']
+export const SEO_LANGUAGES = ['hr', 'slo', 'rs', 'eng']
 const SEO_LOCALE_BY_LANG = {
   hr: { hreflang: 'hr-HR', ogLocale: 'hr_HR', htmlLang: 'hr' },
   slo: { hreflang: 'sl-SI', ogLocale: 'sl_SI', htmlLang: 'sl' },
   rs: { hreflang: 'sr-RS', ogLocale: 'sr_RS', htmlLang: 'sr' },
+  eng: { hreflang: 'en', ogLocale: 'en_GB', htmlLang: 'en' },
 }
 
 export const isSupportedLanguage = (lang) =>

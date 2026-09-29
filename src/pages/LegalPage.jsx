@@ -3,7 +3,12 @@ import SEOHead from '../components/SEOHead'
 import { useLanguage } from '../contexts/LanguageContext'
 import { buildLocalizedPath } from '../utils/languageRouting'
 
-const UPDATED_AT = '5. svibnja 2026.'
+const UPDATED_AT = {
+  hr: '5. svibnja 2026.',
+  slo: '5. maja 2026',
+  rs: '5. maja 2026.',
+  eng: '5 May 2026',
+}
 
 const LEGAL_DOCUMENTS = {
   'privacy-policy': {
@@ -187,6 +192,66 @@ const LEGAL_DOCUMENTS = {
         },
       ],
     },
+    eng: {
+      seoTitle: 'Privacy Policy | Armal',
+      seoDescription:
+        'Learn how Armal d.o.o. collects, uses, stores and protects the personal data of website users.',
+      eyebrow: 'Personal data protection',
+      title: 'Privacy Policy',
+      intro:
+        'This Privacy Policy explains how Armal d.o.o. collects, uses, stores and protects personal data when you use www.armal.hr, contact us or submit a service request.',
+      sections: [
+        {
+          title: 'Data controller',
+          paragraphs: [
+            'The controller of personal data is Armal d.o.o., Mrkšina 52D, 10000 Zagreb, Croatia, OIB: 02300129401.',
+            'For questions about the processing of personal data, contact us at info@armal.hr or servis@armal.hr.',
+          ],
+        },
+        {
+          title: 'Data we collect',
+          paragraphs: [
+            'When you use the website, we may process technical data such as your IP address, browser type, device, language settings and information required for the security and proper operation of the website.',
+            'When you contact us through the service form or by email, we process the information you provide, such as your full name, email address, phone number, invoice number, a description of your enquiry or claim, and any attachments you send.',
+          ],
+        },
+        {
+          title: 'Purposes and legal bases for processing',
+          paragraphs: [
+            'We process data to respond to enquiries, handle service and warranty claims, communicate with users, improve website security and comply with legal obligations.',
+            'The legal bases may include performance of a contract or steps taken before entering into a contract, compliance with legal obligations, our legitimate interests in security and communication, and consent where required.',
+          ],
+        },
+        {
+          title: 'Google Maps and external services',
+          paragraphs: [
+            'We use Google Maps to display our partner network and retail locations. When the map loads, Google may process technical information from your browser and device and apply its own privacy policies.',
+            'External links, including links to the B2B webshop, the Uredi dom webshop, social networks and Google Maps locations, lead to third-party websites. Their operators are responsible for processing data on those websites.',
+          ],
+        },
+        {
+          title: 'Recipients of data',
+          paragraphs: [
+            'Personal data may be processed by our employees and authorised service providers who assist us with website maintenance, hosting, email communication, IT security and the handling of service requests.',
+            'We do not sell personal data to third parties. We share it only where necessary for the purposes described above, where required by law, or where you have given valid consent.',
+          ],
+        },
+        {
+          title: 'Retention periods',
+          paragraphs: [
+            'We retain data for as long as necessary for the purpose for which it was collected or as required by applicable regulations.',
+            'Data from service and warranty claims may be retained while the request is being handled and afterwards for the period needed to demonstrate compliance with obligations, resolve disputes or observe statutory time limits.',
+          ],
+        },
+        {
+          title: 'Your rights',
+          paragraphs: [
+            'Under the GDPR, you may request access to your personal data, correction of inaccurate data, erasure, restriction of processing, data portability, object to processing, and withdraw consent where processing is based on consent.',
+            'To exercise your rights, contact us at info@armal.hr. If you believe the processing is unlawful, you have the right to lodge a complaint with the competent data protection supervisory authority.',
+          ],
+        },
+      ],
+    },
   },
   'terms-of-service': {
     hr: {
@@ -366,6 +431,65 @@ const LEGAL_DOCUMENTS = {
         },
       ],
     },
+    eng: {
+      seoTitle: 'Terms of Use | Armal',
+      seoDescription:
+        'Terms governing the use of the Armal website, product and catalogue information, external links and limitations of liability.',
+      eyebrow: 'Website terms',
+      title: 'Terms of Use',
+      intro:
+        'These Terms of Use govern access to and use of www.armal.hr. By using the website, you confirm that you have read and understood these terms.',
+      sections: [
+        {
+          title: 'Informational nature of the content',
+          paragraphs: [
+            'The website presents Armal products, catalogues, inspiration, service information and the partner network.',
+            'We seek to keep information accurate and current, but product images, colours, technical descriptions, availability and prices may differ from actual products or the offer available at an individual retail location.',
+          ],
+        },
+        {
+          title: 'Products, catalogues and external shops',
+          paragraphs: [
+            'Catalogues and product descriptions are provided for informational purposes. For final technical specifications, purchase terms, availability and prices, contact an authorised retailer or an official sales channel.',
+            'Links to the B2B webshop, the Uredi dom webshop and other external websites lead to systems operated by third parties or affiliated partners. Their own terms of use apply to those websites.',
+          ],
+        },
+        {
+          title: 'Service requests',
+          paragraphs: [
+            'By submitting a service or warranty claim, you confirm that the information provided is accurate and that you are authorised to send the documents or photographs you attach.',
+            'Receipt of a request through the website does not mean that a claim has automatically been accepted. Every request is handled in accordance with applicable regulations, warranty terms and the documentation provided.',
+          ],
+        },
+        {
+          title: 'Intellectual property',
+          paragraphs: [
+            'Text, photographs, graphics, logos, catalogues, designs and other content on the website are protected by intellectual property rights.',
+            'Content may be used only for personal and informational purposes unless Armal d.o.o. has expressly authorised another use.',
+          ],
+        },
+        {
+          title: 'Permitted use',
+          paragraphs: [
+            'You must not use the website in any way that may compromise its security, availability or functionality, or the rights of other users and third parties.',
+            'You must not send malicious code, overload the system through automated means, attempt unauthorised access, or use forms for spam or fraudulent activity.',
+          ],
+        },
+        {
+          title: 'Limitation of liability',
+          paragraphs: [
+            'Armal d.o.o. is not liable for damage arising from the use of, or inability to use, the website except to the extent that liability is required by applicable law.',
+            'We are not responsible for the content, availability or security of external websites linked from this website.',
+          ],
+        },
+        {
+          title: 'Changes to these terms',
+          paragraphs: [
+            'We reserve the right to amend these Terms of Use from time to time. The current version will be published on this page together with the date of the latest update.',
+          ],
+        },
+      ],
+    },
   },
   'cookie-policy': {
     hr: {
@@ -497,13 +621,56 @@ const LEGAL_DOCUMENTS = {
         },
       ],
     },
+    eng: {
+      seoTitle: 'Cookie Policy | Armal',
+      seoDescription:
+        'Information about the cookies and similar technologies used by the Armal website and how you can manage them.',
+      eyebrow: 'Cookies and similar technologies',
+      title: 'Cookie Policy',
+      intro:
+        'This Cookie Policy explains which cookies and similar technologies may be used by www.armal.hr and how you can manage them.',
+      sections: [
+        {
+          title: 'What cookies are',
+          paragraphs: [
+            'Cookies are small text files that a website or external service may store on your device. They are used to help the website work correctly, remember certain settings or enable external features.',
+          ],
+        },
+        {
+          title: 'Cookies and storage we use',
+          paragraphs: [
+            'The website may use essential technical mechanisms needed for correct display, security, navigation and language settings. Your language selection may be stored in your browser\'s local storage so that your preference is retained.',
+            'If you use the embedded Google Maps map, Google may set cookies or use similar technologies to display the map, maintain security, measure performance and prevent misuse.',
+          ],
+        },
+        {
+          title: 'Analytics and marketing',
+          paragraphs: [
+            'The website\'s current core functionality does not rely on our own marketing cookies. If analytics or marketing tools are introduced later, this policy should be updated and appropriate consent controls enabled where required.',
+          ],
+        },
+        {
+          title: 'How to manage cookies',
+          paragraphs: [
+            'You can control or delete cookies through your browser settings. You can block all cookies or set a warning before they are stored.',
+            'If you block essential or third-party cookies, some parts of the website, including the Google Maps map, may not work correctly.',
+          ],
+        },
+        {
+          title: 'Changes to this policy',
+          paragraphs: [
+            'We may update this Cookie Policy from time to time to reflect changes to the website, the technologies we use or applicable rules.',
+          ],
+        },
+      ],
+    },
   },
 }
 
 const RELATED_LINKS = [
-  { slug: 'privacy-policy', label: { hr: 'Politika privatnosti', slo: 'Politika zasebnosti', rs: 'Politika privatnosti' } },
-  { slug: 'terms-of-service', label: { hr: 'Uvjeti korištenja', slo: 'Pogoji uporabe', rs: 'Uslovi korišćenja' } },
-  { slug: 'cookie-policy', label: { hr: 'Politika kolačića', slo: 'Politika piškotkov', rs: 'Politika kolačića' } },
+  { slug: 'privacy-policy', label: { hr: 'Politika privatnosti', slo: 'Politika zasebnosti', rs: 'Politika privatnosti', eng: 'Privacy Policy' } },
+  { slug: 'terms-of-service', label: { hr: 'Uvjeti korištenja', slo: 'Pogoji uporabe', rs: 'Uslovi korišćenja', eng: 'Terms of Use' } },
+  { slug: 'cookie-policy', label: { hr: 'Politika kolačića', slo: 'Politika piškotkov', rs: 'Politika kolačića', eng: 'Cookie Policy' } },
 ]
 
 const LegalPage = ({ type }) => {
@@ -519,15 +686,19 @@ const LegalPage = ({ type }) => {
       ? 'Zadnja posodobitev'
       : language === 'rs'
         ? 'Poslednje ažuriranje'
-        : 'Zadnje ažuriranje'
+        : language === 'eng'
+          ? 'Last updated'
+          : 'Zadnje ažuriranje'
 
-  const contactLabel = language === 'slo' ? 'Kontakt' : 'Kontakt'
+  const contactLabel = language === 'eng' ? 'Contact' : 'Kontakt'
   const relatedLabel =
     language === 'slo'
       ? 'Povezani dokumenti'
       : language === 'rs'
         ? 'Povezani dokumenti'
-        : 'Povezani dokumenti'
+        : language === 'eng'
+          ? 'Related documents'
+          : 'Povezani dokumenti'
 
   return (
     <div className="min-h-screen bg-slate-50">
@@ -545,7 +716,7 @@ const LegalPage = ({ type }) => {
             {document.intro}
           </p>
           <p className="mt-6 text-sm font-medium text-slate-500">
-            {updatedLabel}: {UPDATED_AT}
+            {updatedLabel}: {UPDATED_AT[language] || UPDATED_AT.hr}
           </p>
         </div>
       </section>

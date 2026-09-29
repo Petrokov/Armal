@@ -6,6 +6,7 @@ const LOCALE_BY_LANGUAGE = {
   hr: 'hr-HR',
   slo: 'sl-SI',
   rs: 'sr-RS',
+  eng: 'en',
 }
 
 export const getStructuredDataBaseUrl = () =>

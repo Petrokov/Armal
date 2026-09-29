@@ -14,6 +14,7 @@ src/
 │   ├── hr.json                 # Hrvatski prijevodi
 │   ├── slo.json                # Slovenski prijevodi
 │   ├── rs.json                 # Srpski prijevodi
+│   ├── eng.json                # Engleski prijevodi
 │   └── README.md               # Ova dokumentacija
 ```
 
@@ -45,7 +46,7 @@ Funkcija `t()` prima ključ prijevoda i vraća prevedeni tekst:
 
 ```jsx
 // Jednostavan ključ
-t('navbar.home')  // "Početna" (hr) / "Domov" (slo) / "Почетна" (rs)
+t('navbar.home')  // "Početna" (hr) / "Domov" (slo) / "Početna" (rs) / "Home" (eng)
 
 // Ugniježđeni ključ
 t('features.quality.title')  // "Provjerena Kvaliteta" (hr)
@@ -64,6 +65,9 @@ changeLanguage('rs')
 
 // Promijeni na hrvatski
 changeLanguage('hr')
+
+// Promijeni na engleski
+changeLanguage('eng')
 ```
 
 ## Dodavanje novog jezika
@@ -188,7 +192,7 @@ Odabrani jezik se automatski sprema u `localStorage` pod ključem `armal_languag
 ### Jezik se ne mijenja
 
 1. Provjeri da li je jezik dodan u `translations` objekt u `LanguageContext.jsx`
-2. Provjeri da li koristiš točan kod jezika (`hr`, `slo`, `rs`)
+2. Provjeri da li koristiš točan kod jezika (`hr`, `slo`, `rs`, `eng`)
 
 ### Prijevod se ne sprema
 
@@ -215,6 +219,7 @@ const ExampleComponent = () => {
         <option value="hr">{t('languages.hr')}</option>
         <option value="slo">{t('languages.slo')}</option>
         <option value="rs">{t('languages.rs')}</option>
+        <option value="eng">{t('languages.eng')}</option>
       </select>
     </div>
   )

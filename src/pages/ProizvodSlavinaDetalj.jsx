@@ -158,16 +158,16 @@ const ProizvodSlavinaDetalj = () => {
       <div className="flex min-h-screen items-center justify-center bg-white px-6">
         <div className="max-w-lg text-center">
           <p className="mb-4 text-sm font-semibold uppercase tracking-[0.25em] text-slate-500">
-            {t('faucetsPage.notFoundLabel') ?? 'Slavina nije pronađena'}
+            {t('faucetsPage.notFoundLabel')}
           </p>
           <p className="mb-8 text-lg text-slate-700">
-            {t('faucetsPage.notFoundDescription') ?? 'Odabrana kolekcija ne postoji ili je trenutno nedostupna.'}
+            {t('faucetsPage.notFoundDescription')}
           </p>
           <RouterLink
             to={localizePath('/proizvodi/slavine')}
             className="inline-flex items-center justify-center rounded-lg bg-slate-900 px-6 py-3 text-sm font-semibold text-white shadow-md transition hover:bg-slate-800"
           >
-            {t('faucetsPage.backToList') ?? 'Natrag na slavine'}
+            {t('faucetsPage.backToList')}
           </RouterLink>
         </div>
       </div>
@@ -180,7 +180,7 @@ const ProizvodSlavinaDetalj = () => {
       <section className="relative flex min-h-[40vh] w-full items-center overflow-hidden">
         <img
           src={kupaonicaImage}
-          alt="Slavine"
+          alt={t('faucetsPage.heroImageAlt')}
           className="absolute inset-0 h-full w-full object-cover"
           loading="eager"
           fetchPriority="high"
@@ -271,7 +271,7 @@ const ProizvodSlavinaDetalj = () => {
                   to={localizePath('/proizvodi/slavine')}
                   className="inline-flex items-center justify-center text-sm font-semibold text-[#0070CD] underline-offset-4 hover:underline"
                 >
-                  {t('faucetsPage.backToList') ?? 'Natrag na popis slavina'}
+                  {t('faucetsPage.backToList')}
                 </RouterLink>
               </div>
             </div>
@@ -284,11 +284,10 @@ const ProizvodSlavinaDetalj = () => {
         <div className="mx-auto max-w-6xl px-6">
           <div className="mb-6 flex flex-col gap-2 md:flex-row md:items-baseline md:justify-between">
             <h2 className="text-2xl font-semibold text-slate-900 md:text-3xl">
-              {t('faucetsPage.productVariantTitle') ?? t(`collections.${collection.key}.name`)}
+              {t('faucetsPage.productVariantTitle')}
             </h2>
             <p className="max-w-2xl text-sm text-slate-600 md:text-base">
-              {t('faucetsPage.productVariantSubtitle') ??
-                'Odaberite boju i kratki opis proizvoda kako biste lakše usporedili različite varijante unutar kolekcije.'}
+              {t('faucetsPage.productVariantSubtitle')}
             </p>
           </div>
 
@@ -321,7 +320,7 @@ const ProizvodSlavinaDetalj = () => {
               {/* Dropdown za boju proizvoda */}
               <div className="space-y-2">
                 <label className="block text-sm font-medium text-slate-700">
-                  {t('faucetsPage.colorLabel') ?? 'Boja proizvoda'}
+                  {t('faucetsPage.colorLabel')}
                 </label>
                 <select
                   className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 shadow-sm focus:border-[#0070CD] focus:outline-none focus:ring-2 focus:ring-[#0070CD]"
@@ -335,7 +334,7 @@ const ProizvodSlavinaDetalj = () => {
                   }}
                 >
                   <option value="">
-                    {t('faucetsPage.colorPlaceholder') ?? 'Odaberite boju'}
+                    {t('faucetsPage.colorPlaceholder')}
                   </option>
                   {['chrome', 'black', 'gunMetal', 'brushGold', 'brushedNickel', 'bronze'].map((finishKey) => (
                     <option key={finishKey} value={finishKey}>
@@ -348,22 +347,22 @@ const ProizvodSlavinaDetalj = () => {
               {/* Dropdown za kratki opis proizvoda */}
               <div className="space-y-2">
                 <label className="block text-sm font-medium text-slate-700">
-                  {t('faucetsPage.variantInfoLabel') ?? 'Kratki opis proizvoda'}
+                  {t('faucetsPage.variantInfoLabel')}
                 </label>
                 <select
                   className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 shadow-sm focus:border-[#0070CD] focus:outline-none focus:ring-2 focus:ring-[#0070CD]"
                   defaultValue=""
                 >
                   <option value="" disabled>
-                    {t('faucetsPage.variantInfoPlaceholder') ?? 'Odaberite kratki opis'}
+                    {t('faucetsPage.variantInfoPlaceholder')}
                   </option>
                   <option value="washbasin">
-                    {t('faucetsPage.variantWashbasin') ?? 'Miješalica za umivaonik'}
+                    {t('faucetsPage.variantWashbasin')}
                   </option>
-                  <option value="bidet">{t('faucetsPage.variantBidet') ?? 'Miješalica za bide'}</option>
-                  <option value="bathtub">{t('faucetsPage.variantBathtub') ?? 'Miješalica za kadu / tuš'}</option>
-                  <option value="builtIn">{t('faucetsPage.variantBuiltIn') ?? 'Ugradbena miješalica'}</option>
-                  <option value="showerSet">{t('faucetsPage.variantShowerSet') ?? 'Tuš set / sistem'}</option>
+                  <option value="bidet">{t('faucetsPage.variantBidet')}</option>
+                  <option value="bathtub">{t('faucetsPage.variantBathtub')}</option>
+                  <option value="builtIn">{t('faucetsPage.variantBuiltIn')}</option>
+                  <option value="showerSet">{t('faucetsPage.variantShowerSet')}</option>
                 </select>
               </div>
             </div>

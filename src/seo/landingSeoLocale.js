@@ -142,6 +142,53 @@ const landingSeoLocale = {
       },
     ],
   },
+  eng: {
+    introTitle: 'Armal - an overview of bathroom solutions',
+    introText:
+      'The Armal homepage introduces the brand and its complete range of bathroom products. Compare the main categories at a glance and open the detailed pages when you are ready to choose specific products.',
+    overviewBlocks: [
+      {
+        title: 'Faucets and mixers',
+        text: 'Explore collections for washbasins, showers and bathtubs in a variety of styles and finishes.',
+      },
+      {
+        title: 'Bathing and showering',
+        text: 'Solutions designed for more comfortable everyday use and a coordinated bathroom interior.',
+      },
+      {
+        title: 'Sanitary ware',
+        text: 'Practical and attractive elements that complete a functional, harmonious bathroom.',
+      },
+    ],
+    quickLinksLabel: 'Quick links',
+    quickLinks: {
+      faucets: 'Faucets',
+      bathing: 'Bathing and showering',
+      sanitary: 'Sanitary ware',
+      catalogs: 'Catalogues',
+      service: 'Service',
+      blog: 'Blog',
+    },
+    faqTitle: 'Frequently asked questions about the Armal range',
+    faqs: [
+      {
+        q: 'What can I find on the Armal homepage?',
+        a: 'The homepage provides an overview of the brand, its main categories and useful links to detailed product and service pages.',
+      },
+      {
+        q: 'Where can I find detailed information about faucets?',
+        a: 'Open the faucet category page for detailed information about models, configurations and available variants.',
+      },
+      {
+        q: 'What is the quickest way to find technical information?',
+        a: 'The catalogues and blog bring together key specifications, advice and guidance to help you choose.',
+      },
+      {
+        q: 'Who should I contact after making a purchase?',
+        a: 'For after-sales support and service enquiries, visit the service page for the relevant information and contact details.',
+      },
+    ],
+  },
 }
 
 export const getLandingSeoLocale = (language = FALLBACK_LANGUAGE) =>

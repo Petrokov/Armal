@@ -15,7 +15,7 @@ create table if not exists public.admin_users (
 
 create table if not exists public.blog_posts (
   id uuid primary key default gen_random_uuid(),
-  locale text not null check (locale in ('hr', 'slo', 'rs')),
+  locale text not null check (locale in ('hr', 'slo', 'rs', 'eng')),
   title text not null,
   slug text not null,
   excerpt text,
@@ -34,7 +34,7 @@ create table if not exists public.blog_posts (
 
 create table if not exists public.catalogs (
   id uuid primary key default gen_random_uuid(),
-  locale text not null check (locale in ('hr', 'slo', 'rs')),
+  locale text not null check (locale in ('hr', 'slo', 'rs', 'eng')),
   title text not null,
   slug text not null,
   subtitle text,
@@ -71,6 +71,7 @@ create table if not exists public.team_members (
   id uuid primary key default gen_random_uuid(),
   name text not null,
   title text not null,
+  title_eng text,
   image_url text,
   email text,
   linkedin_url text,

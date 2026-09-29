@@ -34,8 +34,7 @@ const PartnerMap = ({
   const [mapReady, setMapReady] = useState(false)
   const rawApiKey = apiKey || import.meta.env.VITE_GOOGLE_MAPS_API_KEY
   const googleMapsApiKey = typeof rawApiKey === 'string' ? rawApiKey.trim() : ''
-  const missingApiKeyError =
-    'Google Maps API ključ nije postavljen. U rootu projekta napravi datoteku .env s redom: VITE_GOOGLE_MAPS_API_KEY=tvoj_kljuc'
+  const missingApiKeyError = t('landingPartnerMap.map.missingApiKey')
 
   useEffect(() => {
     selectedPartnerIdRef.current = selectedPartnerId
@@ -85,9 +84,7 @@ const PartnerMap = ({
 
     timeoutId = setTimeout(() => {
       if (!window.google?.maps) {
-        setLoadError(
-          'Mapa nije uspjela učitati. Provjeri: 1) U .env je VITE_GOOGLE_MAPS_API_KEY=tvoj_kljuc 2) Restartaj npm run dev 3) U Google Cloud je uključen "Maps JavaScript API".'
-        )
+        setLoadError(t('landingPartnerMap.map.loadTimeout'))
         window[callbackName] = safeNoop
       }
     }, 12000)
@@ -98,14 +95,14 @@ const PartnerMap = ({
     script.onerror = () => {
       if (timeoutId) clearTimeout(timeoutId)
       window[callbackName] = safeNoop
-      setLoadError('Google Mape nije moguće učitati. Provjeri internet i API ključ u Google Cloud Console.')
+      setLoadError(t('landingPartnerMap.map.loadError'))
     }
     document.head.appendChild(script)
     return () => {
       if (timeoutId) clearTimeout(timeoutId)
       window[callbackName] = safeNoop
     }
-  }, [googleMapsApiKey, isPrerenderBuild])
+  }, [googleMapsApiKey, isPrerenderBuild, t])
 
   // Inicijalizacija mape i markera nakon učitavanja skripte
   useEffect(() => {
@@ -125,8 +122,8 @@ const PartnerMap = ({
       mapInstanceRef.current = map
       window.google.maps.event.addListenerOnce(map, 'idle', () => setMapReady(true))
     } catch (error) {
-      const initError = `Google mapa se nije inicijalizirala. ${
-        error instanceof Error ? error.message : 'Provjeri API restrikcije i billing u Google Cloud.'
+      const initError = `${t('landingPartnerMap.map.initError')} ${
+        error instanceof Error ? error.message : t('landingPartnerMap.map.initRestrictionHint')
       }`
       mapInstanceRef.current = null
       setTimeout(() => {

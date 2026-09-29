@@ -26,6 +26,11 @@ const seoConfig = {
       description: 'Armal nudi vrhunske slavine i kupatilska resenja za moderan enterijer.',
       ogType: 'website',
     },
+    eng: {
+      title: 'Armal - Premium bathroom furniture and faucets',
+      description: 'Armal offers premium faucets and bathroom solutions for contemporary interiors.',
+      ogType: 'website',
+    },
   },
   [SEO_ROUTE_KEYS.ABOUT]: {
     hr: {
@@ -41,6 +46,11 @@ const seoConfig = {
     rs: {
       title: 'O nama | Armal',
       description: 'Saznajte vise o Armal tradiciji, vrednostima i timu koji stoji iza brenda.',
+      ogType: 'website',
+    },
+    eng: {
+      title: 'About us | Armal',
+      description: 'Learn more about Armal\'s tradition, values and the team behind the brand.',
       ogType: 'website',
     },
   },
@@ -60,6 +70,11 @@ const seoConfig = {
       description: 'Prijavite servisni zahtev za Armal proizvode brzo i jednostavno.',
       ogType: 'website',
     },
+    eng: {
+      title: 'Service | Armal',
+      description: 'Submit a service request for Armal products quickly and easily.',
+      ogType: 'website',
+    },
   },
   [SEO_ROUTE_KEYS.PRODUCTS]: {
     hr: {
@@ -75,6 +90,11 @@ const seoConfig = {
     rs: {
       title: 'Proizvodi | Armal',
       description: 'Pogledajte Armal kolekcije proizvoda za kupatilo i enterijer.',
+      ogType: 'website',
+    },
+    eng: {
+      title: 'Products | Armal',
+      description: 'Explore Armal product collections for bathrooms and contemporary interiors.',
       ogType: 'website',
     },
   },
@@ -94,6 +114,11 @@ const seoConfig = {
       description: 'Istrazite Armal kolekcije slavina i izaberite model za svoje kupatilo.',
       ogType: 'website',
     },
+    eng: {
+      title: 'Faucets | Armal',
+      description: 'Explore Armal faucet collections and choose the right model for your bathroom.',
+      ogType: 'website',
+    },
   },
   [SEO_ROUTE_KEYS.BLOG]: {
     hr: {
@@ -109,6 +134,11 @@ const seoConfig = {
     rs: {
       title: 'Blog | Armal',
       description: 'Novosti, saveti i inspiracija iz sveta Armal kupatilskih resenja.',
+      ogType: 'website',
+    },
+    eng: {
+      title: 'Blog | Armal',
+      description: 'News, advice and inspiration from the world of Armal bathroom solutions.',
       ogType: 'website',
     },
   },

@@ -186,7 +186,7 @@ const ONamaPage = () => {
               <div className="overflow-hidden rounded-3xl">
                 <img
                   src={aboutImage}
-                  alt="stara kupaonica Armal"
+                  alt={t('aboutPage.storyImageAlt')}
                   className="h-full w-full object-cover object-bottom md:object-center"
                   loading="lazy"
                 />

@@ -38,6 +38,7 @@ const Navbar = () => {
     { code: 'hr', label: t('languages.hr'), short: 'HR' },
     { code: 'slo', label: t('languages.slo'), short: 'SI' },
     { code: 'rs', label: t('languages.rs'), short: 'RS' },
+    { code: 'eng', label: t('languages.eng'), short: 'EN' },
   ]
 
   const currentLanguage = languages.find((lang) => lang.code === language) || languages[0]
@@ -152,7 +153,7 @@ const Navbar = () => {
                   setOpenLanguageDropdownId(openLanguageDropdownId === 'main' ? null : 'main')
                 }
                 className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-[12px] font-semibold text-[#4a4a4a] transition-colors duration-200 hover:border-[#1a6cc4]/30 hover:text-[#1a6cc4]"
-                aria-label="Promijeni jezik"
+                aria-label={t('navbar.changeLanguage')}
               >
                 <IconGlobe />
                 {currentLanguage.short}
@@ -309,7 +310,7 @@ const Navbar = () => {
           </div>
 
           <div className="border-t border-slate-200 px-5 py-4">
-            <p className="mb-2 text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">Kontakt</p>
+            <p className="mb-2 text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">{t('navbar.contact')}</p>
             <a href="mailto:info@armal.hr" className="block text-sm text-slate-700 hover:text-[#0070CD]">
               info@armal.hr
             </a>
@@ -351,7 +352,7 @@ const Navbar = () => {
                   setOpenLanguageDropdownId(openLanguageDropdownId === 'sidebar' ? null : 'sidebar')
                 }
                 className="flex w-full items-center justify-between rounded-lg border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-700 transition-colors hover:border-[#0070CD]/30 hover:text-[#0070CD]"
-                aria-label="Promijeni jezik"
+                aria-label={t('navbar.changeLanguage')}
               >
                 <div className="flex items-center gap-2">
                   <IconGlobe />

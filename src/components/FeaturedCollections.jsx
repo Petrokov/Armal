@@ -123,7 +123,7 @@ const FeaturedCollections = () => {
           <button
             onClick={goToPrevious}
             className="absolute left-0 top-1/2 z-10 hidden -translate-x-4 -translate-y-1/2 rounded-full bg-white p-3 shadow-lg transition-all hover:scale-110 hover:shadow-xl sm:flex md:-translate-x-6"
-            aria-label="Prethodna kolekcija"
+            aria-label={t('collections.previous')}
           >
             <ChevronLeftIcon />
           </button>
@@ -131,7 +131,7 @@ const FeaturedCollections = () => {
           <button
             onClick={goToNext}
             className="absolute right-0 top-1/2 z-10 hidden -translate-y-1/2 translate-x-4 rounded-full bg-white p-3 shadow-lg transition-all hover:scale-110 hover:shadow-xl sm:flex md:translate-x-6"
-            aria-label="Sljedeća kolekcija"
+            aria-label={t('collections.next')}
           >
             <ChevronRightIcon />
           </button>
@@ -190,7 +190,7 @@ const FeaturedCollections = () => {
                     ? 'w-8 bg-[#0070CD]'
                     : 'w-2 bg-slate-300 hover:bg-slate-400'
                 }`}
-                aria-label={`Idi na stranicu ${index + 1}`}
+                aria-label={t('collections.goToPage').replace('{page}', index + 1)}
               />
             ))}
           </div>

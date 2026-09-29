@@ -1,0 +1,572 @@
+{
+  "common": {
+    "loading": "Loading..."
+  },
+  "navbar": {
+    "home": "Home",
+    "products": "Products",
+    "catalog": "Catalogue",
+    "catalogues": "Catalogues",
+    "about": "About us",
+    "servis": "Service",
+    "b2b": "Armal B2B webshop",
+    "editHome": "Uredi dom webshop",
+    "blog": "Blog",
+    "viewAllProducts": "View all products",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
+    "skipToMainContent": "Skip to main content",
+    "changeLanguage": "Change language",
+    "contact": "Contact"
+  },
+  "products": {
+    "faucets": "Faucets",
+    "faucetsHeroTitle": "Faucet collections for every bathroom vision",
+    "faucetsIntroHeading": "Faucet collections for every bathroom vision",
+    "faucetsIntroSubheading": "From design icons to understated classics, choose the collection that best suits your style, functional needs and budget.",
+    "faucetsIntroBody": "With filters by finish and application (washbasin, bathtub, shower and bidet), every collection clearly shows where it performs best. Combine different models from the same line to create a consistent look throughout the bathroom, from the first sketch to the final detail.",
+    "faucetsDescription": "A wide range of bathroom and kitchen faucets",
+    "bathing": "Bathing + showering",
+    "bathingDescription": "Bathtubs, shower enclosures, doors and everything for bathing",
+    "sanitary": "Sanitary ware",
+    "sanitaryDescription": "Toilets, washbasins and sanitary ceramics",
+    "bathroomFurniture": "Bathroom furniture",
+    "bathroomFaucets": "Bathroom faucets",
+    "kitchenFaucets": "Kitchen faucets",
+    "showerCabins": "Shower enclosures, doors, panels and screens",
+    "bathtubs": "Bathtubs, shower trays and channels",
+    "sanitaryCeramics": "Sanitary ceramics",
+    "showerComponents": "Shower components",
+    "sanitaryEquipment": "Sanitary equipment",
+    "accessories": "Accessories",
+    "wallMounted": "Wall-mounted",
+    "floorStanding": "Floor-standing",
+    "basinFaucets": "Washbasin faucets",
+    "bathtubFaucets": "Bathtub faucets",
+    "showerTrayFaucets": "Shower faucets",
+    "bidetFaucets": "Bidet faucets",
+    "builtInFaucets": "Concealed faucets",
+    "sinkFaucets": "Kitchen sink faucets",
+    "showerCabinsItems": "Shower enclosures",
+    "showerDoors": "Shower doors",
+    "showerWalls": "Shower panels",
+    "bathtubScreens": "Bathtub screens",
+    "bathtubsItems": "Bathtubs",
+    "massageSystems": "Massage systems",
+    "showerTrays": "Shower trays",
+    "showerChannels": "Shower channels",
+    "toiletsBidets": "Toilets and bidets",
+    "monoblock": "Close-coupled toilets",
+    "toiletCisterns": "Toilet cisterns",
+    "washbasins": "Washbasins",
+    "showerHolders": "Shower holders",
+    "showerHeads": "Shower heads",
+    "showerHoses": "Shower hoses",
+    "showerBars": "Shower rails",
+    "showerSets": "Shower sets",
+    "sensorsButtons": "Flush sensors and buttons",
+    "mirrorsWithCabinet": "Mirrors with cabinets",
+    "mirrorsWithoutCabinet": "Mirrors without cabinets"
+  },
+  "hero": {
+    "collections": "armal collections",
+    "title1": "Everything for your bathroom.",
+    "title2": "Outstanding design.",
+    "title3": "Affordable price.",
+    "subtitle": "",
+    "exploreCollection": "Explore the collection",
+    "viewCatalog": "View catalogue"
+  },
+  "landingCategories": {
+    "title": "Product categories",
+    "subtitle": "Three product lines for complete bathroom furnishing.",
+    "cardEyebrow": "Category",
+    "faucetsLabel": "Faucets",
+    "bathingLabel": "Bathing + showering",
+    "sanitaryLabel": "Sanitary ware",
+    "ctaExplore": "Explore category"
+  },
+  "landingPartnerMap": {
+    "eyebrow": "PARTNER NETWORK",
+    "title": "Find your nearest retailer",
+    "subtitle": "Filter by country, partner name and distance from your location.",
+    "filters": {
+      "countryLabel": "Country",
+      "allCountries": "All countries",
+      "partnerLabel": "Partner",
+      "partnerPlaceholder": "Enter a partner name...",
+      "distanceLabel": "Distance from me",
+      "allDistances": "All distances",
+      "upToDistance": "up to {distance} km",
+      "useMyLocation": "Use my location",
+      "resetFilters": "Reset filters",
+      "locationHelper": "Allow location access to filter by distance.",
+      "countrySI": "Slovenia",
+      "mapsLinkLabel": "Google Maps"
+    },
+    "countryNames": {
+      "HR": "Croatia",
+      "SI": "Slovenia",
+      "BIH": "Bosnia and Herzegovina",
+      "RS": "Serbia"
+    },
+    "detailCountryLabel": "Country",
+    "geo": {
+      "loading": "Getting your location...",
+      "error": "Your location could not be retrieved. Check your browser permissions."
+    },
+    "map": {
+      "missingApiKey": "The Google Maps API key is not configured.",
+      "loadTimeout": "The map could not be loaded. Check the Google Maps configuration and try again.",
+      "loadError": "Google Maps could not be loaded. Check your internet connection and API configuration.",
+      "initError": "Google Maps could not be initialised.",
+      "initRestrictionHint": "Check the API restrictions and billing settings in Google Cloud."
+    },
+    "resultShownPrefix": "Showing: ",
+    "resultShownSuffix": " retail locations",
+    "empty": "No partners match the selected filters.",
+    "clearFilters": "Clear filters"
+  },
+  "features": {
+    "quality": {
+      "title": "Proven quality",
+      "description": "Carefully selected products made to last for years, without compromise."
+    },
+    "warranty": {
+      "title": "10-year warranty",
+      "description": "Long-term reliability with an extended warranty on key products."
+    },
+    "solutions": {
+      "title": "Practical solutions",
+      "description": "A smart choice for every space and budget."
+    },
+    "delivery": {
+      "title": "Fast delivery",
+      "description": "Efficient delivery wherever you need us."
+    }
+  },
+  "collections": {
+    "title": "Featured collections",
+    "subtitle": "Discover our premium collections created for refined living spaces.",
+    "exploreCollection": "Explore collection",
+    "viewAll": "View all collections",
+    "previous": "Previous collection",
+    "next": "Next collection",
+    "goToPage": "Go to page {page}",
+    "rubi": {
+      "name": "Rubi",
+      "description": "An elegant faucet collection combining modern design with outstanding functionality. Made from high-quality materials, the Rubi collection brings sophisticated elegance to every space.",
+      "benefit": "Ideal for modern bathrooms"
+    },
+    "onix": {
+      "name": "Onix",
+      "description": "A minimalist design defined by clean lines and simplicity. The Onix collection offers a perfect balance of aesthetics and practicality, ideal for contemporary interiors.",
+      "benefit": "Perfect for minimalist spaces"
+    },
+    "topaz": {
+      "name": "Topaz",
+      "description": "A luxurious collection with a premium look and exceptional durability. Topaz combines elegant forms with advanced technology for an outstanding user experience.",
+      "benefit": "Premium quality for luxurious spaces"
+    },
+    "opal": {
+      "name": "Opal",
+      "description": "An elegant collection combining modern design with outstanding functionality. Opal offers sophisticated solutions for every space.",
+      "benefit": "Ideal for modern bathrooms"
+    },
+    "safir": {
+      "name": "Safir",
+      "description": "Safir water-saving faucets combine clean, straight lines with subtly rounded details that give the space a modern yet inviting feel. Their minimalist design works easily with a variety of bathroom styles, proving that simplicity can be the finest decoration.",
+      "benefit": "A luxurious option for demanding spaces"
+    },
+    "beril": {
+      "name": "Beril",
+      "description": "A contemporary collection defined by clean lines and simplicity. Beril offers a perfect balance of aesthetics and practicality.",
+      "benefit": "Perfect for minimalist spaces"
+    },
+    "lapis": {
+      "name": "Lapis",
+      "description": "Soft lines inspired by an earlier era bring sophistication to the space, emphasised by an elegant bronze finish.",
+      "benefit": "Ideal for contemporary interiors"
+    },
+    "violet": {
+      "name": "Violet",
+      "description": "The straight lines of the Violet collection are designed for everyone who appreciates minimalism and timeless design.",
+      "benefit": "Timeless elegance for every home"
+    },
+    "jana": {
+      "name": "Jana",
+      "description": "A practical collection offering excellent functionality at an accessible price. Jana is an ideal choice for every space.",
+      "benefit": "Ideal for every budget"
+    },
+    "ana": {
+      "name": "Ana",
+      "description": "A classic collection distinguished by its simplicity and reliability. Ana offers quality solutions for every home.",
+      "benefit": "A reliable option for every space"
+    },
+    "start": {
+      "name": "Start",
+      "description": "An affordable collection combining quality with excellent value. Start is the ideal choice when beginning a bathroom renovation.",
+      "benefit": "The ideal place to start"
+    },
+    "trend": {
+      "name": "Trend",
+      "description": "A modern collection that follows the latest design trends. Trend offers contemporary solutions for your space.",
+      "benefit": "A contemporary option for modern spaces"
+    }
+  },
+  "moodboard": {
+    "title": "Moodboard",
+    "subtitle": "A palette of textures, colours and forms at the heart of our aesthetic approach",
+    "description": "A bathroom moodboard provides visual guidance for coordinating all key elements of the space before making the final selection. Through carefully chosen faucets, finishes and stylistic details, it clearly shows the relationship between materials, colours and forms and helps define the desired character of the bathroom. It brings aesthetics and functionality together in one place, helping the finished space feel harmonious, considered and consistent.",
+    "tagline": "BE INSPIRED",
+    "imageAlt": "Moodboard image"
+  },
+  "about": {
+    "title": "About us",
+    "description": "The Armal brand has been well known throughout the Adriatic region for more than 55 years. After being acquired by Armal d.o.o. in 2018, the brand continued its development. In 2023, a separate company, Armal d.o.o., was established to ensure complete focus on the brand's operations and growth, with a portfolio dedicated to bathroom furnishing products.",
+    "learnMore": "Learn more about us",
+    "imageAlt": "Modern bathroom interior"
+  },
+  "cta": {
+    "title": "Let us create your dream space",
+    "description": "Whether you are looking for exclusive pieces for your home or furnishing a commercial space, we are here to help.",
+    "b2b": "Armal B2B webshop",
+    "editHome": "Uredi dom webshop"
+  },
+  "team": {
+    "title": "Our team",
+    "subtitle": "Meet the experts behind our success",
+    "learnMore": "Learn more about the team",
+    "noImage": "No image",
+    "unavailable": "The team is currently unavailable.",
+    "emailAria": "Send an email to {name}",
+    "linkedInAria": "{name}'s LinkedIn profile",
+    "roles": {
+      "managingDirector": "Managing Director",
+      "chiefOperatingOfficer": "COO – Chief Operating Officer",
+      "headOfProcurement": "Head of Procurement"
+    }
+  },
+  "catalogues": {
+    "title": "Product catalogues",
+    "subtitle": "Download detailed PDF catalogues of our products for review and planning",
+    "featured": "Featured catalogue",
+    "moreCatalogues": "More catalogues",
+    "downloadPDF": "Download PDF",
+    "preview": "Preview",
+    "fileSize": "File size",
+    "year": "Year",
+    "new": "New",
+    "empty": "There are currently no published catalogues for the selected language."
+  },
+  "languages": {
+    "hr": "Croatian",
+    "slo": "Slovenian",
+    "rs": "Serbian",
+    "eng": "English"
+  },
+  "footer": {
+    "slogan": "Create a space that reflects your taste without compromising between style and budget.",
+    "oib": "Company ID",
+    "oibValue": "02300129401",
+    "mbs": "Court register no.",
+    "mbsValue": "08140233",
+    "uid": "VAT ID",
+    "uidValue": "HR02300129401",
+    "linksTitle": "Links",
+    "servicesTitle": "Services",
+    "legalTitle": "Legal",
+    "privacy": "Privacy policy",
+    "terms": "Terms of use",
+    "cookies": "Cookie policy",
+    "bank": "Bank",
+    "countryCroatia": "Croatia",
+    "copyright": "© 2026 Armal. All rights reserved."
+  },
+  "aboutPage": {
+    "heroTitle": "Our story",
+    "heroSubtitle": "The best-known brand in this region for more than 59 years.",
+    "storyTitle": "Our story: a tradition that builds the future",
+    "storyEyebrow": "ARMAL / SINCE 1967",
+    "storyCaption": "Armal through the years",
+    "storyParagraph1": "The Armal story began more than 59 years ago, when the brand laid the foundations for its recognition across the Adriatic market. Through decades of consistent quality and reliability, we have built strong relationships with customers, partners and generations of users who expect more from a bathroom than function alone.",
+    "storyParagraph2": "From a family business tradition, we have developed a modern and comprehensive brand that today brings together faucets, shower programmes, bathroom furniture, mirrors, accessories and other equipment.",
+    "storyParagraph3": "We look ahead with a clear ambition: to expand our portfolio, strengthen our design identity and develop innovative, sustainable and durable solutions for contemporary living spaces. Today, we are present at more than 300 retail locations in Croatia, Slovenia and Bosnia and Herzegovina, and tomorrow we aim to become an even stronger regional partner for complete bathroom furnishing.",
+    "storyParagraph4": "We are building the future on the foundations of tradition while continually advancing our knowledge and experience.",
+    "storyImageAlt": "Historic Armal bathroom",
+    "valuesTitle": "Our values",
+    "valuesSubtitle": "These core values guide everything we do, from product selection to customer service.",
+    "values": {
+      "tradition": "Tradition",
+      "traditionDesc": "More than half a century of experience in creating quality bathroom solutions.",
+      "quality": "Quality",
+      "qualityDesc": "Continuous improvement of products and services to meet the highest standards.",
+      "responsibility": "Responsible business",
+      "responsibilityDesc": "We are committed to sustainability and ethical business practices in every aspect of our work.",
+      "partnership": "Trusted partnership",
+      "partnershipDesc": "We build lasting relationships with our partners and clients based on trust and shared success."
+    },
+    "stats": {
+      "stat1Number": "300+",
+      "stat1Caption": "Retail locations in Croatia, Bosnia and Herzegovina and Serbia",
+      "stat2Number": "30+",
+      "stat2Caption": "Years of distribution experience",
+      "stat3Number": "1",
+      "stat3Caption": "brand bringing together products for complete bathroom furnishing"
+    }
+  },
+  "productsPage": {
+    "title": "Our products",
+    "subtitle": "Explore our wide range of bathroom furnishing products",
+    "viewCategory": "View category",
+    "learnMore": "Learn more",
+    "comingSoon": "Content coming soon...",
+    "faucetsExplore": "Explore faucets tailored to your needs",
+    "bathingExplore": "Discover bathing and showering solutions",
+    "sanitaryExplore": "Find the perfect sanitary ware for your space"
+  },
+  "faucetsPage": {
+    "ctaTitle": "Find the perfect faucets for your space",
+    "ctaDescription": "Explore our wide range and find the ideal solutions for your home or commercial space.",
+    "viewCatalogues": "View catalogues",
+    "colorLabel": "COLOUR",
+    "colorAll": "All products",
+    "colorPlaceholder": "Select a colour",
+    "notFoundLabel": "Faucet collection not found",
+    "notFoundDescription": "The selected collection does not exist or is currently unavailable.",
+    "backToList": "Back to faucets",
+    "productVariantTitle": "Product variants",
+    "productVariantSubtitle": "Choose a colour and product type to compare the different variants within the collection more easily.",
+    "variantInfoLabel": "Product type",
+    "variantInfoPlaceholder": "Select a product type",
+    "variantWashbasin": "Washbasin faucet",
+    "variantBidet": "Bidet faucet",
+    "variantBathtub": "Bathtub / shower faucet",
+    "variantBuiltIn": "Concealed faucet",
+    "variantShowerSet": "Shower set / system",
+    "heroImageAlt": "Faucets",
+    "ui": {
+      "reset": "Reset"
+    },
+    "gallery": {
+      "regionSuffix": "gallery",
+      "previousImage": "Previous image",
+      "nextImage": "Next image",
+      "previousThumbnails": "Previous thumbnails",
+      "nextThumbnails": "Next thumbnails",
+      "imageLabel": "Image"
+    },
+    "lightbox": {
+      "dialogLabel": "Image gallery",
+      "closeButton": "Close",
+      "previousImage": "Previous image",
+      "nextImage": "Next image",
+      "enlargedImageAlt": "Enlarged image"
+    },
+    "finishes": {
+      "chrome": "Chrome",
+      "black": "Black",
+      "gunMetal": "Gun metal",
+      "brushGold": "Brushed gold",
+      "brushedNickel": "Brushed nickel",
+      "bronze": "Bronze"
+    },
+    "sections": {
+      "waterMixersTitle": "Faucet applications",
+      "waterMixers": {
+        "bidet": "Bidet faucet",
+        "bathtub": "Bathtub faucet",
+        "builtInMixer": "Concealed faucet",
+        "builtInShower": "Deck-mounted faucet",
+        "showerSet": "Shower faucet"
+      },
+      "waterMixersOverrides": {
+        "rubi": {
+          "builtInShower": "Concealed shower"
+        },
+        "ana": {
+          "bathtub": "Bathtub",
+          "builtInMixer": "Faucet",
+          "showerSet": "Shower faucet"
+        },
+        "start": {
+          "bidet": "Bidet",
+          "bathtub": "Bathtub",
+          "builtInMixer": "Faucet",
+          "showerSet": "Shower faucet"
+        },
+        "jana": {
+          "bidet": "Bidet",
+          "bathtub": "Bathtub",
+          "builtInMixer": "Faucet",
+          "builtInShower": "Shower faucet",
+          "showerSet": "Shower set"
+        },
+        "violet": {
+          "bidet": "Bidet",
+          "bathtub": "Bathtub",
+          "builtInMixer": "Faucet",
+          "showerSet": "Shower faucet"
+        },
+        "lapis": {
+          "builtInMixer": "Deck-mounted faucet",
+          "builtInShower": "Concealed shower faucet"
+        },
+        "beril": {
+          "builtInShower": "Concealed shower faucet"
+        }
+      }
+    }
+  },
+  "bathingCategories": {
+    "bathtubs": {
+      "name": "Bathtubs",
+      "description": "Luxurious bathtubs for rest and relaxation. Available in different sizes and styles, from classic to modern designs.",
+      "benefit": "Ideal for creating a peaceful oasis in your bathroom"
+    },
+    "showerTrays": {
+      "name": "Shower trays",
+      "description": "Functional, modern shower trays combining practicality and aesthetics. Available in a variety of dimensions and materials.",
+      "benefit": "The perfect solution for compact, modern bathrooms"
+    },
+    "showerChannels": {
+      "name": "Shower channels",
+      "description": "Elegant, functional shower channels that ensure fast and efficient water drainage. Available in different widths and designs.",
+      "benefit": "Maximum functionality with minimalist design"
+    },
+    "showerCabins": {
+      "name": "Shower enclosures",
+      "description": "Complete shower enclosures combining doors, panels and screens in a single solution. Available in different configurations and styles.",
+      "benefit": "A complete solution for your bathroom"
+    }
+  },
+  "bathingPage": {
+    "ctaTitle": "Find the perfect bathing and showering solutions",
+    "ctaDescription": "Explore our wide range and find the ideal solutions for your home or commercial space."
+  },
+  "sanitaryCategories": {
+    "washbasins": {
+      "name": "Washbasins",
+      "description": "Elegant, functional washbasins available in a range of styles, sizes and materials, from classic forms to modern designs that suit every space.",
+      "benefit": "A combination of aesthetics and practicality for your bathroom"
+    },
+    "toiletBowls": {
+      "name": "Toilets",
+      "description": "Modern floor-standing and wall-hung toilets that fit easily into a variety of bathroom styles.",
+      "benefit": "A reliable and hygienic solution for every bathroom"
+    },
+    "toiletSeats": {
+      "name": "Toilet seats",
+      "description": "Comfortable, hygienic toilet seats available in different materials and designs, combining functionality with a modern appearance.",
+      "benefit": "Comfort and easy maintenance"
+    },
+    "toiletCisterns": {
+      "name": "Toilet cisterns",
+      "description": "Efficient, reliable toilet cisterns designed for optimal water consumption. Available in different configurations and styles.",
+      "benefit": "Economical and environmentally conscious solutions"
+    },
+    "bidets": {
+      "name": "Bidets",
+      "description": "Modern, functional bidet units providing additional hygiene and comfort. Available in a variety of styles and configurations.",
+      "benefit": "Improved hygiene and comfort"
+    },
+    "monoblock": {
+      "name": "Close-coupled toilets",
+      "description": "Complete close-coupled units combining a toilet and cistern in one solution. Elegant and practical for every space.",
+      "benefit": "A compact and elegant solution"
+    }
+  },
+  "sanitaryPage": {
+    "ctaTitle": "Find the perfect sanitary ware for your space",
+    "ctaDescription": "Explore our wide range and find the ideal solutions for your home or commercial space."
+  },
+  "blogPage": {
+    "subtitle": "Inspiration, advice and the latest news about bathroom solutions",
+    "readMore": "Read more",
+    "backToBlog": "Back to blog",
+    "empty": "There are currently no published blog posts for the selected language.",
+    "notFound": "Blog post not found",
+    "posts": {
+      "blog1": {
+        "title": "Armal notice for wholesale customers",
+        "excerpt": "NOTICE FOR WHOLESALE CUSTOMERS",
+        "content": "NOTICE FOR WHOLESALE CUSTOMERS\n\nDear partners,\n\nDue to the continued increase in raw material and energy prices, we are required to adjust the Armal price list.\n\nWe understand the challenges these cost increases create for businesses and have sought to absorb most of the increase to maintain price stability for our customers. Unfortunately, we must pass a smaller portion of the increased costs on to the market. We are therefore announcing an average price increase of 4.5%, which will not be applied uniformly to all products.\n\nThe new price list will be delivered to you around 15 April 2026.\n\nThank you for your understanding and continued cooperation.\n\nKind regards,\nArmal d.o.o."
+      },
+      "blog2": {
+        "title": "Modern shower enclosures: trends and innovations for 2025",
+        "excerpt": "Explore the latest trends in shower enclosure design and learn how to create a luxurious bathing experience in your home.",
+        "content": "Shower enclosures have become increasingly popular in modern bathrooms, offering practicality and style in one complete solution.\n\nCurrent trends for 2025 include minimalist designs with clean lines and frameless enclosures that create a greater sense of space. Glass panels and doors are becoming standard, allowing more light and creating a more modern appearance.\n\nTechnological innovations are also changing the way we experience showering. Improved water-flow systems, LED lighting and integrated speakers are just some examples of how shower enclosures are evolving.\n\nWhen planning a new shower enclosure, it is important to consider the size of the space, the type of door (sliding, hinged or corner) and the materials to be used. Every choice affects the final look and functionality of your bathroom."
+      },
+      "blog3": {
+        "title": "Energy efficiency in the bathroom: practical tips",
+        "excerpt": "Learn how to reduce water and energy consumption in your bathroom while maintaining a high level of comfort.",
+        "content": "Energy efficiency in the bathroom is good not only for the environment but also for your budget. There are several simple ways to reduce consumption without sacrificing comfort.\n\nReplacing old faucets with new water-saving models can reduce water consumption by up to 30%. Aerators and flow restrictors are simple additions that can make a significant difference.\n\nLow-flow shower heads are another excellent choice. They can reduce water consumption during showering by almost half while preserving the same comfortable experience.\n\nFor water heating, consider solar systems or heat pumps. Although they require an initial investment, they can significantly reduce energy bills over time."
+      },
+      "blog4": {
+        "title": "Minimalist bathroom design: a beginner's guide",
+        "excerpt": "How to create a clean, functional space defined by elegance and simplicity.",
+        "content": "Minimalist bathroom design is becoming increasingly popular thanks to its clean appearance, simplicity and timeless quality.\n\nThe key to minimalist design lies in the principle that less is more. Instead of overcrowding the space with different elements, focus on high-quality, functional pieces with a clear purpose.\n\nColour is also important. White, grey and neutral shades create a sense of space and cleanliness. Add accent colours through small details such as towels or decorative elements.\n\nStorage is critical in minimalist design. Concealed shelves, built-in cabinets and simple organisational systems help keep the space clean and organised."
+      },
+      "blog5": {
+        "title": "Bathroom care and cleaning: best practices",
+        "excerpt": "Practical advice for keeping your bathroom in excellent condition and extending the life of its fixtures and fittings.",
+        "content": "Regular bathroom maintenance not only keeps the space clean and healthy but also extends the life of its fixtures and fittings.\n\nFor sanitary ware, use mild cleaners that will not damage the surfaces. Avoid aggressive chemicals that may harm finishes and cause corrosion.\n\nFaucets and shower heads should be cleaned regularly to prevent limescale build-up. Use a vinegar solution or specialist limescale-removal products.\n\nRegularly cleaning floors and walls prevents mould and bacteria from accumulating. Check the ventilation to ensure good air circulation."
+      },
+      "blog6": {
+        "title": "Affordable bathroom renovation: step by step",
+        "excerpt": "How to renovate a bathroom on a limited budget without compromising quality or functionality.",
+        "content": "A bathroom renovation does not have to cost a fortune. With careful planning and the right approach, you can create a beautiful space within your budget.\n\nStart with a plan. Set your priorities: what matters most to you? It may be a new bathtub or more modern faucets. Focus on the elements that will have the greatest impact on the appearance and functionality of the space.\n\nConsider refinishing rather than complete replacement. If your tiles are in good condition, you may be able to refresh them. The same applies to the bathtub: instead of buying a new one, consider restoring the existing one.\n\nDIY projects can produce significant savings. Simple tasks such as painting the walls, replacing faucets or adding new light fixtures may be projects you can complete yourself."
+      }
+    }
+  },
+  "servisPage": {
+    "heroSubtitle": "Contact us for all your service needs",
+    "formTitle": "Submit a warranty claim",
+    "formDescription": "Complete the form and we will contact you as soon as possible.",
+    "nameLabel": "Full name",
+    "namePlaceholder": "Your full name",
+    "emailLabel": "Your email address",
+    "emailPlaceholder": "you@example.com",
+    "phoneLabel": "Phone number",
+    "phonePlaceholder": "+385 12 345 6789",
+    "streetLabel": "Street",
+    "streetPlaceholder": "Street name",
+    "houseNumberLabel": "Number",
+    "houseNumberPlaceholder": "House number",
+    "cityLabel": "City",
+    "cityPlaceholder": "City",
+    "postalCodeLabel": "Postal code",
+    "postalCodePlaceholder": "10000",
+    "countryLabel": "Country",
+    "countryPlaceholder": "Croatia",
+    "invoiceNumberLabel": "Enter the invoice number",
+    "invoiceNumberPlaceholder": "Invoice number",
+    "messageLabel": "Message (optional)",
+    "messagePlaceholder": "Describe your issue or question...",
+    "imageLabel": "Attach invoice images",
+    "imageHelp": "You can attach up to 5 images. Allowed formats: JPEG, PNG, GIF and WebP. Maximum 2 MB per image.",
+    "selectedFile": "Selected file:",
+    "selectedFiles": "Selected files:",
+    "removeFile": "Remove",
+    "submitButton": "Submit request",
+    "sendingButton": "Sending...",
+    "imageRequiredError": "Attach at least one image of the invoice.",
+    "maxImagesError": "You can attach no more than {max} images.",
+    "imageTypeError": "Allowed image formats are JPEG, PNG, GIF and WebP.",
+    "imageSizeError": "Each image may be no larger than {size} MB.",
+    "submitError": "The request could not be sent.",
+    "fetchError": "The server could not be reached. Please try again later.",
+    "genericError": "Something went wrong. Please try again.",
+    "submitSuccess": "Thank you. We will contact you shortly.",
+    "contactTitle": "Contact us",
+    "contactDescription": "Email us directly or use the contact information below.",
+    "emailAddress": "Email address",
+    "servisEmailLabel": "Service",
+    "phoneNumber": "Phone number",
+    "workingHours": "Opening hours",
+    "weekdays": "Monday - Friday:",
+    "saturday": "Saturday:",
+    "sunday": "Sunday:",
+    "closed": "Closed"
+  }
+}
