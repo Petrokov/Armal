@@ -387,14 +387,14 @@ app.get('/api/health', (req, res) => {
   res.json({ ok: true })
 })
 
-// GET /pdf/:slug – stabilan armal.hr link za newsletter PDF-ove u Supabase Storageu.
+// GET /pdf/:slug – newsletter PDF iz Supabase Storagea posluzen pod armal.hr adresom (proxy, bez redirecta).
 const SUPABASE_URL = (process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL || '').replace(/\/$/, '')
 const NEWSLETTER_BUCKET = 'armal-newsletter'
 const NEWSLETTER_SLUG_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/
+const PDF_PASSTHROUGH_HEADERS = ['content-length', 'content-range', 'accept-ranges', 'etag', 'last-modified']
 
 app.get('/pdf/:slug', async (req, res) => {
   res.setHeader('X-Robots-Tag', 'noindex, nofollow')
-  res.setHeader('Cache-Control', 'no-store')
 
   const slug = String(req.params.slug || '').replace(/\.pdf$/i, '').toLowerCase()
   if (!SUPABASE_URL || !NEWSLETTER_SLUG_PATTERN.test(slug)) {
@@ -405,17 +405,40 @@ app.get('/pdf/:slug', async (req, res) => {
   const fileUrl = `${SUPABASE_URL}/storage/v1/object/public/${NEWSLETTER_BUCKET}/${slug}.pdf`
 
   try {
-    const check = await axios.head(fileUrl, { timeout: 5000, validateStatus: () => true })
-    if (check.status >= 400 && check.status < 500) {
-      res.status(404).type('text/plain; charset=utf-8').send('PDF nije pronađen.')
+    // Range se prosljeduje da preglednikov PDF viewer moze ucitavati velike datoteke u dijelovima.
+    const upstream = await axios.get(fileUrl, {
+      responseType: 'stream',
+      timeout: 15000,
+      validateStatus: () => true,
+      headers: req.headers.range ? { Range: req.headers.range } : {},
+    })
+
+    if (upstream.status >= 400) {
+      upstream.data.resume()
+      const notFound = upstream.status < 500
+      res
+        .status(notFound ? 404 : 502)
+        .type('text/plain; charset=utf-8')
+        .send(notFound ? 'PDF nije pronađen.' : 'PDF trenutno nije dostupan.')
       return
     }
-  } catch (err) {
-    // Ako provjera ne uspije (mreža), svejedno preusmjeri – Storage će odgovoriti sam.
-    console.warn('Newsletter PDF check failed:', err.message)
-  }
 
-  res.redirect(302, fileUrl)
+    res.status(upstream.status)
+    res.setHeader('Content-Type', 'application/pdf')
+    res.setHeader('Content-Disposition', `inline; filename="${slug}.pdf"`)
+    res.setHeader('Cache-Control', 'public, max-age=60')
+    for (const header of PDF_PASSTHROUGH_HEADERS) {
+      if (upstream.headers[header]) res.setHeader(header, upstream.headers[header])
+    }
+
+    req.on('close', () => upstream.data.destroy())
+    upstream.data.pipe(res)
+  } catch (err) {
+    console.error('Newsletter PDF proxy error:', err.message)
+    if (!res.headersSent) {
+      res.status(502).type('text/plain; charset=utf-8').send('PDF trenutno nije dostupan.')
+    }
+  }
 })
 
 // Production (npr. Railway): poslužuj build frontenda s istog poslužitelja – jedan deploy
