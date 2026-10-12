@@ -3,6 +3,7 @@ const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY || ''
 
 export const SUPABASE_MEDIA_BUCKET = 'armal-media'
 export const SUPABASE_CATALOGS_BUCKET = 'armal-catalogs'
+export const SUPABASE_NEWSLETTER_BUCKET = 'armal-newsletter'
 
 export const isSupabaseConfigured = Boolean(SUPABASE_URL && SUPABASE_ANON_KEY)
 
@@ -345,9 +346,6 @@ export const supabaseAdmin = {
     }
   },
   async uploadFile(bucket, file, folder = 'uploads') {
-    const session = getSession()
-    if (!session?.access_token) throw new Error('Niste prijavljeni.')
-
     const safeName = file.name
       .normalize('NFD')
       .replace(/[\u0300-\u036f]/g, '')
@@ -356,16 +354,100 @@ export const supabaseAdmin = {
       .toLowerCase()
     const path = `${folder}/${Date.now()}-${safeName}`
 
+    return this.uploadFileToPath(bucket, path, file)
+  },
+  async uploadFileToPath(bucket, path, file, { upsert = true, contentType, cacheControlSeconds } = {}) {
+    const session = getSession()
+    if (!session?.access_token) throw new Error('Niste prijavljeni.')
+
+    const headers = {
+      'Content-Type': contentType || file.type || 'application/octet-stream',
+      'x-upsert': upsert ? 'true' : 'false',
+    }
+    if (cacheControlSeconds) headers['cache-control'] = `max-age=${cacheControlSeconds}`
+
     await request(`/storage/v1/object/${bucket}/${path}`, {
       method: 'POST',
       accessToken: session.access_token,
-      headers: {
-        'Content-Type': file.type || 'application/octet-stream',
-        'x-upsert': 'true',
-      },
+      headers,
       body: file,
     })
 
     return `${SUPABASE_URL}/storage/v1/object/public/${bucket}/${path}`
+  },
+  async deleteFile(bucket, path) {
+    const session = getSession()
+    if (!session?.access_token) throw new Error('Niste prijavljeni.')
+
+    return request(`/storage/v1/object/${bucket}/${path}`, {
+      method: 'DELETE',
+      accessToken: session.access_token,
+    })
+  },
+  async listNewsletterFiles() {
+    const session = getSession()
+    return request('/rest/v1/newsletter_files?select=*&order=created_at.desc', {
+      accessToken: session?.access_token,
+    })
+  },
+  async createNewsletterFile({ title, slug, file }) {
+    const session = getSession()
+    const storagePath = `${slug}.pdf`
+
+    // Bez upserta: postojeca datoteka s istim slugom se ne smije tiho pregaziti.
+    await this.uploadFileToPath(SUPABASE_NEWSLETTER_BUCKET, storagePath, file, {
+      upsert: false,
+      contentType: 'application/pdf',
+      cacheControlSeconds: 60,
+    })
+
+    try {
+      const rows = await mutate(
+        'newsletter_files',
+        'POST',
+        {
+          title,
+          slug,
+          storage_path: storagePath,
+          file_size: file.size,
+          author_id: session?.user?.id || null,
+        },
+        session?.access_token,
+      )
+      return rows?.[0] || null
+    } catch (error) {
+      await this.deleteFile(SUPABASE_NEWSLETTER_BUCKET, storagePath).catch(() => null)
+      throw error
+    }
+  },
+  async replaceNewsletterFile(item, file) {
+    const session = getSession()
+
+    await this.uploadFileToPath(SUPABASE_NEWSLETTER_BUCKET, item.storage_path, file, {
+      upsert: true,
+      contentType: 'application/pdf',
+      cacheControlSeconds: 60,
+    })
+
+    const rows = await mutate(
+      'newsletter_files',
+      'PATCH',
+      { file_size: file.size, updated_at: new Date().toISOString() },
+      session?.access_token,
+      `?id=eq.${filterValue(item.id)}`,
+    )
+    return rows?.[0] || null
+  },
+  async deleteNewsletterFile(item) {
+    const session = getSession()
+
+    try {
+      await this.deleteFile(SUPABASE_NEWSLETTER_BUCKET, item.storage_path)
+    } catch (error) {
+      // Ako datoteka vec ne postoji u Storageu, svejedno obrisi zapis.
+      if (!/not.?found/i.test(error.message || '')) throw error
+    }
+
+    return remove('newsletter_files', session?.access_token, `?id=eq.${filterValue(item.id)}`)
   },
 }

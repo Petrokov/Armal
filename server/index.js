@@ -387,6 +387,37 @@ app.get('/api/health', (req, res) => {
   res.json({ ok: true })
 })
 
+// GET /pdf/:slug – stabilan armal.hr link za newsletter PDF-ove u Supabase Storageu.
+const SUPABASE_URL = (process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL || '').replace(/\/$/, '')
+const NEWSLETTER_BUCKET = 'armal-newsletter'
+const NEWSLETTER_SLUG_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/
+
+app.get('/pdf/:slug', async (req, res) => {
+  res.setHeader('X-Robots-Tag', 'noindex, nofollow')
+  res.setHeader('Cache-Control', 'no-store')
+
+  const slug = String(req.params.slug || '').replace(/\.pdf$/i, '').toLowerCase()
+  if (!SUPABASE_URL || !NEWSLETTER_SLUG_PATTERN.test(slug)) {
+    res.status(404).type('text/plain; charset=utf-8').send('PDF nije pronađen.')
+    return
+  }
+
+  const fileUrl = `${SUPABASE_URL}/storage/v1/object/public/${NEWSLETTER_BUCKET}/${slug}.pdf`
+
+  try {
+    const check = await axios.head(fileUrl, { timeout: 5000, validateStatus: () => true })
+    if (check.status >= 400 && check.status < 500) {
+      res.status(404).type('text/plain; charset=utf-8').send('PDF nije pronađen.')
+      return
+    }
+  } catch (err) {
+    // Ako provjera ne uspije (mreža), svejedno preusmjeri – Storage će odgovoriti sam.
+    console.warn('Newsletter PDF check failed:', err.message)
+  }
+
+  res.redirect(302, fileUrl)
+})
+
 // Production (npr. Railway): poslužuj build frontenda s istog poslužitelja – jedan deploy
 const distPath = path.join(__dirname, '..', 'dist')
 if (process.env.NODE_ENV === 'production') {

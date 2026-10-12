@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useId, useMemo, useState } from 'react'
 import { Link, Navigate, useNavigate, useParams, useSearchParams } from 'react-router-dom'
-import { ArrowLeft, ChevronDown, ChevronUp, Copy, FileText, ImageUp, LogOut, Plus, Save, Trash2 } from 'lucide-react'
+import { ArrowLeft, ChevronDown, ChevronUp, Copy, ExternalLink, FileText, ImageUp, LogOut, Plus, RefreshCw, Save, Trash2 } from 'lucide-react'
 import {
   SUPABASE_CATALOGS_BUCKET,
   SUPABASE_MEDIA_BUCKET,
@@ -87,6 +87,27 @@ const slugify = (value) =>
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/^-+|-+$/g, '')
 
+const NEWSLETTER_PUBLIC_BASE_URL = (import.meta.env.VITE_SITE_URL || 'https://www.armal.hr').replace(/\/$/, '')
+const NEWSLETTER_MAX_PDF_MB = 20
+
+const getNewsletterLink = (slug) => `${NEWSLETTER_PUBLIC_BASE_URL}/pdf/${slug}`
+
+const formatFileSize = (bytes) => (bytes ? `${(bytes / 1024 / 1024).toFixed(1)} MB` : '')
+
+const formatAdminDate = (value) => {
+  if (!value) return ''
+  const date = new Date(value)
+  return Number.isNaN(date.getTime()) ? '' : date.toLocaleString('hr-HR')
+}
+
+const validateNewsletterPdf = (file) => {
+  if (!file) return 'Odaberi PDF datoteku.'
+  const isPdf = file.type === 'application/pdf' || file.name.toLowerCase().endsWith('.pdf')
+  if (!isPdf) return 'Dozvoljen je samo PDF.'
+  if (file.size > NEWSLETTER_MAX_PDF_MB * 1024 * 1024) return `PDF smije imati najvise ${NEWSLETTER_MAX_PDF_MB} MB.`
+  return ''
+}
+
 const toDatetimeLocalValue = (value) => {
   if (!value) return ''
   const date = new Date(value)
@@ -125,6 +146,9 @@ const AdminShell = ({ children }) => {
             </Link>
             <Link className="rounded-md px-3 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-100" to="/admin/team">
               Tim
+            </Link>
+            <Link className="rounded-md px-3 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-100" to="/admin/newsletter">
+              Newsletter PDF
             </Link>
             <button
               type="button"
@@ -705,6 +729,262 @@ export const AdminTeamListPage = () => {
         </div>
       </AdminShell>
     </AdminGate>
+  )
+}
+
+export const AdminNewsletterPage = () => {
+  const [items, setItems] = useState([])
+  const [title, setTitle] = useState('')
+  const [slug, setSlug] = useState('')
+  const [slugTouched, setSlugTouched] = useState(false)
+  const [file, setFile] = useState(null)
+  const [fileInputKey, setFileInputKey] = useState(0)
+  const [busy, setBusy] = useState(false)
+  const [message, setMessage] = useState('')
+  const [error, setError] = useState('')
+  const fileId = `newsletter-pdf-${useId()}`
+
+  const loadItems = useCallback(() => {
+    supabaseAdmin
+      .listNewsletterFiles()
+      .then((rows) => {
+        setItems(rows || [])
+        setError('')
+      })
+      .catch((err) => setError(err.message))
+  }, [])
+
+  useEffect(() => {
+    loadItems()
+  }, [loadItems])
+
+  const handleTitleChange = (value) => {
+    setTitle(value)
+    if (!slugTouched) setSlug(slugify(value))
+  }
+
+  const handleUpload = async (event) => {
+    event.preventDefault()
+    setMessage('')
+    setError('')
+
+    const finalSlug = slugify(slug || title)
+    const fileError = validateNewsletterPdf(file)
+    if (!title.trim() || !finalSlug) {
+      setError('Naslov i slug su obavezni.')
+      return
+    }
+    if (fileError) {
+      setError(fileError)
+      return
+    }
+    if (items.some((item) => item.slug === finalSlug)) {
+      setError(`Slug "${finalSlug}" vec postoji. Promijeni slug ili zamijeni postojecu datoteku.`)
+      return
+    }
+
+    setBusy(true)
+    try {
+      await supabaseAdmin.createNewsletterFile({ title: title.trim(), slug: finalSlug, file })
+      setTitle('')
+      setSlug('')
+      setSlugTouched(false)
+      setFile(null)
+      setFileInputKey((key) => key + 1)
+      setMessage(`PDF je uploadan. Link: ${getNewsletterLink(finalSlug)}`)
+      loadItems()
+    } catch (err) {
+      setError(err.message || 'Upload PDF-a nije uspio.')
+    } finally {
+      setBusy(false)
+    }
+  }
+
+  const handleReplace = async (item, nextFile) => {
+    if (!nextFile) return
+    setMessage('')
+    setError('')
+
+    const fileError = validateNewsletterPdf(nextFile)
+    if (fileError) {
+      setError(fileError)
+      return
+    }
+    if (!window.confirm(`Zamijeniti PDF "${item.title}"? Link ostaje isti.`)) return
+
+    setBusy(true)
+    try {
+      await supabaseAdmin.replaceNewsletterFile(item, nextFile)
+      setMessage(`PDF "${item.title}" je zamijenjen. Nova verzija vidljiva je unutar ~1 minute.`)
+      loadItems()
+    } catch (err) {
+      setError(err.message || 'Zamjena PDF-a nije uspjela.')
+    } finally {
+      setBusy(false)
+    }
+  }
+
+  const handleDelete = async (item) => {
+    if (!window.confirm(`Trajno obrisati PDF "${item.title}"? Link ${getNewsletterLink(item.slug)} vise nece raditi.`)) return
+    setMessage('')
+    setError('')
+    setBusy(true)
+
+    try {
+      await supabaseAdmin.deleteNewsletterFile(item)
+      setMessage(`PDF "${item.title}" je obrisan.`)
+      loadItems()
+    } catch (err) {
+      setError(err.message || 'Brisanje PDF-a nije uspjelo.')
+    } finally {
+      setBusy(false)
+    }
+  }
+
+  const handleCopy = async (item) => {
+    const link = getNewsletterLink(item.slug)
+    try {
+      await navigator.clipboard.writeText(link)
+      setMessage(`Link kopiran: ${link}`)
+    } catch {
+      window.prompt('Kopiraj link:', link)
+    }
+  }
+
+  return (
+    <AdminGate>
+      <AdminShell>
+        <div>
+          <h1 className="text-3xl font-bold text-slate-950">Newsletter PDF</h1>
+          <p className="mt-1 text-sm text-slate-600">
+            PDF-ovi nisu prikazani na webu. Dostupni su samo preko linka {NEWSLETTER_PUBLIC_BASE_URL}/pdf/&lt;slug&gt;.
+          </p>
+        </div>
+
+        {error && <div className="mt-6 rounded-md border border-red-200 bg-red-50 p-3 text-sm text-red-700">{error}</div>}
+        {message && (
+          <div className="mt-6 break-all rounded-md border border-green-200 bg-green-50 p-3 text-sm font-semibold text-green-700">
+            {message}
+          </div>
+        )}
+
+        <form onSubmit={handleUpload} className="mt-6 rounded-lg bg-white p-6 shadow-sm">
+          <h2 className="mb-5 text-xl font-bold text-slate-950">Novi PDF</h2>
+          <div className="grid gap-4 md:grid-cols-2">
+            <FormField label="Naslov">
+              <TextInput value={title} onChange={(event) => handleTitleChange(event.target.value)} required />
+            </FormField>
+            <FormField label="Slug (dio linka)">
+              <TextInput
+                value={slug}
+                onChange={(event) => {
+                  setSlugTouched(true)
+                  setSlug(slugify(event.target.value))
+                }}
+                placeholder="npr. akcija-listopad-2026"
+                required
+              />
+            </FormField>
+          </div>
+          {slug && <p className="mt-2 break-all text-sm text-slate-500">Link: {getNewsletterLink(slug)}</p>}
+          <div className="mt-5 flex flex-wrap items-center gap-3">
+            <label
+              htmlFor={fileId}
+              className="inline-flex cursor-pointer items-center gap-2 rounded-md border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50"
+            >
+              <FileText size={16} />
+              Odaberi PDF
+            </label>
+            <input
+              key={fileInputKey}
+              id={fileId}
+              type="file"
+              accept="application/pdf"
+              className="sr-only"
+              onChange={(event) => setFile(event.target.files?.[0] || null)}
+            />
+            <span className="text-sm text-slate-500">
+              {file ? `${file.name} (${formatFileSize(file.size)})` : `Najvise ${NEWSLETTER_MAX_PDF_MB} MB`}
+            </span>
+          </div>
+          <button
+            type="submit"
+            disabled={busy}
+            className="mt-6 inline-flex items-center gap-2 rounded-md bg-[#0070CD] px-5 py-3 text-sm font-bold text-white hover:bg-[#005bb0] disabled:cursor-not-allowed disabled:bg-slate-300"
+          >
+            <Plus size={16} />
+            {busy ? 'Upload...' : 'Uploadaj PDF'}
+          </button>
+        </form>
+
+        <div className="mt-8 overflow-hidden rounded-lg border border-slate-200 bg-white">
+          {items.map((item) => (
+            <NewsletterRow
+              key={item.id}
+              item={item}
+              busy={busy}
+              onCopy={() => handleCopy(item)}
+              onReplace={(nextFile) => handleReplace(item, nextFile)}
+              onDelete={() => handleDelete(item)}
+            />
+          ))}
+          {!items.length && <EmptyState label="Nema uploadanih PDF-ova." />}
+        </div>
+      </AdminShell>
+    </AdminGate>
+  )
+}
+
+const NewsletterRow = ({ item, busy, onCopy, onReplace, onDelete }) => {
+  const replaceId = `newsletter-replace-${useId()}`
+  const link = getNewsletterLink(item.slug)
+  const buttonClass =
+    'inline-flex items-center gap-2 rounded-md border border-slate-300 bg-white px-3 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50'
+
+  return (
+    <div className="flex flex-wrap items-center justify-between gap-4 border-b border-slate-100 px-5 py-4 hover:bg-slate-50">
+      <div className="min-w-0">
+        <h2 className="font-semibold text-slate-950">{item.title}</h2>
+        <p className="mt-1 break-all text-sm text-[#0070CD]">{link}</p>
+        <p className="mt-1 text-xs text-slate-500">
+          {[formatFileSize(item.file_size), `azurirano ${formatAdminDate(item.updated_at)}`].filter(Boolean).join(' | ')}
+        </p>
+      </div>
+      <div className="flex flex-wrap items-center justify-end gap-2">
+        <button type="button" onClick={onCopy} className={buttonClass}>
+          <Copy size={15} />
+          Kopiraj link
+        </button>
+        <a href={link} target="_blank" rel="noopener noreferrer" className={buttonClass}>
+          <ExternalLink size={15} />
+          Otvori
+        </a>
+        <label htmlFor={replaceId} className={`${buttonClass} ${busy ? 'pointer-events-none opacity-50' : 'cursor-pointer'}`}>
+          <RefreshCw size={15} />
+          Zamijeni
+        </label>
+        <input
+          id={replaceId}
+          type="file"
+          accept="application/pdf"
+          className="sr-only"
+          disabled={busy}
+          onChange={(event) => {
+            onReplace(event.target.files?.[0])
+            event.target.value = ''
+          }}
+        />
+        <button
+          type="button"
+          onClick={onDelete}
+          disabled={busy}
+          className="inline-flex items-center gap-2 rounded-md border border-red-200 bg-white px-3 py-2 text-sm font-semibold text-red-700 hover:bg-red-50 disabled:opacity-50"
+        >
+          <Trash2 size={15} />
+          Obrisi
+        </button>
+      </div>
+    </div>
   )
 }
 
