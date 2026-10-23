@@ -73,6 +73,16 @@ const KataloziPage = () => {
     }
   }, [language])
 
+  // "Armal slavine katalog 2024" -> "Katalog Armal slavine"
+  const formatCatalogueTitle = (title = '') => {
+    const match = title.match(/^(.+?)\s+(katalog|catalogue)\s+\d{4}\s*$/i)
+    if (match) {
+      const word = match[2].charAt(0).toUpperCase() + match[2].slice(1).toLowerCase()
+      return `${word} ${match[1]}`
+    }
+    return title.replace(/\s*\b\d{4}\b\s*$/, '').trim()
+  }
+
   const displayedCatalogues = supabaseCatalogues.map((catalogue) => {
     const englishCopy = catalogue.isEnglishFallback
       ? ENGLISH_CATALOGUE_COPY[catalogue.slug]
@@ -80,7 +90,7 @@ const KataloziPage = () => {
 
     return {
       id: catalogue.id,
-      title: englishCopy?.title || catalogue.title,
+      title: formatCatalogueTitle(englishCopy?.title || catalogue.title),
       subtitle: englishCopy?.subtitle || catalogue.subtitle,
       image: catalogue.cover_image_url || '/katalozi/placeholder_slika/Armal_slavine_mockup_50.png',
       fileSize: catalogue.file_size || '-',
