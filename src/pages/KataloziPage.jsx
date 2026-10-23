@@ -84,7 +84,7 @@ const KataloziPage = () => {
       subtitle: englishCopy?.subtitle || catalogue.subtitle,
       image: catalogue.cover_image_url || '/katalozi/placeholder_slika/Armal_slavine_mockup_50.png',
       fileSize: catalogue.file_size || '-',
-      year: catalogue.year,
+      year: 2026,
       pdfUrl: getSafeHttpUrl(catalogue.pdf_url),
       createdAt: new Date(catalogue.published_at || catalogue.created_at),
     }
