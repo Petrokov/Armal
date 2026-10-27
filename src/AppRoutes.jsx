@@ -13,6 +13,7 @@ import ProizvodiSanitarije from './pages/ProizvodiSanitarije'
 import BlogPage from './pages/BlogPage'
 import BlogPostPage from './pages/BlogPostPage'
 import LegalPage from './pages/LegalPage'
+import NotFoundPage from './pages/NotFoundPage'
 import {
   AdminBlogEditorPage,
   AdminBlogListPage,
@@ -82,6 +83,7 @@ const AppRoutes = () => (
     {adminRouteConfig.map((route) => (
       <Route key={route.path} path={route.path} element={route.element} />
     ))}
+    <Route path="*" element={<NotFoundPage />} />
   </Routes>
 )
 

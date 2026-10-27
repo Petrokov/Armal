@@ -5,11 +5,14 @@ import { buildLocalizedPath } from '../utils/languageRouting'
 import kupaonicaImage from '../assets/kupaonica-zelena.webp'
 import ProductGallery from '../components/ProductGallery'
 import JsonLd from '../components/JsonLd'
+import SEOHead from '../components/SEOHead'
+import { getSeoData, SEO_ROUTE_KEYS } from '../seo/seoConfig'
 import { buildBreadcrumbListSchema } from '../seo/structuredData'
 
 const ProizvodiKupanjeTusiranje = () => {
   const { t, language } = useLanguage()
   const location = useLocation()
+  const seo = getSeoData(SEO_ROUTE_KEYS.BATHING, language)
   const localizePath = (path) => buildLocalizedPath(path, language)
   const productRefs = useRef([])
 
@@ -69,6 +72,11 @@ const ProizvodiKupanjeTusiranje = () => {
 
   return (
     <div className="min-h-screen bg-white">
+      <SEOHead
+        title={seo.title}
+        description={seo.description}
+        ogType={seo.ogType}
+      />
       <JsonLd
         id="breadcrumb-products-bathing"
         data={buildBreadcrumbListSchema({

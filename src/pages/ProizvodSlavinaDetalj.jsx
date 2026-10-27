@@ -1,10 +1,19 @@
-import { useParams, Link as RouterLink } from 'react-router-dom'
+import { useParams, useLocation, Link as RouterLink } from 'react-router-dom'
 import { useLanguage } from '../contexts/LanguageContext'
 import kupaonicaImage from '../assets/kupaonica-zelena.webp'
 import ProductGallery from '../components/ProductGallery'
 import rubiProstor from '../assets/slavine/rubi-compresed/rubi-prostor.webp'
 import { useMemo, useState } from 'react'
 import { buildLocalizedPath } from '../utils/languageRouting'
+import SEOHead from '../components/SEOHead'
+import JsonLd from '../components/JsonLd'
+import { buildBreadcrumbListSchema, buildProductSchema } from '../seo/structuredData'
+
+const truncateForMeta = (text, max = 155) => {
+  const clean = `${text || ''}`.replace(/\s+/g, ' ').trim()
+  if (clean.length <= max) return clean
+  return `${clean.slice(0, max - 1).replace(/\s+\S*$/, '')}…`
+}
 
 // Rubi – povuci sve slike iz rubi-compresed foldera (galerija)
 const rubiGlob = import.meta.glob('../assets/slavine/rubi-compresed/**/*.{webp,png,jpg,jpeg}', { eager: true })
@@ -101,6 +110,7 @@ const collections = [
 
 const ProizvodSlavinaDetalj = () => {
   const { id } = useParams()
+  const location = useLocation()
   const { t, language } = useLanguage()
   const localizePath = (path) => buildLocalizedPath(path, language)
   const [activeImageIndex, setActiveImageIndex] = useState(0)
@@ -156,6 +166,11 @@ const ProizvodSlavinaDetalj = () => {
   if (!collection) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-white px-6">
+        <SEOHead
+          title={`${t('faucetsPage.notFoundLabel')} | Armal`}
+          description={t('faucetsPage.notFoundDescription')}
+          robots="noindex,follow"
+        />
         <div className="max-w-lg text-center">
           <p className="mb-4 text-sm font-semibold uppercase tracking-[0.25em] text-slate-500">
             {t('faucetsPage.notFoundLabel')}
@@ -174,8 +189,40 @@ const ProizvodSlavinaDetalj = () => {
     )
   }
 
+  const collectionName = t(`collections.${collection.key}.name`)
+  const collectionDescription = truncateForMeta(t(`collections.${collection.key}.description`))
+  const seoTitle = `${collectionName} | ${t('products.faucets')} | Armal`
+  const detailPathname = `/proizvodi/slavine/${collection.key}`
+
   return (
     <div className="min-h-screen bg-white">
+      <SEOHead
+        title={seoTitle}
+        description={collectionDescription}
+        ogType="website"
+      />
+      <JsonLd
+        id={`breadcrumb-faucet-${collection.key}`}
+        data={buildBreadcrumbListSchema({
+          pathname: location.pathname,
+          items: [
+            { name: t('navbar.home'), path: '/' },
+            { name: t('navbar.products'), path: '/proizvodi' },
+            { name: t('products.faucets'), path: '/proizvodi/slavine' },
+            { name: collectionName, path: detailPathname },
+          ],
+        })}
+      />
+      <JsonLd
+        id={`product-faucet-${collection.key}`}
+        data={buildProductSchema({
+          pathname: location.pathname,
+          name: `${collectionName} – ${t('products.faucets')}`,
+          description: collectionDescription,
+          image: collection.image,
+          category: t('products.faucets'),
+        })}
+      />
       {/* Hero s pozadinskom slikom i naslovom kolekcije */}
       <section className="relative flex min-h-[40vh] w-full items-center overflow-hidden">
         <img

@@ -4,6 +4,8 @@ import kupaonicaImage from '../assets/kupaonica-zelena.webp'
 import { isSupabaseConfigured, supabasePublic } from '../lib/supabaseClient'
 import { trackCatalogDownload } from '../utils/analytics'
 import { getSafeHttpUrl } from '../utils/urlSafety'
+import SEOHead from '../components/SEOHead'
+import { getSeoData, SEO_ROUTE_KEYS } from '../seo/seoConfig'
 
 const ENGLISH_CATALOGUE_COPY = {
   'armal-walk-in-katalog-2026': {
@@ -30,6 +32,7 @@ const ENGLISH_CATALOGUE_COPY = {
 
 const KataloziPage = () => {
   const { t, language } = useLanguage()
+  const seo = getSeoData(SEO_ROUTE_KEYS.CATALOGS, language)
   const [supabaseCatalogues, setSupabaseCatalogues] = useState([])
 
   useEffect(() => {
@@ -130,6 +133,11 @@ const KataloziPage = () => {
 
   return (
     <div className="min-h-screen bg-slate-50">
+      <SEOHead
+        title={seo.title}
+        description={seo.description}
+        ogType={seo.ogType}
+      />
       <section
         className="w-full h-[40vh] flex items-center text-white"
         style={{ backgroundImage: `url(${kupaonicaImage})`, backgroundPosition: 'center 72%', backgroundSize: 'cover', backgroundRepeat: 'no-repeat' }}

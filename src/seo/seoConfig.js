@@ -7,13 +7,17 @@ export const SEO_ROUTE_KEYS = {
   PRODUCTS: 'products',
   FAUCETS: 'faucets',
   BLOG: 'blog',
+  BATHING: 'bathing',
+  SANITARY: 'sanitary',
+  CATALOGS: 'catalogs',
+  NOT_FOUND: 'notFound',
 }
 
 const seoConfig = {
   [SEO_ROUTE_KEYS.HOME]: {
     hr: {
-      title: 'Armal - Vrhunski kupaonski namjestaj i slavine',
-      description: 'Armal nudi vrhunske slavine i kupaonska rjesenja za moderan interijer.',
+      title: 'Armal - Vrhunski kupaonski namještaj i slavine',
+      description: 'Armal iz Zagreba nudi slavine, tuš sustave, sanitarije i kupaonski namještaj s 10 godina jamstva na odabrane proizvode.',
       ogType: 'website',
     },
     slo: {
@@ -141,6 +145,78 @@ const seoConfig = {
       description: 'News, advice and inspiration from the world of Armal bathroom solutions.',
       ogType: 'website',
     },
+  },
+  [SEO_ROUTE_KEYS.BATHING]: {
+    hr: {
+      title: 'Kupanje i tuširanje | Armal',
+      description: 'Armal kade, tuš kabine, walk-in stijenke i tuš sustavi za moderne kupaonice. Pregledajte asortiman i kataloge.',
+      ogType: 'website',
+    },
+    slo: {
+      title: 'Kopanje in tuširanje | Armal',
+      description: 'Armal kadi, tuš kabine, walk-in stene in tuš sistemi za sodobne kopalnice.',
+      ogType: 'website',
+    },
+    rs: {
+      title: 'Kupanje i tuširanje | Armal',
+      description: 'Armal kade, tuš kabine, walk-in stakla i tuš sistemi za moderna kupatila.',
+      ogType: 'website',
+    },
+    eng: {
+      title: 'Bathing and showering | Armal',
+      description: 'Armal bathtubs, shower enclosures, walk-in screens and shower systems for contemporary bathrooms.',
+      ogType: 'website',
+    },
+  },
+  [SEO_ROUTE_KEYS.SANITARY]: {
+    hr: {
+      title: 'Sanitarije | Armal',
+      description: 'Armal WC školjke, umivaonici i sanitarna keramika za kupaonice svih veličina. Pregledajte asortiman i kataloge.',
+      ogType: 'website',
+    },
+    slo: {
+      title: 'Sanitarna keramika | Armal',
+      description: 'Armal WC školjke, umivalniki in sanitarna keramika za kopalnice vseh velikosti.',
+      ogType: 'website',
+    },
+    rs: {
+      title: 'Sanitarije | Armal',
+      description: 'Armal WC šolje, lavaboi i sanitarna keramika za kupatila svih veličina.',
+      ogType: 'website',
+    },
+    eng: {
+      title: 'Sanitary ware | Armal',
+      description: 'Armal toilets, washbasins and sanitary ceramics for bathrooms of every size.',
+      ogType: 'website',
+    },
+  },
+  [SEO_ROUTE_KEYS.CATALOGS]: {
+    hr: {
+      title: 'Katalozi | Armal',
+      description: 'Preuzmite Armal kataloge: slavine, tuš sustavi, walk-in stijenke, sanitarije i kupaonski namještaj.',
+      ogType: 'website',
+    },
+    slo: {
+      title: 'Katalogi | Armal',
+      description: 'Prenesite Armal kataloge: armature, tuš sistemi, walk-in stene, sanitarije in kopalniško pohištvo.',
+      ogType: 'website',
+    },
+    rs: {
+      title: 'Katalozi | Armal',
+      description: 'Preuzmite Armal kataloge: slavine, tuš sistemi, walk-in stakla, sanitarije i kupatilski nameštaj.',
+      ogType: 'website',
+    },
+    eng: {
+      title: 'Catalogues | Armal',
+      description: 'Download Armal catalogues: faucets, shower systems, walk-in screens, sanitary ware and bathroom furniture.',
+      ogType: 'website',
+    },
+  },
+  [SEO_ROUTE_KEYS.NOT_FOUND]: {
+    hr: { title: 'Stranica nije pronađena | Armal', description: 'Tražena stranica ne postoji.', ogType: 'website' },
+    slo: { title: 'Stran ni najdena | Armal', description: 'Iskana stran ne obstaja.', ogType: 'website' },
+    rs: { title: 'Stranica nije pronađena | Armal', description: 'Tražena stranica ne postoji.', ogType: 'website' },
+    eng: { title: 'Page not found | Armal', description: 'The requested page does not exist.', ogType: 'website' },
   },
 }
 

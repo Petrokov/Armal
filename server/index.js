@@ -1,16 +1,31 @@
 import 'dotenv/config'
+import fs from 'fs'
 import path from 'path'
 import { fileURLToPath } from 'url'
 import express from 'express'
 import cors from 'cors'
 import multer from 'multer'
 import axios from 'axios'
+import { buildLocalizedRoutes } from '../scripts/seo-routes.js'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 const app = express()
 const PORT = process.env.PORT || 3001
 app.set('trust proxy', Number(process.env.TRUST_PROXY_HOPS || 1))
+
+// Apex domain duplicates www (canonical host) — send crawlers and visitors to a single host.
+app.use((req, res, next) => {
+  if (
+    process.env.NODE_ENV === 'production' &&
+    (req.method === 'GET' || req.method === 'HEAD') &&
+    req.hostname === 'armal.hr'
+  ) {
+    res.redirect(301, `https://www.armal.hr${req.originalUrl}`)
+    return
+  }
+  next()
+})
 
 const M365_CLIENT_ID = process.env.M365_CLIENT_ID
 const M365_CLIENT_SECRET = process.env.M365_CLIENT_SECRET
@@ -443,10 +458,53 @@ app.get('/pdf/:slug', async (req, res) => {
 
 // Production (npr. Railway): poslužuj build frontenda s istog poslužitelja – jedan deploy
 const distPath = path.join(__dirname, '..', 'dist')
-if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(distPath))
+if (isProduction) {
+  const KNOWN_ROUTES = new Set(buildLocalizedRoutes())
+  // Blog posts come from the CMS and can be published after the last build, so unknown slugs fall back to the SPA.
+  const BLOG_POST_PATTERN = /^(?:\/(?:slo|rs|eng))?\/blog\/[^/.\\]+$/
+  const ADMIN_PATTERN = /^\/admin(?:\/|$)/
+  const ASSET_EXTENSION_PATTERN = /\.[a-z0-9]{2,5}$/i
+
+  const prerenderedFile = (pathname) =>
+    path.join(distPath, pathname === '/' ? '' : pathname.slice(1), 'index.html')
+
+  const sendPage = (res, pathname) => {
+    const file = prerenderedFile(pathname)
+    res.sendFile(fs.existsSync(file) ? file : path.join(distPath, 'index.html'))
+  }
+
+  app.use(express.static(distPath, { index: false, redirect: false }))
+
   app.get('*', (req, res) => {
-    res.sendFile(path.join(distPath, 'index.html'))
+    const pathname = req.path.length > 1 ? req.path.replace(/\/+$/, '') || '/' : req.path
+
+    if (pathname !== req.path) {
+      const query = req.originalUrl.includes('?') ? req.originalUrl.slice(req.originalUrl.indexOf('?')) : ''
+      res.redirect(301, `${pathname}${query}`)
+      return
+    }
+
+    // A missing file must not be answered with the HTML shell (200), or crawlers and browsers cache it as the asset.
+    if (pathname.startsWith('/assets/') || ASSET_EXTENSION_PATTERN.test(pathname)) {
+      res.status(404).type('text/plain; charset=utf-8').send('Not found')
+      return
+    }
+
+    if (ADMIN_PATTERN.test(pathname)) {
+      res.setHeader('X-Robots-Tag', 'noindex, nofollow')
+      res.sendFile(path.join(distPath, 'index.html'))
+      return
+    }
+
+    if (KNOWN_ROUTES.has(pathname) || BLOG_POST_PATTERN.test(pathname)) {
+      sendPage(res, pathname)
+      return
+    }
+
+    const notFoundFile = path.join(distPath, '404.html')
+    res.status(404)
+    res.setHeader('X-Robots-Tag', 'noindex')
+    res.sendFile(fs.existsSync(notFoundFile) ? notFoundFile : path.join(distPath, 'index.html'))
   })
 }
 

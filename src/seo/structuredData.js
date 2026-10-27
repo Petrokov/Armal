@@ -27,14 +27,55 @@ export const buildOrganizationSchema = ({ pathname = '/' } = {}) => {
   return {
     '@context': 'https://schema.org',
     '@type': 'Organization',
+    '@id': `${baseUrl}/#organization`,
     name: 'Armal',
     url: getCanonicalForPath(pathname, baseUrl),
+    logo: `${baseUrl}/favicon.png`,
+    email: 'info@armal.hr',
+    telephone: '+385 1 7777 707',
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: 'Mrkšina 52D',
+      postalCode: '10000',
+      addressLocality: 'Zagreb',
+      addressCountry: 'HR',
+    },
+    contactPoint: [
+      {
+        '@type': 'ContactPoint',
+        contactType: 'customer service',
+        telephone: '+385 1 7777 707',
+        email: 'info@armal.hr',
+        availableLanguage: ['hr', 'sl', 'sr', 'en'],
+      },
+      {
+        '@type': 'ContactPoint',
+        contactType: 'technical support',
+        email: 'servis@armal.hr',
+        availableLanguage: ['hr', 'sl', 'sr', 'en'],
+      },
+    ],
     sameAs: [
       'https://www.facebook.com/Armal.Hrvatska',
       'https://www.instagram.com/armal_hrvatska/',
       'https://hr.linkedin.com/company/armal-d-o-o',
     ],
     areaServed: ['HR', 'SI', 'RS', 'BA'],
+  }
+}
+
+export const buildProductSchema = ({ pathname = '/', name, description, image, category } = {}) => {
+  const baseUrl = getStructuredDataBaseUrl()
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    name,
+    description,
+    image: image ? toAbsoluteUrl(image, baseUrl) : undefined,
+    category,
+    url: getCanonicalForPath(pathname, baseUrl),
+    brand: { '@type': 'Brand', name: 'Armal' },
+    manufacturer: { '@id': `${baseUrl}/#organization` },
   }
 }
 

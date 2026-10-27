@@ -10,11 +10,14 @@ import daska from '../assets/sanitarije/daska.webp'
 import bide from '../assets/sanitarije/bide.webp'
 import monoblock from '../assets/sanitarije/monoblock.webp'
 import JsonLd from '../components/JsonLd'
+import SEOHead from '../components/SEOHead'
+import { getSeoData, SEO_ROUTE_KEYS } from '../seo/seoConfig'
 import { buildBreadcrumbListSchema } from '../seo/structuredData'
 
 const ProizvodiSanitarije = () => {
   const { t, language } = useLanguage()
   const location = useLocation()
+  const seo = getSeoData(SEO_ROUTE_KEYS.SANITARY, language)
   const localizePath = (path) => buildLocalizedPath(path, language)
   const productRefs = useRef([])
 
@@ -86,6 +89,11 @@ const ProizvodiSanitarije = () => {
 
   return (
     <div className="min-h-screen bg-white">
+      <SEOHead
+        title={seo.title}
+        description={seo.description}
+        ogType={seo.ogType}
+      />
       <JsonLd
         id="breadcrumb-products-sanitary"
         data={buildBreadcrumbListSchema({

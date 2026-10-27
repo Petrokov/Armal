@@ -1,0 +1,41 @@
+# Armal
+
+> Armal (Armal d.o.o.) je tvrtka iz Zagreba koja nudi slavine (miješalice za vodu), proizvode za kupanje i tuširanje, sanitarije i kupaonski namještaj za tržišta Hrvatske, Slovenije, Srbije i Bosne i Hercegovine. Prodaja ide kroz mrežu partnera i trgovaca (web stranica navodi 215 prodajnih mjesta), a za B2B kupce postoji zasebna web trgovina.
+>
+> Armal (Armal d.o.o.) is a Zagreb-based supplier of faucets, bathing and shower products, sanitary ware and bathroom furniture for Croatia, Slovenia, Serbia and Bosnia and Herzegovina, sold through a network of partner retailers. Not to be confused with other companies that share the name "Armal" (for example the Italian maker of portable sanitation units).
+
+## Kontakt / Contact
+
+- Adresa / Address: Mrkšina 52D, 10000 Zagreb, Hrvatska
+- Telefon / Phone: +385 1 7777 707
+- E-pošta / Email: info@armal.hr
+- Servis / Service: servis@armal.hr
+- Facebook: https://www.facebook.com/Armal.Hrvatska
+- Instagram: https://www.instagram.com/armal_hrvatska/
+- LinkedIn: https://hr.linkedin.com/company/armal-d-o-o
+
+## Proizvodi / Products
+
+- [Pregled proizvoda](https://www.armal.hr/proizvodi): slavine, kupanje i tuširanje, sanitarije
+- [Slavine (miješalice za vodu)](https://www.armal.hr/proizvodi/slavine): kolekcije Rubi, Topaz, Violet, Start, Opal, Safir, Beril, Lapis, Ana, Jana
+- [Kupanje i tuširanje](https://www.armal.hr/proizvodi/kupanje-tusiranje): kade, tuš kabine, walk-in stijenke, tuš sustavi
+- [Sanitarije](https://www.armal.hr/proizvodi/sanitarije): WC školjke, umivaonici, sanitarna keramika
+- [Katalozi](https://www.armal.hr/katalozi): PDF katalozi po kategorijama
+
+## Podrška i informacije / Support and company
+
+- [Servis](https://www.armal.hr/servis): prijava servisnog zahtjeva za Armal proizvode
+- [O nama](https://www.armal.hr/o-nama): tvrtka i tim
+- [Blog](https://www.armal.hr/blog): savjeti za uređenje, održavanje i odabir kupaonske opreme
+- [B2B web trgovina](https://b2b.armal.hr): narudžbe za poslovne kupce
+
+## Jezici / Languages
+
+- Hrvatski: https://www.armal.hr/
+- Slovenščina: https://www.armal.hr/slo
+- Srpski: https://www.armal.hr/rs
+- English: https://www.armal.hr/eng
+
+## Optional
+
+- [Sitemap](https://www.armal.hr/sitemap.xml)

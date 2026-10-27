@@ -1,5 +1,6 @@
 import fs from 'fs'
 import path from 'path'
+import { execFileSync } from 'child_process'
 import { buildLocalizedRoutes } from './seo-routes.js'
 import { fetchPublishedBlogRoutes, loadLocalEnv } from './cms-routes.js'
 
@@ -21,6 +22,77 @@ const resolveBaseUrl = () => {
   } catch {
     return FALLBACK_BASE_URL
   }
+}
+
+// Static routes get their lastmod from the last git commit touching the files that render them.
+// Docker/Railway builds have no .git, so the dates are cached in a committed JSON file.
+const LASTMOD_CACHE_PATH = path.join(ROOT_DIR, 'scripts', 'sitemap-lastmod.json')
+const DEFAULT_SOURCES = ['src/AppRoutes.jsx']
+const ROUTE_SOURCES = {
+  '/': ['src/components/LandingPage.jsx', 'src/seo/landingSeoLocale.js'],
+  '/o-nama': ['src/pages/o_nama.jsx'],
+  '/servis': ['src/pages/ServisPage.jsx'],
+  '/katalozi': ['src/pages/KataloziPage.jsx'],
+  '/proizvodi': ['src/pages/ProizvodiPage.jsx'],
+  '/proizvodi/slavine': ['src/pages/ProizvodiSlavine.jsx', 'src/pages/proizvodiSlavine', 'src/seo/proizvodiSlavineSeoLocale.js'],
+  '/proizvodi/kupanje-tusiranje': ['src/pages/ProizvodiKupanjeTusiranje.jsx'],
+  '/proizvodi/sanitarije': ['src/pages/ProizvodiSanitarije.jsx'],
+  '/blog': ['src/pages/BlogPage.jsx'],
+  '/privacy-policy': ['src/pages/LegalPage.jsx'],
+  '/terms-of-service': ['src/pages/LegalPage.jsx'],
+  '/cookie-policy': ['src/pages/LegalPage.jsx'],
+}
+const COLLECTION_SOURCES = ['src/pages/ProizvodSlavinaDetalj.jsx']
+
+const readLastmodCache = () => {
+  try {
+    return JSON.parse(fs.readFileSync(LASTMOD_CACHE_PATH, 'utf8'))
+  } catch {
+    return {}
+  }
+}
+
+const gitLastCommitDate = (sources) => {
+  try {
+    const output = execFileSync('git', ['log', '-1', '--format=%cs', '--', ...sources], {
+      cwd: ROOT_DIR,
+      encoding: 'utf8',
+      stdio: ['ignore', 'pipe', 'ignore'],
+    }).trim()
+    return /^\d{4}-\d{2}-\d{2}$/.test(output) ? output : null
+  } catch {
+    return null
+  }
+}
+
+const stripLocalePrefix = (pathname) => {
+  const stripped = pathname.replace(/^\/(slo|rs|eng)(?=\/|$)/, '')
+  return stripped === '' ? '/' : stripped
+}
+
+const sourcesForRoute = (basePath) => {
+  if (ROUTE_SOURCES[basePath]) return ROUTE_SOURCES[basePath]
+  if (basePath.startsWith('/proizvodi/slavine/')) return COLLECTION_SOURCES
+  return DEFAULT_SOURCES
+}
+
+const resolveStaticLastmods = (pathnames) => {
+  const cache = readLastmodCache()
+  const nextCache = { ...cache }
+  const result = new Map()
+
+  for (const pathname of pathnames) {
+    const basePath = stripLocalePrefix(pathname)
+    const fromGit = gitLastCommitDate(sourcesForRoute(basePath))
+    if (fromGit) nextCache[basePath] = fromGit
+    const lastmod = fromGit || cache[basePath]
+    if (lastmod) result.set(pathname, lastmod)
+  }
+
+  if (JSON.stringify(nextCache) !== JSON.stringify(cache)) {
+    fs.writeFileSync(LASTMOD_CACHE_PATH, `${JSON.stringify(nextCache, null, 2)}\n`, 'utf8')
+  }
+  return result
 }
 
 const toSitemapEntry = (entry, fallbackLastmod) => {
@@ -46,19 +118,16 @@ const escapeXml = (value) =>
     .replace(/'/g, '&apos;')
 
 const buildSitemapXml = (baseUrl, entries) => {
-  const today = new Date().toISOString().slice(0, 10)
+  // changefreq/priority are ignored by Google and Bing; lastmod is only emitted when it is real.
   const urlNodes = entries
-    .map((entry) => toSitemapEntry(entry, today))
     .map(({ pathname, lastmod }) => {
       const absoluteUrl = `${baseUrl}${pathname}`
       return [
         '  <url>',
         `    <loc>${escapeXml(absoluteUrl)}</loc>`,
-        `    <lastmod>${escapeXml(lastmod)}</lastmod>`,
-        '    <changefreq>weekly</changefreq>',
-        '    <priority>0.8</priority>',
+        lastmod ? `    <lastmod>${escapeXml(lastmod)}</lastmod>` : null,
         '  </url>',
-      ].join('\n')
+      ].filter(Boolean).join('\n')
     })
     .join('\n')
 
@@ -71,12 +140,12 @@ const buildSitemapXml = (baseUrl, entries) => {
   ].join('\n')
 }
 
-const uniqueEntries = (entries) => {
+const uniqueEntries = (entries, staticLastmods = new Map()) => {
   const seen = new Set()
   const unique = []
 
   for (const entry of entries) {
-    const normalized = toSitemapEntry(entry, new Date().toISOString().slice(0, 10))
+    const normalized = toSitemapEntry(entry, staticLastmods.get(typeof entry === 'string' ? entry : entry.pathname))
     if (seen.has(normalized.pathname)) continue
     seen.add(normalized.pathname)
     unique.push(normalized)
@@ -91,7 +160,8 @@ const run = async () => {
   const baseUrl = resolveBaseUrl()
   const localizedPaths = buildLocalizedRoutes()
   const blogRoutes = await fetchPublishedBlogRoutes()
-  const uniquePaths = uniqueEntries([...localizedPaths, ...blogRoutes])
+  const staticLastmods = resolveStaticLastmods(localizedPaths)
+  const uniquePaths = uniqueEntries([...localizedPaths, ...blogRoutes], staticLastmods)
   const xml = buildSitemapXml(baseUrl, uniquePaths)
 
   if (!fs.existsSync(PUBLIC_DIR)) {

@@ -1,5 +1,6 @@
 User-agent: *
 Allow: /
 Disallow: /pdf/
+Disallow: /admin/
 
 Sitemap: https://www.armal.hr/sitemap.xml
