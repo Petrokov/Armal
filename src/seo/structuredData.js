@@ -64,18 +64,20 @@ export const buildOrganizationSchema = ({ pathname = '/' } = {}) => {
   }
 }
 
-export const buildProductSchema = ({ pathname = '/', name, description, image, category } = {}) => {
+// Product schema needs offers/review/aggregateRating for Google's product snippets and prices are not public,
+// so collection pages are described as a WebPage about the collection instead.
+export const buildCollectionPageSchema = ({ pathname = '/', name, description, image, language = 'hr' } = {}) => {
   const baseUrl = getStructuredDataBaseUrl()
   return {
     '@context': 'https://schema.org',
-    '@type': 'Product',
+    '@type': 'WebPage',
     name,
     description,
-    image: image ? toAbsoluteUrl(image, baseUrl) : undefined,
-    category,
     url: getCanonicalForPath(pathname, baseUrl),
-    brand: { '@type': 'Brand', name: 'Armal' },
-    manufacturer: { '@id': `${baseUrl}/#organization` },
+    inLanguage: LOCALE_BY_LANGUAGE[language] || LOCALE_BY_LANGUAGE.hr,
+    primaryImageOfPage: image ? { '@type': 'ImageObject', url: toAbsoluteUrl(image, baseUrl) } : undefined,
+    about: { '@type': 'Thing', name, description },
+    publisher: { '@id': `${baseUrl}/#organization` },
   }
 }
 

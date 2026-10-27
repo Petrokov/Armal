@@ -7,7 +7,7 @@ import { useMemo, useState } from 'react'
 import { buildLocalizedPath } from '../utils/languageRouting'
 import SEOHead from '../components/SEOHead'
 import JsonLd from '../components/JsonLd'
-import { buildBreadcrumbListSchema, buildProductSchema } from '../seo/structuredData'
+import { buildBreadcrumbListSchema, buildCollectionPageSchema } from '../seo/structuredData'
 
 const truncateForMeta = (text, max = 155) => {
   const clean = `${text || ''}`.replace(/\s+/g, ' ').trim()
@@ -214,13 +214,13 @@ const ProizvodSlavinaDetalj = () => {
         })}
       />
       <JsonLd
-        id={`product-faucet-${collection.key}`}
-        data={buildProductSchema({
+        id={`webpage-faucet-${collection.key}`}
+        data={buildCollectionPageSchema({
           pathname: location.pathname,
           name: `${collectionName} – ${t('products.faucets')}`,
           description: collectionDescription,
           image: collection.image,
-          category: t('products.faucets'),
+          language,
         })}
       />
       {/* Hero s pozadinskom slikom i naslovom kolekcije */}
