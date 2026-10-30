@@ -563,6 +563,7 @@
     "emailAddress": "Email address",
     "servisEmailLabel": "Service",
     "phoneNumber": "Phone number",
+    "priceListDownload": "Download service price list (PDF)",
     "workingHours": "Opening hours",
     "weekdays": "Monday - Friday:",
     "saturday": "Saturday:",

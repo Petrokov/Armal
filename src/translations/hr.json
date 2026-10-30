@@ -563,6 +563,7 @@
     "emailAddress": "Email adresa",
     "servisEmailLabel": "Servis",
     "phoneNumber": "Broj telefona",
+    "priceListDownload": "Preuzmi cjenik servisa (PDF)",
     "workingHours": "Radno vrijeme",
     "weekdays": "Ponedjeljak - Petak:",
     "saturday": "Subota:",

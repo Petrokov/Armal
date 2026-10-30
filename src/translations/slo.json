@@ -558,6 +558,7 @@
     "emailAddress": "E-poštni naslov",
     "servisEmailLabel": "Servis",
     "phoneNumber": "Telefonska številka",
+    "priceListDownload": "Prenesi cenik servisa (PDF)",
     "workingHours": "Delovni čas",
     "weekdays": "Ponedeljek - Petek:",
     "saturday": "Sobota:",

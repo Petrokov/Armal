@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useLanguage } from '../contexts/LanguageContext'
-import { Phone, Mail, User, MessageSquare, Image as ImageIcon, FileText, MapPin } from 'lucide-react'
+import { Phone, Mail, User, MessageSquare, Image as ImageIcon, FileText, MapPin, Smartphone, Download } from 'lucide-react'
 import servisHeroImage from '../assets/armal-auti.webp'
 import SEOHead from '../components/SEOHead'
 import { getSeoData, SEO_ROUTE_KEYS } from '../seo/seoConfig'
@@ -400,6 +400,16 @@ const ServisPage = () => {
             <p className="mb-6 text-slate-600">
               {t('servisPage.contactDescription')}
             </p>
+            <a
+              href="/cjenik/armal-cjenik-servis.pdf"
+              download="Armal-cjenik-servis.pdf"
+              target="_blank"
+              rel="noopener"
+              className="mb-6 inline-flex w-full items-center justify-center gap-2 rounded-lg bg-[#0070CD] px-6 py-3 font-semibold text-white transition-colors hover:bg-[#005bb0] focus:outline-none focus:ring-2 focus:ring-[#0070CD] focus:ring-offset-2"
+            >
+              <Download className="h-5 w-5" />
+              {t('servisPage.priceListDownload')}
+            </a>
             <div className="grid flex-1 grid-rows-4 gap-6">
               <div className="flex flex-col justify-center rounded-lg border border-slate-200 bg-slate-50 p-6">
                 <h3 className="mb-4 text-lg font-semibold text-slate-900">{t('servisPage.emailAddress')}</h3>
@@ -429,6 +439,13 @@ const ServisPage = () => {
                 >
                   <Phone className="h-5 w-5" />
                   <span className="text-lg font-medium">+385 1 7777 707</span>
+                </a>
+                <a
+                  href="tel:+385913375730"
+                  className="mt-3 flex items-center gap-3 text-[#0070CD] transition-colors hover:text-[#005bb0]"
+                >
+                  <Smartphone className="h-5 w-5" />
+                  <span className="text-lg font-medium">+385 91 3375 730</span>
                 </a>
               </div>
               <div className="flex flex-col justify-center rounded-lg border border-slate-200 bg-slate-50 p-6">
