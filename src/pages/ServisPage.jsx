@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useLanguage } from '../contexts/LanguageContext'
-import { Phone, Mail, User, MessageSquare, Image as ImageIcon, FileText, MapPin, Smartphone, Download } from 'lucide-react'
+import { Phone, Mail, User, MessageSquare, Image as ImageIcon, FileText, MapPin, Smartphone, Download, Eye } from 'lucide-react'
 import servisHeroImage from '../assets/armal-auti.webp'
 import SEOHead from '../components/SEOHead'
 import { getSeoData, SEO_ROUTE_KEYS } from '../seo/seoConfig'
@@ -400,16 +400,28 @@ const ServisPage = () => {
             <p className="mb-6 text-slate-600">
               {t('servisPage.contactDescription')}
             </p>
-            <a
-              href="/cjenik/armal-cjenik-servis.pdf"
-              download="Armal-cjenik-servis.pdf"
-              target="_blank"
-              rel="noopener"
-              className="mb-6 inline-flex w-full items-center justify-center gap-2 rounded-lg bg-[#0070CD] px-6 py-3 font-semibold text-white transition-colors hover:bg-[#005bb0] focus:outline-none focus:ring-2 focus:ring-[#0070CD] focus:ring-offset-2"
-            >
-              <Download className="h-5 w-5" />
-              {t('servisPage.priceListDownload')}
-            </a>
+            <div className="mb-6 rounded-lg border border-slate-200 bg-slate-50 p-6">
+              <h3 className="mb-4 text-lg font-semibold text-slate-900">{t('servisPage.priceListTitle')}</h3>
+              <div className="flex flex-col gap-3">
+                <a
+                  href="/cjenik/armal-cjenik-servis.pdf"
+                  target="_blank"
+                  rel="noopener"
+                  className="inline-flex w-full items-center justify-center gap-2 rounded-lg border border-[#0070CD] bg-white px-6 py-3 font-semibold text-[#0070CD] transition-colors hover:bg-[#0070CD]/10 focus:outline-none focus:ring-2 focus:ring-[#0070CD] focus:ring-offset-2"
+                >
+                  <Eye className="h-5 w-5" />
+                  {t('servisPage.priceListView')}
+                </a>
+                <a
+                  href="/cjenik/armal-cjenik-servis.pdf"
+                  download="Armal-cjenik-servis.pdf"
+                  className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-[#0070CD] px-6 py-3 font-semibold text-white transition-colors hover:bg-[#005bb0] focus:outline-none focus:ring-2 focus:ring-[#0070CD] focus:ring-offset-2"
+                >
+                  <Download className="h-5 w-5" />
+                  {t('servisPage.priceListDownload')}
+                </a>
+              </div>
+            </div>
             <div className="grid flex-1 grid-rows-4 gap-6">
               <div className="flex flex-col justify-center rounded-lg border border-slate-200 bg-slate-50 p-6">
                 <h3 className="mb-4 text-lg font-semibold text-slate-900">{t('servisPage.emailAddress')}</h3>
