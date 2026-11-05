@@ -242,7 +242,7 @@ const TextArea = (props) => <textarea {...props} className={`${inputClass} min-h
 
 export const AdminLoginPage = () => {
   const navigate = useNavigate()
-  const [email, setEmail] = useState('tin.lojen@petrokov.hr')
+  const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
@@ -282,7 +282,7 @@ export const AdminLoginPage = () => {
 
         <div className="mt-6 space-y-4">
           <FormField label="Email">
-            <TextInput type="email" value={email} onChange={(event) => setEmail(event.target.value)} required />
+            <TextInput type="email" name="armal-admin-email" autoComplete="off" value={email} onChange={(event) => setEmail(event.target.value)} required />
           </FormField>
           <FormField label="Lozinka">
             <TextInput type="password" value={password} onChange={(event) => setPassword(event.target.value)} required />
