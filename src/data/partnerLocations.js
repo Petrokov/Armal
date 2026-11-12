@@ -2416,7 +2416,7 @@ address: 'Lava 42, 3000 Celje',
   },
   {
     id: 'primna_d_o_o_rs_215',
-    name: 'Primna d.o.o.',
+    name: 'Primna d.o.o. (ovlašteni distributer)',
     country: 'RS',
     address: 'Ivićeva 8, Zemun',
     phone: '',
