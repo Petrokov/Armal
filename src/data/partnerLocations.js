@@ -32,8 +32,8 @@ const partnerLocations = [
 address: 'Grajska cesta 28, 5220 Tolmin',
     phone: '386 41 536 137',
     city: 'Tolmin',
-    lat: 17.0453164,
-    lng: 82.1689895,
+    lat: 46.1834,
+    lng: 13.7331,
     googleMapsUrl: 'https://www.google.com/maps/search/?api=1&query=Grajska%20cesta%2028%2C%205220%20Tolmin',
   },
   {
@@ -2413,6 +2413,17 @@ address: 'Lava 42, 3000 Celje',
     lat: 44.0182816,
     lng: 20.911022,
     googleMapsUrl: 'https://www.google.com/maps/search/?api=1&query=44.0182816,20.911022',
+  },
+  {
+    id: 'primna_d_o_o_rs_215',
+    name: 'Primna d.o.o.',
+    country: 'RS',
+    address: 'Ivićeva 8, Zemun',
+    phone: '',
+    city: 'Zemun',
+    lat: 44.8417794,
+    lng: 20.4044324,
+    googleMapsUrl: 'https://www.google.com/maps/search/?api=1&query=44.8417794,20.4044324',
   },
 ]
 
