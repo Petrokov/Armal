@@ -35,6 +35,8 @@ const normalizePath = (value) => {
 
 export const DYNAMIC_ROUTES = [
   ...FAUCET_COLLECTION_SLUGS.map((slug) => `/proizvodi/slavine/${slug}`),
+  // Lokalne stranice akcija iz src/data/promotions.js
+  '/blog/black-friday',
 ]
 
 export const INDEXABLE_ROUTES = [

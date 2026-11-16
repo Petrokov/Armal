@@ -8,9 +8,10 @@ import JsonLd from '../components/JsonLd'
 import { getSeoData, SEO_ROUTE_KEYS } from '../seo/seoConfig'
 import { buildArticleSchema } from '../seo/structuredData'
 import { isSupabaseConfigured, supabasePublic } from '../lib/supabaseClient'
+import { getPromotionBySlug } from '../data/promotions'
+import PromoPostPage from './PromoPostPage'
 
-const BlogPostPage = () => {
-  const { id } = useParams()
+const SupabaseBlogPost = ({ id }) => {
   const location = useLocation()
   const { t, language } = useLanguage()
   const localizePath = (path) => buildLocalizedPath(path, language)
@@ -57,6 +58,7 @@ const BlogPostPage = () => {
         image: supabasePost.cover_image_url || blogHeroImage,
         galleryImages: Array.isArray(supabasePost.gallery_image_urls) ? supabasePost.gallery_image_urls : [],
         date: supabasePost.published_at || supabasePost.created_at,
+        modifiedDate: supabasePost.updated_at || supabasePost.published_at || supabasePost.created_at,
         seoTitle: supabasePost.seo_title,
         seoDescription: supabasePost.seo_description,
       }
@@ -114,7 +116,7 @@ const BlogPostPage = () => {
           description: post.excerpt || seo.description,
           image: post.image,
           datePublished: post.date,
-          dateModified: post.date,
+          dateModified: post.modifiedDate,
         })}
       />
       <section className="relative flex min-h-[40vh] w-full items-center overflow-hidden">
@@ -207,5 +209,12 @@ const ArrowLeftIcon = () => (
     <path d="M19 12H5M12 19l-7-7 7-7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
   </svg>
 )
+
+// Akcije iz src/data/promotions.js imaju lokalnu stranicu (/blog/<slug>), ostalo dolazi iz Supabase.
+const BlogPostPage = () => {
+  const { id } = useParams()
+  const promo = getPromotionBySlug(id)
+  return promo ? <PromoPostPage promo={promo} /> : <SupabaseBlogPost id={id} />
+}
 
 export default BlogPostPage

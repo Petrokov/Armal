@@ -1,0 +1,44 @@
+﻿Naziv usluge;Šifra usluge;MPC;Naziv_posebnog oblika prodaje;MPC_posebnog oblika prodaje;Sidrena cijena;Sidrena cijena_datum
+Montaža slavine;001;50,00;;;50,00;10.09.2026.
+Montaža/demontaža slavine;002;60,00;;;60,00;10.09.2026.
+Montaža/demontaža kutnog ventila (po komadu);003;20,00;;;20,00;10.09.2026.
+Zamijena kartuše;004;50,00;;;50,00;10.09.2026.
+Ostalo - slavine;005;35,00;;;35,00;10.09.2026.
+Montaža tuš kabine 1;006;170,00;;;170,00;10.09.2026.
+"Montaža tuš kabine 2
+";007;250,00;;;250,00;10.09.2026.
+"Montaža/demontaža tuš kabine1
+";008;220,00;;;220,00;10.09.2026.
+"Montaža/demontaža tuš kabine 2
+";009;300,00;;;300,00;10.09.2026.
+Promijena panta na vratima kabine 1;010;50,00;;;50,00;10.09.2026.
+Promijena panta na vratima kabine 2;011;80,00;;;80,00;10.09.2026.
+Montaža/demontaža tuš kade sa oblogom;012;140,00;;;140,00;10.09.2026.
+"Montaža kade s oblogom
+";013;100,00;;;100,00;10.09.2026.
+Montaža paravana za kadu;014;100,00;;;100,00;10.09.2026.
+Montaža WC školjke;015;70,00;;;70,00;10.09.2026.
+Demontaža WC školjke;016;20,00;;;20,00;10.09.2026.
+Montaža WC monobloka;017;120,00;;;120,00;10.09.2026.
+"Montaža vodokotlića
+";018;50,00;;;50,00;10.09.2026.
+Montaža umivaonika;019;80,00;;;80,00;10.09.2026.
+Montaža kupaonskog ormarića sa ogledalom;020;100,00;;;100,00;10.09.2026.
+"Montaža kupaonske baze 1
+";021;100,00;;;100,00;10.09.2026.
+"Montaža kupaonske baze 2
+";022;150,00;;;150,00;10.09.2026.
+Montaža dodatnih kupaonskih elemenata;023;50,00;;;50,00;10.09.2026.
+Bušenje rupe (po otvoru);024;10,00;;;10,00;10.09.2026.
+Ostale servisne intervencije 1;025;30,00;;;30,00;10.09.2026.
+Ostale servisne intervencije 2;026;70,00;;;70,00;10.09.2026.
+Izlazak servisera (bez popravka);027;20,00;;;20,00;10.09.2026.
+Izlazak servisera (po km);028;0,50;;;0,50;10.09.2026.
+Izlazak servisera (10 km - 20 km);029;10,00;;;10,00;10.09.2026.
+Izlazak servisera (20 km - 50 km);030;20,00;;;20,00;10.09.2026.
+Izlazak servisera (50 km - 80 km);031;32,00;;;32,00;10.09.2026.
+Izlazak servisera (80 km - 110 km);032;40,00;;;40,00;10.09.2026.
+Izlazak servisera (110+ km) + dodatni km;033;47,00;;;47,00;10.09.2026.
+;;;;;;
+;;;;;;
+*Cijena dostave nije uključena u cijenu proizvoda i naplaćuje se prema važećem cjeniku dostavne službe;;;;;;

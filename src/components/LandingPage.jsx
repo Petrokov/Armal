@@ -13,6 +13,9 @@ import partnerLocationsData, { partnerLocationsSI } from '../data/partnerLocatio
 import FeaturedCollections from './FeaturedCollections'
 import MoodboardSection from './MoodboardSection'
 import CTASection from './CTASection'
+import HeroCarousel from './HeroCarousel'
+import PromoSlide from './PromoSlide'
+import { getActivePromotions } from '../data/promotions'
 import TeamSection from './TeamSection'
 import SEOHead from './SEOHead'
 import JsonLd from './JsonLd'
@@ -25,6 +28,7 @@ const LandingPage = () => {
   const localizePath = (path) => buildLocalizedPath(path, language)
   const seo = getSeoData(SEO_ROUTE_KEYS.HOME, language)
   const [isAnimated, setIsAnimated] = useState(false)
+  const activePromotions = useMemo(() => getActivePromotions(), [])
   const partnerSectionRef = useRef(null)
   const partnerCanvasRef = useRef(null)
 
@@ -369,59 +373,70 @@ const LandingPage = () => {
         id="org-home"
         data={buildOrganizationSchema({ pathname: location.pathname })}
       />
-      {/* Hero Section */}
-      <section
-        className="relative flex h-[65vh] w-full flex-1 items-center overflow-hidden bg-slate-900 text-white"
-      >
-        <img
-          src={headerPipa}
-          alt=""
-          aria-hidden="true"
-          className="absolute inset-0 h-full w-full object-cover pointer-events-none select-none"
-          draggable={false}
-        />
+      {/* Hero carousel: akcije (src/data/promotions.js) + standardni hero kao zadnji slajd */}
+      <HeroCarousel
+        slides={[
+          ...activePromotions.map((promo) => ({
+            id: promo.slug,
+            content: <PromoSlide promo={promo} language={language} />,
+          })),
+          {
+            id: 'brand',
+            content: (
+              <div className="relative flex h-full w-full items-center">
+                <img
+                  src={headerPipa}
+                  alt=""
+                  aria-hidden="true"
+                  className="absolute inset-0 h-full w-full object-cover pointer-events-none select-none"
+                  draggable={false}
+                />
 
-        <div className="relative z-10 w-full">
-          <div className="mx-auto flex h-full w-full max-w-6xl flex-col items-start justify-center gap-6 px-6 py-16 text-left md:px-10 lg:px-12">
-            <div className="w-full max-w-3xl p-5 sm:p-7 md:p-8">
-              <div className="text-white">
-                <h1 className="mt-2 text-4xl font-semibold leading-none sm:text-5xl md:text-6xl">
-                  <span className="block mb-2">
-                    {getAnimatedText(t('hero.title1'), ['kupaonicu', 'kupatilo', 'kopalnico'], 200)}
-                  </span>
-                  <span className="block mb-2">
-                    {getAnimatedText(t('hero.title2'), ['dizajn'], 400)}
-                  </span>
-                  <span className="block">
-                    {getAnimatedText(t('hero.title3'), ['cijena', 'cena'], 600)}
-                  </span>
-                </h1>
-                {t('hero.subtitle') && (
-                  <p className="mt-4 text-base text-white/95 sm:text-lg md:max-w-2xl">
-                    {t('hero.subtitle')}
-                  </p>
-                )}
-              </div>
+                <div className="relative z-10 w-full">
+                  <div className="mx-auto flex h-full w-full max-w-6xl flex-col items-start justify-center gap-6 px-6 py-16 text-left md:px-10 lg:px-12">
+                    <div className="w-full max-w-3xl p-5 sm:p-7 md:p-8">
+                      <div className="text-white">
+                        <h1 className="mt-2 text-4xl font-semibold leading-none sm:text-5xl md:text-6xl">
+                          <span className="block mb-2">
+                            {getAnimatedText(t('hero.title1'), ['kupaonicu', 'kupatilo', 'kopalnico'], 200)}
+                          </span>
+                          <span className="block mb-2">
+                            {getAnimatedText(t('hero.title2'), ['dizajn'], 400)}
+                          </span>
+                          <span className="block">
+                            {getAnimatedText(t('hero.title3'), ['cijena', 'cena'], 600)}
+                          </span>
+                        </h1>
+                        {t('hero.subtitle') && (
+                          <p className="mt-4 text-base text-white/95 sm:text-lg md:max-w-2xl">
+                            {t('hero.subtitle')}
+                          </p>
+                        )}
+                      </div>
 
-              <div className="mt-10 flex flex-wrap items-center gap-4">
-                <Link
-                  to={localizePath('/proizvodi')}
-                  className="inline-flex items-center justify-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-semibold text-slate-900 shadow-[0_12px_30px_rgba(15,23,42,0.2)] transition hover:-translate-y-0.5 hover:shadow-[0_18px_35px_rgba(15,23,42,0.25)] whitespace-nowrap min-w-[200px] flex-1 sm:flex-initial sm:min-w-[240px]"
-                >
-                  {t('hero.exploreCollection')}
-                  <ArrowIcon />
-                </Link>
-                <Link
-                  to={localizePath('/katalozi')}
-                  className="inline-flex items-center justify-center rounded-full border border-white/60 bg-white/25 px-6 py-3 text-sm font-semibold text-white backdrop-blur transition hover:bg-white/30 whitespace-nowrap min-w-[200px] flex-1 sm:flex-initial sm:min-w-[240px]"
-                >
-                  {t('hero.viewCatalog')}
-                </Link>
+                      <div className="mt-10 flex flex-wrap items-center gap-4">
+                        <Link
+                          to={localizePath('/proizvodi')}
+                          className="inline-flex items-center justify-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-semibold text-slate-900 shadow-[0_12px_30px_rgba(15,23,42,0.2)] transition hover:-translate-y-0.5 hover:shadow-[0_18px_35px_rgba(15,23,42,0.25)] whitespace-nowrap min-w-[200px] flex-1 sm:flex-initial sm:min-w-[240px]"
+                        >
+                          {t('hero.exploreCollection')}
+                          <ArrowIcon />
+                        </Link>
+                        <Link
+                          to={localizePath('/katalozi')}
+                          className="inline-flex items-center justify-center rounded-full border border-white/60 bg-white/25 px-6 py-3 text-sm font-semibold text-white backdrop-blur transition hover:bg-white/30 whitespace-nowrap min-w-[200px] flex-1 sm:flex-initial sm:min-w-[240px]"
+                        >
+                          {t('hero.viewCatalog')}
+                        </Link>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
-        </div>
-      </section>
+            ),
+          },
+        ]}
+      />
 
       {/* Product Categories Section */}
       <section className="w-full bg-slate-50 py-10 md:py-14">

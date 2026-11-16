@@ -8,6 +8,7 @@ import JsonLd from '../components/JsonLd'
 import { getSeoData, SEO_ROUTE_KEYS } from '../seo/seoConfig'
 import { buildBreadcrumbListSchema } from '../seo/structuredData'
 import { isSupabaseConfigured, supabasePublic } from '../lib/supabaseClient'
+import { PROMOTIONS, getPromotionContent } from '../data/promotions'
 
 const BlogPage = () => {
   const { t, language } = useLanguage()
@@ -37,15 +38,31 @@ const BlogPage = () => {
     }
   }, [language])
 
-  const displayedPosts = supabasePosts
-    .map((post) => ({
+  // Lokalne akcije (src/data/promotions.js) prikazuju se uz objave iz Supabasea.
+  const promoPosts = PROMOTIONS.map((promo) => {
+    const copy = getPromotionContent(promo, language)
+    return {
+      id: `promo-${promo.slug}`,
+      slug: promo.slug,
+      title: copy.postTitle,
+      excerpt: copy.subtitle,
+      image: promo.banner?.mobile || blogHeroImage,
+      imageContain: Boolean(promo.banner),
+      date: copy.postDate,
+    }
+  })
+
+  const displayedPosts = [
+    ...promoPosts,
+    ...supabasePosts.map((post) => ({
       id: post.id,
       slug: post.slug,
       title: post.title,
       excerpt: post.excerpt,
       image: post.cover_image_url || blogHeroImage,
       date: post.published_at || post.created_at,
-    }))
+    })),
+  ]
     .sort((first, second) => new Date(second.date) - new Date(first.date))
 
   const formatDate = (dateString) => {
@@ -98,11 +115,13 @@ const BlogPage = () => {
                   key={post.id}
                   className="group flex flex-col overflow-hidden rounded-2xl bg-white shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
                 >
-                  <div className="relative h-48 w-full overflow-hidden bg-slate-100">
+                  <div className={`relative h-48 w-full overflow-hidden ${post.imageContain ? 'bg-black' : 'bg-slate-100'}`}>
                     <img
                       src={post.image}
                       alt={post.title}
-                      className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-110"
+                      className={`h-full w-full transition-transform duration-300 ${
+                        post.imageContain ? 'object-contain group-hover:scale-105' : 'object-cover group-hover:scale-110'
+                      }`}
                       loading="lazy"
                     />
                   </div>

@@ -413,6 +413,13 @@ const ServisPage = () => {
                   {t('servisPage.priceListView')}
                 </a>
                 <a
+                  href="/cjenik/armal-cjenik-servis.csv"
+                  download="Armal-cjenik-servis.csv"
+                  className="-mt-2 text-left text-[10px] text-[#0070CD] underline hover:text-[#005bb0]"
+                >
+                  *cijenik u csv formatu
+                </a>
+                <a
                   href="/cjenik/armal-cjenik-servis.pdf"
                   download="Armal-cjenik-servis.pdf"
                   className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-[#0070CD] px-6 py-3 font-semibold text-white transition-colors hover:bg-[#005bb0] focus:outline-none focus:ring-2 focus:ring-[#0070CD] focus:ring-offset-2"

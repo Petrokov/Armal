@@ -571,5 +571,23 @@
     "saturday": "Saturday:",
     "sunday": "Sunday:",
     "closed": "Closed"
+  },
+  "promoCarousel": {
+    "label": "Promotions and news",
+    "previous": "Previous slide",
+    "next": "Next slide",
+    "goTo": "Go to slide"
+  },
+  "promoPage": {
+    "downloadPdf": "Download PDF",
+    "viewDiscounts": "View discounts",
+    "hideDiscounts": "Hide discounts",
+    "b2b": "Armal B2B webshop",
+    "categoriesTitle": "Categories on sale",
+    "conditionsTitle": "Promotion terms",
+    "sendOrder": "Send order by e-mail",
+    "b2bTitle": "Business partners",
+    "b2bText": "Promotional prices are available in the Armal B2B webshop or by ordering at prodaja@armal.hr.",
+    "expired": "This promotion has ended."
   }
 }

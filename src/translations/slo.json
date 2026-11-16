@@ -566,6 +566,23 @@
     "saturday": "Sobota:",
     "sunday": "Nedelja:",
     "closed": "Zaprto"
+  },
+  "promoCarousel": {
+    "label": "Akcije in novosti",
+    "previous": "Prejšnji diapozitiv",
+    "next": "Naslednji diapozitiv",
+    "goTo": "Pojdi na diapozitiv"
+  },
+  "promoPage": {
+    "downloadPdf": "Prenesi PDF",
+    "viewDiscounts": "Poglej popuste",
+    "hideDiscounts": "Skrij popuste",
+    "b2b": "Armal B2B spletna trgovina",
+    "categoriesTitle": "Kategorije v akciji",
+    "conditionsTitle": "Pogoji akcije",
+    "sendOrder": "Pošlji naročilo po e-pošti",
+    "b2bTitle": "Poslovni partnerji",
+    "b2bText": "Akcijske cene so na voljo v spletni trgovini Armal B2B ali z naročilom na prodaja@armal.hr.",
+    "expired": "Ta akcija se je končala."
   }
 }
-

@@ -123,10 +123,16 @@ export const buildArticleSchema = ({
     author: {
       '@type': 'Organization',
       name: 'Armal',
+      url: baseUrl,
     },
     publisher: {
       '@type': 'Organization',
+      '@id': `${baseUrl}/#organization`,
       name: 'Armal',
+      logo: {
+        '@type': 'ImageObject',
+        url: `${baseUrl}/favicon.png`,
+      },
     },
   }
 }
